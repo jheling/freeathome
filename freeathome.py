@@ -45,8 +45,13 @@ def async_setup(hass, base_config):
     sysap.connect()
     
     hass.data[DATA_MFH] = sysap
-
+    
+    yield from sysap.wait_for_connection()
+    
+    yield from sysap.find_devices()
+        
     #--- snip ---
     load_platform(hass, 'light', DOMAIN)
-
+    load_platform(hass, 'scene', DOMAIN)
+    
     return True

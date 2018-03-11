@@ -35,9 +35,15 @@ def data2py(update):
 
 class Client(slixmpp.ClientXMPP):    
 
-    state = False
-    devices = {}
-
+    found_devices = False
+    # All the devices and the types
+    devices = {}    
+    # The specific devices 
+    light_devices = {}
+    scene_devices = {}
+    switch_devices = {}
+    connect_finished = False
+    
     def __init__(self, jid, password):
         slixmpp.ClientXMPP.__init__(self, jid, password)
 
@@ -56,70 +62,81 @@ class Client(slixmpp.ClientXMPP):
 
         # handle session_start and message events
         self.add_event_handler("session_start", self.start)
-        self.add_event_handler("roster_update_complete", self.roster_callback)
+        self.add_event_handler("roster_update", self.roster_callback)
         self.add_event_handler("pubsub_publish", self.pub_sub_callback)
         
+    def connect_ready(self):
+        return self.connect_finished
+      
     @asyncio.coroutine    
     def start(self, event):
-        
+        # The connect has succeeded
+       
+        log.info('send presence') 
         self.send_presence()
 
         self.send_presence_subscription(pto="mrha@busch-jaeger.de/rpc", pfrom=self.boundjid.full)
 
         self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps" ver="1.0" node="http://gonicus.de/caps"/></presence>') 
         
+        log.info('get roster')
         self.get_roster()
     
     @asyncio.coroutine
     def turn_on(self, device):
-        yield from self.set_light(device + '/idp0000', 'on')
-        self.devices[device]['state'] = True
+        yield from self.set_datapoint(device,'idp0000', '1')
+        self.light_devices[device]['state'] = True
+
+        if self.light_devices[device]['light_type'] == 'dimmer':
+            yield from self.set_datapoint(device,'idp0002', str(self.light_devices[device]['brightness']) )
+
+    def set_brightness(self,device, brightness):
+        if self.light_devices[device]['light_type'] == 'dimmer':
+            self.light_devices[device]['brightness'] = brightness
 
     @asyncio.coroutine
     def turn_off(self, device):
-        yield from self.set_light(device  + '/idp0000', 'off')
-        self.devices[device]['state'] = False
+        yield from self.set_datapoint(device ,'idp0000', '0')
+        self.light_devices[device]['state'] = False
      
+    @asyncio.coroutine
+    def activate(self, device):
+        yield from self.set_datapoint(device ,'odp0000', '1')
+          
     @asyncio.coroutine
     def update(self, device):
         return
 
     def is_on(self, device):
-        return self.devices[device]['state']
+        return self.light_devices[device]['state']
 
     @asyncio.coroutine
-    def set_light(self, device,command):
+    def set_datapoint(self, device,datapoint,command):
         
-        log.info("set_light %s %s ",device, command)
+        log.info("set_datapoint %s %s %s",device, datapoint, command)
 
-        if command  == 'on':
-            ivalue = '1'      
-        else:
-            ivalue = '0'
+        name = device + '/' + datapoint
+        
         try:
-            yield from self.send_rpc_iq('RemoteInterface.setDatapoint',device,ivalue ,callback=self.rpc_callback)
+            yield from self.send_rpc_iq('RemoteInterface.setDatapoint',name, command ,callback=self.rpc_callback)
         except IqError as e:
-            raise e
-        else:
-            log.info('after send_rpc_iq: %s', ivalue)            
+            raise e                    
 
-    @asyncio.coroutine 
-    def get_devices(self, use_room_names):
+    def get_devices(self, device_type, use_room_names):
 
-        try: 
-            yield from self.find_devices(use_room_names)
-        except IqError as e:
-            raise e
-        else:
-          return self.devices
+        if device_type == 'light':
+            return self.light_devices
 
+        if device_type == 'scene':        
+            return self.scene_devices
+
+        if device_type == 'switch':
+            return self.switch_devices           
+        
     def send_rpc_iq(self,command,*argv,
                   timeout=None, callback=None,
                   timeout_callback=None):
-        log.setLevel(10)         
- 
-        log.info("send_rpc_iq %s", command)        
- 
+        
         iq = self.make_iq_set()
         iq['to'] = 'mrha@busch-jaeger.de/rpc'
         iq['from'] = self.boundjid.full
@@ -130,8 +147,10 @@ class Client(slixmpp.ClientXMPP):
         return iq.send(timeout=timeout, callback=callback,timeout_callback=timeout_callback)
     
     def roster_callback(self, roster_iq):
-        log.debug("Roster callback ")
-                
+        log.info("Roster callback ")
+        self.connect_finished = True         
+    
+    
     def pub_sub_callback(self, msg):
          
         if msg['pubsub_event']['items']['item']['update']['data'] is not None:
@@ -162,33 +181,60 @@ class Client(slixmpp.ClientXMPP):
                       # get the outputs
                       outputs = channel.find('outputs')
                       odatapoint = outputs.find('dataPoint')
+                      outputPoints = {}
                       if odatapoint is not None:
                           outputId = odatapoint.get('i')
-                          outputValue = odatapoint.find('value').text  
+                          outputValue = odatapoint.find('value').text
+                          outputPoints[outputId] = outputValue
 
                       # Now change the status of the device
-                      single_light = serialNumber + '/' + channelId
-                      if single_light in self.devices and 'idp0000' in inputPoints:
-                          if inputPoints['idp0000'] == '1':
-                              state = True
-                          else:
-                              state = False
-    
-                          self.devices[single_light]['state'] = state                              
+                      device_id = serialNumber + '/' + channelId
+                                        
+                      # if the device is a light                  
+                      if device_id in self.light_devices:
+                          if 'idp0000' in inputPoints:
+                              if inputPoints['idp0000'] == '1':
+                                  state = True
+                              else:
+                                  state = False
+        
+                              self.light_devices[device_id]['state'] = state
+
+                              log.info("device %s (%s) is %s", self.light_devices[device_id]['name'],  device_id, state)
+                              
+                          if 'odp0001' in outputPoints:
+                              self.light_devices[device_id]['brightness'] =  outputPoints['odp0001']
+                              log.info("device %s (%s) brightness %s", self.light_devices[device_id]['name'],  device_id, self.light_devices[device_id]['brightness'])
                          
     def rpc_callback(self, iq):
-        log.info("rpc callback") 
+        iq.enable('rpc_query')
+        
+        if iq['rpc_query']['method_response']['fault'] is not None:
+            fault = iq['rpc_query']['method_response']['fault']
+            log.info(fault['string'])
+        else:        
+            result = xml2py(iq['rpc_query']['method_response']['params'])
+            log.info('method response: %s',result[0])  
     
     def setlight_callback(self, iq):
         log.info("setlight callback ")
 
-    def add_light_info(self, name = None, state = False, floor = None, room = None):
+    def add_light_info(self, name = None, state = False, floor = None, room = None, light_type = 'normal', brightness = None):
         light_info = {}
         light_info['name'] = name        
         light_info['state'] = state
         light_info['floor'] = floor
         light_info['room'] = room
+        light_info['light_type'] = light_type
+        light_info['brightness'] = brightness
         return light_info
+        
+    def add_scene_info(self, name = None, floor = None, room = None):
+        scene_info = {}
+        scene_info['name'] = name        
+        scene_info['floor'] = floor
+        scene_info['room'] = room        
+        return scene_info
         
     @asyncio.coroutine
     def find_devices(self, use_room_names):    
@@ -219,7 +265,7 @@ class Client(slixmpp.ClientXMPP):
 
             """
 
-            log.info(len(args))   
+            self.found_devices = True   
 
             root = ET.fromstring(args[0])
 
@@ -270,7 +316,7 @@ class Client(slixmpp.ClientXMPP):
                         
                             light_name = ''
                             floorId    = ''
-                            roomId       = ''
+                            roomId     = ''
                             for attributes in channel.findall('attribute'):
                                 attributeName  = attributes.get('name')
                                 attributeValue = attributes.text
@@ -298,11 +344,12 @@ class Client(slixmpp.ClientXMPP):
                             if floorId != '' and roomId != '' and use_room_names == True:
                                 light_name = light_name + ' (' + roomnames[floorId][roomId] + ')'
                                                                                   
-                                self.devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = floornames[floorId], room = roomnames[floorId][roomId])
+                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = floornames[floorId], room = roomnames[floorId][roomId])
                             else:
-                                self.devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = '', room = '')                            
+                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = '', room = '')                            
 
-                            log.info( 'light %s %s',single_light ,light_name )
+                            self.devices[single_light] = 'light'   
+                            log.info( 'light  %s %s is %s',single_light ,light_name, light_state )
 
                 # Dimmaktor 4-fach and Dimmaktor 4-fach v2 
                 if deviceId == '101C' or  deviceId == '1021' or deviceId == '10C0':
@@ -313,16 +360,11 @@ class Client(slixmpp.ClientXMPP):
                         for channel in channels.findall('channel'):
                             channelName = names[channel.get('nameId')].title()
                             channelId   = channel.get('i')
-                            log.info("    %s %s",channelId, channelName)
-                        
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text
-                                log.info("      %s %s",attributeName, attributeValue)
-
+                                                    
                             light_name = ''
-                            floorId      = ''
-                            roomId       = ''
+                            floorId    = ''
+                            roomId     = ''
+                            brightness = None
                             for attributes in channel.findall('attribute'):
                                 attributeName  = attributes.get('name')
                                 attributeValue = attributes.text
@@ -343,18 +385,64 @@ class Client(slixmpp.ClientXMPP):
                                        light_state = True
                                     else:
                                        light_state = False
+
+                            outputs = channel.find('outputs')    
+                            for datapoints in inputs.findall('dataPoint'):
+                                datapointId = datapoints.get('i')
+                                datapointValue = datapoints.find('value').text
+                                if datapointId == 'odp0001':
+                                    brightness = datapointValue
                                 
                             single_light = serialNumber + '/' + channelId 
                             if light_name == '':
                                 light_name = single_light
                             if floorId != '' and roomId != '' and use_room_names == True:
                                 light_name = light_name + ' (' + roomnames[floorId][roomId] + ')'                                                                                    
-                                self.devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = floornames[floorId], room = roomnames[floorId][roomId])
+                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = floornames[floorId], room = roomnames[floorId][roomId], light_type = 'dimmer', brightness = brightness)
                             else:
-                                self.devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = '', room = '')
-                                           
-                            log.info( ' dimmer light %s %s',single_light ,light_name )
+                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = '', room = '', light_type = 'dimmer', brightness = brightness)
+                                        
+                            self.devices[single_light] = 'light'                                        
+                            log.info( 'dimmer %s %s is %s',single_light ,light_name, light_state )
+ 
+                # Scene or Timer  
+                if deviceId == '4800' or deviceId == '4A00':
+                    channels = neighbor.find('channels')           
+
+                    if channels is not None:
+                        for channel in channels.findall('channel'):
+                            channelName = names[channel.get('nameId')].title()
+                            channelId   = channel.get('i')
+                        
+                            scene_name = ''
+                            floorId    = ''
+                            roomId     = ''
+                            for attributes in channel.findall('attribute'):
+                                attributeName  = attributes.get('name')
+                                attributeValue = attributes.text            
+                
+                                if attributeName == 'displayName': 
+                                    scene_name = attributeValue
+                                if attributeName == 'floor':
+                                    floorId = attributeValue
+                                if attributeName == 'room':                            
+                                    roomId = attributeValue
+
+                            scene = serialNumber + '/' + channelId
+                            if scene_name == '':
+                                scene_name = scene
+
+                            if floorId != '' and roomId != '' and use_room_names == True:
+                                scene_name = scene_name + ' (' + roomnames[floorId][roomId] + ')'                                                                                    
+                                self.scene_devices[scene] = self.add_scene_info(name = scene_name, floor = floornames[floorId], room = roomnames[floorId][roomId])
+                            else:
+                                self.scene_devices[scene] = self.add_scene_info(name = scene_name, floor = '', room = '') 
+
+                            self.devices[scene] = 'scene'   
+                            log.info( 'scene  %s %s',scene ,scene_name )    
+                # switch device
             
+             
             # Store the devices in a dictionary    
 
 class freeathomesysapp(object):
@@ -363,7 +451,7 @@ class freeathomesysapp(object):
           host       - Ip adress of the sysapp device
           username
           password           
-    
+          use_room_names - Show room names with the devices
     """ 
 
     def __init__(self, host,port,user,password, use_room_names ):
@@ -373,7 +461,6 @@ class freeathomesysapp(object):
         self._jid  = None
         self._password = password        
         self.xmpp = None 
-        self.devices = None
         self._use_room_names = use_room_names
 
     def get_jid(self):
@@ -395,16 +482,32 @@ class freeathomesysapp(object):
           # create xmpp client
           self.xmpp = Client(self._jid, self._password)
           # connect
-          self.xmpp.connect((self._host, self._port))
+          self.xmpp.connect((self._host, self._port))          
 
+    @asyncio.coroutine
+    def wait_for_connection(self):
+        while self.xmpp.connect_ready() == False:
+            log.info('wait for connection')   
+            yield from asyncio.sleep(0.5)
+          
     @asyncio.coroutine
     def turn_on(self, device): 
         yield from self.xmpp.turn_on(device)
+
+    def set_brightness(self, device, brightness): 
+        self.xmpp.set_brightness(device, brightness)
+
+    def get_brightness(self, device): 
+        return int(self.xmpp.devices[device]['brightness'])
 
     @asyncio.coroutine
     def turn_off(self, device):
         yield from self.xmpp.turn_off(device) 
      
+    @asyncio.coroutine
+    def activate(self, device):
+        yield from self.xmpp.activate(device) 
+        
     @asyncio.coroutine
     def update(self, device):
         yield from self.xmpp.update(device)
@@ -413,8 +516,12 @@ class freeathomesysapp(object):
     def is_on(self, device):
         return self.xmpp.is_on(device)
 
-    @asyncio.coroutine
-    def get_devices(self):
-        devices = yield from self.xmpp.get_devices(self._use_room_names)
-        return devices  
+    def get_devices(self,device_type):                 
+        return self.xmpp.get_devices(device_type, self._use_room_names)
 
+    @asyncio.coroutine
+    def find_devices(self):        
+        try: 
+            yield from self.xmpp.find_devices(self._use_room_names)
+        except IqError as e:
+            raise e        
