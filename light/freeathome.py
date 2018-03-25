@@ -45,6 +45,11 @@ class FreeAtHomeLight(Light):
         return self._name
 
     @property
+    def unique_id(self):
+        """Return the ID """
+        return self._device
+        
+    @property
     def supported_features(self):
         """Flag supported features."""
         if self._light_type == 'dimmer':
