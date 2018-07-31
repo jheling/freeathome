@@ -155,56 +155,56 @@ class Client(slixmpp.ClientXMPP):
          
         if msg['pubsub_event']['items']['item']['update']['data'] is not None:
 
-          args = data2py(msg['pubsub_event']['items']['item']['update'])   
+            args = data2py(msg['pubsub_event']['items']['item']['update'])   
           
-          # arg contains the devices that changed 
-          root = ET.fromstring(args[0])
+            # arg contains the devices that changed 
+            if len(args) != 0:
+                root = ET.fromstring(args[0])
           
-          device = root.find('devices')  
-          for neighbor in device.findall('device'): 
-              serialNumber = neighbor.get('serialNumber')
+                device = root.find('devices')  
+                for neighbor in device.findall('device'): 
+                    serialNumber = neighbor.get('serialNumber')
 
-              channels = neighbor.find('channels')
-              if channels is not None:
-                  for channel in channels.findall('channel'):
-                      channelId   = channel.get('i')
+                    channels = neighbor.find('channels')
+                    if channels is not None:
+                        for channel in channels.findall('channel'):
+                            channelId   = channel.get('i')
 
-                      # get the inputs
-                      inputs = channel.find('inputs')
-                      idatapoint = inputs.find('dataPoint')
-                      inputPoints = {}
-                      if idatapoint is not None:
-                          inputId = idatapoint.get('i')
-                          inputValue = idatapoint.find('value').text
-                          inputPoints[inputId] = inputValue
+                            # get the inputs
+                            inputs = channel.find('inputs')
+                            idatapoint = inputs.find('dataPoint')
+                            inputPoints = {}
+                            if idatapoint is not None:
+                                inputId = idatapoint.get('i')
+                                inputValue = idatapoint.find('value').text
+                                inputPoints[inputId] = inputValue
 
-                      # get the outputs
-                      outputs = channel.find('outputs')
-                      odatapoint = outputs.find('dataPoint')
-                      outputPoints = {}
-                      if odatapoint is not None:
-                          outputId = odatapoint.get('i')
-                          outputValue = odatapoint.find('value').text
-                          outputPoints[outputId] = outputValue
+                            # get the outputs
+                            outputs = channel.find('outputs')
+                            odatapoint = outputs.find('dataPoint')
+                            outputPoints = {}
+                            if odatapoint is not None:
+                                outputId = odatapoint.get('i')
+                                outputValue = odatapoint.find('value').text
+                                outputPoints[outputId] = outputValue
 
-                      # Now change the status of the device
-                      device_id = serialNumber + '/' + channelId
-                                        
-                      # if the device is a light                  
-                      if device_id in self.light_devices:
-                          if 'idp0000' in inputPoints:
-                              if inputPoints['idp0000'] == '1':
-                                  state = True
-                              else:
-                                  state = False
-        
-                              self.light_devices[device_id]['state'] = state
-
-                              log.info("device %s (%s) is %s", self.light_devices[device_id]['name'],  device_id, state)
-                              
-                          if 'odp0001' in outputPoints:
-                              self.light_devices[device_id]['brightness'] =  outputPoints['odp0001']
-                              log.info("device %s (%s) brightness %s", self.light_devices[device_id]['name'],  device_id, self.light_devices[device_id]['brightness'])
+                            # Now change the status of the device
+                            device_id = serialNumber + '/' + channelId
+                                            
+                            # if the device is a light                  
+                            if device_id in self.light_devices:
+                                if 'odp0000' in outputPoints:
+                                    if outputPoints['odp0000'] == '1':
+                                        state = True
+                                    else:
+                                        state = False
+            
+                                    self.light_devices[device_id]['state'] = state
+                                    log.info("device %s (%s) is %s", self.light_devices[device_id]['name'],  device_id, state)
+                                  
+                                if 'odp0001' in outputPoints:
+                                    self.light_devices[device_id]['brightness'] =  outputPoints['odp0001']
+                                    log.info("device %s (%s) brightness %s", self.light_devices[device_id]['name'],  device_id, self.light_devices[device_id]['brightness'])
                          
     def rpc_callback(self, iq):
         iq.enable('rpc_query')
@@ -254,10 +254,14 @@ class Client(slixmpp.ClientXMPP):
                  'B002', // Schaltaktor 4-fach, 16A, REG
 		         '100E', // Sensor/ Schaltaktor 2/1-fach
 		         'B008', // Sensor/ Schaltaktor 8/8fach, REG
+                 '100C', // Sensor/schakelaktor 1/1-voudig
+                 'FFE7', // Sensor/schakelaktor 2/2-voudig
+                 
                  '10C4' // Hue Aktor (Plug Switch)
 
                  '101C', // Dimmaktor 4-fach
 		         '1021', // Dimmaktor 4-fach v2
+                 '1017'  // Sensor/dimaktor 1/1-voudig 
                  '10C0' // Hue Aktor (LED Strip)
 
                  'B001', // Jalousieaktor 4-fach, REG
@@ -305,7 +309,7 @@ class Client(slixmpp.ClientXMPP):
                 deviceId     = neighbor.get('deviceId')
 
                 # Schaltaktor 4-fach, 16A, REG
-                if deviceId == 'B002' or deviceId == '100E' or deviceId == 'B008' or deviceId == '10C4':  
+                if deviceId == 'B002' or deviceId == '100E' or deviceId == 'B008' or deviceId == '10C4' or deviceId == '100C' or deviceId == '1010':  
                     # Now the channels of a device
                     channels = neighbor.find('channels')         
 
@@ -331,12 +335,16 @@ class Client(slixmpp.ClientXMPP):
                             inputs = channel.find('inputs')    
                             for datapoints in inputs.findall('dataPoint'):
                                 datapointId = datapoints.get('i')
+                                datapointValue = datapoints.find('value').text                                
+                            outputs = channel.find('outputs')    
+                            for datapoints in outputs.findall('dataPoint'):
+                                datapointId = datapoints.get('i')
                                 datapointValue = datapoints.find('value').text
-                                if datapointId == 'idp0000':
+                                if datapointId == 'odp0000':
                                     if datapointValue == '1':
                                        light_state = True
                                     else:
-                                       light_state = False
+                                       light_state = False            
                                                              
                             single_light = serialNumber + '/' + channelId 
                             if light_name == '':
@@ -352,7 +360,7 @@ class Client(slixmpp.ClientXMPP):
                             log.info( 'light  %s %s is %s',single_light ,light_name, light_state )
 
                 # Dimmaktor 4-fach and Dimmaktor 4-fach v2 
-                if deviceId == '101C' or  deviceId == '1021' or deviceId == '10C0':
+                if deviceId == '101C' or  deviceId == '1021' or deviceId == '10C0' or deviceId == '1017' :
                     # Now the channels of a device
                     channels = neighbor.find('channels')         
 
@@ -380,18 +388,18 @@ class Client(slixmpp.ClientXMPP):
                             for datapoints in inputs.findall('dataPoint'):
                                 datapointId = datapoints.get('i')
                                 datapointValue = datapoints.find('value').text
-                                if datapointId == 'idp0000':
-                                    if datapointValue == '1':
-                                       light_state = True
-                                    else:
-                                       light_state = False
 
                             outputs = channel.find('outputs')    
-                            for datapoints in inputs.findall('dataPoint'):
+                            for datapoints in outputs.findall('dataPoint'):
                                 datapointId = datapoints.get('i')
                                 datapointValue = datapoints.find('value').text
                                 if datapointId == 'odp0001':
                                     brightness = datapointValue
+                                if datapointId == 'odp0000':
+                                    if datapointValue == '1':
+                                       light_state = True
+                                    else:
+                                       light_state = False    
                                 
                             single_light = serialNumber + '/' + channelId 
                             if light_name == '':

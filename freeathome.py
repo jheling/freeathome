@@ -1,7 +1,7 @@
 import  logging
 import asyncio
 from homeassistant.helpers.discovery import load_platform
-from homeassistant.components.light import ATTR_BRIGHTNESS, Light, PLATFORM_SCHEMA
+from homeassistant.components.light import ATTR_BRIGHTNESS, Light
 import voluptuous as vol
 import homeassistant.helpers.config_validation as cv
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD,CONF_PORT

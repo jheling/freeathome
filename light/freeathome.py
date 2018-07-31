@@ -35,7 +35,7 @@ class FreeAtHomeLight(Light):
         self._state = state
         self._light_type = light_type
         if attributes['brightness'] is not None:
-            self._brightness = int(attributes['brightness'] * 2.55)
+            self._brightness = int(float(attributes['brightness']) * 2.55)
         else:    
             self._brightness = None
 
