@@ -84,16 +84,21 @@ class Client(slixmpp.ClientXMPP):
     
     @asyncio.coroutine
     def turn_on(self, device):
+        oldstate = self.light_devices[device]['state']
         yield from self.set_datapoint(device,'idp0000', '1')
         self.light_devices[device]['state'] = True
 
-        if self.light_devices[device]['light_type'] == 'dimmer':
+        if self.light_devices[device]['light_type'] == 'dimmer' \
+        and ((oldstate != self.light_devices[device]['state'] and self.light_devices[device]['brightness'] > 0) \
+         or (oldstate == self.light_devices[device]['state'])) :
             yield from self.set_datapoint(device,'idp0002', str(self.light_devices[device]['brightness']) )
 
     def set_brightness(self,device, brightness):
         if self.light_devices[device]['light_type'] == 'dimmer':
             self.light_devices[device]['brightness'] = brightness
 
+    def get_brightness(self, device):
+        return self.light_devices[device]['brightness'] 
     @asyncio.coroutine
     def turn_off(self, device):
         yield from self.set_datapoint(device ,'idp0000', '0')
@@ -506,7 +511,7 @@ class freeathomesysapp(object):
         self.xmpp.set_brightness(device, brightness)
 
     def get_brightness(self, device): 
-        return int(self.xmpp.devices[device]['brightness'])
+        return self.xmpp.get_brightness(device)
 
     @asyncio.coroutine
     def turn_off(self, device):

@@ -93,5 +93,5 @@ class FreeAtHomeLight(Light):
         yield from self._sysap.update(self._device)
         self._state = self._sysap.is_on(self._device)
         if self._brightness is not None: 
-            self._brightness = int(self._sysap.get_brightness(self._device) * 2.55)
+            self._brightness = int(float(self._sysap.get_brightness(self._device)) * 2.55)
    
