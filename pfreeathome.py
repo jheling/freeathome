@@ -89,7 +89,7 @@ class Client(slixmpp.ClientXMPP):
         self.light_devices[device]['state'] = True
 
         if self.light_devices[device]['light_type'] == 'dimmer' \
-        and ((oldstate != self.light_devices[device]['state'] and self.light_devices[device]['brightness'] > 0) \
+        and ((oldstate != self.light_devices[device]['state'] and int(self.light_devices[device]['brightness']) > 0) \
          or (oldstate == self.light_devices[device]['state'])) :
             yield from self.set_datapoint(device,'idp0002', str(self.light_devices[device]['brightness']) )
 
