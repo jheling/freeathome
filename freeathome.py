@@ -53,5 +53,6 @@ def async_setup(hass, base_config):
     #--- snip ---
     load_platform(hass, 'light', DOMAIN)
     load_platform(hass, 'scene', DOMAIN)
+    load_platform(hass, 'cover', DOMAIN)
     
     return True

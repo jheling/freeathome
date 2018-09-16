@@ -42,6 +42,7 @@ class Client(slixmpp.ClientXMPP):
     light_devices = {}
     scene_devices = {}
     switch_devices = {}
+    cover_devices = {}
     connect_finished = False
     
     def __init__(self, jid, password):
@@ -82,6 +83,41 @@ class Client(slixmpp.ClientXMPP):
         log.info('get roster')
         self.get_roster()
     
+    ''' Free@Home cover device
+    In freeathome the value 100 indicates that the cover is fully closed
+    In home assistant the value 100 indicates that the cover is fully open
+    
+    '''
+    def is_cover_closed(self, device):
+        if int(self.cover_devices[device]['position']) == 0:
+            return True   
+        else:
+            return False        
+    def is_cover_opening(self,device):
+        if self.cover_devices[device]['state'] == '2' :
+            return True 
+        else:
+            return False
+    def is_cover_closing(self,device):
+        if self.cover_devices[device]['state'] == '3' :
+            return True 
+        else:
+            return False    
+    def get_cover_position(self,device):
+        return int(self.cover_devices[device]['position'])    
+    @asyncio.coroutine
+    def set_cover_position(self,device,position):
+        yield from self.set_datapoint(device,'idp0002', str(abs(100 - position)))
+    @asyncio.coroutine
+    def open_cover(self, device): 
+        yield from self.set_datapoint(device,'idp0000', '0')
+    @asyncio.coroutine
+    def close_cover(self, device):
+        yield from self.set_datapoint(device,'idp0000', '1')
+    @asyncio.coroutine
+    def stop_cover(self, device):
+        if  (self.cover_devices[device]['state'] == '2') or  (self.cover_devices[device]['state'] == '3'):
+          yield from self.set_datapoint(device,'idp0001', '1')
     @asyncio.coroutine
     def turn_on(self, device):
         oldstate = self.light_devices[device]['state']
@@ -137,6 +173,8 @@ class Client(slixmpp.ClientXMPP):
 
         if device_type == 'switch':
             return self.switch_devices           
+        if device_type == 'cover':
+            return self.cover_devices         
         
     def send_rpc_iq(self,command,*argv,
                   timeout=None, callback=None,
@@ -210,6 +248,13 @@ class Client(slixmpp.ClientXMPP):
                                 if 'odp0001' in outputPoints:
                                     self.light_devices[device_id]['brightness'] =  outputPoints['odp0001']
                                     log.info("device %s (%s) brightness %s", self.light_devices[device_id]['name'],  device_id, self.light_devices[device_id]['brightness'])
+                            if device_id in self.cover_devices:
+                                if 'odp0000' in outputPoints:
+                                    state = outputPoints['odp0000'] # 0 = open, 1 = closed , 2 = moving up, 3 = moving down
+                                    self.cover_devices[device_id]['state'] = state
+                                    log.info("device %s (%s) is %s", self.cover_devices[device_id]['name'],  device_id, state)
+                                if 'odp0001' in outputPoints:  # 100 = fully closed                            
+                                    self.cover_devices[device_id]['position'] = str(abs(100 - int(outputPoints['odp0001']))) 
                          
     def rpc_callback(self, iq):
         iq.enable('rpc_query')
@@ -240,6 +285,14 @@ class Client(slixmpp.ClientXMPP):
         scene_info['floor'] = floor
         scene_info['room'] = room        
         return scene_info
+    def add_cover_info(self, name = None, state = None,  position = None, floor = None, room = None):
+        cover_info = {}
+        cover_info['name'] = name        
+        cover_info['state'] = state
+        cover_info['floor'] = floor
+        cover_info['room'] = room        
+        cover_info['position'] = position
+        return cover_info
         
     @asyncio.coroutine
     def find_devices(self, use_room_names):    
@@ -455,7 +508,47 @@ class Client(slixmpp.ClientXMPP):
                             log.info( 'scene  %s %s',scene ,scene_name )    
                 # switch device
             
+                if deviceId == 'B001' or deviceId == '1013':
+                    channels = neighbor.find('channels')           
+                    if channels is not None:
+                        for channel in channels.findall('channel'):
+                            channelName = names[channel.get('nameId')].title()
+                            channelId   = channel.get('i')
              
+                            cover_name = ''
+                            floorId    = ''
+                            roomId     = ''
+                            for attributes in channel.findall('attribute'):
+                                attributeName  = attributes.get('name')
+                                attributeValue = attributes.text
+                                if attributeName == 'displayName': 
+                                    light_name = attributeValue
+                                if attributeName == 'floor':
+                                    floorId = attributeValue
+                                if attributeName == 'room':
+                                    roomId = attributeValue
+                            inputs = channel.find('inputs')    
+                            for datapoints in inputs.findall('dataPoint'):
+                                datapointId = datapoints.get('i')
+                                datapointValue = datapoints.find('value').text
+                            outputs = channel.find('outputs')    
+                            for datapoints in outputs.findall('dataPoint'):
+                                datapointId = datapoints.get('i')
+                                datapointValue = datapoints.find('value').text
+                                if datapointId == 'odp0000':
+                                    cover_state = datapointValue
+                                if datapointId == 'odp0001':
+                                    cover_position = str(abs(100 - int(datapointValue)))                                
+                            single_cover = serialNumber + '/' + channelId 
+                            if cover_name == '':
+                                cover_name = single_cover
+                            if floorId != '' and roomId != '' and use_room_names == True:
+                                cover_name = cover_name + ' (' + roomnames[floorId][roomId] + ')'                                                                                    
+                                self.cover_devices[single_cover] = self.add_cover_info(name = cover_name, state = cover_state, position = cover_position , floor = floornames[floorId], room = roomnames[floorId][roomId])
+                            else:
+                                self.cover_devices[single_cover] = self.add_cover_info(name = cover_name, state = cover_state, position = cover_position , floor = '', room = '')
+                            self.devices[single_cover] = 'cover'                                        
+                            log.info( 'cover %s %s is %s',single_cover ,cover_name, cover_state )                            
             # Store the devices in a dictionary    
 
 class freeathomesysapp(object):
@@ -529,6 +622,26 @@ class freeathomesysapp(object):
     def is_on(self, device):
         return self.xmpp.is_on(device)
 
+    def is_cover_closed(self, device):
+        return self.xmpp.is_cover_closed(device)    
+    def is_closing(self, device):
+        return self.xmpp.is_cover_closing(device) 
+    def is_opening(self, device):
+        return self.xmpp.is_cover_opening(device) 
+    def get_cover_position(self, device):  
+        return int(self.xmpp.get_cover_position(device))
+    @asyncio.coroutine
+    def open(self, device): 
+        yield from self.xmpp.open_cover(device) 
+    @asyncio.coroutine
+    def close(self, device):
+        yield from self.xmpp.close_cover(device) 
+    @asyncio.coroutine
+    def stop(self, device):
+        yield from self.xmpp.stop_cover(device)
+    @asyncio.coroutine
+    def set_cover_position(self, device, position):
+        yield from self.xmpp.set_cover_position(device,position) 
     def get_devices(self,device_type):                 
         return self.xmpp.get_devices(device_type, self._use_room_names)
 
