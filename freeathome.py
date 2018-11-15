@@ -51,8 +51,8 @@ def async_setup(hass, base_config):
     yield from sysap.find_devices()
         
     #--- snip ---
-    load_platform(hass, 'light', DOMAIN)
-    load_platform(hass, 'scene', DOMAIN)
-    load_platform(hass, 'cover', DOMAIN)
+    load_platform(hass, 'light', DOMAIN, {}, config)
+    load_platform(hass, 'scene', DOMAIN, {}, config)
+    load_platform(hass, 'cover', DOMAIN, {}, config)
     
     return True
