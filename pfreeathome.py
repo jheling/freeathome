@@ -506,9 +506,8 @@ class Client(slixmpp.ClientXMPP):
 
                             self.devices[scene] = 'scene'   
                             log.info( 'scene  %s %s',scene ,scene_name )    
-                # switch device
-            
-                if deviceId == 'B001' or deviceId == '1013':
+                # cover device            
+                if deviceId == 'B001' or deviceId == '1013' or deviceId == '1015':
                     channels = neighbor.find('channels')           
                     if channels is not None:
                         for channel in channels.findall('channel'):
