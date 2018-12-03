@@ -1,57 +1,243 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
-
+'''
+Interface for accessing Free@Home
+'''
 import asyncio
 import logging
-import time
+import urllib.request
+import json
+import xml.etree.ElementTree as ET
 import slixmpp
 from slixmpp import Message
-from slixmpp.xmlstream import ElementBase, ET, JID, register_stanza_plugin
-from slixmpp.plugins.xep_0009.binding import py2xml, xml2py, xml2fault, fault2xml
+from slixmpp.xmlstream import ElementBase, ET, register_stanza_plugin
+from slixmpp.plugins.xep_0009.binding import py2xml, xml2py
 from slixmpp.plugins.xep_0009.stanza.RPC import RPCQuery, MethodCall, MethodResponse
-from slixmpp.plugins.xep_0009 import stanza
 from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, EventItem
-from slixmpp.exceptions import IqError, IqTimeout
+from slixmpp.exceptions import IqError
 from slixmpp import Iq
-from slixmpp import future_wrapper
-import urllib.request, json
-import xml.etree.ElementTree as ET
-import urllib.request, json
 
-log = logging.getLogger(__name__)
+
+LOG = logging.getLogger(__name__)
 
 class ItemUpdate(ElementBase):
+    ''' part of the xml message  '''
     namespace = 'http://abb.com/protocol/update'
     name = 'update'
     plugin_attrib = name
     interfaces = set(('data'))
 
 def data2py(update):
+    ''' Convert xml to  a list of args '''
     namespace = 'http://abb.com/protocol/update'
     vals = []
     for data in update.xml.findall('{%s}data' % namespace):
         vals.append(data.text)
     return vals
 
-class Client(slixmpp.ClientXMPP):    
+class FahDevice:
+    ''' Free@Home base object '''
+    def __init__(self, client, device_id, name):
+        self._device_id = device_id
+        self._name = name
+        self._client = client
 
+    @property
+    def device_id(self):
+        ''' return the unique device_id (combination deviceId and channel '''
+        return self._device_id
+
+    @property
+    def name(self):
+        ''' return the name of the device   '''
+        return self._name
+
+    @property
+    def client(self):
+        ''' return the Client object '''
+        return self._client
+
+class FahBinarySensor(FahDevice):
+    '''Free@Home binary object '''
+    state = None
+
+    def __init__(self, client, device_id, name, state=False):
+        FahDevice.__init__(self, client, device_id, name)
+        self.state = state
+
+class FahLight(FahDevice):
+    ''' Free@Home light object   '''
+    state = None
+    light_type = None
+    brightness = None
+
+    # pylint: disable=too-many-arguments
+    def __init__(self, client, device_id, name, state=False, light_type='normal', brightness=None):
+        FahDevice.__init__(self, client, device_id, name)
+        self.state = state
+        self.light_type = light_type
+        self.brightness = brightness
+
+    async def turn_on(self):
+        ''' Turn the light on   '''
+        oldstate = self.state
+        await self.client.set_datapoint(self.device_id, 'idp0000', '1')
+        self.state = True
+
+        if self.light_type == 'dimmer' \
+        and ((oldstate != self.state and int(self.brightness) > 0) \
+         or (oldstate == self.state)):
+            await self.client.set_datapoint(self.device_id, 'idp0002', str(self.brightness))
+
+    async def turn_off(self):
+        ''' Turn the light off   '''
+        await self.client.set_datapoint(self.device_id, 'idp0000', '0')
+        self.state = False
+
+    def set_brightness(self, brightness):
+        ''' Set the brightness of the light  '''
+        if self.light_type == 'dimmer':
+            self.brightness = brightness
+
+    def get_brightness(self):
+        ''' Return the brightness of the light  '''
+        return self.brightness
+
+    def is_on(self):
+        ''' Return the state of the light   '''
+        return self.state
+
+class FahLightScene(FahDevice):
+    ''' Free@home scene   '''
+    def __init__(self, client, device_id, name):
+        FahDevice.__init__(self, client, device_id, name)
+
+    async def activate(self):
+        ''' Activate the scene   '''
+        await self.client.set_datapoint(self.device_id, 'odp0000', '1')
+
+class FahCover(FahDevice):
+    ''' Free@Home cover device
+    In freeathome the value 100 indicates that the cover is fully closed
+    In home assistant the value 100 indicates that the cover is fully open
+    '''
+    state = None
+    position = None
+
+    # pylint: disable=too-many-arguments
+    def __init__(self, client, device_id, name, state, position):
+        FahDevice.__init__(self, client, device_id, name)
+        self.state = state
+        self.position = position
+
+    def is_cover_closed(self):
+        ''' Return if the cover is closed   '''
+        return int(self.position) == 0
+
+    def is_cover_opening(self):
+        ''' Return is the cover is openening   '''
+        return self.state == '2'
+
+    def is_cover_closing(self):
+        ''' Return if the cover is closing   '''
+        return self.state == '3'
+
+    def get_cover_position(self):
+        ''' Return the cover position '''
+        return int(self.position)
+
+    async def set_cover_position(self, position):
+        ''' Set the cover position  '''
+        await self.client.set_datapoint(self.device_id, 'idp0002', str(abs(100 - position)))
+
+    async def open_cover(self):
+        ''' Open the cover   '''
+        await self.client.set_datapoint(self.device_id, 'idp0000', '0')
+
+    async def close_cover(self):
+        ''' Close the cover   '''
+        await self.client.set_datapoint(self.device_id, 'idp0000', '1')
+
+    async def stop_cover(self):
+        ''' Stop the cover, only if it is moving '''
+        if  (self.state == '2') or  (self.state == '3'):
+            await self.client.set_datapoint(self.device_id, 'idp0001', '1')
+
+def get_room_names(xmlroot):
+    ''' Return the floors and rooms of the installation   '''
+    floorplan = xmlroot.find('floorplan')
+    floornames = {}
+    roomnames = {}
+
+    for floor in floorplan.findall('floor'):
+        floor_name = floor.get('name')
+        floor_uid = floor.get('uid')
+        floornames[floor_uid] = floor_name
+
+        roomnames[floor_uid] = {}
+        for room in floor.findall('room'):
+            room_name = room.get('name')
+            room_uid = room.get('uid')
+            roomnames[floor_uid][room_uid] = room_name
+
+    return roomnames
+
+def get_attribute(xmlnode, name):
+    ''' Return an attribute value (xml)   '''
+    for attributes in xmlnode.findall('attribute'):
+        if attributes.get('name') == name:
+            return attributes.text
+    return ''
+
+def get_input_datapoint(xmlnode, input_name):
+    ''' Return an input point value (xml)   '''
+    inputs = xmlnode.find('inputs')
+    for datapoints in inputs.findall('dataPoint'):
+        if datapoints.get('i') == input_name:
+            return datapoints.find('value').text
+    return None
+
+def get_output_datapoint(xmlnode, output_name):
+    ''' Return an output point value (xml)   '''
+    outputs = xmlnode.find('outputs')
+    for datapoints in outputs.findall('dataPoint'):
+        if datapoints.get('i') == output_name:
+            return datapoints.find('value').text
+    return None
+
+class Client(slixmpp.ClientXMPP):
+    ''' Client for connecting to the free@home sysap   '''
     found_devices = False
-    # All the devices and the types
-    devices = {}    
-    # The specific devices 
+    connect_finished = False
+    authenticated = False
+    use_room_names = False
+
+    # The specific devices
+    binary_devices = {}
     light_devices = {}
     scene_devices = {}
-    switch_devices = {}
     cover_devices = {}
-    connect_finished = False
-    
+
+    switch_type_1 = {
+        '1' : [0],    # Normal switch  (channel 0)
+        '2' : [1, 2]  # Impuls switch  (channel 1,2)
+        }
+
+    switch_type_2 = {
+        '1' : [0, 3],      # Left switch, right switch (channel 0,3 )
+        '2' : [0, 4, 5],   # Left switch, right impuls (channel 0,4,5)
+        '3' : [1, 2, 3],   # Left impuls, right switch (channel 1,2,3)
+        '4' : [1, 2, 4, 5] # Left impuls, right impuls (channel 1,2,4,5)
+        }
+
     def __init__(self, jid, password):
+        ''' x   '''
         slixmpp.ClientXMPP.__init__(self, jid, password)
 
         # register plugins
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060') # PubSub
-        
+
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
         register_stanza_plugin(RPCQuery, MethodResponse)
@@ -65,588 +251,514 @@ class Client(slixmpp.ClientXMPP):
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("roster_update", self.roster_callback)
         self.add_event_handler("pubsub_publish", self.pub_sub_callback)
-        
+        self.add_event_handler("failed_auth", self.failed_auth)
+
     def connect_ready(self):
+        ''' Polling if the connection process is ready   '''
         return self.connect_finished
-      
-    @asyncio.coroutine    
-    def start(self, event):
+
+    # pylint: disable=unused-argument
+    async def start(self, event):
+        ''' Send precence and Roster (xmpp) '''
         # The connect has succeeded
-       
-        log.info('send presence') 
+        self.authenticated = True
+
+        LOG.info('send presence')
         self.send_presence()
 
         self.send_presence_subscription(pto="mrha@busch-jaeger.de/rpc", pfrom=self.boundjid.full)
 
-        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps" ver="1.0" node="http://gonicus.de/caps"/></presence>') 
-        
-        log.info('get roster')
+        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps"'
+                  ' ver="1.0" node="http://gonicus.de/caps"/></presence>')
+
+        LOG.info('get roster')
         self.get_roster()
-    
-    ''' Free@Home cover device
-    In freeathome the value 100 indicates that the cover is fully closed
-    In home assistant the value 100 indicates that the cover is fully open
-    
-    '''
-    def is_cover_closed(self, device):
-        if int(self.cover_devices[device]['position']) == 0:
-            return True   
-        else:
-            return False        
-    def is_cover_opening(self,device):
-        if self.cover_devices[device]['state'] == '2' :
-            return True 
-        else:
-            return False
-    def is_cover_closing(self,device):
-        if self.cover_devices[device]['state'] == '3' :
-            return True 
-        else:
-            return False    
-    def get_cover_position(self,device):
-        return int(self.cover_devices[device]['position'])    
-    @asyncio.coroutine
-    def set_cover_position(self,device,position):
-        yield from self.set_datapoint(device,'idp0002', str(abs(100 - position)))
-    @asyncio.coroutine
-    def open_cover(self, device): 
-        yield from self.set_datapoint(device,'idp0000', '0')
-    @asyncio.coroutine
-    def close_cover(self, device):
-        yield from self.set_datapoint(device,'idp0000', '1')
-    @asyncio.coroutine
-    def stop_cover(self, device):
-        if  (self.cover_devices[device]['state'] == '2') or  (self.cover_devices[device]['state'] == '3'):
-          yield from self.set_datapoint(device,'idp0001', '1')
-    @asyncio.coroutine
-    def turn_on(self, device):
-        oldstate = self.light_devices[device]['state']
-        yield from self.set_datapoint(device,'idp0000', '1')
-        self.light_devices[device]['state'] = True
 
-        if self.light_devices[device]['light_type'] == 'dimmer' \
-        and ((oldstate != self.light_devices[device]['state'] and int(self.light_devices[device]['brightness']) > 0) \
-         or (oldstate == self.light_devices[device]['state'])) :
-            yield from self.set_datapoint(device,'idp0002', str(self.light_devices[device]['brightness']) )
+    def failed_auth(self, event):
+        ''' If the password in the config is wrong  '''
+        LOG.error('Free@Home : authentication failed, probably wrong password')
+        self.connect_finished = True
 
-    def set_brightness(self,device, brightness):
-        if self.light_devices[device]['light_type'] == 'dimmer':
-            self.light_devices[device]['brightness'] = brightness
-
-    def get_brightness(self, device):
-        return self.light_devices[device]['brightness'] 
-    @asyncio.coroutine
-    def turn_off(self, device):
-        yield from self.set_datapoint(device ,'idp0000', '0')
-        self.light_devices[device]['state'] = False
-     
-    @asyncio.coroutine
-    def activate(self, device):
-        yield from self.set_datapoint(device ,'odp0000', '1')
-          
-    @asyncio.coroutine
-    def update(self, device):
-        return
-
-    def is_on(self, device):
-        return self.light_devices[device]['state']
-
-    @asyncio.coroutine
-    def set_datapoint(self, device,datapoint,command):
-        
-        log.info("set_datapoint %s %s %s",device, datapoint, command)
+    async def set_datapoint(self, device, datapoint, command):
+        ''' Send a command to the sysap   '''
+        LOG.info("set_datapoint %s %s %s", device, datapoint, command)
 
         name = device + '/' + datapoint
-        
-        try:
-            yield from self.send_rpc_iq('RemoteInterface.setDatapoint',name, command ,callback=self.rpc_callback)
-        except IqError as e:
-            raise e                    
 
-    def get_devices(self, device_type, use_room_names):
+        try:
+            await self.send_rpc_iq('RemoteInterface.setDatapoint',
+                                   name, command, callback=self.rpc_callback)
+        except IqError as error:
+            raise error
+
+    def send_rpc_iq(self, command, *argv, timeout=None, callback=None, timeout_callback=None):
+        ''' Compose a specific message  '''
+
+        my_iq = self.make_iq_set()
+        my_iq['to'] = 'mrha@busch-jaeger.de/rpc'
+        my_iq['from'] = self.boundjid.full
+        my_iq.enable('rpc_query')
+        my_iq['rpc_query']['method_call']['method_name'] = command
+        my_iq['rpc_query']['method_call']['params'] = py2xml(*argv)
+
+        return my_iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
+
+
+    def get_devices(self, device_type):
+        ''' After all the devices have been extracted from the xml file,
+        the lists with device objects are returned to HA
+        '''
 
         if device_type == 'light':
-            return self.light_devices
+            return_type = self.light_devices
 
-        if device_type == 'scene':        
-            return self.scene_devices
+        if device_type == 'scene':
+            return_type = self.scene_devices
 
-        if device_type == 'switch':
-            return self.switch_devices           
         if device_type == 'cover':
-            return self.cover_devices         
-        
-    def send_rpc_iq(self,command,*argv,
-                  timeout=None, callback=None,
-                  timeout_callback=None):
-        
-        iq = self.make_iq_set()
-        iq['to'] = 'mrha@busch-jaeger.de/rpc'
-        iq['from'] = self.boundjid.full
-        iq.enable('rpc_query')
-        iq['rpc_query']['method_call']['method_name'] = command
-        iq['rpc_query']['method_call']['params'] = py2xml(*argv)        
+            return_type = self.cover_devices
 
-        return iq.send(timeout=timeout, callback=callback,timeout_callback=timeout_callback)
-    
+        if device_type == 'binary_sensor':
+            return_type = self.binary_devices
+
+        return return_type
+
     def roster_callback(self, roster_iq):
-        log.info("Roster callback ")
-        self.connect_finished = True         
-    
-    
+        ''' If the roster callback is called, the initial connection has finished  '''
+        LOG.info("Roster callback ")
+        self.connect_finished = True
+
+    def rpc_callback(self, my_iq):
+        ''' Capture messages returning from the sysap  '''
+        my_iq.enable('rpc_query')
+
+        if my_iq['rpc_query']['method_response']['fault'] is not None:
+            fault = my_iq['rpc_query']['method_response']['fault']
+            LOG.info(fault['string'])
+        else:
+            result = xml2py(my_iq['rpc_query']['method_response']['params'])
+            LOG.info('method response: %s', result[0])
+
     def pub_sub_callback(self, msg):
-         
+        ''' Process the device update messages of the sysap   '''
+        # pylint: disable=too-many-nested-blocks
         if msg['pubsub_event']['items']['item']['update']['data'] is not None:
 
-            args = data2py(msg['pubsub_event']['items']['item']['update'])   
-          
-            # arg contains the devices that changed 
-            if len(args) != 0:
+            args = data2py(msg['pubsub_event']['items']['item']['update'])
+
+            # arg contains the devices that changed
+            if args:
                 root = ET.fromstring(args[0])
-          
-                device = root.find('devices')  
-                for neighbor in device.findall('device'): 
-                    serialNumber = neighbor.get('serialNumber')
+
+                device = root.find('devices')
+                for neighbor in device.findall('device'):
+                    serialnumber = neighbor.get('serialNumber')
 
                     channels = neighbor.find('channels')
                     if channels is not None:
                         for channel in channels.findall('channel'):
-                            channelId   = channel.get('i')
-
-                            # get the inputs
-                            inputs = channel.find('inputs')
-                            idatapoint = inputs.find('dataPoint')
-                            inputPoints = {}
-                            if idatapoint is not None:
-                                inputId = idatapoint.get('i')
-                                inputValue = idatapoint.find('value').text
-                                inputPoints[inputId] = inputValue
-
-                            # get the outputs
-                            outputs = channel.find('outputs')
-                            odatapoint = outputs.find('dataPoint')
-                            outputPoints = {}
-                            if odatapoint is not None:
-                                outputId = odatapoint.get('i')
-                                outputValue = odatapoint.find('value').text
-                                outputPoints[outputId] = outputValue
+                            channel_id = channel.get('i')
 
                             # Now change the status of the device
-                            device_id = serialNumber + '/' + channelId
-                                            
-                            # if the device is a light                  
+                            device_id = serialnumber + '/' + channel_id
+
+                            # if the device is a light
                             if device_id in self.light_devices:
-                                if 'odp0000' in outputPoints:
-                                    if outputPoints['odp0000'] == '1':
-                                        state = True
-                                    else:
-                                        state = False
-            
-                                    self.light_devices[device_id]['state'] = state
-                                    log.info("device %s (%s) is %s", self.light_devices[device_id]['name'],  device_id, state)
-                                  
-                                if 'odp0001' in outputPoints:
-                                    self.light_devices[device_id]['brightness'] =  outputPoints['odp0001']
-                                    log.info("device %s (%s) brightness %s", self.light_devices[device_id]['name'],  device_id, self.light_devices[device_id]['brightness'])
+                                self.update_light(device_id, channel)
+
+                            # if the device is a cover
                             if device_id in self.cover_devices:
-                                if 'odp0000' in outputPoints:
-                                    state = outputPoints['odp0000'] # 0 = open, 1 = closed , 2 = moving up, 3 = moving down
-                                    self.cover_devices[device_id]['state'] = state
-                                    log.info("device %s (%s) is %s", self.cover_devices[device_id]['name'],  device_id, state)
-                                if 'odp0001' in outputPoints:  # 100 = fully closed                            
-                                    self.cover_devices[device_id]['position'] = str(abs(100 - int(outputPoints['odp0001']))) 
-                         
-    def rpc_callback(self, iq):
-        iq.enable('rpc_query')
-        
-        if iq['rpc_query']['method_response']['fault'] is not None:
-            fault = iq['rpc_query']['method_response']['fault']
-            log.info(fault['string'])
-        else:        
-            result = xml2py(iq['rpc_query']['method_response']['params'])
-            log.info('method response: %s',result[0])  
-    
-    def setlight_callback(self, iq):
-        log.info("setlight callback ")
+                                self.update_cover(device_id, channel)
 
-    def add_light_info(self, name = None, state = False, floor = None, room = None, light_type = 'normal', brightness = None):
-        light_info = {}
-        light_info['name'] = name        
-        light_info['state'] = state
-        light_info['floor'] = floor
-        light_info['room'] = room
-        light_info['light_type'] = light_type
-        light_info['brightness'] = brightness
-        return light_info
-        
-    def add_scene_info(self, name = None, floor = None, room = None):
-        scene_info = {}
-        scene_info['name'] = name        
-        scene_info['floor'] = floor
-        scene_info['room'] = room        
-        return scene_info
-    def add_cover_info(self, name = None, state = None,  position = None, floor = None, room = None):
-        cover_info = {}
-        cover_info['name'] = name        
-        cover_info['state'] = state
-        cover_info['floor'] = floor
-        cover_info['room'] = room        
-        cover_info['position'] = position
-        return cover_info
-        
-    @asyncio.coroutine
-    def find_devices(self, use_room_names):    
-        
-        iq = yield from self.send_rpc_iq('RemoteInterface.getAll','de',4,0,0)
+                            if device_id in self.binary_devices:
+                                self.update_binary(device_id, channel)
 
-        iq.enable('rpc_query')
-        
-        if iq['rpc_query']['method_response']['fault'] is not None:
-            fault = iq['rpc_query']['method_response']['fault']
-            log.info(fault['string'])
-        else:        
-            args = xml2py(iq['rpc_query']['method_response']['params'])
+    def update_light(self, device_id, channel):
+        ''' Update status of light devices   '''
+        light_state = get_output_datapoint(channel, 'odp0000')
+        if light_state is not None:
+            state = (light_state == '1')
 
-            """
-              deviceID
-                 'B002', // Schaltaktor 4-fach, 16A, REG
-		         '100E', // Sensor/ Schaltaktor 2/1-fach
-		         'B008', // Sensor/ Schaltaktor 8/8fach, REG
-                 '100C', // Sensor/schakelaktor 1/1-voudig
-                 'FFE7', // Sensor/schakelaktor 2/2-voudig
-                 
-                 '10C4' // Hue Aktor (Plug Switch)
+            self.light_devices[device_id].state = state
+            LOG.info("device %s (%s) is %s",
+                     self.light_devices[device_id].name, device_id, state)
 
-                 '101C', // Dimmaktor 4-fach
-		         '1021', // Dimmaktor 4-fach v2
-                 '1017'  // Sensor/dimaktor 1/1-voudig 
-                 '10C0' // Hue Aktor (LED Strip)
+        brightness = get_output_datapoint(channel, 'odp0001')
+        if brightness is not None:
+            self.light_devices[device_id].brightness = brightness
+            LOG.info("device %s (%s) brightness %s",
+                     self.light_devices[device_id].name, device_id,
+                     self.light_devices[device_id].brightness)
 
-                 'B001', // Jalousieaktor 4-fach, REG
-                 '1013' // Sensor/ Jalousieaktor 1/1-fach
+    def update_cover(self, device_id, channel):
+        ''' Update the status of blind/cover devices '''
+        cover_state = get_output_datapoint(channel, 'odp0000')
+        if cover_state is not None:
+            # 0 = open, 1 = closed , 2 = moving up, 3 = moving down
+            self.cover_devices[device_id].state = cover_state
+            LOG.info("device %s (%s) is %s",
+                     self.cover_devices[device_id].name,
+                     device_id, cover_state)
+        cover_position = get_output_datapoint(channel, 'odp0001')
+        if cover_position is not None:
+            self.cover_devices[device_id].position = \
+            str(abs(100 - int(cover_position)))
 
-            """
+    def update_binary(self, device_id, channel):
+        ''' Update the status of binary devices   '''
+        binary_state = get_input_datapoint(channel, 'idp0000')
+        if binary_state is not None:
+            self.binary_devices[device_id].state = binary_state
+            LOG.info("binary device %s is %s", device_id, binary_state)
 
-            self.found_devices = True   
+
+    def add_light_device(self, xmlroot, serialnumber, roomnames):
+        ''' Add a switch unit to the list of light devices   '''
+        channels = xmlroot.find('channels')
+
+        if channels is not None:
+            for channel in channels.findall('channel'):
+
+                channel_id = channel.get('i')
+
+                light_name = get_attribute(channel, 'displayName')
+                floor_id = get_attribute(channel, 'floor')
+                room_id = get_attribute(channel, 'room')
+
+                light_state = (get_output_datapoint(channel, 'odp0000') == '1')
+
+                single_light = serialnumber + '/' + channel_id
+                if light_name == '':
+                    light_name = single_light
+                if floor_id != '' and room_id != '' and self.use_room_names:
+                    light_name = light_name + ' (' + roomnames[floor_id][room_id] + ')'
+
+                self.light_devices[single_light] = FahLight(self, single_light,
+                                                            light_name, light_state)
+
+                LOG.info('light  %s %s is %s', single_light, light_name, light_state)
+
+    def add_dimmer_device(self, xmlroot, serialnumber, roomnames):
+        ''' Add a dimmer unit to the list of light devices  '''
+        channels = xmlroot.find('channels')
+
+        if channels is not None:
+            for channel in channels.findall('channel'):
+
+                channel_id = channel.get('i')
+
+                light_name = get_attribute(channel, 'displayName')
+                floor_id = get_attribute(channel, 'floor')
+                room_id = get_attribute(channel, 'room')
+
+                brightness = get_output_datapoint(channel, 'odp0001')
+                light_state = (get_output_datapoint(channel, 'odp0000') == '1')
+
+                single_light = serialnumber + '/' + channel_id
+                if light_name == '':
+                    light_name = single_light
+                if floor_id != '' and room_id != '' and self.use_room_names:
+                    light_name = light_name + ' (' + roomnames[floor_id][room_id] + ')'
+                self.light_devices[single_light] = FahLight(self, single_light, light_name,
+                                                            light_state, light_type='dimmer',
+                                                            brightness=brightness)
+
+                LOG.info('dimmer %s %s is %s', single_light, light_name, light_state)
+
+    def add_scene(self, xmlroot, serialnumber, roomnames):
+        ''' Add a scene to the list of scenes   '''
+        channels = xmlroot.find('channels')
+
+        if channels is not None:
+            for channel in channels.findall('channel'):
+
+                channel_id = channel.get('i')
+
+                scene_name = get_attribute(channel, 'displayName')
+                floor_id = get_attribute(channel, 'floor')
+                room_id = get_attribute(channel, 'room')
+
+                scene = serialnumber + '/' + channel_id
+                if scene_name == '':
+                    scene_name = scene
+
+                if floor_id != '' and room_id != '' and self.use_room_names:
+                    scene_name = scene_name + ' (' + roomnames[floor_id][room_id] + ')'
+
+                self.scene_devices[scene] = FahLightScene(self, scene, scene_name)
+
+                LOG.info('scene  %s %s', scene, scene_name)
+
+    def add_cover_device(self, xmlroot, serialnumber, roomnames):
+        ''' Add a blind/cover to the list of cover devices   '''
+        channels = xmlroot.find('channels')
+
+        if channels is not None:
+            for channel in channels.findall('channel'):
+
+                channel_id = channel.get('i')
+
+                cover_name = get_attribute(channel, 'displayName')
+                floor_id = get_attribute(channel, 'floor')
+                room_id = get_attribute(channel, 'room')
+
+                cover_state = get_output_datapoint(channel, 'odp0000')
+                cover_position = str(abs(100 - int(get_output_datapoint(channel, 'odp0001'))))
+
+                single_cover = serialnumber + '/' + channel_id
+                if cover_name == '':
+                    cover_name = single_cover
+                if floor_id != '' and room_id != '' and self.use_room_names:
+                    cover_name = cover_name + ' (' + roomnames[floor_id][room_id] + ')'
+                self.cover_devices[single_cover] = FahCover(self, single_cover, cover_name,
+                                                            cover_state, cover_position)
+
+                LOG.info('cover %s %s is %s', single_cover, cover_name, cover_state)
+
+    def add_sensor_unit(self, xmlroot, serialnumber, roomnames, device_id):
+
+        ''' Add a sensor unit to the list of binary devices
+        A button has no channels, only parameters
+        deviceid = 1002 - Double switch
+          1 = left normal switch, right - normal switch (L, R)
+          2 = left normal switch, right impulse switch (L, RU, RL)
+          3 = left impulse switch, right switch (LU,LL, R)
+          4 = left impulse , right impulse (LU,LL,RU,RL)
+        device_id = 1000 - Single switch
+          1 = Normal switch
+          2 = Impulse switch
+        The master message returns no initial state
+
+        In the status message of a switch there are channels,
+        left normal     right all impulse
+        ---------       ---------
+        | 0 | 3 |       | 1 | 4 |
+        --------        ---------
+        | 0 | 3 |       | 2 | 5 |
+        ---------       ---------
+        '''
+
+        button_basename = get_attribute(xmlroot, 'displayName')
+        floor_id = get_attribute(xmlroot, 'floor')
+        room_id = get_attribute(xmlroot, 'room')
+
+        parameters = xmlroot.find('parameters')
+        parameter = parameters.find('parameter')
+        value = parameter.find('value').text
+
+        if device_id == '1000':
+            button_type = 1
+            button_list = self.switch_type_1[value]
+
+        if device_id == '1002':
+            button_type = 2
+            button_list = self.switch_type_2[value]
+
+        for values in button_list:
+            binary_device = serialnumber + '/ch000' + str(values)
+            if button_type == 1:
+                position = {0 : '', 1 : 'T', 2 : 'B'}
+            if button_type == 2:
+                position = {0 : 'L', 1 : 'LT', 2 : 'LB', 3 : 'R', 4 : 'RT', 5: 'RB'}
+            button_name = button_basename + ' ' + position[values]
+            if floor_id != '' and room_id != '' and self.use_room_names:
+                button_name = button_name + ' (' + roomnames[floor_id][room_id] + ')'
+
+            self.binary_devices[binary_device] = FahBinarySensor(self, binary_device, button_name)
+
+            LOG.info('binary button %s %s ', binary_device, button_name)
+
+    def add_binary_sensor(self, xmlroot, serialnumber, roomnames):
+        ''' Add a binary sensor to the list of binary devices   '''
+        channels = xmlroot.find('channels')
+        if channels is not None:
+            for channel in channels.findall('channel'):
+                channel_id = channel.get('i')
+
+                floor_id = get_attribute(channel, 'floor')
+                room_id = get_attribute(channel, 'room')
+
+                binary_state = get_output_datapoint(channel, 'odp0000')
+
+                binary_device = serialnumber + '/' + channel_id
+                binary_name = 'binary-' + channel_id
+                if floor_id != '' and room_id != '' and self.use_room_names:
+                    binary_name = binary_name + ' (' + roomnames[floor_id][room_id] + ')'
+                self.binary_devices[binary_device] = FahBinarySensor(self, binary_device,
+                                                                     binary_name, binary_state)
+
+                LOG.info('binary %s %s is %s', binary_device, binary_name, binary_state)
+
+    def add_movement_detector(self, xmlroot, serialnumber, roomnames):
+        ''' Add a movement detector to the list of binary devices '''
+        button_basename = get_attribute(xmlroot, 'displayName')
+        floor_id = get_attribute(xmlroot, 'floor')
+        room_id = get_attribute(xmlroot, 'room')
+
+        button_device = serialnumber + '/' + 'ch0000'
+        if floor_id != '' and room_id != '' and self.use_room_names:
+            button_name = button_basename + ' (' + roomnames[floor_id][room_id] + ')'
+        else:
+            button_name = button_basename
+        self.binary_devices[button_device] = FahBinarySensor(self, button_device, button_name)
+        LOG.info('movement sensor %s %s ', button_device, button_name)
+
+    async def find_devices(self, use_room_names):
+        ''' Find the devices in the system, this is a big XML file   '''
+        self.use_room_names = use_room_names
+
+        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 4, 0, 0)
+
+        my_iq.enable('rpc_query')
+
+        if my_iq['rpc_query']['method_response']['fault'] is not None:
+            fault = my_iq['rpc_query']['method_response']['fault']
+            LOG.info(fault['string'])
+        else:
+            args = xml2py(my_iq['rpc_query']['method_response']['params'])
+
+            # deviceID
+            #     'B002', // Schaltaktor 4-fach, 16A, REG
+	    #	  '100E', // Sensor/ Schaltaktor 2/1-fach
+	    #	  'B008', // Sensor/ Schaltaktor 8/8fach, REG
+            #     '100C', // Sensor/schakelaktor 1/1-voudig
+            #     'FFE7', // Sensor/schakelaktor 2/2-voudig
+            #
+            #     '10C4'  // Hue Aktor (Plug Switch)
+            #
+            #     '101C', // Dimmaktor 4-fach
+	    #	  '1021', // Dimmaktor 4-fach v2
+            #     '1017'  // Sensor/dimaktor 1/1-voudig
+            #     '10C0'  // Hue Aktor (LED Strip)
+            #
+            #     'B001', // Jalousieaktor 4-fach, REG
+            #     '1013'  // Sensor/ Jalousieaktor 1/1-fach
+            #     '1015'  // Sensor/ Jalousieaktor 2/1-fach
+
+            self.found_devices = True
 
             root = ET.fromstring(args[0])
 
-            strings = root.find('strings')
-
-            # Store all the names
-            names = {}            
-            for string in strings.findall('string'):
-                stringNameId = string.get('nameId')
-                stringValue  = string.text
-                names[stringNameId] = stringValue
-                
             # make a list of the rooms
-            floorplan = root.find('floorplan') 
-            floornames = {}
-            roomnames  = {} 
-            
-            for floor in floorplan.findall('floor'):
-                FloorName = floor.get('name')
-                FloorUid  = floor.get('uid') 
-                floornames[FloorUid] = FloorName
-                log.info(' floor %s', FloorName) 
-            
-                roomnames[FloorUid] = {}     
-                # Now the rooms of this floor
-                for room in floor.findall('room'):
-                    RoomName = room.get('name')
-                    RoomUid  = room.get('uid') 
-                    roomnames[FloorUid][RoomUid] = RoomName
+            roomnames = get_room_names(root)
 
-            # Now look for the devices        
+            # Now look for the devices
             device = root.find('devices')
 
-            for neighbor in device.findall('device'):                
-                serialNumber = neighbor.get('serialNumber')
-                nameId       = names[neighbor.get('nameId')].title()
-                deviceId     = neighbor.get('deviceId')
+            for neighbor in device.findall('device'):
+                serialnumber = neighbor.get('serialNumber')
+                device_id = neighbor.get('deviceId')
 
-                # Schaltaktor 4-fach, 16A, REG
-                if deviceId == 'B002' or deviceId == '100E' or deviceId == 'B008' or deviceId == '10C4' or deviceId == '100C' or deviceId == '1010':  
-                    # Now the channels of a device
-                    channels = neighbor.find('channels')         
+                # Switch actuators
+                if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or \
+                    device_id == '10C4' or device_id == '100C' or device_id == '1010'):
+                    self.add_light_device(neighbor, serialnumber, roomnames)
 
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channelName = names[channel.get('nameId')].title()
-                            channelId   = channel.get('i')
-                        
-                            light_name = ''
-                            floorId    = ''
-                            roomId     = ''
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text
+                # Dimming actuators
+                # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
+                if (device_id == '101C' or  device_id == '1021' or \
+                   device_id == '10C0' or device_id == '1017'):
+                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
-                                if attributeName == 'displayName': 
-                                    light_name = attributeValue
-                                if attributeName == 'floor':
-                                    floorId = attributeValue
-                                if attributeName == 'room':
-                                    roomId = attributeValue
+                # Scene or Timer
+                if device_id == '4800' or device_id == '4A00':
+                    self.add_scene(neighbor, serialnumber, roomnames)
 
-                            inputs = channel.find('inputs')    
-                            for datapoints in inputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text                                
-                            outputs = channel.find('outputs')    
-                            for datapoints in outputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-                                if datapointId == 'odp0000':
-                                    if datapointValue == '1':
-                                       light_state = True
-                                    else:
-                                       light_state = False            
-                                                             
-                            single_light = serialNumber + '/' + channelId 
-                            if light_name == '':
-                                light_name = single_light
-                            if floorId != '' and roomId != '' and use_room_names == True:
-                                light_name = light_name + ' (' + roomnames[floorId][roomId] + ')'
-                                                                                  
-                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = floornames[floorId], room = roomnames[floorId][roomId])
-                            else:
-                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = '', room = '')                            
+                # blind/cover device
+                if device_id == 'B001' or device_id == '1013' or device_id == '1015':
+                    self.add_cover_device(neighbor, serialnumber, roomnames)
 
-                            self.devices[single_light] = 'light'   
-                            log.info( 'light  %s %s is %s',single_light ,light_name, light_state )
+                # Sensor units 1/2 way
+                if device_id == '1002' or device_id == '1000':
+                    self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
 
-                # Dimmaktor 4-fach and Dimmaktor 4-fach v2 
-                if deviceId == '101C' or  deviceId == '1021' or deviceId == '10C0' or deviceId == '1017' :
-                    # Now the channels of a device
-                    channels = neighbor.find('channels')         
+                # binary sensor
+                if device_id == 'B007':
+                    self.add_binary_sensor(neighbor, serialnumber, roomnames)
 
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channelName = names[channel.get('nameId')].title()
-                            channelId   = channel.get('i')
-                                                    
-                            light_name = ''
-                            floorId    = ''
-                            roomId     = ''
-                            brightness = None
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text
+                # movement detector
+                if device_id == '100A':
+                    self.add_movement_detector(neighbor, serialnumber, roomnames)
 
-                                if attributeName == 'displayName': 
-                                    light_name = attributeValue
-                                if attributeName == 'floor':
-                                    floorId = attributeValue
-                                if attributeName == 'room':
-                                    roomId = attributeValue
-
-                            inputs = channel.find('inputs')    
-                            for datapoints in inputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-
-                            outputs = channel.find('outputs')    
-                            for datapoints in outputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-                                if datapointId == 'odp0001':
-                                    brightness = datapointValue
-                                if datapointId == 'odp0000':
-                                    if datapointValue == '1':
-                                       light_state = True
-                                    else:
-                                       light_state = False    
-                                
-                            single_light = serialNumber + '/' + channelId 
-                            if light_name == '':
-                                light_name = single_light
-                            if floorId != '' and roomId != '' and use_room_names == True:
-                                light_name = light_name + ' (' + roomnames[floorId][roomId] + ')'                                                                                    
-                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = floornames[floorId], room = roomnames[floorId][roomId], light_type = 'dimmer', brightness = brightness)
-                            else:
-                                self.light_devices[single_light] = self.add_light_info(name = light_name, state = light_state , floor = '', room = '', light_type = 'dimmer', brightness = brightness)
-                                        
-                            self.devices[single_light] = 'light'                                        
-                            log.info( 'dimmer %s %s is %s',single_light ,light_name, light_state )
- 
-                # Scene or Timer  
-                if deviceId == '4800' or deviceId == '4A00':
-                    channels = neighbor.find('channels')           
-
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channelName = names[channel.get('nameId')].title()
-                            channelId   = channel.get('i')
-                        
-                            scene_name = ''
-                            floorId    = ''
-                            roomId     = ''
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text            
-                
-                                if attributeName == 'displayName': 
-                                    scene_name = attributeValue
-                                if attributeName == 'floor':
-                                    floorId = attributeValue
-                                if attributeName == 'room':                            
-                                    roomId = attributeValue
-
-                            scene = serialNumber + '/' + channelId
-                            if scene_name == '':
-                                scene_name = scene
-
-                            if floorId != '' and roomId != '' and use_room_names == True:
-                                scene_name = scene_name + ' (' + roomnames[floorId][roomId] + ')'                                                                                    
-                                self.scene_devices[scene] = self.add_scene_info(name = scene_name, floor = floornames[floorId], room = roomnames[floorId][roomId])
-                            else:
-                                self.scene_devices[scene] = self.add_scene_info(name = scene_name, floor = '', room = '') 
-
-                            self.devices[scene] = 'scene'   
-                            log.info( 'scene  %s %s',scene ,scene_name )    
-                # cover device            
-                if deviceId == 'B001' or deviceId == '1013' or deviceId == '1015':
-                    channels = neighbor.find('channels')           
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channelName = names[channel.get('nameId')].title()
-                            channelId   = channel.get('i')
-             
-                            cover_name = ''
-                            floorId    = ''
-                            roomId     = ''
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text
-                                if attributeName == 'displayName': 
-                                    light_name = attributeValue
-                                if attributeName == 'floor':
-                                    floorId = attributeValue
-                                if attributeName == 'room':
-                                    roomId = attributeValue
-                            inputs = channel.find('inputs')    
-                            for datapoints in inputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-                            outputs = channel.find('outputs')    
-                            for datapoints in outputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-                                if datapointId == 'odp0000':
-                                    cover_state = datapointValue
-                                if datapointId == 'odp0001':
-                                    cover_position = str(abs(100 - int(datapointValue)))                                
-                            single_cover = serialNumber + '/' + channelId 
-                            if cover_name == '':
-                                cover_name = single_cover
-                            if floorId != '' and roomId != '' and use_room_names == True:
-                                cover_name = cover_name + ' (' + roomnames[floorId][roomId] + ')'                                                                                    
-                                self.cover_devices[single_cover] = self.add_cover_info(name = cover_name, state = cover_state, position = cover_position , floor = floornames[floorId], room = roomnames[floorId][roomId])
-                            else:
-                                self.cover_devices[single_cover] = self.add_cover_info(name = cover_name, state = cover_state, position = cover_position , floor = '', room = '')
-                            self.devices[single_cover] = 'cover'                                        
-                            log.info( 'cover %s %s is %s',single_cover ,cover_name, cover_state )                            
-            # Store the devices in a dictionary    
-
-class freeathomesysapp(object):
+class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp
           parameters in configuration.yaml
           host       - Ip adress of the sysapp device
           username
-          password           
+          password
           use_room_names - Show room names with the devices
-    """ 
+    """
 
-    def __init__(self, host,port,user,password, use_room_names ):
+    def __init__(self, host, port, user, password):
+        ''' x   '''
         self._host = host
         self._port = port
         self._user = user
-        self._jid  = None
-        self._password = password        
-        self.xmpp = None 
-        self._use_room_names = use_room_names
+        self._jid = None
+        self._password = password
+        self.xmpp = None
+        self._use_room_names = False
+
+    @property
+    def use_room_names(self):
+        ''' getter use_room_names   '''
+        return self._use_room_names
+
+    @use_room_names.setter
+    def use_room_names(self, value):
+        ''' setter user_room_names   '''
+        self._use_room_names = value
 
     def get_jid(self):
-        http = 'http://' + self._host + '/settings.json'    
-        with urllib.request.urlopen(http) as url:
-            data = json.loads(url.read().decode())    
+        ''' extract the jid from a file on the sysap   '''
+        data = None
+        jid = None
 
+        http = 'http://' + self._host + '/settings.json'
+        try:
+            with urllib.request.urlopen(http) as url:
+                data = json.loads(url.read().decode())
+
+        except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
+            LOG.error('Free@Home: server %s not found ', self._host)
+
+        if data is not None:
             usernames = data['users']
-            for key in usernames:        
+            for key in usernames:
                 if key['name'] == self._user:
-                    self._jid = key['jid']
-                        
+                    jid = key['jid']
+
+            if jid is None:
+                LOG.error('Free@Home: user %s not found', self._user)
+        return jid
+
     def connect(self):
-        self.get_jid() 
-        
-        log.info('Connect Free@Home  %s ', self._jid)        
-        
+        ''' connect to the Free@Home sysap   '''
+        self._jid = self.get_jid()
+
+        LOG.info('Connect Free@Home  %s ', self._jid)
+
         if self._jid is not None:
-          # create xmpp client
-          self.xmpp = Client(self._jid, self._password)
-          # connect
-          self.xmpp.connect((self._host, self._port))          
+            # create xmpp client
+            self.xmpp = Client(self._jid, self._password)
+            # connect
+            self.xmpp.connect((self._host, self._port))
 
-    @asyncio.coroutine
-    def wait_for_connection(self):
-        while self.xmpp.connect_ready() == False:
-            log.info('wait for connection')   
-            yield from asyncio.sleep(0.5)
-          
-    @asyncio.coroutine
-    def turn_on(self, device): 
-        yield from self.xmpp.turn_on(device)
+    async def wait_for_connection(self):
+        ''' Wait til connection is made   '''
+        if self.xmpp is not None:
+            while self.xmpp.connect_ready() is False:
+                LOG.info('wait for connection')
+                await asyncio.sleep(0.5)
+            return self.xmpp.authenticated
 
-    def set_brightness(self, device, brightness): 
-        self.xmpp.set_brightness(device, brightness)
+    def get_devices(self, device_type):
+        ''' Get devices of a specific type from the sysap   '''
+        return self.xmpp.get_devices(device_type)
 
-    def get_brightness(self, device): 
-        return self.xmpp.get_brightness(device)
-
-    @asyncio.coroutine
-    def turn_off(self, device):
-        yield from self.xmpp.turn_off(device) 
-     
-    @asyncio.coroutine
-    def activate(self, device):
-        yield from self.xmpp.activate(device) 
-        
-    @asyncio.coroutine
-    def update(self, device):
-        yield from self.xmpp.update(device)
-        return
-     
-    def is_on(self, device):
-        return self.xmpp.is_on(device)
-
-    def is_cover_closed(self, device):
-        return self.xmpp.is_cover_closed(device)    
-    def is_closing(self, device):
-        return self.xmpp.is_cover_closing(device) 
-    def is_opening(self, device):
-        return self.xmpp.is_cover_opening(device) 
-    def get_cover_position(self, device):  
-        return int(self.xmpp.get_cover_position(device))
-    @asyncio.coroutine
-    def open(self, device): 
-        yield from self.xmpp.open_cover(device) 
-    @asyncio.coroutine
-    def close(self, device):
-        yield from self.xmpp.close_cover(device) 
-    @asyncio.coroutine
-    def stop(self, device):
-        yield from self.xmpp.stop_cover(device)
-    @asyncio.coroutine
-    def set_cover_position(self, device, position):
-        yield from self.xmpp.set_cover_position(device,position) 
-    def get_devices(self,device_type):                 
-        return self.xmpp.get_devices(device_type, self._use_room_names)
-
-    @asyncio.coroutine
-    def find_devices(self):        
-        try: 
-            yield from self.xmpp.find_devices(self._use_room_names)
-        except IqError as e:
-            raise e        
+    async def find_devices(self):
+        ''' find all the devices on the sysap   '''
+        try:
+            await self.xmpp.find_devices(self._use_room_names)
+        except IqError as error:
+            raise error

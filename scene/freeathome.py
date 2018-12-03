@@ -1,38 +1,34 @@
-"""
-Support for FreeATHome scenes.
-
-
-"""
-import asyncio
-import custom_components.freeathome as freeathome
+""" Support for Free@Home scenes. """
 import logging
 from homeassistant.components.scene import Scene
+import custom_components.freeathome as freeathome
 
 REQUIREMENTS = ['slixmpp==1.3.0']
 
 _LOGGER = logging.getLogger(__name__)
 
-@asyncio.coroutine
-def async_setup_platform(hass, config, add_devices, discovery_info=None):
+async def async_setup_platform(hass, config, add_devices, discovery_info=None):
+    ''' scene specific code '''
     import custom_components.pfreeathome
 
-    _LOGGER.info('FreeAtHome setup scenes') 
+    _LOGGER.info('FreeAtHome setup scenes')
 
     fah = hass.data[freeathome.DATA_MFH]
-   
+
     devices = fah.get_devices('scene')
 
-    for device, attributes in devices.items(): 
-     
-        add_devices([FreeAtHomeScene(fah, device, attributes['name'])])
+    for device, device_object in devices.items():
+        add_devices([FreeAtHomeScene(device_object)])
 
 class FreeAtHomeScene(Scene):
-    """Representation of a Vera scene entity."""
+    """ Free@home scene """
 
-    def __init__(self, sysap, device, name):
-        self._sysap = sysap
-        self._device = device
-        self._name = name
+    _name = ''
+    scene_device = None
+
+    def __init__(self, device):
+        self.scene_device = device
+        self._name = self.scene_device.name
 
     @property
     def name(self):
@@ -49,9 +45,6 @@ class FreeAtHomeScene(Scene):
         """There is no way of detecting if a scene is active (yet)."""
         return False
 
-    @asyncio.coroutine
-    def async_activate(self):
+    async def async_activate(self):
         """Activate scene. Try to get entities into requested state."""
-        yield from self._sysap.activate(self._device)
-    
- 
+        await self.scene_device.activate()
