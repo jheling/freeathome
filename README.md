@@ -19,3 +19,6 @@ freeathome:
     use_room_names: <This is optional, if True then combine the device names with the rooms>
   
 Thanks to Foti for testing the cover device!
+
+With Home Assistant version 0.88 the way sources should be placed in the custom_components directory has changed. 
+This version won't work on earlier versions.
