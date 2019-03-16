@@ -48,8 +48,8 @@ async def async_setup_platform(hass, config, add_devices, discovery_info=None):
 # pm0005 = 
 # pm0006 = 0 ?
 # pm0007 = 
-# pm0008 = 14 ?
-# pm0009 = -14 ?
+# pm0008 = 14 ? could be max positive range from current target
+# pm0009 = -14 ? could be max negative range from current target
 # pm000a = 1 ?
 # pm000b = led backlight% (day?)
 # pm000c = led backlight% (night?)
@@ -92,6 +92,8 @@ class FreeAtHomeThermostat(ClimateDevice):
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
+        if self.current_operation == STATE_OFF:
+            return None
         return float(self.thermostat_device.target_temperature)
 
     @property
