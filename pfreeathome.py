@@ -37,10 +37,26 @@ def data2py(update):
 
 class FahDevice:
     ''' Free@Home base object '''
-    def __init__(self, client, device_id, name):
+    def __init__(self, client, device_id, name, device_updated_cb=None):
         self._device_id = device_id
         self._name = name
         self._client = client
+        self._device_updated_cbs = []
+        if device_updated_cb is not None:
+            self.register_device_updated_cb(device_updated_cb)
+
+    def register_device_updated_cb(self, device_updated_cb):
+        """Register device updated callback."""
+        self._device_updated_cbs.append(device_updated_cb)
+
+    def unregister_device_cb(self, device_updated_cb):
+        """Unregister device updated callback."""
+        self._device_updated_cbs.remove(device_updated_cb)
+
+    async def after_update(self):
+        """Execute callbacks after internal state has been changed."""
+        for device_updated_cb in self._device_updated_cbs:
+            await device_updated_cb(self)
 
     @property
     def device_id(self):
@@ -282,7 +298,7 @@ class Client(slixmpp.ClientXMPP):
         import os, binascii
         self.requested_jid.resource = binascii.b2a_hex(os.urandom(4))
 
-        # register plugins
+        # register pluginss
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060') # PubSub
 
@@ -390,7 +406,7 @@ class Client(slixmpp.ClientXMPP):
             result = xml2py(my_iq['rpc_query']['method_response']['params'])
             LOG.info('method response: %s', result[0])
 
-    def pub_sub_callback(self, msg):
+    async def pub_sub_callback(self, msg):
         ''' Process the device update messages of the sysap   '''
         # pylint: disable=too-many-nested-blocks
         if msg['pubsub_event']['items']['item']['update']['data'] is not None:
@@ -420,17 +436,22 @@ class Client(slixmpp.ClientXMPP):
                             # if the device is a light
                             if device_id in self.light_devices:
                                 self.update_light(device_id, channel)
+                                await self.light_devices[device_id].after_update()
 
                             # if the device is a cover
                             if device_id in self.cover_devices:
                                 self.update_cover(device_id, channel)
+                                await self.cover_devices[device_id].after_update()
 
+                            # if the device is a binary sensor
                             if device_id in self.binary_devices:
                                 self.update_binary(device_id, channel)
+                                await self.binary_devices[device_id].after_update()
 
                              # if the device is a thermostat
                             if device_id in self.thermostat_devices:
                                 self.update_thermostat(device_id, channel)
+                                await self.thermostat_devices[device_id].after_update()
 
     def update_light(self, device_id, channel):
         ''' Update status of light devices   '''
@@ -704,6 +725,9 @@ class Client(slixmpp.ClientXMPP):
                     state = get_output_datapoint(channel, 'odp0008')
                     eco_mode = get_output_datapoint(channel, 'odp0009')
 
+            def cb(self, device):
+                pass
+
             self.thermostat_devices[button_device] = FahThermostat(self, button_device, button_name,
                                                                 temperature=current_temperature,
                                                                 target=target_temperature,
@@ -759,21 +783,24 @@ class Client(slixmpp.ClientXMPP):
 
                 # Switch actuators
                 if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or \
+                    device_id == '900C' or device_id == '9010' or device_id == '4000' or \
                     device_id == '10C4' or device_id == '100C' or device_id == '1010'):
                     self.add_light_device(neighbor, serialnumber, roomnames)
 
                 # Dimming actuators
                 # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
-                if (device_id == '101C' or  device_id == '1021' or \
-                   device_id == '10C0' or device_id == '1017'):
-                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
+                if (device_id == '101C' or device_id == '1021' or \
+                    device_id == '1014' or device_id == '901c' or \
+                    device_id == '9017' or device_id == '9019' or \
+                    device_id == '10C0' or device_id == '1017'):                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
                 # Scene or Timer
                 if device_id == '4800' or device_id == '4A00':
                     self.add_scene(neighbor, serialnumber, roomnames)
 
                 # blind/cover device
-                if device_id == 'B001' or device_id == '1013' or device_id == '1015':
+                if device_id == 'B001' or device_id == '1013' or device_id == '1015' or \
+                    device_id == '9013' or device_id == '9015':
                     self.add_cover_device(neighbor, serialnumber, roomnames)
 
                 # Sensor units 1/2 way
@@ -785,7 +812,7 @@ class Client(slixmpp.ClientXMPP):
                     self.add_binary_sensor(neighbor, serialnumber, roomnames)
 
                 # movement detector
-                if device_id == '100A':
+                if device_id == '100A' or device_id == '9008' or device_id == '900A':
                     self.add_movement_detector(neighbor, serialnumber, roomnames)
 
                 # thermostat

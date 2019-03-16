@@ -79,8 +79,8 @@ class FreeAtHomeThermostat(ClimateDevice):
 
     @property
     def should_poll(self):
-        """Thermostat should be polled"""
-        return True
+        """Return that polling is not necessary."""
+        return False
 
     @property
     def current_temperature(self):
@@ -118,6 +118,13 @@ class FreeAtHomeThermostat(ClimateDevice):
     def icon(self):
         return 'mdi:thermometer-lines'
 
+    async def async_added_to_hass(self):
+        """Register callback to update hass after device was changed."""
+        async def after_update_callback(device):
+            """Call after device was updated."""
+            await self.async_update_ha_state()
+        self.thermostat_device.register_device_updated_cb(after_update_callback)
+
     async def async_turn_off(self):
         """Turn device off."""
         await self.thermostat_device.turn_off()
@@ -145,8 +152,8 @@ class FreeAtHomeThermostat(ClimateDevice):
 
     async def async_update(self):
         if self.thermostat_device.state:
-            self.current_operation = STATE_ON
+            self._current_operation = STATE_ON
         elif self.thermostat_device.ecomode:
-            self.current_operation = STATE_ECO
+            self._current_operation = STATE_ECO
         else:
-            self.current_operation = STATE_OFF
+            self._current_operation = STATE_OFF

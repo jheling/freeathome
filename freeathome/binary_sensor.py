@@ -44,9 +44,21 @@ class FreeAtHomeBinarySensor(BinarySensorDevice):
         return self.binary_device.device_id
 
     @property
+    def should_poll(self):
+        """Return that polling is not necessary."""
+        return False
+
+    @property
     def is_on(self):
         """Return true if sensor is on."""
         return self._state
+
+    async def async_added_to_hass(self):
+        """Register callback to update hass after device was changed."""
+        async def after_update_callback(device):
+            """Call after device was updated."""
+            await self.async_update_ha_state()
+        self.binary_device.register_device_updated_cb(after_update_callback)
 
     async def async_update(self):
         """Retrieve latest state."""
