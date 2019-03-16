@@ -421,10 +421,6 @@ class Client(slixmpp.ClientXMPP):
                 for neighbor in device.findall('device'):
                     serialnumber = neighbor.get('serialNumber')
 
-                    if serialnumber == 'ABB700C92AB0':
-                        LOG.info("Update: %s", args)
-
-
                     channels = neighbor.find('channels')
                     if channels is not None:
                         for channel in channels.findall('channel'):
@@ -792,7 +788,8 @@ class Client(slixmpp.ClientXMPP):
                 if (device_id == '101C' or device_id == '1021' or \
                     device_id == '1014' or device_id == '901c' or \
                     device_id == '9017' or device_id == '9019' or \
-                    device_id == '10C0' or device_id == '1017'):                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
+                    device_id == '10C0' or device_id == '1017'):
+                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
                 # Scene or Timer
                 if device_id == '4800' or device_id == '4A00':
