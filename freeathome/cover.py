@@ -81,7 +81,7 @@ class FreeAtHomeCover(CoverDevice):
         """Register callback to update hass after device was changed."""
         async def after_update_callback(device):
             """Call after device was updated."""
-            await self.async_update_ha_state()
+            await self.async_update_ha_state(True)
         self.cover_device.register_device_updated_cb(after_update_callback)
 
     async def async_close_cover(self, **kwargs):
