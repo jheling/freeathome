@@ -53,6 +53,7 @@ async def async_setup(hass, base_config):
         load_platform(hass, 'scene', DOMAIN, {}, config)
         load_platform(hass, 'cover', DOMAIN, {}, config)
         load_platform(hass, 'binary_sensor', DOMAIN, {}, config)
+        load_platform(hass, 'climate', DOMAIN, {}, config)
 
         return True
 

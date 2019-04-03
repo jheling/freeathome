@@ -53,6 +53,11 @@ class FreeAtHomeCover(CoverDevice):
         return self.cover_device.device_id
 
     @property
+    def should_poll(self):
+        """Return that polling is not necessary."""
+        return False
+
+    @property
     def is_closed(self):
         """Return if the cover is closed."""
         return self.cover_device.is_cover_closed()
@@ -71,6 +76,13 @@ class FreeAtHomeCover(CoverDevice):
     def current_cover_position(self):
         """Return the current position of the cover."""
         return self.cover_device.get_cover_position()
+
+    async def async_added_to_hass(self):
+        """Register callback to update hass after device was changed."""
+        async def after_update_callback(device):
+            """Call after device was updated."""
+            await self.async_update_ha_state(True)
+        self.cover_device.register_device_updated_cb(after_update_callback)
 
     async def async_close_cover(self, **kwargs):
         """Open the cover."""

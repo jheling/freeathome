@@ -37,10 +37,26 @@ def data2py(update):
 
 class FahDevice:
     ''' Free@Home base object '''
-    def __init__(self, client, device_id, name):
+    def __init__(self, client, device_id, name, device_updated_cb=None):
         self._device_id = device_id
         self._name = name
         self._client = client
+        self._device_updated_cbs = []
+        if device_updated_cb is not None:
+            self.register_device_updated_cb(device_updated_cb)
+
+    def register_device_updated_cb(self, device_updated_cb):
+        """Register device updated callback."""
+        self._device_updated_cbs.append(device_updated_cb)
+
+    def unregister_device_cb(self, device_updated_cb):
+        """Unregister device updated callback."""
+        self._device_updated_cbs.remove(device_updated_cb)
+
+    async def after_update(self):
+        """Execute callbacks after internal state has been changed."""
+        for device_updated_cb in self._device_updated_cbs:
+            await device_updated_cb(self)
 
     @property
     def device_id(self):
@@ -65,6 +81,50 @@ class FahBinarySensor(FahDevice):
         FahDevice.__init__(self, client, device_id, name)
         self.state = state
 
+class FahThermostat(FahDevice):
+    '''Free@Home thermostat '''
+    current_temperature = None
+    target_temperature = None
+
+    def __init__(self, client, device_id, name, temperature=None, target=None, state=None, eco_mode=None):
+        FahDevice.__init__(self, client, device_id, name)
+        self.current_temperature = temperature
+        self.target_temperature = target
+        self._state = state
+        self._eco_mode = eco_mode
+
+    async def turn_on(self):
+        ''' Turn the thermostat on   '''
+        await self.client.set_datapoint(self.device_id, 'idp0011', '0')
+        await self.client.set_datapoint(self.device_id, 'idp0012', '1')
+
+    async def turn_off(self):
+        ''' Turn the thermostat off   '''
+        await self.client.set_datapoint(self.device_id, 'idp0012', '0')
+
+    async def eco_mode(self):
+        ''' Put the thermostat in eco mode   '''
+        await self.client.set_datapoint(self.device_id, 'idp0011', '2')
+
+    async def set_target_temperature(self, temperature):
+        await self.client.set_datapoint(self.device_id, 'idp0016', '%.2f' % temperature)
+
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        self._state = state == '1'
+    
+    @property
+    def ecomode(self):
+        return self._eco_mode
+
+    @ecomode.setter
+    def ecomode(self, eco_mode):
+        self._eco_mode = eco_mode == '68'
+   
 class FahLight(FahDevice):
     ''' Free@Home light object   '''
     state = None
@@ -217,6 +277,7 @@ class Client(slixmpp.ClientXMPP):
     light_devices = {}
     scene_devices = {}
     cover_devices = {}
+    thermostat_devices = {}
 
     switch_type_1 = {
         '1' : [0],    # Normal switch  (channel 0)
@@ -234,7 +295,10 @@ class Client(slixmpp.ClientXMPP):
         ''' x   '''
         slixmpp.ClientXMPP.__init__(self, jid, password)
 
-        # register plugins
+        import os, binascii
+        self.requested_jid.resource = binascii.b2a_hex(os.urandom(4))
+
+        # register pluginss
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060') # PubSub
 
@@ -321,6 +385,9 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'binary_sensor':
             return_type = self.binary_devices
 
+        if device_type == 'thermostat':
+            return_type = self.thermostat_devices
+
         return return_type
 
     def roster_callback(self, roster_iq):
@@ -339,7 +406,7 @@ class Client(slixmpp.ClientXMPP):
             result = xml2py(my_iq['rpc_query']['method_response']['params'])
             LOG.info('method response: %s', result[0])
 
-    def pub_sub_callback(self, msg):
+    async def pub_sub_callback(self, msg):
         ''' Process the device update messages of the sysap   '''
         # pylint: disable=too-many-nested-blocks
         if msg['pubsub_event']['items']['item']['update']['data'] is not None:
@@ -365,13 +432,22 @@ class Client(slixmpp.ClientXMPP):
                             # if the device is a light
                             if device_id in self.light_devices:
                                 self.update_light(device_id, channel)
+                                await self.light_devices[device_id].after_update()
 
                             # if the device is a cover
                             if device_id in self.cover_devices:
                                 self.update_cover(device_id, channel)
+                                await self.cover_devices[device_id].after_update()
 
+                            # if the device is a binary sensor
                             if device_id in self.binary_devices:
                                 self.update_binary(device_id, channel)
+                                await self.binary_devices[device_id].after_update()
+
+                             # if the device is a thermostat
+                            if device_id in self.thermostat_devices:
+                                self.update_thermostat(device_id, channel)
+                                await self.thermostat_devices[device_id].after_update()
 
     def update_light(self, device_id, channel):
         ''' Update status of light devices   '''
@@ -410,6 +486,28 @@ class Client(slixmpp.ClientXMPP):
         if binary_state is not None:
             self.binary_devices[device_id].state = binary_state
             LOG.info("binary device %s is %s", device_id, binary_state)
+
+    def update_thermostat(self, device_id, channel):
+            ''' Update the status of thermostat devices '''
+            target_temp_state = get_output_datapoint(channel, 'odp0006')
+            if target_temp_state is not None:
+                self.thermostat_devices[device_id].target_temperature = target_temp_state
+                LOG.info("thermostat device %s target temp is %s", device_id, target_temp_state)
+
+            state = get_output_datapoint(channel, 'odp0008')
+            if state is not None:
+                self.thermostat_devices[device_id].state = state
+                LOG.info("thermostat device %s state is %s", device_id, state)
+
+            eco_mode = get_output_datapoint(channel, 'odp0009')
+            if eco_mode is not None:
+                self.thermostat_devices[device_id].ecomode = eco_mode
+                LOG.info("thermostat device %s eco mode is %s", device_id, eco_mode)
+
+            current_temp_state = get_output_datapoint(channel, 'odp0010')
+            if current_temp_state is not None:
+                self.thermostat_devices[device_id].current_temperature = current_temp_state
+                LOG.info("thermostat device %s current temp is %s", device_id, current_temp_state)
 
 
     def add_light_device(self, xmlroot, serialnumber, roomnames):
@@ -603,6 +701,36 @@ class Client(slixmpp.ClientXMPP):
         self.binary_devices[button_device] = FahBinarySensor(self, button_device, button_name)
         LOG.info('movement sensor %s %s ', button_device, button_name)
 
+    def add_thermostat(self, xmlroot, serialnumber, roomnames):
+            ''' Add a thermostat to the list of thermostat devices '''
+            button_basename = get_attribute(xmlroot, 'displayName')
+            floor_id = get_attribute(xmlroot, 'floor')
+            room_id = get_attribute(xmlroot, 'room')
+
+            button_device = serialnumber + '/' + 'ch0000'
+            if floor_id != '' and room_id != '' and self.use_room_names:
+                button_name = button_basename + ' (' + roomnames[floor_id][room_id] + ')'
+            else:
+                button_name = button_basename
+
+            channels = xmlroot.find('channels')
+            if channels is not None:
+                for channel in channels.findall('channel'):
+                    target_temperature = get_output_datapoint(channel, 'odp0006')
+                    current_temperature = get_output_datapoint(channel, 'odp0010')
+                    state = get_output_datapoint(channel, 'odp0008')
+                    eco_mode = get_output_datapoint(channel, 'odp0009')
+
+            def cb(self, device):
+                pass
+
+            self.thermostat_devices[button_device] = FahThermostat(self, button_device, button_name,
+                                                                temperature=current_temperature,
+                                                                target=target_temperature,
+                                                                state=state,
+                                                                eco_mode=eco_mode)
+            LOG.info('thermostat %s %s ', button_device, button_name)
+
     async def find_devices(self, use_room_names):
         ''' Find the devices in the system, this is a big XML file   '''
         self.use_room_names = use_room_names
@@ -651,13 +779,16 @@ class Client(slixmpp.ClientXMPP):
 
                 # Switch actuators
                 if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or \
+                    device_id == '900C' or device_id == '9010' or device_id == '4000' or \
                     device_id == '10C4' or device_id == '100C' or device_id == '1010'):
                     self.add_light_device(neighbor, serialnumber, roomnames)
 
                 # Dimming actuators
                 # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
-                if (device_id == '101C' or  device_id == '1021' or \
-                   device_id == '10C0' or device_id == '1017'):
+                if (device_id == '101C' or device_id == '1021' or \
+                    device_id == '1014' or device_id == '901c' or \
+                    device_id == '9017' or device_id == '9019' or \
+                    device_id == '10C0' or device_id == '1017'):
                     self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
                 # Scene or Timer
@@ -665,7 +796,8 @@ class Client(slixmpp.ClientXMPP):
                     self.add_scene(neighbor, serialnumber, roomnames)
 
                 # blind/cover device
-                if device_id == 'B001' or device_id == '1013' or device_id == '1015':
+                if device_id == 'B001' or device_id == '1013' or device_id == '1015' or \
+                    device_id == '9013' or device_id == '9015':
                     self.add_cover_device(neighbor, serialnumber, roomnames)
 
                 # Sensor units 1/2 way
@@ -677,8 +809,12 @@ class Client(slixmpp.ClientXMPP):
                     self.add_binary_sensor(neighbor, serialnumber, roomnames)
 
                 # movement detector
-                if device_id == '100A':
+                if device_id == '100A' or device_id == '9008' or device_id == '900A':
                     self.add_movement_detector(neighbor, serialnumber, roomnames)
+
+                # thermostat
+                if device_id == '1004' or device_id == '9004':
+                    self.add_thermostat(neighbor, serialnumber, roomnames)
 
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp

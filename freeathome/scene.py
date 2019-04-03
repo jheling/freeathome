@@ -45,6 +45,13 @@ class FreeAtHomeScene(Scene):
         """There is no way of detecting if a scene is active (yet)."""
         return False
 
+    async def async_added_to_hass(self):
+        """Register callback to update hass after device was changed."""
+        async def after_update_callback(device):
+            """Call after device was updated."""
+            await self.async_update_ha_state(True)
+        self.scene_device.register_device_updated_cb(after_update_callback)
+
     async def async_activate(self):
         """Activate scene. Try to get entities into requested state."""
         await self.scene_device.activate()
