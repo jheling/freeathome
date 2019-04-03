@@ -2,7 +2,7 @@
 Free@Home component for Home Assistant
 
 This is a first start for a component for Free @ Home from Busch-Jaeger.
-Nowt lights, scenes and covers wil show up in Home Assistant. All the other components are not coded yet.
+Now lights, scenes, covers, binary sensors and climate devices wil show up in Home Assistant. 
 
 Place the files in the custom_components directory. This should be in the same directory as the configuration.yaml.
 
@@ -19,6 +19,7 @@ freeathome:
     use_room_names: <This is optional, if True then combine the device names with the rooms>
   
 Thanks to Foti for testing the cover device!
+Thanks to Lasse Magnussen for the climate device!
 
 With Home Assistant version 0.88 the way sources should be placed in the custom_components directory has changed. 
 This version won't work on earlier versions.
