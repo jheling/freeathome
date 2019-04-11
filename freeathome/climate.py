@@ -16,7 +16,7 @@ REQUIREMENTS = ['slixmpp==1.4.2']
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_platform(hass, config, add_devices, discovery_info=None):
+async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """ thermostat specific code."""
     _LOGGER.info('FreeAtHome setup thermostat')
 
@@ -25,7 +25,7 @@ async def async_setup_platform(hass, config, add_devices, discovery_info=None):
     devices = fah.get_devices('thermostat')
 
     for device, device_object in devices.items():
-        add_devices([FreeAtHomeThermostat(device_object)])
+        async_add_devices([FreeAtHomeThermostat(device_object)])
 
 
 # ch0, odp0008 = 1 == on
