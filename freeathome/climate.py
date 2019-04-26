@@ -40,6 +40,8 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
 # ch0, odp0009 = 65 = eco mode off
 # ch0, odp0006 = 19 = target temp
 
+# ch0, odp0010 = 22.1 = current temperature
+
 # pm0000 = temperature reduction in ECO mode
 # pm0001 = temperature correction
 # pm0002 = target temperature
@@ -60,12 +62,10 @@ class FreeAtHomeThermostat(ClimateDevice):
     ''' Free@home thermostat '''
     thermostat_device = None
     _name = ''
-    _current_operation = None
 
     def __init__(self, device):
         self.thermostat_device = device
         self._name = self.thermostat_device.name
-        self._state = self.thermostat_device.state
 
     @property
     def name(self):
@@ -85,8 +85,6 @@ class FreeAtHomeThermostat(ClimateDevice):
     @property
     def current_temperature(self):
         """Return the current temperature."""
-        if self.current_operation == STATE_OFF:
-            return None
         return float(self.thermostat_device.current_temperature)
 
     @property
@@ -102,6 +100,10 @@ class FreeAtHomeThermostat(ClimateDevice):
         return TEMP_CELSIUS
 
     @property
+    def target_temperature_step(self):
+        return 0.5
+
+    @property
     def supported_features(self):
         """Return the list of supported features."""
         return SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE | SUPPORT_ON_OFF
@@ -114,7 +116,17 @@ class FreeAtHomeThermostat(ClimateDevice):
     @property
     def current_operation(self):
         """Return current operation ie. heat, cool, idle."""
-        return self._current_operation
+        if self.thermostat_device.state == False:
+            return STATE_OFF
+        elif self.thermostat_device.ecomode:
+            return STATE_ECO
+        else:
+            return STATE_ON
+
+    @property
+    def is_on(self):
+        """Returns true if device is on."""
+        return self.thermostat_device.state
 
     @property
     def icon(self):
@@ -129,13 +141,11 @@ class FreeAtHomeThermostat(ClimateDevice):
 
     async def async_turn_off(self):
         """Turn device off."""
-        await self.thermostat_device.turn_off()
-        self._current_operation = STATE_OFF
+        await self.thermostat.turn_off()
 
     async def async_turn_on(self):
         """Turn device on."""
         await self.thermostat_device.turn_on()
-        self._current_operation = STATE_ON
 
     async def async_set_operation_mode(self, operation_mode):
         """Set new target operation mode."""
@@ -145,17 +155,10 @@ class FreeAtHomeThermostat(ClimateDevice):
         if operation_mode == STATE_AUTO:
             await self.thermostat_device.turn_on()
 
-        self._current_operation = operation_mode
-
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
         temperature = kwargs.get(ATTR_TEMPERATURE)
         await self.thermostat_device.set_target_temperature(temperature)
 
     async def async_update(self):
-        if self.thermostat_device.state:
-            self._current_operation = STATE_ON
-        elif self.thermostat_device.ecomode:
-            self._current_operation = STATE_ECO
-        else:
-            self._current_operation = STATE_OFF
+        pass
