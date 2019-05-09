@@ -141,7 +141,7 @@ class FreeAtHomeThermostat(ClimateDevice):
 
     async def async_turn_off(self):
         """Turn device off."""
-        await self.thermostat.turn_off()
+        await self.thermostat_device.turn_off()
 
     async def async_turn_on(self):
         """Turn device on."""
