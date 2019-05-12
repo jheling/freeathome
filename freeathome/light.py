@@ -11,7 +11,7 @@ _LOGGER = logging.getLogger(__name__)
 
 # 'switch' will receive discovery_info={'optional': 'arguments'}
 # as passed in above. 'light' will receive discovery_info=None
-async def async_setup_platform(hass, config, add_devices, discovery_info=None):
+async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """ switch/light specific code."""
     import custom_components.pfreeathome
 
@@ -22,7 +22,7 @@ async def async_setup_platform(hass, config, add_devices, discovery_info=None):
     devices = fah.get_devices('light')
 
     for device, device_object in devices.items():
-        add_devices([FreeAtHomeLight(device_object)])
+        async_add_devices([FreeAtHomeLight(device_object)])
 
 class FreeAtHomeLight(Light):
     ''' Free@home light '''

@@ -90,8 +90,8 @@ class FahThermostat(FahDevice):
         FahDevice.__init__(self, client, device_id, name)
         self.current_temperature = temperature
         self.target_temperature = target
-        self._state = state
-        self._eco_mode = eco_mode
+        self.state = state
+        self.ecomode = eco_mode
 
     async def turn_on(self):
         ''' Turn the thermostat on   '''
@@ -720,9 +720,6 @@ class Client(slixmpp.ClientXMPP):
                     current_temperature = get_output_datapoint(channel, 'odp0010')
                     state = get_output_datapoint(channel, 'odp0008')
                     eco_mode = get_output_datapoint(channel, 'odp0009')
-
-            def cb(self, device):
-                pass
 
             self.thermostat_devices[button_device] = FahThermostat(self, button_device, button_name,
                                                                 temperature=current_temperature,

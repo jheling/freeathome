@@ -9,7 +9,7 @@ DEPENDENCIES = ['freeathome']
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup_platform(hass, config, add_devices, discovery_info=None):
+async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """ setup """
     import custom_components.pfreeathome
 
@@ -20,7 +20,7 @@ async def async_setup_platform(hass, config, add_devices, discovery_info=None):
     devices = fah.get_devices('binary_sensor')
 
     for device, device_object in devices.items():
-        add_devices([FreeAtHomeBinarySensor(device_object)])
+        async_add_devices([FreeAtHomeBinarySensor(device_object)])
 
 class FreeAtHomeBinarySensor(BinarySensorDevice):
     ''' Interface to the binary devices of Free@Home '''
