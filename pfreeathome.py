@@ -478,7 +478,7 @@ class Client(slixmpp.ClientXMPP):
         cover_position = get_output_datapoint(channel, 'odp0001')
         if cover_position is not None:
             self.cover_devices[device_id].position = \
-            str(abs(100 - int(cover_position)))
+            str(abs(100 - int(float(cover_position))))
 
     def update_binary(self, device_id, channel):
         ''' Update the status of binary devices   '''
@@ -601,7 +601,7 @@ class Client(slixmpp.ClientXMPP):
                 room_id = get_attribute(channel, 'room')
 
                 cover_state = get_output_datapoint(channel, 'odp0000')
-                cover_position = str(abs(100 - int(get_output_datapoint(channel, 'odp0001'))))
+                cover_position = str(abs(100 - int(float(get_output_datapoint(channel, 'odp0001')))))
 
                 single_cover = serialnumber + '/' + channel_id
                 if cover_name == '':
