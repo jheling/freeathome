@@ -4,12 +4,10 @@ import logging
 
 import custom_components.freeathome as freeathome
 from homeassistant.components.climate import ClimateDevice
-from homeassistant.components.climate.const import (STATE_AUTO, STATE_ECO,
-                                                    SUPPORT_ON_OFF,
-                                                    SUPPORT_OPERATION_MODE,
+from homeassistant.components.climate.const import (HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF,
+                                                    SUPPORT_PRESET_MODE,
                                                     SUPPORT_TARGET_TEMPERATURE)
-from homeassistant.const import (ATTR_TEMPERATURE, DEVICE_CLASS_TEMPERATURE,
-                                 STATE_OFF, STATE_ON, TEMP_CELSIUS)
+from homeassistant.const import (ATTR_TEMPERATURE, DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS)
 
 REQUIREMENTS = ['slixmpp==1.4.2']
 
@@ -90,7 +88,7 @@ class FreeAtHomeThermostat(ClimateDevice):
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        if self.current_operation == STATE_OFF:
+        if self.hvac_mode == HVAC_MODE_OFF:
             return None
         return float(self.thermostat_device.target_temperature)
 
@@ -106,27 +104,38 @@ class FreeAtHomeThermostat(ClimateDevice):
     @property
     def supported_features(self):
         """Return the list of supported features."""
-        return SUPPORT_TARGET_TEMPERATURE | SUPPORT_OPERATION_MODE | SUPPORT_ON_OFF
+        return SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
 
     @property
-    def operation_list(self):
-        """Return the list of available operation modes."""
-        return [STATE_ECO, STATE_AUTO]
+    def hvac_mode(self):
+        if self.thermostat_device.state == False:
+            return HVAC_MODE_OFF
+        else:
+            return HVAC_MODE_HEAT_COOL
 
     @property
-    def current_operation(self):
+    def hvac_modes(self):
+        """Return the list of available hvac operation modes."""
+        return [HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF]
+
+    @property
+    def preset_modes(self):
+        return ["none", "eco"]
+
+    @property
+    def preset_mode(self):
+        if self.thermostat_device.ecomode:
+            return "eco"
+        else:
+            return None
+
+    @property
+    def state(self):
         """Return current operation ie. heat, cool, idle."""
         if self.thermostat_device.state == False:
-            return STATE_OFF
-        elif self.thermostat_device.ecomode:
-            return STATE_ECO
+            return HVAC_MODE_OFF
         else:
-            return STATE_ON
-
-    @property
-    def is_on(self):
-        """Returns true if device is on."""
-        return self.thermostat_device.state
+            return HVAC_MODE_HEAT_COOL
 
     @property
     def icon(self):
@@ -139,20 +148,19 @@ class FreeAtHomeThermostat(ClimateDevice):
             await self.async_update_ha_state(True)
         self.thermostat_device.register_device_updated_cb(after_update_callback)
 
-    async def async_turn_off(self):
-        """Turn device off."""
-        await self.thermostat_device.turn_off()
-
-    async def async_turn_on(self):
-        """Turn device on."""
-        await self.thermostat_device.turn_on()
-
-    async def async_set_operation_mode(self, operation_mode):
+    async def async_set_hvac_mode(self, hvac_mode):
         """Set new target operation mode."""
-        if operation_mode == STATE_ECO:
-            await self.thermostat_device.eco_mode()
+        if hvac_mode == HVAC_MODE_HEAT_COOL:
+            await self.thermostat_device.turn_on()
 
-        if operation_mode == STATE_AUTO:
+        if hvac_mode == HVAC_MODE_OFF:
+            await self.thermostat_device.turn_off()
+
+    async def async_set_preset_mode(self, preset_mode):
+        """Set new preset mode."""
+        if preset_mode == "eco":
+            await self.thermostat_device.eco_mode()
+        else:
             await self.thermostat_device.turn_on()
 
     async def async_set_temperature(self, **kwargs):
