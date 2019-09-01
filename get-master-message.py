@@ -33,6 +33,28 @@ class ItemUpdate(ElementBase):
     plugin_attrib = name
     interfaces = set(('data'))
 
+def get_jid( host, name):
+    data = None
+    jid  = None
+    http = 'http://' + host + '/settings.json'
+    try:
+        with urllib.request.urlopen(http) as url:
+            data = json.loads(url.read().decode())    
+
+    except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
+      print ('server not found')                
+
+    if data is not None:
+        usernames = data['users']
+        for key in usernames:        
+            if key['name'] == name:
+               jid = key['jid']
+
+        if jid is None:
+            print('user not found')
+        else:
+            return jid
+
 def data2py(update):
     namespace = 'http://abb.com/protocol/update'
     vals = []
@@ -125,10 +147,11 @@ class Client(slixmpp.ClientXMPP):
 
           args = data2py(msg['pubsub_event']['items']['item']['update'])   
 
-          log.info(args[0])
+          if args: 
+            log.info('type %s list: %s',type(args),args)
           
-          # arg contains the devices that changed 
-          root = ET.fromstring(args[0])
+            # arg contains the devices that changed 
+            root = ET.fromstring(args[0])
           
     def roster_callback(self, roster_iq):
         log.debug("Rpc jhe ")
@@ -274,16 +297,17 @@ def main():
     # set up logging
     logging.basicConfig(level=logging.INFO, format='%(levelname)-8s %(message)s')
 
-    username = ''
+    ipadress = 'xx.xx.xx.xx' 
+    username = '' # exact username, case sensitive
     password = ''
-    ipadress = ''
+    jid = get_jid(ipadress, username) 
 
     # create xmpp client
-    xmpp = Client(username, password)
+    xmpp = Client(jid, password)
     # connect
-    result = xmpp.connect((ipadress, 5222))
+    xmpp.connect((ipadress, 5222))
 
-    log.info(' %s %s', type(result), result )
+    #log.info(' %s %s', type(result), result )
     
     xmpp.process(forever=True)    
 
