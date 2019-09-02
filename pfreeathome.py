@@ -301,6 +301,7 @@ class Client(slixmpp.ClientXMPP):
         # register pluginss
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060') # PubSub
+        self.register_plugin('xep_0199', {'keepalive': True, 'frequency': 60}) # ping
 
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
