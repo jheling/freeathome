@@ -300,9 +300,9 @@ def main():
     # set up logging
     logging.basicConfig(level=logging.INFO, format='%(levelname)-8s %(message)s')
 
-    ipadress = '192.168.0.139' 
-    username = 'Johan' # exact username, case sensitive
-    password = 'benik27'
+    ipadress = 'xx.xx.xx.xx' 
+    username = '' # exact username, case sensitive
+    password = ''
     jid = get_jid(ipadress, username) 
 
     # create xmpp client
