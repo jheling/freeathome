@@ -83,7 +83,7 @@ class Client(slixmpp.ClientXMPP):
         # handle session_start and message events
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
-        self.add_event_handler("roster_update_complete", self.roster_callback) 
+        self.add_event_handler("roster_update", self.roster_callback) 
         self.add_event_handler("pubsub_publish", self.pub_sub_callback)
          
     @asyncio.coroutine    
@@ -121,7 +121,7 @@ class Client(slixmpp.ClientXMPP):
                   timeout_callback=None):
         
         iq = self.make_iq_set()
-        iq['to'] = 'mrha@busch-jaEger.de/rpc'
+        iq['to'] = 'mrha@busch-jaeger.de/rpc'
         iq['from'] = self.boundjid.full
         iq.enable('rpc_query')
         iq['rpc_query']['method_call']['method_name'] = 'RemoteInterface.getAll'
@@ -177,118 +177,120 @@ class Client(slixmpp.ClientXMPP):
         if iq['rpc_query']['method_response']['fault'] is not None:
             fault = iq['rpc_query']['method_response']['fault']
             log.info(fault['string'])
-        else:        
-            args = xml2py(iq['rpc_query']['method_response']['params'])
-
-            """
-              deviceID
-                 'B002', // Schaltaktor 4-fach, 16A, REG
-		 '100E', // Sensor/ Schaltaktor 2/1-fach
-		 'B008', // Sensor/ Schaltaktor 8/8fach, REG
-                 '10C4' // Hue Aktor (Plug Switch)
-
-                 '101C', // Dimmaktor 4-fach
-		 '1021', // Dimmaktor 4-fach v2
-                 '10C0' // Hue Aktor (LED Strip)
-
-                 'B001', // Jalousieaktor 4-fach, REG
-                 '1013' // Sensor/ Jalousieaktor 1/1-fach
-
-            """
-
-            log.info(len(args))   
-            # Nu een iteratie over de devices
-            root = ET.fromstring(args[0])
-
-            filename = 'mastermessage.xml'
-            with open(filename,'w', encoding="utf-8") as file_object:
-              file_object.write(args[0])
-
-            for child in root:
-                log.info(child.tag)
-
-            strings = root.find('strings')
-
-            # Zet de strings in een dictionary
-            names = {}
+        else:
+            if iq['rpc_query']['method_response']['params'] is not None:
             
-            for string in strings.findall('string'):
-                stringNameId = string.get('nameId')
-                stringValue  = string.text
-                names[stringNameId] = stringValue
+                args = xml2py(iq['rpc_query']['method_response']['params'])
+
+                """
+                  deviceID
+                     'B002', // Schaltaktor 4-fach, 16A, REG
+                     '100E', // Sensor/ Schaltaktor 2/1-fach
+                     'B008', // Sensor/ Schaltaktor 8/8fach, REG
+                     '10C4' // Hue Aktor (Plug Switch)
+
+                     '101C', // Dimmaktor 4-fach
+                     '1021', // Dimmaktor 4-fach v2
+                     '10C0' // Hue Aktor (LED Strip)
+
+                     'B001', // Jalousieaktor 4-fach, REG
+                     '1013' // Sensor/ Jalousieaktor 1/1-fach
+
+                """
+
+                log.info(len(args))   
+                # Nu een iteratie over de devices
+                root = ET.fromstring(args[0])
+
+                filename = 'mastermessage.xml'
+                with open(filename,'w', encoding="utf-8") as file_object:
+                  file_object.write(args[0])
+
+                for child in root:
+                    log.info(child.tag)
+
+                strings = root.find('strings')
+
+                # Zet de strings in een dictionary
+                names = {}
                 
-            #log.info("%s", names)
-
-            device = root.find('devices')
-
-            for neighbor in device.findall('device'):                
-                serialNumber = neighbor.get('serialNumber')
-                nameId       = names[neighbor.get('nameId')].title()
-                deviceId     = neighbor.get('deviceId')
-                log.info("  %s %s %s %s",serialNumber,neighbor.get('nameId'),nameId,deviceId)
-
-                # Schaltaktor 4-fach, 16A, REG
-                if deviceId == 'B002':  
-                    # Nu de channnels binnen een device
-                    channels = neighbor.find('channels')         
-
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channelName = names[channel.get('nameId')].title()
-                            channelId   = channel.get('i')
-                            log.info("    %s %s",channelId, channelName)
-                        
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text
-                                log.info("      %s %s",attributeName, attributeValue)
-
-                            inputs = channel.find('inputs')    
-                            for datapoints in inputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-                                if datapointId == 'idp0000':
-                                    if datapointValue == '1':
-                                       light_state = True
-                                    else:
-                                       light_state = False   
-
-                                log.info("        %s %s %s",datapointId, datapointValue, light_state) 
-                                    
-                # Dimmaktor 4-fach and Dimmaktor 4-fach v2 
-                if deviceId == '101C' or  deviceId == '1021':
-                    # Nu de channnels binnen een device
-                    channels = neighbor.find('channels')         
-
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channelName = names[channel.get('nameId')].title()
-                            channelId   = channel.get('i')
-                            log.info("    %s %s",channelId, channelName)
-                        
-                            for attributes in channel.findall('attribute'):
-                                attributeName  = attributes.get('name')
-                                attributeValue = attributes.text
-                                log.info("      %s %s",attributeName, attributeValue)
-
-                            inputs = channel.find('inputs')    
-                            for datapoints in inputs.findall('dataPoint'):
-                                datapointId = datapoints.get('i')
-                                datapointValue = datapoints.find('value').text
-                                if datapointId == 'idp0000':
-                                    if datapointValue == '1':
-                                       light_state = True
-                                    else:
-                                       light_state = False   
-
-                                log.info("        %s %s %s",datapointId, datapointValue, light_state) 
-
-
-                # switch
-                if deviceId == '1002' or deviceId == '1000' or deviceId == '100A':
-                    # Nu de channnels binnen een device
-                    channels = neighbor.find('channels')                     
+                for string in strings.findall('string'):
+                    stringNameId = string.get('nameId')
+                    stringValue  = string.text
+                    names[stringNameId] = stringValue
                     
+                #log.info("%s", names)
+
+                device = root.find('devices')
+
+                for neighbor in device.findall('device'):                
+                    serialNumber = neighbor.get('serialNumber')
+                    nameId       = names[neighbor.get('nameId')].title()
+                    deviceId     = neighbor.get('deviceId')
+                    log.info("  %s %s %s %s",serialNumber,neighbor.get('nameId'),nameId,deviceId)
+
+                    # Schaltaktor 4-fach, 16A, REG
+                    if deviceId == 'B002':  
+                        # Nu de channnels binnen een device
+                        channels = neighbor.find('channels')         
+
+                        if channels is not None:
+                            for channel in channels.findall('channel'):
+                                channelName = names[channel.get('nameId')].title()
+                                channelId   = channel.get('i')
+                                log.info("    %s %s",channelId, channelName)
+                            
+                                for attributes in channel.findall('attribute'):
+                                    attributeName  = attributes.get('name')
+                                    attributeValue = attributes.text
+                                    log.info("      %s %s",attributeName, attributeValue)
+
+                                inputs = channel.find('inputs')    
+                                for datapoints in inputs.findall('dataPoint'):
+                                    datapointId = datapoints.get('i')
+                                    datapointValue = datapoints.find('value').text
+                                    if datapointId == 'idp0000':
+                                        if datapointValue == '1':
+                                           light_state = True
+                                        else:
+                                           light_state = False   
+
+                                    log.info("        %s %s %s",datapointId, datapointValue, light_state) 
+                                        
+                    # Dimmaktor 4-fach and Dimmaktor 4-fach v2 
+                    if deviceId == '101C' or  deviceId == '1021':
+                        # Nu de channnels binnen een device
+                        channels = neighbor.find('channels')         
+
+                        if channels is not None:
+                            for channel in channels.findall('channel'):
+                                channelName = names[channel.get('nameId')].title()
+                                channelId   = channel.get('i')
+                                log.info("    %s %s",channelId, channelName)
+                            
+                                for attributes in channel.findall('attribute'):
+                                    attributeName  = attributes.get('name')
+                                    attributeValue = attributes.text
+                                    log.info("      %s %s",attributeName, attributeValue)
+
+                                inputs = channel.find('inputs')    
+                                for datapoints in inputs.findall('dataPoint'):
+                                    datapointId = datapoints.get('i')
+                                    datapointValue = datapoints.find('value').text
+                                    if datapointId == 'idp0000':
+                                        if datapointValue == '1':
+                                           light_state = True
+                                        else:
+                                           light_state = False   
+
+                                    log.info("        %s %s %s",datapointId, datapointValue, light_state) 
+
+
+                    # switch
+                    if deviceId == '1002' or deviceId == '1000' or deviceId == '100A':
+                        # Nu de channnels binnen een device
+                        channels = neighbor.find('channels')                     
+                
         #mes = self.get_params 
         
         # log.info(mes)
@@ -298,9 +300,9 @@ def main():
     # set up logging
     logging.basicConfig(level=logging.INFO, format='%(levelname)-8s %(message)s')
 
-    ipadress = 'xx.xx.xx.xx' 
-    username = '' # exact username, case sensitive
-    password = ''
+    ipadress = '192.168.0.139' 
+    username = 'Johan' # exact username, case sensitive
+    password = 'benik27'
     jid = get_jid(ipadress, username) 
 
     # create xmpp client
