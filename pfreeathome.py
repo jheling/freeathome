@@ -9,6 +9,7 @@ import urllib.request
 import json
 import xml.etree.ElementTree as ET
 import slixmpp
+import zlib
 from slixmpp import Message
 from slixmpp.xmlstream import ElementBase, ET, register_stanza_plugin
 from slixmpp.plugins.xep_0009.binding import py2xml, xml2py
@@ -16,13 +17,22 @@ from slixmpp.plugins.xep_0009.stanza.RPC import RPCQuery, MethodCall, MethodResp
 from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, EventItem
 from slixmpp.exceptions import IqError
 from slixmpp import Iq
-
+from .messagereader import MessageReader
+from .settings import SettingsFah 
+from packaging import version
+from .saslhandler import SaslHandler
 
 LOG = logging.getLogger(__name__)
 
 class ItemUpdate(ElementBase):
     ''' part of the xml message  '''
     namespace = 'http://abb.com/protocol/update'
+    name = 'update'
+    plugin_attrib = name
+    interfaces = set(('data'))
+
+class ItemUpdateEncrypted(ElementBase):
+    namespace = 'http://abb.com/protocol/update_encrypted'
     name = 'update'
     plugin_attrib = name
     interfaces = set(('data'))
@@ -34,6 +44,15 @@ def data2py(update):
     for data in update.xml.findall('{%s}data' % namespace):
         vals.append(data.text)
     return vals
+
+def message2py(mes):
+
+    namespace = 'http://abb.com/protocol/update_encrypted'
+    vals = []
+    for data in mes.xml.findall('{%s}data' % namespace):
+        vals.append(data.text)
+    return vals
+
 
 class FahDevice:
     ''' Free@Home base object '''
@@ -291,10 +310,18 @@ class Client(slixmpp.ClientXMPP):
         '4' : [1, 2, 4, 5] # Left impuls, right impuls (channel 1,2,4,5)
         }
 
-    def __init__(self, jid, password):
+    def __init__(self, jid, password, fahversion, iterations=None, salt=None):
         ''' x   '''
-        slixmpp.ClientXMPP.__init__(self, jid, password)
+        slixmpp.ClientXMPP.__init__(self, jid, password,sasl_mech='SCRAM-SHA-1')
 
+        self.fahversion = fahversion     
+        self.x_jid        = jid        
+
+        LOG.info(' version: %s', self.fahversion )
+        
+        if version.parse(self.fahversion) >=  version.parse("2.3.0"):
+            self.saslhandler = SaslHandler(self, jid, password, iterations, salt)
+            
         import os, binascii
         self.requested_jid.resource = binascii.b2a_hex(os.urandom(4))
 
@@ -311,6 +338,7 @@ class Client(slixmpp.ClientXMPP):
         register_stanza_plugin(Event, EventItems)
         register_stanza_plugin(EventItems, EventItem, iterable=True)
         register_stanza_plugin(EventItem, ItemUpdate)
+        register_stanza_plugin(EventItem, ItemUpdateEncrypted)
 
         # handle session_start and message events
         self.add_event_handler("session_start", self.start)
@@ -325,6 +353,10 @@ class Client(slixmpp.ClientXMPP):
     # pylint: disable=unused-argument
     async def start(self, event):
         ''' Send precence and Roster (xmpp) '''
+
+        if version.parse(self.fahversion) >=  version.parse("2.3.0"):
+            await self.saslhandler.initiate_key_exchange()  
+        
         # The connect has succeeded
         self.authenticated = True
 
@@ -333,8 +365,12 @@ class Client(slixmpp.ClientXMPP):
 
         self.send_presence_subscription(pto="mrha@busch-jaeger.de/rpc", pfrom=self.boundjid.full)
 
-        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps"'
-                  ' ver="1.0" node="http://gonicus.de/caps"/></presence>')
+        if version.parse(self.fahversion) >=  version.parse("2.3.0"):
+	        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps"'
+	                  ' ver="1.1" node="http://gonicus.de/caps"/></presence>')
+        else:
+	        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps"'
+	                  ' ver="1.0" node="http://gonicus.de/caps"/></presence>')							  					  
 
         LOG.info('get roster')
         self.get_roster()
@@ -410,45 +446,73 @@ class Client(slixmpp.ClientXMPP):
     async def pub_sub_callback(self, msg):
         ''' Process the device update messages of the sysap   '''
         # pylint: disable=too-many-nested-blocks
-        if msg['pubsub_event']['items']['item']['update']['data'] is not None:
 
-            args = data2py(msg['pubsub_event']['items']['item']['update'])
+        items = msg.xml.find(".//*[@node='http://abb.com/protocol/update_encrypted']")        
+        if items is not None:
+            # This message is encrypted
+            if msg['pubsub_event']['items']['item']['update']['data'] is not None:
+                
+                args = message2py(msg['pubsub_event']['items']['item']['update'])
+                
+                if args:
+                    
+                    xmessage = self.saslhandler.crypto.decryptPubSub(args[0])
+                    
+                    update = MessageReader(xmessage)
+                    length = update.readUint32BE()
+                    
+                    bytes = update.getRemainingData()
+                    try:
+                        unzipped = zlib.decompress(bytes)
+                    except (OSError) as e:
+                        print(e)
+                    except:
+                        print('error zlib.decompress ',  sys.exc_info()[0])
+                    else:
+                        if len(unzipped) != length:
+                            log.info("Unexpected uncompressed data length, have=" + str(len(unzipped)) + ", expected=" + str(length))
+                        args[0] = unzipped.decode('utf-8')                        
+                        print(args[0])
+        else:            
+            if msg['pubsub_event']['items']['item']['update']['data'] is not None:
 
-            # arg contains the devices that changed
-            if args:
-                root = ET.fromstring(args[0])
+                args = data2py(msg['pubsub_event']['items']['item']['update'])
 
-                device = root.find('devices')
-                for neighbor in device.findall('device'):
-                    serialnumber = neighbor.get('serialNumber')
+        # arg contains the devices that changed
+        if args:
+            root = ET.fromstring(args[0])
 
-                    channels = neighbor.find('channels')
-                    if channels is not None:
-                        for channel in channels.findall('channel'):
-                            channel_id = channel.get('i')
+            device = root.find('devices')
+            for neighbor in device.findall('device'):
+                serialnumber = neighbor.get('serialNumber')
 
-                            # Now change the status of the device
-                            device_id = serialnumber + '/' + channel_id
+                channels = neighbor.find('channels')
+                if channels is not None:
+                    for channel in channels.findall('channel'):
+                        channel_id = channel.get('i')
 
-                            # if the device is a light
-                            if device_id in self.light_devices:
-                                self.update_light(device_id, channel)
-                                await self.light_devices[device_id].after_update()
+                        # Now change the status of the device
+                        device_id = serialnumber + '/' + channel_id
 
-                            # if the device is a cover
-                            if device_id in self.cover_devices:
-                                self.update_cover(device_id, channel)
-                                await self.cover_devices[device_id].after_update()
+                        # if the device is a light
+                        if device_id in self.light_devices:
+                            self.update_light(device_id, channel)
+                            await self.light_devices[device_id].after_update()
 
-                            # if the device is a binary sensor
-                            if device_id in self.binary_devices:
-                                self.update_binary(device_id, channel)
-                                await self.binary_devices[device_id].after_update()
+                        # if the device is a cover
+                        if device_id in self.cover_devices:
+                            self.update_cover(device_id, channel)
+                            await self.cover_devices[device_id].after_update()
 
-                             # if the device is a thermostat
-                            if device_id in self.thermostat_devices:
-                                self.update_thermostat(device_id, channel)
-                                await self.thermostat_devices[device_id].after_update()
+                        # if the device is a binary sensor
+                        if device_id in self.binary_devices:
+                            self.update_binary(device_id, channel)
+                            await self.binary_devices[device_id].after_update()
+
+                         # if the device is a thermostat
+                        if device_id in self.thermostat_devices:
+                            self.update_thermostat(device_id, channel)
+                            await self.thermostat_devices[device_id].after_update()
 
     def update_light(self, device_id, channel):
         ''' Update status of light devices   '''
@@ -843,38 +907,23 @@ class FreeAtHomeSysApp(object):
         ''' setter user_room_names   '''
         self._use_room_names = value
 
-    def get_jid(self):
-        ''' extract the jid from a file on the sysap   '''
-        data = None
-        jid = None
-
-        http = 'http://' + self._host + '/settings.json'
-        try:
-            with urllib.request.urlopen(http) as url:
-                data = json.loads(url.read().decode())
-
-        except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
-            LOG.error('Free@Home: server %s not found ', self._host)
-
-        if data is not None:
-            usernames = data['users']
-            for key in usernames:
-                if key['name'] == self._user:
-                    jid = key['jid']
-
-            if jid is None:
-                LOG.error('Free@Home: user %s not found', self._user)
-        return jid
-
     def connect(self):
         ''' connect to the Free@Home sysap   '''
-        self._jid = self.get_jid()
+        settings = SettingsFah(self._host) 
+        self._jid = settings.get_jid(self._user)
+
+        iterations = None
+        salt       = None        
 
         LOG.info('Connect Free@Home  %s ', self._jid)
 
         if self._jid is not None:
+            fahversion = settings.get_flag('version')  
+
+            if version.parse(fahversion) >=  version.parse("2.3.0"):
+                iterations, salt = settings.get_scram_settings(self._user, 'SCRAM-SHA-256')
             # create xmpp client
-            self.xmpp = Client(self._jid, self._password)
+            self.xmpp = Client(self._jid, self._password, fahversion, iterations, salt )
             # connect
             self.xmpp.connect((self._host, self._port))
 
