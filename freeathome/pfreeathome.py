@@ -10,6 +10,7 @@ import json
 import xml.etree.ElementTree as ET
 import slixmpp
 import zlib
+from packaging import version
 from slixmpp import Message
 from slixmpp.xmlstream import ElementBase, ET, register_stanza_plugin
 from slixmpp.plugins.xep_0009.binding import py2xml, xml2py
@@ -17,10 +18,9 @@ from slixmpp.plugins.xep_0009.stanza.RPC import RPCQuery, MethodCall, MethodResp
 from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, EventItem
 from slixmpp.exceptions import IqError
 from slixmpp import Iq
-from .messagereader import MessageReader
-from .settings import SettingsFah 
-from packaging import version
-from .saslhandler import SaslHandler
+from .fah.messagereader import MessageReader
+from .fah.settings import SettingsFah 
+from .fah.saslhandler import SaslHandler
 
 LOG = logging.getLogger(__name__)
 

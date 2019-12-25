@@ -5,8 +5,7 @@ from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['slixmpp==1.4.2', 'libnacl==1.6.1']
-
+REQUIREMENTS = ['slixmpp==1.4.2', 'libnacl==1.7.0']
 
 DOMAIN = 'freeathome'
 
@@ -30,7 +29,7 @@ _LOGGER = logging.getLogger(__name__)
 
 async def async_setup(hass, base_config):
     """ Setup of the Free@Home interface for Home Assistant ."""
-    import custom_components.pfreeathome as pfreeathome
+    from . import pfreeathome
 
     config = base_config.get(DOMAIN)
 

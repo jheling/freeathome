@@ -4,7 +4,6 @@ import sys
 from slixmpp.xmlstream.handler import Callback
 from slixmpp.xmlstream.matcher import MatchXPath
 from slixmpp.plugins.xep_0009.binding import py2xml, xml2py, xml2fault, fault2xml
-#import .crypto
 from .crypto import Crypto, loginSaslPayload, buildSaslResponse
 from .messagewriter import MessageWriter
 from .constants import FAHMessage, General
