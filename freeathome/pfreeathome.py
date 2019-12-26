@@ -360,6 +360,22 @@ class Client(slixmpp.ClientXMPP):
         # The connect has succeeded
         self.authenticated = True
 
+        featurelist = ['http://jabber.org/protocol/caps','http://jabber.org/protocol/disco#info']
+        if version.parse(self.fahversion) >=  version.parse("2.3.0"):
+            featurelist.extend(['http://abb.com/protocol/update_encrypted','http://abb.com/protocol/update_encrypted+notify',
+                               'http://abb.com/protocol/log_encrypted','http://abb.com/protocol/log_encrypted+notify'])
+            capsversion = 'http://gonicus.de/caps#1.1'
+        else:     
+            featurelist.extend(['http://abb.com/protocol/update','http://abb.com/protocol/update+notify',
+                               'http://abb.com/protocol/log','http://abb.com/protocol/log+notify'])
+            capsversion = 'http://gonicus.de/caps#1.0'
+        features = {'features':featurelist}
+
+        identity = {'category':'client','itype':'pc','name':'QxXmpp/JSJaC client'  }            
+        
+        self['xep_0030'].static.add_identity(self.boundjid.full , capsversion ,'', identity )
+        self['xep_0030'].static.set_features(self.boundjid.full , capsversion ,'', features)
+
         LOG.info('send presence')
         self.send_presence()
 
