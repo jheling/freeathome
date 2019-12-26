@@ -1,4 +1,5 @@
-from enum import Enum, IntEnum
+from enum import IntEnum
+
 
 class FAHMessage(IntEnum):
     MSG_ID_NEW_SESSION = 1
@@ -14,6 +15,7 @@ class FAHMessage(IntEnum):
     MSG_ID_SASL_LOGIN_SUCCESS = 15
     MSG_ID_SASL_RESPONSE = 14
     MSG_ID_RPC_CALL = 5
+
 
 class Result(IntEnum):
     RESULT_CODE_OK = 0

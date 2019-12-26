@@ -1,5 +1,5 @@
 ''' Main Home Assistant interface Free@Home '''
-import  logging
+import logging
 import voluptuous as vol
 from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
