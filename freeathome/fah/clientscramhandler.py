@@ -1,5 +1,5 @@
 import hashlib, binascii
-import custom_components.libnacl_patch as libnacl
+import libnacl
 import base64
 import hmac
 import logging

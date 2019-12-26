@@ -6,24 +6,24 @@
     This file is part of SleekXMPP.
     See the file LICENSE for copying permission.
 """
-from slixmpp.plugins.xep_0009.binding import py2xml, xml2py, xml2fault, fault2xml
 import logging
 import slixmpp
+import sys
+import zlib
+import fah
 from slixmpp import asyncio
 from slixmpp import Message
-from slixmpp.plugins.xep_0009 import stanza
 from slixmpp.exceptions import IqError, IqTimeout
 from slixmpp.plugins.xep_0009.stanza.RPC import RPCQuery, MethodCall, MethodResponse
+from slixmpp.plugins.xep_0009.binding import py2xml, xml2py
 from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, EventItem
-import xml.etree.ElementTree as ET
-from slixmpp import Iq
-from slixmpp import future_wrapper
-from slixmpp.xmlstream import XMLStream
-
-import time
-import urllib.request, json
-from slixmpp import Iq
 from slixmpp.xmlstream import ElementBase, ET, JID, register_stanza_plugin
+from slixmpp import Iq
+from packaging import version
+
+from fah.messagereader import MessageReader
+from fah.saslhandler import SaslHandler
+from fah.settings import SettingsFah 
 
 log = logging.getLogger(__name__)
 
@@ -33,28 +33,14 @@ class ItemUpdate(ElementBase):
     plugin_attrib = name
     interfaces = set(('data'))
 
-def get_jid( host, name):
-    data = None
-    jid  = None
-    http = 'http://' + host + '/settings.json'
-    try:
-        with urllib.request.urlopen(http) as url:
-            data = json.loads(url.read().decode())    
+class ItemUpdateEncrypted(ElementBase):
+    namespace = 'http://abb.com/protocol/update_encrypted'
+    name = 'update'
+    plugin_attrib = name
+    interfaces = set(('data'))
 
-    except EnvironmentError: # parent of IOError, OSError *and* WindowsError where available
-      print ('server not found')                
 
-    if data is not None:
-        usernames = data['users']
-        for key in usernames:        
-            if key['name'] == name:
-               jid = key['jid']
-
-        if jid is None:
-            print('user not found')
-        else:
-            return jid
-
+    
 def data2py(update):
     namespace = 'http://abb.com/protocol/update'
     vals = []
@@ -62,14 +48,30 @@ def data2py(update):
         vals.append(data.text)
     return vals
 
+def message2py(mes):
+
+    namespace = 'http://abb.com/protocol/update_encrypted'
+    vals = []
+    for data in mes.xml.findall('{%s}data' % namespace):
+        vals.append(data.text)
+    return vals
+
 class Client(slixmpp.ClientXMPP):
-    def __init__(self, jid, password):
-        slixmpp.ClientXMPP.__init__(self, jid, password)
+    def __init__(self, jid, password, fahversion, iterations=None, salt=None):
+        slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
+
+        self.fahversion = fahversion     
+        self.x_jid        = jid        
+
+        log.info(' version: %s', self.fahversion )
         
+        if version.parse(self.fahversion) >=  version.parse("2.3.0"):
+            self.saslhandler = SaslHandler(self, jid, password, iterations, salt)
+                       
         # register plugins
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060') # PubSub
-        self.register_plugin('xep_0199', {'keepalive': True, 'frequency': 60})
+        #self.register_plugin('xep_0199', {'keepalive': True, 'interval': 10})
         
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
@@ -79,46 +81,39 @@ class Client(slixmpp.ClientXMPP):
         register_stanza_plugin(Event, EventItems)
         register_stanza_plugin(EventItems, EventItem, iterable=True)
         register_stanza_plugin(EventItem, ItemUpdate)
-        
+        register_stanza_plugin(EventItem, ItemUpdateEncrypted)
+
+
         # handle session_start and message events
         self.add_event_handler("session_start", self.start)
         self.add_event_handler("message", self.message)
-        self.add_event_handler("roster_update", self.roster_callback) 
-        self.add_event_handler("pubsub_publish", self.pub_sub_callback)
+		self.add_event_handler("pubsub_publish", self.pub_sub_callback)
          
-    @asyncio.coroutine    
-    def start(self, event):
+    
+    async def start(self, event):
 
         log.debug("begin session start")
-        
-        yield from self.presence_and_roster()             
 
-        yield from self.rpc()  
+        if version.parse(self.fahversion) >=  version.parse("2.3.0"):
+            await self.saslhandler.initiate_key_exchange()  
 
-        # Opbouwen van de parameters
-        log.debug("Test start ")
+        await self.presence_and_roster()
 
-    @asyncio.coroutine        
-    def presence_and_roster(self):
+        await self.rpc()
+     
+    async def presence_and_roster(self):
 
-        log.debug("begin p en r")
+        log.info("start presence and roster")
         
         self.send_presence()
-        #self.get_roster() 
 
         self.send_presence_subscription(pto="mrha@busch-jaeger.de/rpc", pfrom=self.boundjid.full)
 
-        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps" ver="1.0" node="http://gonicus.de/caps"/></presence>') 
-        
-        try: 
-            yield from self.get_roster()
-        except IqError as e:
-            raise e
-        
-        log.debug("eind p en r")
+        self.send('<presence xmlns="jabber:client"><c xmlns="http://jabber.org/protocol/caps" ver="1.1" node="http://gonicus.de/caps"/></presence>') 
 
-    def send_rpc_iq(self, timeout=None, callback=None,
-                  timeout_callback=None):
+        log.info("end presence and roster")
+        
+    def send_rpc_iq(self, timeout=None, callback=None, timeout_callback=None):
         
         iq = self.make_iq_set()
         iq['to'] = 'mrha@busch-jaeger.de/rpc'
@@ -127,48 +122,82 @@ class Client(slixmpp.ClientXMPP):
         iq['rpc_query']['method_call']['method_name'] = 'RemoteInterface.getAll'
         iq['rpc_query']['method_call']['params'] = py2xml('de',4,0,0)        
 
-        return iq.send(timeout=timeout, callback=callback,timeout_callback=timeout_callback)
+        return iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
 
-    def rpc(self):
+        
+    async def rpc(self):
 
         log.debug("rpc")
         
         try:
-            yield from self.send_rpc_iq(callback=self.rpc_callback)
+            await self.send_rpc_iq(callback=self.rpc_callback)
         except IqError as e:
             raise e        
         
     def message(self, msg):
-        if msg['type'] in ('chat', 'normal'):
+        log.info('message received')
+        #log.info(msg)
+        
+        if msg['type'] in ('chat', 'normal','headline'):
             msg.reply("You sent: %s" % msg['body']).send()
 
     def pub_sub_callback(self, msg):
-         
-        if msg['pubsub_event']['items']['item']['update']['data'] is not None:             
+        
+        items = msg.xml.find(".//*[@node='http://abb.com/protocol/update_encrypted']")        
+        if items is not None:
+            # This message is encrypted
+            if msg['pubsub_event']['items']['item']['update']['data'] is not None:
+                
+                args = message2py(msg['pubsub_event']['items']['item']['update'])
+                
+                if args:
+                    
+                    xmessage = self.saslhandler.crypto.decryptPubSub(args[0])
+                    
+                    update = MessageReader(xmessage)
+                    length = update.readUint32BE()
+                    
+                    bytes = update.getRemainingData()
+                    try:
+                        unzipped = zlib.decompress(bytes)
+                    except (OSError) as e:
+                        print(e)
+                    except:
+                        print('error zlib.decompress ',  sys.exc_info()[0])
+                    else:
+                        if len(unzipped) != length:
+                            log.info("Unexpected uncompressed data length, have=" + str(len(unzipped)) + ", expected=" + str(length))
+                        mes = unzipped.decode('utf-8')
+                        print(mes)
 
-          args = data2py(msg['pubsub_event']['items']['item']['update'])   
+        else:                 
+            if msg['pubsub_event']['items']['item']['update']['data'] is not None:
+                    
 
-          if args: 
-            log.info('type %s list: %s',type(args),args)
-          
-            # arg contains the devices that changed 
-            root = ET.fromstring(args[0])
-          
+                args = data2py(msg['pubsub_event']['items']['item']['update'])   
+
+                if args: 
+                  log.nfo('type %s list: %s',type(args),args)
+              
+                  # arg contains the devices that changed 
+                  root = ET.fromstring(args[0])
+    '''      
     def roster_callback(self, roster_iq):
         log.debug("Rpc jhe ")
         # self.send_rpc_iq()
-
+        
         try:
-            rtt = yield from self.rpc()
+            rtt = await self.rpc()
             logging.info("Success! RTT: %s", rtt)
         except IqError as e:
             logging.info("Error rpd : %s",
                     e.iq['error']['condition'])
         except IqTimeout:
             logging.info("No response")
+            
         #finally:
         #    self.disconnect()
-
+    ''' 
     def rpc_callback(self, iq):    
         log.info("Rpc callback jhe ")
         iq.enable('rpc_query')
@@ -303,14 +332,23 @@ def main():
     ipadress = 'xx.xx.xx.xx' 
     username = '' # exact username, case sensitive
     password = ''
-    jid = get_jid(ipadress, username) 
+    iterations = None
+    salt       = None
+
+    settings = SettingsFah(ipadress) 
+    jid = settings.get_jid(username) 
+    fahversion = settings.get_flag('version')
+
+    if version.parse(fahversion) >=  version.parse("2.3.0"):
+        iterations, salt = settings.get_scram_settings(username, 'SCRAM-SHA-256')
+        
+    log.info(' %s %s %s', fahversion, iterations, salt )
 
     # create xmpp client
-    xmpp = Client(jid, password)
+    xmpp = Client(jid, password, fahversion, iterations, salt)
     # connect
-    xmpp.connect((ipadress, 5222))
-
-    #log.info(' %s %s', type(result), result )
+    xmpp.end_session_on_disconnect = False
+    xmpp.connect((ipadress, 5222), force_starttls=False)
     
     xmpp.process(forever=True)    
 
