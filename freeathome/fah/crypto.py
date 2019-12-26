@@ -1,9 +1,7 @@
 import hashlib, binascii
-import custom_components.libnacl_patch as libnacl
+import libnacl
 import logging
 import base64
-#import .constants
-#import .clientscramhandler
 from .messagereader import MessageReader
 from .messagewriter import MessageWriter
 from .clientscramhandler import ClientScramHandler
