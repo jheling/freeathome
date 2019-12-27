@@ -7,9 +7,10 @@ REQUIREMENTS = ['slixmpp==1.4.2']
 
 _LOGGER = logging.getLogger(__name__)
 
+
 async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
-    ''' scene specific code '''
-    
+    """ scene specific code """
+
     _LOGGER.info('FreeAtHome setup scenes')
 
     fah = hass.data[freeathome.DATA_MFH]
@@ -18,6 +19,7 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
 
     for device, device_object in devices.items():
         async_add_devices([FreeAtHomeScene(device_object)])
+
 
 class FreeAtHomeScene(Scene):
     """ Free@home scene """
@@ -46,9 +48,11 @@ class FreeAtHomeScene(Scene):
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
+
         async def after_update_callback(device):
             """Call after device was updated."""
             await self.async_update_ha_state(True)
+
         self.scene_device.register_device_updated_cb(after_update_callback)
 
     async def async_activate(self):

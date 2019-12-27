@@ -55,9 +55,8 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
 # pm000c = led backlight% (night?)
 
 
-
 class FreeAtHomeThermostat(ClimateDevice):
-    ''' Free@home thermostat '''
+    """ Free@home thermostat """
     thermostat_device = None
     _name = ''
 
@@ -108,7 +107,7 @@ class FreeAtHomeThermostat(ClimateDevice):
 
     @property
     def hvac_mode(self):
-        if self.thermostat_device.state == False:
+        if not self.thermostat_device.state:
             return HVAC_MODE_OFF
         else:
             return HVAC_MODE_HEAT_COOL
@@ -132,7 +131,7 @@ class FreeAtHomeThermostat(ClimateDevice):
     @property
     def state(self):
         """Return current operation ie. heat, cool, idle."""
-        if self.thermostat_device.state == False:
+        if not self.thermostat_device.state:
             return HVAC_MODE_OFF
         else:
             return HVAC_MODE_HEAT_COOL
@@ -143,9 +142,11 @@ class FreeAtHomeThermostat(ClimateDevice):
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
+
         async def after_update_callback(device):
             """Call after device was updated."""
             await self.async_update_ha_state(True)
+
         self.thermostat_device.register_device_updated_cb(after_update_callback)
 
     async def async_set_hvac_mode(self, hvac_mode):

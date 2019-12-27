@@ -1,6 +1,6 @@
 
 
-class MessageReader():
+class MessageReader:
     def __init__(self, data):
         self.data = data
         self.offset = 0
@@ -16,7 +16,7 @@ class MessageReader():
         if self.offset + 2 > len(self.data):
             raise Exception('Insufficient data for reading')
 
-        x = int.from_bytes(self.data[self.offset:self.offset + 2],"little")
+        x = int.from_bytes(self.data[self.offset:self.offset + 2], "little")
         self.offset += 2
         return x        
 
@@ -25,7 +25,7 @@ class MessageReader():
         if self.offset + 4 > len(self.data):
             raise Exception('Insufficient data for reading')    
  
-        x = int.from_bytes(self.data[self.offset:self.offset + 4],"little")
+        x = int.from_bytes(self.data[self.offset:self.offset + 4], "little")
         self.offset += 4
         return x
 
@@ -51,9 +51,9 @@ class MessageReader():
         if self.offset + i > len(self.data):
             raise Exception('Insufficient data for reading')
 
-        print('i:',i)
+        print('i:', i)
 
-        text = self.data[self.offset: self.offset + i ].decode('utf-8')
+        text = self.data[self.offset: self.offset + i].decode('utf-8')
         self.offset += i
         return text
 
@@ -61,10 +61,9 @@ class MessageReader():
         if self.offset + amount > len(self.data):
             raise Exception('Insufficient data for reading')
 
-        blob = self.data[self.offset: self.offset + amount ]
+        blob = self.data[self.offset: self.offset + amount]
         self.offset += amount
         return blob
     
     def getRemainingData(self):
         return self.data[self.offset:]
-    

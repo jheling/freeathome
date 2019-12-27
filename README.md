@@ -10,7 +10,7 @@ Put the following in configuration.yaml:
 
 freeathome:
 
-    host: <ip adress of the sysapserver> 
+    host: <ip address of the sysapserver>
 
     username: <Username in free@home>
     
