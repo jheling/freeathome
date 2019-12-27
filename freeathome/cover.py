@@ -3,12 +3,13 @@ import logging
 from homeassistant.components.cover import (
     CoverDevice, ATTR_POSITION,
     SUPPORT_CLOSE, SUPPORT_OPEN, SUPPORT_SET_POSITION, SUPPORT_STOP
-    )
+)
 import custom_components.freeathome as freeathome
 
 REQUIREMENTS = ['slixmpp==1.4.2']
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """ cover specific code."""
@@ -22,8 +23,9 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
     for device, device_object in devices.items():
         async_add_devices([FreeAtHomeCover(device_object)])
 
+
 class FreeAtHomeCover(CoverDevice):
-    '''interface cover/blinds  '''
+    """interface cover/blinds  """
     cover_device = None
     _name = ''
     _state = None
@@ -37,8 +39,7 @@ class FreeAtHomeCover(CoverDevice):
     @property
     def supported_features(self):
         """Flag supported features."""
-        supported_features = SUPPORT_OPEN | SUPPORT_CLOSE | \
-            SUPPORT_SET_POSITION | SUPPORT_STOP
+        supported_features = SUPPORT_OPEN | SUPPORT_CLOSE | SUPPORT_SET_POSITION | SUPPORT_STOP
         return supported_features
 
     @property
@@ -78,9 +79,11 @@ class FreeAtHomeCover(CoverDevice):
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
+
         async def after_update_callback(device):
             """Call after device was updated."""
             await self.async_update_ha_state(True)
+
         self.cover_device.register_device_updated_cb(after_update_callback)
 
     async def async_close_cover(self, **kwargs):

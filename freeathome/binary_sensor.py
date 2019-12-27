@@ -1,4 +1,4 @@
-''' Support for Free@Home Binary devices like sensors, movement detectors '''
+""" Support for Free@Home Binary devices like sensors, movement detectors """
 import logging
 from homeassistant.components.binary_sensor import (BinarySensorDevice)
 import custom_components.freeathome as freeathome
@@ -8,6 +8,7 @@ REQUIREMENTS = ['slixmpp==1.4.2']
 DEPENDENCIES = ['freeathome']
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     """ setup """
@@ -21,8 +22,9 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
     for device, device_object in devices.items():
         async_add_devices([FreeAtHomeBinarySensor(device_object)])
 
+
 class FreeAtHomeBinarySensor(BinarySensorDevice):
-    ''' Interface to the binary devices of Free@Home '''
+    """ Interface to the binary devices of Free@Home """
     _name = ''
     binary_device = None
     _state = None
@@ -54,9 +56,11 @@ class FreeAtHomeBinarySensor(BinarySensorDevice):
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
+
         async def after_update_callback(device):
             """Call after device was updated."""
             await self.async_update_ha_state(True)
+
         self.binary_device.register_device_updated_cb(after_update_callback)
 
     async def async_update(self):
