@@ -744,11 +744,11 @@ class Client(slixmpp.ClientXMPP):
         parameter = parameters.find('parameter')
         value = parameter.find('value').text
 
-        if device_id == '1000':
+        if device_id == '1000' or device_id == '100C':
             button_type = 1
             button_list = self.switch_type_1[value]
 
-        if device_id == '1002':
+        if device_id == '1002' or device_id == '1019' or device_id == '1017':
             button_type = 2
             button_list = self.switch_type_2[value]
 
@@ -900,7 +900,8 @@ class Client(slixmpp.ClientXMPP):
                     self.add_cover_device(neighbor, serialnumber, roomnames)
 
                 # Sensor units 1/2 way
-                if device_id == '1002' or device_id == '1000':
+                if device_id == '1002' or device_id == '1000' or device_id == '100C' or \
+                    device_id == '1019' or device_id == '1017' :
                     self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
 
                 # binary sensor
