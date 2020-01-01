@@ -31,9 +31,9 @@ class SaslHandler:
         try:
             iq = await self.send_cryptExchangeLocalKeys2(self.x_jid, key)
         except (NameError, ValueError) as e:
-            print(e)
+            log.error(e)
         except:
-            print('error send_cryptExchangeLocalKeys2 ', sys.exc_info()[0])
+            log.error('error send_cryptExchangeLocalKeys2 ', sys.exc_info()[0])
         else:
             log.debug('crypt_exchange_callback')
 
@@ -57,9 +57,9 @@ class SaslHandler:
                     try:
                         iq = await self.send_cryptMessage(base64.b64encode(payload))
                     except (NameError, ValueError, TypeError) as e:
-                        print(e)
+                        log.error(e)
                     except:
-                        print('error send_cryptMessage ', sys.exc_info()[0])
+                        log.error('error send_cryptMessage ', sys.exc_info()[0])
                     else:
                         iq.enable('rpc_query')
 
@@ -88,7 +88,7 @@ class SaslHandler:
                                 try:
                                     iq = await self.send_cryptMessage(base64.b64encode(payload))
                                 except:
-                                    print('error send_cryptMessage ', sys.exc_info()[0])
+                                    log.error('error send_cryptMessage ', sys.exc_info()[0])
                                 else:
 
                                     iq.enable('rpc_query')
@@ -120,7 +120,7 @@ class SaslHandler:
                                             try:
                                                 iq = await self.send_cryptMessage(base64.b64encode(payload))
                                             except:
-                                                print('error send_cryptMessage ', sys.exc_info()[0])
+                                                log.error('error send_cryptMessage ', sys.exc_info()[0])
                                             else:
                                                 iq.enable('rpc_query')
 

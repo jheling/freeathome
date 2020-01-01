@@ -14,7 +14,7 @@ class SettingsFah:
                     self.data = json.loads(url.read().decode())
 
             except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
-                print('server not found')
+                log.error('server not found')
         else:
             with open(filename, "r") as read_file:
                 self.data = json.load(read_file)
@@ -30,7 +30,7 @@ class SettingsFah:
                     jid = key['jid']
 
             if jid is None:
-                print('user not found')
+                log.error('user not found')
             else:
                 return jid
 

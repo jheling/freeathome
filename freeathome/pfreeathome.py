@@ -341,11 +341,18 @@ class Client(slixmpp.ClientXMPP):
         import binascii
         self.requested_jid.resource = binascii.b2a_hex(os.urandom(4))
 
-        # register pluginss
+        # handle session_start and message events
+        self.add_event_handler("session_start", self.start)
+        self.add_event_handler("roster_update", self.roster_callback)
+        self.add_event_handler("pubsub_publish", self.pub_sub_callback)
+        self.add_event_handler("failed_auth", self.failed_auth)
+        
+        # register plugins
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060')  # PubSub
         self.register_plugin('xep_0199', {'keepalive': True, 'frequency': 60})  # ping
 
+        
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
         register_stanza_plugin(RPCQuery, MethodResponse)
@@ -355,12 +362,6 @@ class Client(slixmpp.ClientXMPP):
         register_stanza_plugin(EventItems, EventItem, iterable=True)
         register_stanza_plugin(EventItem, ItemUpdate)
         register_stanza_plugin(EventItem, ItemUpdateEncrypted)
-
-        # handle session_start and message events
-        self.add_event_handler("session_start", self.start)
-        self.add_event_handler("roster_update", self.roster_callback)
-        self.add_event_handler("pubsub_publish", self.pub_sub_callback)
-        self.add_event_handler("failed_auth", self.failed_auth)
 
     def connect_ready(self):
         """ Polling if the connection process is ready   """
@@ -499,16 +500,15 @@ class Client(slixmpp.ClientXMPP):
                     try:
                         unzipped = zlib.decompress(got_bytes)
                     except OSError as e:
-                        print(e)
+                        LOG.error(e)
                     except:
-                        print('error zlib.decompress ', sys.exc_info()[0])
+                        LOG.error('error zlib.decompress ', sys.exc_info()[0])
                     else:
                         if len(unzipped) != length:
                             LOG.info(
                                 "Unexpected uncompressed data length, have=" + str(len(unzipped)) + ", expected=" + str(
                                     length))
                         args[0] = unzipped.decode('utf-8')
-                        print(args[0])
         else:
             if msg['pubsub_event']['items']['item']['update']['data'] is not None:
                 args = data2py(msg['pubsub_event']['items']['item']['update'])
@@ -964,14 +964,14 @@ class FreeAtHomeSysApp(object):
             # create xmpp client
             self.xmpp = Client(self._jid, self._password, fahversion, iterations, salt)
             # connect
-            self.xmpp.connect((self._host, self._port))
+            self.xmpp.connect((self._host, self._port), False, False, False)
 
     async def wait_for_connection(self):
-        """ Wait til connection is made   """
+        """ Wait til connection is made, if failed at first attempt retry until success """
         if self.xmpp is not None:
             while self.xmpp.connect_ready() is False:
-                LOG.info('wait for connection')
-                await asyncio.sleep(0.5)
+                LOG.info('waiting for connection')
+                await asyncio.sleep(1)
             return self.xmpp.authenticated
 
     def get_devices(self, device_type):

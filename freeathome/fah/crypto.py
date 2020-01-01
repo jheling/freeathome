@@ -73,7 +73,7 @@ class Crypto():
         keyExchangeVersion = int.from_bytes(data[pos:pos + 4], "little")
 
         pos += 4
-        print(keyExchangeVersion)
+        log.info(keyExchangeVersion)
 
         if keyExchangeVersion != 2:
             raise Exception('Unexpected KeyExchange version %', keyExchangeVersion)
