@@ -967,11 +967,12 @@ class FreeAtHomeSysApp(object):
             self.xmpp.connect((self._host, self._port))
 
     async def wait_for_connection(self):
-        """ Wait til connection is made   """
+        """ Wait til connection is made, if failed at first attempt retry until success """
         if self.xmpp is not None:
             while self.xmpp.connect_ready() is False:
-                LOG.info('wait for connection')
-                await asyncio.sleep(0.5)
+                LOG.info('attempt reconnect')
+                await asyncio.sleep(1)
+                self.connect()
             return self.xmpp.authenticated
 
     def get_devices(self, device_type):
