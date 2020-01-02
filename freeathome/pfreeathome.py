@@ -972,7 +972,7 @@ class FreeAtHomeSysApp(object):
             while self.xmpp.connect_ready() is False:
                 LOG.info('attempt reconnect')
                 await asyncio.sleep(3)
-                self.xmpp.connect((self._host, self._port))
+                self.xmpp.connect()
             return self.xmpp.authenticated
 
     def get_devices(self, device_type):
