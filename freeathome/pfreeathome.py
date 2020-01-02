@@ -971,7 +971,7 @@ class FreeAtHomeSysApp(object):
         if self.xmpp is not None:
             while self.xmpp.connect_ready() is False:
                 LOG.info('attempt reconnect')
-                await asyncio.sleep(3)
+                await asyncio.sleep(10)
                 self.xmpp.connect()
             return self.xmpp.authenticated
 
