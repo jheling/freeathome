@@ -157,14 +157,14 @@ class Client(slixmpp.ClientXMPP):
                     try:
                         unzipped = zlib.decompress(got_bytes)
                     except OSError as e:
-                        print(e)
+                        log.error(e)
                     except:
-                        print('error zlib.decompress ',  sys.exc_info()[0])
+                        log.error('error zlib.decompress ',  sys.exc_info()[0])
                     else:
                         if len(unzipped) != length:
                             log.info("Unexpected uncompressed data length, have=" + str(len(unzipped)) + ", expected=" + str(length))
                         mes = unzipped.decode('utf-8')
-                        print(mes)
+                        log.error(mes)
         else:                 
             if msg['pubsub_event']['items']['item']['update']['data'] is not None:
                 args = data2py(msg['pubsub_event']['items']['item']['update'])   
