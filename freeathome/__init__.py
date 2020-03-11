@@ -5,7 +5,7 @@ from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
 import homeassistant.helpers.config_validation as cv
 
-REQUIREMENTS = ['slixmpp==1.4.2', 'libnacl==1.7.0']
+REQUIREMENTS = ['https://github.com/jheling/slixmpp/archive/master.zip#slixmpp==1.4.2.1', 'libnacl==1.7.0']
 
 DOMAIN = 'freeathome'
 
