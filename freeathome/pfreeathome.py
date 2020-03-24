@@ -101,11 +101,12 @@ class FahDevice:
 class FahBinarySensor(FahDevice):
     """Free@Home binary object """
     state = None
+    output_device = None
 
-    def __init__(self, client, device_id, name, state=False):
+    def __init__(self, client, device_id, name, state=False, output_device='odp0000'):
         FahDevice.__init__(self, client, device_id, name)
         self.state = state
-
+        self.output_device = output_device
 
 class FahThermostat(FahDevice):
     """Free@Home thermostat """
@@ -325,6 +326,11 @@ class Client(slixmpp.ClientXMPP):
         '4': [1, 2, 4, 5]  # Left impuls, right impuls (channel 1,2,4,5)
     }
 
+    binary_function_output = {
+        '0':'0', '1':'0', '3':'2', '4':'4', '5':'5','28':'6', '2a':'7' ,
+        '6':'8', 'c':'9', 'd':'A', 'e':'B', 'f':'C', '11':'D'
+        }
+                
     def __init__(self, jid, password, fahversion, iterations=None, salt=None):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
@@ -582,10 +588,11 @@ class Client(slixmpp.ClientXMPP):
 
     def update_binary(self, device_id, channel):
         """ Update the status of binary devices   """
-        binary_state = get_input_datapoint(channel, 'idp0000')
+        LOG.info("binary info channel %s device %s output %s ", channel , device_id, self.binary_devices[device_id].output_device)
+        binary_state = get_output_datapoint(channel, self.binary_devices[device_id].output_device)
         if binary_state is not None:
             self.binary_devices[device_id].state = binary_state
-            LOG.info("binary device %s is %s", device_id, binary_state)
+            LOG.info("binary device %s output %s is %s", device_id, self.binary_devices[device_id].output_device, binary_state)
 
     def update_thermostat(self, device_id, channel):
         """ Update the status of thermostat devices """
@@ -775,31 +782,37 @@ class Client(slixmpp.ClientXMPP):
 
                 floor_id = get_attribute(channel, 'floor')
                 room_id = get_attribute(channel, 'room')
+                function_id = get_attribute(channel, 'functionId')
+                outputid = 'odp000' + self.binary_function_output[function_id] 
 
-                binary_state = get_output_datapoint(channel, 'odp0000')
+                binary_state = get_output_datapoint(channel, outputid )
 
                 binary_device = serialnumber + '/' + channel_id
                 binary_name = 'binary-' + channel_id
                 if floor_id != '' and room_id != '' and self.use_room_names:
                     binary_name = binary_name + ' (' + roomnames[floor_id][room_id] + ')'
                 self.binary_devices[binary_device] = FahBinarySensor(self, binary_device,
-                                                                     binary_name, binary_state)
+                                                                     binary_name, state=binary_state, output_device=outputid)
 
-                LOG.info('binary %s %s is %s', binary_device, binary_name, binary_state)
+                LOG.info('binary %s %s output %s is %s', binary_device, binary_name, outputid , binary_state)
 
     def add_movement_detector(self, xmlroot, serialnumber, roomnames):
-        """ Add a movement detector to the list of binary devices """
-        button_basename = get_attribute(xmlroot, 'displayName')
-        floor_id = get_attribute(xmlroot, 'floor')
-        room_id = get_attribute(xmlroot, 'room')
+        ''' Add a movement detector to the list of binary devices '''
+        channels = xmlroot.find('channels')
+        if channels is not None:
+            for channel in channels.findall('channel'):
+                channel_id = channel.get('i')
+                button_basename = get_attribute(xmlroot, 'displayName')
+                floor_id = get_attribute(xmlroot, 'floor')
+                room_id = get_attribute(xmlroot, 'room')
 
-        button_device = serialnumber + '/' + 'ch0000'
-        if floor_id != '' and room_id != '' and self.use_room_names:
-            button_name = button_basename + ' (' + roomnames[floor_id][room_id] + ')'
-        else:
-            button_name = button_basename
-        self.binary_devices[button_device] = FahBinarySensor(self, button_device, button_name)
-        LOG.info('movement sensor %s %s ', button_device, button_name)
+                button_device = serialnumber + '/' + channel_id
+                if floor_id != '' and room_id != '' and self.use_room_names:
+                    button_name = button_basename + ' (' + roomnames[floor_id][room_id] + ')'
+                else:
+                    button_name = button_basename
+                self.binary_devices[button_device] = FahBinarySensor(self, button_device, button_name)
+                LOG.info('movement sensor %s %s ', button_device, button_name)
 
     def add_thermostat(self, xmlroot, serialnumber, roomnames):
         """ Add a thermostat to the list of thermostat devices """
@@ -891,7 +904,9 @@ class Client(slixmpp.ClientXMPP):
                     self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
                 # Scene or Timer
-                if device_id == '4800' or device_id == '4A00':
+                if device_id == '4800' or device_id == '4A00' or device_id == '4803' or \
+                   device_id == '4A01' or device_id == '4804' or device_id == '4000' or \
+                   device_id == '4802' or device_id == '4A00': 
                     self.add_scene(neighbor, serialnumber, roomnames)
 
                 # blind/cover device
@@ -905,11 +920,12 @@ class Client(slixmpp.ClientXMPP):
                     self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
 
                 # binary sensor
-                if device_id == 'B007':
+                if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
                     self.add_binary_sensor(neighbor, serialnumber, roomnames)
 
                 # movement detector
-                if device_id == '100A' or device_id == '9008' or device_id == '900A':
+                if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
+                   device_id == '1008':
                     self.add_movement_detector(neighbor, serialnumber, roomnames)
 
                 # thermostat

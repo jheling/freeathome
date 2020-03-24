@@ -32,7 +32,7 @@ class FreeAtHomeBinarySensor(BinarySensorDevice):
     def __init__(self, device):
         self.binary_device = device
         self._name = self.binary_device.name
-        self._state = self.binary_device.state
+        self._state = (self.binary_device.state == '1')
 
     @property
     def name(self):
