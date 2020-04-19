@@ -1,5 +1,4 @@
 import hashlib
-# import binascii
 import libnacl
 import logging
 import base64
@@ -135,7 +134,7 @@ class Crypto():
 
         result = fX[(fY + 4):(fY + 4 + length)]
 
-        result_ascii = result.decode('ascii')
+        result_ascii = result.decode('utf-8')
 
         SystemAccessPointResponse = {'data': result_ascii, 'length': 4 + length}
 
