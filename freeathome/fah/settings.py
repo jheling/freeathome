@@ -1,6 +1,8 @@
 import urllib.request
 import json
+import logging
 
+log = logging.getLogger(__name__)
 
 class SettingsFah:
 
