@@ -97,6 +97,16 @@ class FahDevice:
         """ return the Client object """
         return self._client
 
+class FahSensor(FahDevice):
+    """ Free@Home sensor object """
+    state = None     
+    output_device = None    
+
+    def __init__(self, client, device_id, name, sensor_type, state, output_device):
+        FahDevice.__init__(self, client, device_id, name)
+        self.type = sensor_type
+        self.state = state        
+        self.output_device = output_device
 
 class FahBinarySensor(FahDevice):
     """Free@Home binary object """
@@ -313,6 +323,7 @@ class Client(slixmpp.ClientXMPP):
     scene_devices = {}
     cover_devices = {}
     thermostat_devices = {}
+    sensor_devices = {}
 
     switch_type_1 = {
         '1': [0],  # Normal switch  (channel 0)
@@ -330,7 +341,11 @@ class Client(slixmpp.ClientXMPP):
         '0':'0', '1':'0', '3':'2', '4':'4', '5':'5','28':'6', '2a':'7' ,
         '6':'8', 'c':'9', 'd':'A', 'e':'B', 'f':'C', '11':'D'
         }
-                
+          
+    weatherstation_function_output = { 
+        '41':'odp0001', '42':'odp0000', '43':'odp0001', '44':'odp0003'
+        }
+          
     def __init__(self, jid, password, fahversion, iterations=None, salt=None):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
@@ -465,6 +480,9 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'thermostat':
             return_type = self.thermostat_devices
 
+        if device_type == 'sensor':
+            return_type = self.sensor_devices
+
         return return_type
 
     def roster_callback(self, roster_iq):
@@ -554,6 +572,11 @@ class Client(slixmpp.ClientXMPP):
                         if device_id in self.thermostat_devices:
                             self.update_thermostat(device_id, channel)
                             await self.thermostat_devices[device_id].after_update()
+                            
+                        # if the device is a (weather) sensor  
+                        if device_id in self.sensor_devices:
+                            self.update_sensor(device_id, channel)
+                            await self.sensor_devices[device_id].after_update()                              
 
     def update_light(self, device_id, channel):
         """ Update status of light devices   """
@@ -615,6 +638,12 @@ class Client(slixmpp.ClientXMPP):
         if current_temp_state is not None:
             self.thermostat_devices[device_id].current_temperature = current_temp_state
             LOG.info("thermostat device %s current temp is %s", device_id, current_temp_state)
+
+    def update_sensor(self, device_id, channel):
+        sensor_state = get_output_datapoint(channel, self.sensor_devices[device_id].output_device)
+        if sensor_state is not None:
+            self.sensor_devices[device_id].state = sensor_state
+            LOG.info("sensor device %s output %s is %s", device_id, self.sensor_devices[device_id].output_device, sensor_state)    
 
     def add_light_device(self, xmlroot, serialnumber, roomnames):
         """ Add a switch unit to the list of light devices   """
@@ -852,6 +881,43 @@ class Client(slixmpp.ClientXMPP):
                                                                eco_mode=eco_mode)
         LOG.info('thermostat %s %s ', button_device, button_name)
 
+        
+    def add_weather_station(self, xmlroot, serialnumber):
+        ''' The weather station consists of 4 different sensors '''
+        station_basename = get_attribute(xmlroot, 'displayName')
+
+        channels = xmlroot.find('channels')
+        if channels is not None:        
+           for channel in channels.findall('channel'):
+                channel_id = channel.get('i')
+                function_id = get_attribute(channel, 'functionId')
+
+                sensor_device = serialnumber + '/' + channel_id
+          
+                outputid = self.weatherstation_function_output[function_id]    
+                state = get_output_datapoint(channel, outputid)
+
+                # Luxsensor
+                if function_id == '41': 
+                    station_name = station_basename + '_lux'                     
+                    self.sensor_devices[sensor_device] = FahSensor(self, sensor_device, station_name, 'lux', state, outputid)
+
+                # Rainsensor
+                if function_id == '42':
+                    station_name = station_basename + '_rain'
+                    self.sensor_devices[sensor_device] = FahSensor(self, sensor_device, station_name, 'rain', state, outputid)
+
+                # Temperaturesensor
+                if function_id == '43':
+                    station_name = station_basename + '_temperature'
+                    self.sensor_devices[sensor_device] = FahSensor(self, sensor_device, station_name, 'temperature', state, outputid)
+
+                # Windsensor
+                if function_id == '44':
+                    station_name = station_basename + '_windstrength'
+                    self.sensor_devices[sensor_device] = FahSensor(self, sensor_device, station_name, 'windstrength', state, outputid)
+              
+
     async def find_devices(self, use_room_names):
         """ Find the devices in the system, this is a big XML file   """
         self.use_room_names = use_room_names
@@ -943,6 +1009,9 @@ class Client(slixmpp.ClientXMPP):
                 if device_id == '1004' or device_id == '9004':
                     self.add_thermostat(neighbor, serialnumber, roomnames)
 
+                # weather station
+                if device_id == '101D':
+                    self.add_weather_station(neighbor, serialnumber)
 
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp
