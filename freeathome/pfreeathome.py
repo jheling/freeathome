@@ -671,17 +671,28 @@ class Client(slixmpp.ClientXMPP):
 
     def add_scene(self, xmlroot, serialnumber, roomnames):
         """ Add a scene to the list of scenes   """
+
+        root_scene_name = get_attribute(xmlroot, 'displayName')
+        root_floor_id = get_attribute(xmlroot, 'floor')
+        root_room_id = get_attribute(xmlroot, 'room')
+
         channels = xmlroot.find('channels')
 
         if channels is not None:
             for channel in channels.findall('channel'):
 
                 channel_id = channel.get('i')
-
+                
                 scene_name = get_attribute(channel, 'displayName')
+                if scene_name == '':
+                    scene_name = root_scene_name
                 floor_id = get_attribute(channel, 'floor')
+                if floor_id == '':
+                    floor_id = root_floor_id                    
                 room_id = get_attribute(channel, 'room')
-
+                if room_id == '':
+                    room_id = root_room_id
+                    
                 scene = serialnumber + '/' + channel_id
                 if scene_name == '':
                     scene_name = scene
