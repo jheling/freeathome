@@ -611,8 +611,12 @@ class Client(slixmpp.ClientXMPP):
 
     def update_binary(self, device_id, channel):
         """ Update the status of binary devices   """
-        LOG.info("binary info channel %s device %s output %s ", channel , device_id, self.binary_devices[device_id].output_device)
-        binary_state = get_output_datapoint(channel, self.binary_devices[device_id].output_device)
+        LOG.info("binary info channel %s device %s in/output %s ", channel , device_id, self.binary_devices[device_id].output_device)
+        # normally it is a output device, but if it is not linked, then it has a input datapoint
+        if self.binary_devices[device_id].output_device[0] == 'o':           
+            binary_state = get_output_datapoint(channel, self.binary_devices[device_id].output_device)
+        else:
+            binary_state = get_input_datapoint(channel, self.binary_devices[device_id].output_device)
         if binary_state is not None:
             self.binary_devices[device_id].state = binary_state
             LOG.info("binary device %s output %s is %s", device_id, self.binary_devices[device_id].output_device, binary_state)
@@ -838,21 +842,39 @@ class Client(slixmpp.ClientXMPP):
 
     def add_movement_detector(self, xmlroot, serialnumber, roomnames):
         ''' Add a movement detector to the list of binary devices '''
+
+        movement_basename = get_attribute(xmlroot, 'displayName')
+        floor_id = get_attribute(xmlroot, 'floor')
+        room_id = get_attribute(xmlroot, 'room')
+
+        if floor_id != '' and room_id != '' and self.use_room_names:
+            movement_name = movement_basename + ' (' + roomnames[floor_id][room_id] + ')'
+        else:
+            movement_name = movement_basename
+            
         channels = xmlroot.find('channels')
         if channels is not None:
             for channel in channels.findall('channel'):
                 channel_id = channel.get('i')
-                button_basename = get_attribute(xmlroot, 'displayName')
-                floor_id = get_attribute(xmlroot, 'floor')
-                room_id = get_attribute(xmlroot, 'room')
 
-                button_device = serialnumber + '/' + channel_id
-                if floor_id != '' and room_id != '' and self.use_room_names:
-                    button_name = button_basename + ' (' + roomnames[floor_id][room_id] + ')'
-                else:
-                    button_name = button_basename
-                self.binary_devices[button_device] = FahBinarySensor(self, button_device, button_name)
-                LOG.info('movement sensor %s %s ', button_device, button_name)
+                outputid = 'odp0000' 
+                movement_device = serialnumber + '/' + channel_id
+        else:
+            channel_id = 'ch0000'
+            outputid = 'idp0000'
+            movement_device = serialnumber + '/' + channel_id
+            
+        self.binary_devices[movement_device] = FahBinarySensor(self, movement_device, movement_name, output_device=outputid)
+
+        """ a movement detector als has a lux sensor """
+        channel_id = 'ch0000'
+        outputid = 'odp0002'
+        movement_device = serialnumber + '/' + channel_id
+        station_name = movement_name + '_lux'                     
+        self.sensor_devices[movement_device] = FahSensor(self, movement_device, station_name, 'lux', '0', outputid)
+
+        LOG.info('movement sensor %s %s ', movement_device, movement_name)
+            
 
     def add_thermostat(self, xmlroot, serialnumber, roomnames):
         """ Add a thermostat to the list of thermostat devices """
