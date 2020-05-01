@@ -97,7 +97,10 @@ class FreeAtHomeSensor(Entity):
     @property
     def state(self):
         """Return the state of the device."""
-        return self._state
+        if self._unit_of_measurement == SPEED_KILOMETERS_PER_HOUR:
+            return ("%.2f" % (float(self._state) * 3.6))
+        else:    
+            return self._state
 
     @property
     def unit_of_measurement(self):
