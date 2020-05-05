@@ -85,6 +85,11 @@ class FreeAtHomeThermostat(ClimateDevice):
         return float(self.thermostat_device.current_temperature)
 
     @property
+    def current_heating(self):
+        """Return the current heating actuator state."""
+        return float(self.thermostat_device.current_actuator)
+
+    @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
         if self.hvac_mode == HVAC_MODE_OFF:
