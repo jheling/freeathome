@@ -1,24 +1,33 @@
-import urllib.request
 import json
 import logging
+import aiohttp
+import asyncio
 
 log = logging.getLogger(__name__)
+
+async def fetch(session, url):
+    async with session.get(url) as response:
+         return await response.text()
 
 class SettingsFah:
 
     def __init__(self, host, filename=None):
         self.data = None
+        self.host = host
+        self.filename = filename
 
-        if filename is None:
-            http = 'http://' + host + '/settings.json'
+    async def load_json(self):
+        if self.filename is None:
+            http = 'http://' + self.host + '/settings.json'
             try:
-                with urllib.request.urlopen(http) as url:
-                    self.data = json.loads(url.read().decode())
+                async with aiohttp.ClientSession() as session:
+                    html = await fetch(session, http)
+                    self.data = json.loads(html)
 
             except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
                 log.error('server not found')
         else:
-            with open(filename, "r") as read_file:
+            with open(self.filename, "r") as read_file:
                 self.data = json.load(read_file)
 
     def get_jid(self, name):

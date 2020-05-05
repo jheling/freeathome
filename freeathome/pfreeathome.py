@@ -1064,9 +1064,10 @@ class FreeAtHomeSysApp(object):
         """ setter user_room_names   """
         self._use_room_names = value
 
-    def connect(self):
+    async def connect(self):
         """ connect to the Free@Home sysap   """
         settings = SettingsFah(self._host)
+        await settings.load_json()         
         self._jid = settings.get_jid(self._user)
 
         iterations = None
