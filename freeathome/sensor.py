@@ -36,7 +36,7 @@ SENSOR_TYPES = {
         DEVICE_CLASS_ILLUMINANCE],
 }
 
-REQUIREMENTS = ['slixmpp==1.4.2']
+REQUIREMENTS = ['slixmpp==1.5.1']
 
 DEPENDENCIES = ['freeathome']
 
