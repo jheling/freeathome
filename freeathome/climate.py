@@ -64,6 +64,13 @@ class FreeAtHomeThermostat(ClimateDevice):
         self.thermostat_device = device
         self._name = self.thermostat_device.name
 
+
+    @property
+    def device_state_attributes(self):
+        """Return device specific state attributes."""
+        attr = {"valve":self.current_actuator}
+        return attr
+
     @property
     def name(self):
         """Return the display name of this thermostat."""
@@ -85,7 +92,7 @@ class FreeAtHomeThermostat(ClimateDevice):
         return float(self.thermostat_device.current_temperature)
 
     @property
-    def current_heating(self):
+    def current_actuator(self):
         """Return the current heating actuator state."""
         return float(self.thermostat_device.current_actuator)
 
