@@ -1061,60 +1061,62 @@ class Client(slixmpp.ClientXMPP):
             device = root.find('devices')
 
             for neighbor in device.findall('device'):
-                serialnumber = neighbor.get('serialNumber')
-                device_id = neighbor.get('deviceId')
+                state = neighbor.get('commissioningState')
+                if state == 'ready': 
+                    serialnumber = neighbor.get('serialNumber')
+                    device_id = neighbor.get('deviceId')
 
-                # Switch actuators
-                if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or
-                        device_id == '900C' or device_id == '9010' or device_id == '4000' or
-                        device_id == '10C4' or device_id == '100C' or device_id == '1010'):
-                    self.add_light_device(neighbor, serialnumber, roomnames)
+                    # Switch actuators
+                    if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or
+                            device_id == '900C' or device_id == '9010' or device_id == '4000' or
+                            device_id == '10C4' or device_id == '100C' or device_id == '1010'):
+                        self.add_light_device(neighbor, serialnumber, roomnames)
 
-                # Dimming actuators
-                # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
-                if (device_id == '101C' or device_id == '1021' or
-                        device_id == '1014' or device_id == '901c' or
-                        device_id == '9017' or device_id == '9019' or
-                        device_id == '10C0' or device_id == '1017' or
-                        device_id == '1019'):
-                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
+                    # Dimming actuators
+                    # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
+                    if (device_id == '101C' or device_id == '1021' or
+                            device_id == '1014' or device_id == '901c' or
+                            device_id == '9017' or device_id == '9019' or
+                            device_id == '10C0' or device_id == '1017' or
+                            device_id == '1019'):
+                        self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
-                # Scene or Timer
-                if device_id == '4800' or device_id == '4A00' or device_id == '4803' or \
-                   device_id == '4A01' or device_id == '4804' or device_id == '4000' or \
-                   device_id == '4802' or device_id == '4A00': 
-                    self.add_scene(neighbor, serialnumber, roomnames)
+                    # Scene or Timer
+                    if device_id == '4800' or device_id == '4A00' or device_id == '4803' or \
+                       device_id == '4A01' or device_id == '4804' or device_id == '4000' or \
+                       device_id == '4802' or device_id == '4A00': 
+                        self.add_scene(neighbor, serialnumber, roomnames)
 
-                # blind/cover device
-                if device_id == 'B001' or device_id == '1013' or device_id == '1015' or \
-                        device_id == '9013' or device_id == '9015':
-                    self.add_cover_device(neighbor, serialnumber, roomnames)
+                    # blind/cover device
+                    if device_id == 'B001' or device_id == '1013' or device_id == '1015' or \
+                            device_id == '9013' or device_id == '9015':
+                        self.add_cover_device(neighbor, serialnumber, roomnames)
 
-                # Sensor units 1/2 way
-                if device_id == '1002' or device_id == '1000' or device_id == '100C' or \
-                    device_id == '1019' or device_id == '1017' :
-                    self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
+                    # Sensor units 1/2 way
+                    if device_id == '1002' or device_id == '1000' or device_id == '100C' or \
+                        device_id == '1019' or device_id == '1017' :
+                        self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
 
-                # binary sensor
-                if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
-                    self.add_binary_sensor(neighbor, serialnumber, roomnames)
+                    # binary sensor
+                    if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
+                        self.add_binary_sensor(neighbor, serialnumber, roomnames)
 
-                # movement detector
-                if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
-                   device_id == '1008':
-                    self.add_movement_detector(neighbor, serialnumber, roomnames)
+                    # movement detector
+                    if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
+                       device_id == '1008':
+                        self.add_movement_detector(neighbor, serialnumber, roomnames)
 
-                # thermostat
-                if device_id == '1004' or device_id == '9004':
-                    self.add_thermostat(neighbor, serialnumber, roomnames)
+                    # thermostat
+                    if device_id == '1004' or device_id == '9004':
+                        self.add_thermostat(neighbor, serialnumber, roomnames)
 
-				# thermostat 4,3" 
-                if device_id == '1020':
-                    self.add_thermostatdisp(neighbor, serialnumber, roomnames)
-                
-                # weather station
-                if device_id == '101D':
-                    self.add_weather_station(neighbor, serialnumber)
+                                    # thermostat 4,3" 
+                    if device_id == '1020':
+                        self.add_thermostatdisp(neighbor, serialnumber, roomnames)
+                    
+                    # weather station
+                    if device_id == '101D':
+                        self.add_weather_station(neighbor, serialnumber)
 
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp
