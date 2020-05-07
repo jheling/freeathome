@@ -164,6 +164,48 @@ class FahThermostat(FahDevice):
     def ecomode(self, eco_mode):
         self._eco_mode = eco_mode == '68'
 
+class FahThermostatDisp(FahDevice):
+    """Free@Home thermostat """
+    current_temperature = None
+    target_temperature = None
+
+    def __init__(self, client, device_id, name, temperature=None, target=None, state=None, eco_mode=None):
+        FahDevice.__init__(self, client, device_id, name)
+        self.current_temperature = temperature
+        self.target_temperature = target
+        self.state = state
+        self.ecomode = eco_mode
+
+    async def turn_on(self):
+        """ Turn the thermostat on   """
+        await self.client.set_datapoint(self.device_id, 'idp000C', '1')
+
+    async def turn_off(self):
+        """ Turn the thermostat off   """
+        await self.client.set_datapoint(self.device_id, 'idp000C', '0')
+		
+    async def eco_mode(self):
+        """ Put the thermostat in eco mode   """
+        await self.client.set_datapoint(self.device_id, 'idp000B', '1')
+
+    async def set_target_temperature(self, temperature):
+        await self.client.set_datapoint(self.device_id, 'idp0010', '%.2f' % temperature)
+
+    @property
+    def state(self):
+        return self._state
+
+    @state.setter
+    def state(self, state):
+        self._state = state == '1'
+
+    @property
+    def ecomode(self):
+        return self._eco_mode
+
+    @ecomode.setter
+    def ecomode(self, eco_mode):
+        self._eco_mode = eco_mode == '68'
 
 class FahLight(FahDevice):
     """ Free@Home light object   """
@@ -644,6 +686,11 @@ class Client(slixmpp.ClientXMPP):
         if current_temp_state is not None:
             self.thermostat_devices[device_id].current_temperature = current_temp_state
             LOG.info("thermostat device %s current temp is %s", device_id, current_temp_state)
+        else:    
+            current_temp_state = get_output_datapoint(channel, 'odp000C')
+            if current_temp_state is not None:
+                self.thermostat_devices[device_id].current_temperature = current_temp_state
+                LOG.info("thermostatdisp device %s current temp is %s", device_id, current_temp_state)
 
         current_actuator_state = get_output_datapoint(channel, 'odp0013')
         if current_actuator_state is not None:
@@ -913,7 +960,37 @@ class Client(slixmpp.ClientXMPP):
                                                                )
         LOG.info('thermostat %s %s ', button_device, button_name)
 
-        
+    def add_thermostatdisp(self, xmlroot, serialnumber, roomnames):
+        """ Add a thermostat to the list of thermostat devices """
+        thermostat_basename = get_attribute(xmlroot, 'displayName')
+        floor_id = get_attribute(xmlroot, 'floor')
+        room_id = get_attribute(xmlroot, 'room')
+
+        thermostat_device = serialnumber + '/' + 'ch0010'
+        if floor_id != '' and room_id != '' and self.use_room_names:
+            thermostat_name = thermostat_basename + ' (' + roomnames[floor_id][room_id] + ')'
+        else:
+            thermostat_name = thermostat_basename
+
+        channels = xmlroot.find('channels')
+        if channels is not None:
+            for channel in channels.findall('channel'):
+                target_temperature = get_output_datapoint(channel, 'odp0006')
+                current_temperature = get_output_datapoint(channel, 'odp000C')
+                state = get_output_datapoint(channel, 'odp0008')
+                eco_mode = get_output_datapoint(channel, 'odp0009')
+
+        # pseudo prüfung wegen aktueller Temperatursensor
+        if current_temperature is None:
+            current_temperature = '0'
+
+        self.thermostat_devices[thermostat_device] = FahThermostatDisp(self, thermostat_device, thermostat_name,
+                                                               temperature=current_temperature,
+                                                               target=target_temperature,
+                                                               state=state,
+                                                               eco_mode=eco_mode)
+        LOG.info('thermostatdisp %s %s ', thermostat_device, thermostat_name)
+		
     def add_weather_station(self, xmlroot, serialnumber):
         ''' The weather station consists of 4 different sensors '''
         station_basename = get_attribute(xmlroot, 'displayName')
@@ -994,56 +1071,62 @@ class Client(slixmpp.ClientXMPP):
             device = root.find('devices')
 
             for neighbor in device.findall('device'):
-                serialnumber = neighbor.get('serialNumber')
-                device_id = neighbor.get('deviceId')
+                state = neighbor.get('commissioningState')
+                if state == 'ready': 
+                    serialnumber = neighbor.get('serialNumber')
+                    device_id = neighbor.get('deviceId')
 
-                # Switch actuators
-                if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or
-                        device_id == '900C' or device_id == '9010' or device_id == '4000' or
-                        device_id == '10C4' or device_id == '100C' or device_id == '1010'):
-                    self.add_light_device(neighbor, serialnumber, roomnames)
+                    # Switch actuators
+                    if (device_id == 'B002' or device_id == '100E' or device_id == 'B008' or
+                            device_id == '900C' or device_id == '9010' or device_id == '4000' or
+                            device_id == '10C4' or device_id == '100C' or device_id == '1010'):
+                        self.add_light_device(neighbor, serialnumber, roomnames)
 
-                # Dimming actuators
-                # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
-                if (device_id == '101C' or device_id == '1021' or
-                        device_id == '1014' or device_id == '901c' or
-                        device_id == '9017' or device_id == '9019' or
-                        device_id == '10C0' or device_id == '1017' or
-                        device_id == '1019'):
-                    self.add_dimmer_device(neighbor, serialnumber, roomnames)
+                    # Dimming actuators
+                    # Hue Aktor (LED Strip), Sensor/dimaktor 1/1-voudig
+                    if (device_id == '101C' or device_id == '1021' or
+                            device_id == '1014' or device_id == '901c' or
+                            device_id == '9017' or device_id == '9019' or
+                            device_id == '10C0' or device_id == '1017' or
+                            device_id == '1019'):
+                        self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
-                # Scene or Timer
-                if device_id == '4800' or device_id == '4A00' or device_id == '4803' or \
-                   device_id == '4A01' or device_id == '4804' or device_id == '4000' or \
-                   device_id == '4802' or device_id == '4A00': 
-                    self.add_scene(neighbor, serialnumber, roomnames)
+                    # Scene or Timer
+                    if device_id == '4800' or device_id == '4A00' or device_id == '4803' or \
+                       device_id == '4A01' or device_id == '4804' or device_id == '4000' or \
+                       device_id == '4802' or device_id == '4A00': 
+                        self.add_scene(neighbor, serialnumber, roomnames)
 
-                # blind/cover device
-                if device_id == 'B001' or device_id == '1013' or device_id == '1015' or \
-                        device_id == '9013' or device_id == '9015':
-                    self.add_cover_device(neighbor, serialnumber, roomnames)
+                    # blind/cover device
+                    if device_id == 'B001' or device_id == '1013' or device_id == '1015' or \
+                            device_id == '9013' or device_id == '9015':
+                        self.add_cover_device(neighbor, serialnumber, roomnames)
 
-                # Sensor units 1/2 way
-                if device_id == '1002' or device_id == '1000' or device_id == '100C' or \
-                    device_id == '1019' or device_id == '1017' :
-                    self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
+                    # Sensor units 1/2 way
+                    if device_id == '1002' or device_id == '1000' or device_id == '100C' or \
+                        device_id == '1019' or device_id == '1017' :
+                        self.add_sensor_unit(neighbor, serialnumber, roomnames, device_id)
 
-                # binary sensor
-                if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
-                    self.add_binary_sensor(neighbor, serialnumber, roomnames)
+                    # binary sensor
+                    if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
+                        self.add_binary_sensor(neighbor, serialnumber, roomnames)
 
-                # movement detector
-                if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
-                   device_id == '1008':
-                    self.add_movement_detector(neighbor, serialnumber, roomnames)
+                    # movement detector
+                    if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
+                       device_id == '1008':
+                        self.add_movement_detector(neighbor, serialnumber, roomnames)
 
-                # thermostat
-                if device_id == '1004' or device_id == '9004':
-                    self.add_thermostat(neighbor, serialnumber, roomnames)
+                    # thermostat
+                    if device_id == '1004' or device_id == '9004':
+                        self.add_thermostat(neighbor, serialnumber, roomnames)
 
-                # weather station
-                if device_id == '101D':
-                    self.add_weather_station(neighbor, serialnumber)
+                                    # thermostat 4,3" 
+                    if device_id == '1020':
+                        self.add_thermostatdisp(neighbor, serialnumber, roomnames)
+                    
+                    # weather station
+                    if device_id == '101D':
+                        self.add_weather_station(neighbor, serialnumber)
 
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp
@@ -1074,9 +1157,10 @@ class FreeAtHomeSysApp(object):
         """ setter user_room_names   """
         self._use_room_names = value
 
-    def connect(self):
+    async def connect(self):
         """ connect to the Free@Home sysap   """
         settings = SettingsFah(self._host)
+        await settings.load_json()         
         self._jid = settings.get_jid(self._user)
 
         iterations = None
