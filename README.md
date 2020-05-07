@@ -7,17 +7,13 @@ Now lights, scenes, covers, binary sensors, climate devices and the sensors of t
 Place the files in the custom_components directory. This should be in the same directory as the configuration.yaml.
 
 Put the following in configuration.yaml:
-
+``` 
 freeathome:
-
-    host: <ip adress of the sysapserver> 
-
-    username: <Username in free@home>
-    
-    password: <Password in free@home>
-    
-    use_room_names: <This is optional, if True then combine the device names with the rooms>
-  
+  host: <ip adress of the sysapserver> or SysAP.local  
+  username: <Username in free@home>    
+  password: <Password in free@home>    
+  use_room_names: <This is optional, if True then combine the device names with the rooms>
+```  
 Thanks to Foti for testing the cover device!
 Thanks to Lasse Magnussen for the climate device!
 Thanks to Nadir for testing the weather station

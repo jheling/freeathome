@@ -3,7 +3,7 @@ import logging
 from homeassistant.components.scene import Scene
 import custom_components.freeathome as freeathome
 
-REQUIREMENTS = ['slixmpp==1.4.2']
+REQUIREMENTS = ['slixmpp==1.5.1']
 
 _LOGGER = logging.getLogger(__name__)
 

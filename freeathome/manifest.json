@@ -5,5 +5,5 @@
   "config_flow": false,
   "dependencies": [],
   "codeowners": ["@jheling"],
-  "requirements": ["https://github.com/jheling/slixmpp/archive/master.zip#slixmpp==1.4.2.1", "libnacl==1.7.0"]
+  "requirements": ["slixmpp==1.5.1", "libnacl==1.7.0"]
 }

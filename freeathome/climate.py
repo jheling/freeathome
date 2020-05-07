@@ -9,7 +9,7 @@ from homeassistant.components.climate.const import (HVAC_MODE_HEAT_COOL, HVAC_MO
                                                     SUPPORT_TARGET_TEMPERATURE)
 from homeassistant.const import (ATTR_TEMPERATURE, DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS)
 
-REQUIREMENTS = ['slixmpp==1.4.2']
+REQUIREMENTS = ['slixmpp==1.5.1']
 
 _LOGGER = logging.getLogger(__name__)
 
