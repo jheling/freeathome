@@ -121,11 +121,13 @@ class FahBinarySensor(FahDevice):
 class FahThermostat(FahDevice):
     """Free@Home thermostat """
     current_temperature = None
+    current_actuator = None
     target_temperature = None
 
-    def __init__(self, client, device_id, name, temperature=None, target=None, state=None, eco_mode=None):
+    def __init__(self, client, device_id, name, temperature=None, target=None, state=None, eco_mode=None, heating_actor=None):
         FahDevice.__init__(self, client, device_id, name)
         self.current_temperature = temperature
+        self.current_actuator = heating_actor
         self.target_temperature = target
         self.state = state
         self.ecomode = eco_mode
@@ -690,6 +692,11 @@ class Client(slixmpp.ClientXMPP):
                 self.thermostat_devices[device_id].current_temperature = current_temp_state
                 LOG.info("thermostatdisp device %s current temp is %s", device_id, current_temp_state)
 
+        current_actuator_state = get_output_datapoint(channel, 'odp0013')
+        if current_actuator_state is not None:
+            self.thermostat_devices[device_id].current_actuator = current_actuator_state
+            LOG.info("thermostat device %s current heating actuator state is %s", device_id, current_actuator_state)
+
     def update_sensor(self, device_id, channel):
         sensor_state = get_output_datapoint(channel, self.sensor_devices[device_id].output_device)
         if sensor_state is not None:
@@ -940,6 +947,7 @@ class Client(slixmpp.ClientXMPP):
             for channel in channels.findall('channel'):
                 target_temperature = get_output_datapoint(channel, 'odp0006')
                 current_temperature = get_output_datapoint(channel, 'odp0010')
+                current_actuator = get_output_datapoint(channel, 'odp0013')
                 state = get_output_datapoint(channel, 'odp0008')
                 eco_mode = get_output_datapoint(channel, 'odp0009')
 
@@ -947,7 +955,9 @@ class Client(slixmpp.ClientXMPP):
                                                                temperature=current_temperature,
                                                                target=target_temperature,
                                                                state=state,
-                                                               eco_mode=eco_mode)
+                                                               eco_mode=eco_mode,
+                                                               heating_actor=current_actuator
+                                                               )
         LOG.info('thermostat %s %s ', button_device, button_name)
 
     def add_thermostatdisp(self, xmlroot, serialnumber, roomnames):
