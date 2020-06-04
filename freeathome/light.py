@@ -1,7 +1,7 @@
 """ Support for Free@Home lights dimmers """
 import logging
 from homeassistant.components.light import (
-    ATTR_BRIGHTNESS, SUPPORT_BRIGHTNESS, Light)
+    ATTR_BRIGHTNESS, SUPPORT_BRIGHTNESS, LightEntity)
 
 import custom_components.freeathome as freeathome
 
@@ -25,7 +25,7 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
         async_add_devices([FreeAtHomeLight(device_object)])
 
 
-class FreeAtHomeLight(Light):
+class FreeAtHomeLight(LightEntity):
     """ Free@home light """
     light_device = None
     _name = ''

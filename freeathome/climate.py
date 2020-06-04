@@ -3,7 +3,7 @@
 import logging
 
 import custom_components.freeathome as freeathome
-from homeassistant.components.climate import ClimateDevice
+from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF,
                                                     SUPPORT_PRESET_MODE,
                                                     SUPPORT_TARGET_TEMPERATURE)
@@ -55,7 +55,7 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
 # pm000c = led backlight% (night?)
 
 
-class FreeAtHomeThermostat(ClimateDevice):
+class FreeAtHomeThermostat(ClimateEntity):
     """ Free@home thermostat """
     thermostat_device = None
     _name = ''
@@ -63,13 +63,6 @@ class FreeAtHomeThermostat(ClimateDevice):
     def __init__(self, device):
         self.thermostat_device = device
         self._name = self.thermostat_device.name
-
-
-    @property
-    def device_state_attributes(self):
-        """Return device specific state attributes."""
-        attr = {"valve":self.current_actuator}
-        return attr
 
     @property
     def name(self):
@@ -90,11 +83,6 @@ class FreeAtHomeThermostat(ClimateDevice):
     def current_temperature(self):
         """Return the current temperature."""
         return float(self.thermostat_device.current_temperature)
-
-    @property
-    def current_actuator(self):
-        """Return the current heating actuator state."""
-        return float(self.thermostat_device.current_actuator)
 
     @property
     def target_temperature(self):

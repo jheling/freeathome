@@ -1,6 +1,6 @@
 """ Support for Free@Home Binary devices like sensors, movement detectors """
 import logging
-from homeassistant.components.binary_sensor import (BinarySensorDevice)
+from homeassistant.components.binary_sensor import (BinarySensorEntity)
 import custom_components.freeathome as freeathome
 
 REQUIREMENTS = ['slixmpp==1.5.1']
@@ -23,7 +23,7 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
         async_add_devices([FreeAtHomeBinarySensor(device_object)])
 
 
-class FreeAtHomeBinarySensor(BinarySensorDevice):
+class FreeAtHomeBinarySensor(BinarySensorEntity):
     """ Interface to the binary devices of Free@Home """
     _name = ''
     binary_device = None

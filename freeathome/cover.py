@@ -1,7 +1,7 @@
 """ Support for Free@Home cover - blinds , shutters. """
 import logging
 from homeassistant.components.cover import (
-    CoverDevice, ATTR_POSITION,
+    CoverEntity, ATTR_POSITION,
     SUPPORT_CLOSE, SUPPORT_OPEN, SUPPORT_SET_POSITION, SUPPORT_STOP
 )
 import custom_components.freeathome as freeathome
@@ -24,7 +24,7 @@ async def async_setup_platform(hass, config, async_add_devices, discovery_info=N
         async_add_devices([FreeAtHomeCover(device_object)])
 
 
-class FreeAtHomeCover(CoverDevice):
+class FreeAtHomeCover(CoverEntity):
     """interface cover/blinds  """
     cover_device = None
     _name = ''
