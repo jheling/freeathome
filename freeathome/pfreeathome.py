@@ -1046,7 +1046,7 @@ class Client(slixmpp.ClientXMPP):
                     station_name = station_basename + '_windstrength'
                     self.sensor_devices[sensor_device] = FahSensor(self, sensor_device, station_name, 'windstrength', state, outputid)
               
-    def scan_panel(self, xmlroot, serialnumber):
+    def scan_panel(self, xmlroot, serialnumber, roomnames):
 
         channels = xmlroot.find('channels')
         if channels is not None:             
@@ -1178,7 +1178,7 @@ class Client(slixmpp.ClientXMPP):
 
                     # 7 inch panel with possible lock controll
                     if device_id == '1038':
-                        self.scan_panel(neighbor, serialnumber)
+                        self.scan_panel(neighbor, serialnumber, roomnames)
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp
           parameters in configuration.yaml
