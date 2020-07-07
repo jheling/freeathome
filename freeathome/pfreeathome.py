@@ -374,6 +374,7 @@ class Client(slixmpp.ClientXMPP):
     connect_finished = False
     authenticated = False
     use_room_names = False
+    connect_in_error = False
 
     # The specific devices
     binary_devices = {}
@@ -405,17 +406,23 @@ class Client(slixmpp.ClientXMPP):
         '41':'odp0001', '42':'odp0000', '43':'odp0001', '44':'odp0003'
         }
           
-    def __init__(self, jid, password, fahversion, iterations=None, salt=None):
+    def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
 
         self.fahversion = fahversion
         self.x_jid = jid
+        self._host = host
+        self._port = port
 
         LOG.info(' version: %s', self.fahversion)
 
+        self.password = password
+        self.iterations = iterations
+        self.salt = salt
+
         if version.parse(self.fahversion) >= version.parse("2.3.0"):
-            self.saslhandler = SaslHandler(self, jid, password, iterations, salt)
+            self.saslhandler = SaslHandler(self, self.jid, self.password, self.iterations, self.salt)
 
         import os
         import binascii
@@ -426,6 +433,7 @@ class Client(slixmpp.ClientXMPP):
         self.add_event_handler("roster_update", self.roster_callback)
         self.add_event_handler("pubsub_publish", self.pub_sub_callback)
         self.add_event_handler("failed_auth", self.failed_auth)
+        self.add_event_handler("disconnected", self._disconnected)
         
         # register plugins
         self.register_plugin('xep_0030')  # RPC
@@ -442,6 +450,25 @@ class Client(slixmpp.ClientXMPP):
         register_stanza_plugin(EventItems, EventItem, iterable=True)
         register_stanza_plugin(EventItem, ItemUpdate)
         register_stanza_plugin(EventItem, ItemUpdateEncrypted)
+
+    async def _disconnected(self, event):
+        """ If connection is lost, try to reconnect """
+        LOG.info("Connection with SysAP lost")
+        self.connect_in_error = True
+        await asyncio.sleep(2)
+
+        if version.parse(self.fahversion) >= version.parse("2.3.0"):
+            self.saslhandler = SaslHandler(self, self.jid, self.password, self.iterations, self.salt)
+
+        self.sysap_connect()
+
+    def connecting_in_error(self):
+        """For checking if connection is in error or not"""
+        return self.connect_in_error
+
+    def sysap_connect(self):
+        super(Client, self).connect((self._host, self._port))
+
 
     def connect_ready(self):
         """ Polling if the connection process is ready   """
@@ -1227,6 +1254,7 @@ class FreeAtHomeSysApp(object):
 
         iterations = None
         salt = None
+        self.xmpp = None
 
         LOG.info('Connect Free@Home  %s ', self._jid)
 
@@ -1236,17 +1264,20 @@ class FreeAtHomeSysApp(object):
             if version.parse(fahversion) >= version.parse("2.3.0"):
                 iterations, salt = settings.get_scram_settings(self._user, 'SCRAM-SHA-256')
             # create xmpp client
-            self.xmpp = Client(self._jid, self._password, fahversion, iterations, salt)
+            self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt)
             # connect
-            self.xmpp.connect((self._host, self._port), False, False, False)
+            self.xmpp.sysap_connect()
 
     async def wait_for_connection(self):
         """ Wait til connection is made, if failed at first attempt retry until success """
         if self.xmpp is not None:
-            while self.xmpp.connect_ready() is False:
+            while self.xmpp.connect_ready() is False and self.xmpp.connecting_in_error() is False:
                 LOG.info('waiting for connection')
                 await asyncio.sleep(1)
-            return self.xmpp.authenticated
+            if self.xmpp.connect_in_error is True:
+                return False
+            else:
+                return True
 
     def get_devices(self, device_type):
         """ Get devices of a specific type from the sysap   """
