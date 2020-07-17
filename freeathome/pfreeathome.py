@@ -1136,6 +1136,7 @@ class Client(slixmpp.ClientXMPP):
             #     '101C', // Dimmaktor 4-fach
             #     '1019', // Sensor/Dimmaktor 2/1-Fach          
             #	  '1021', // Dimmaktor 4-fach v2
+	    #     '1022', // Dimmaktor 6-fach
             #     '1017'  // Sensor/dimaktor 1/1-voudig
             #     '10C0'  // Hue Aktor (LED Strip)
             #
@@ -1173,7 +1174,7 @@ class Client(slixmpp.ClientXMPP):
                             device_id == '1014' or device_id == '901c' or
                             device_id == '9017' or device_id == '9019' or
                             device_id == '10C0' or device_id == '1017' or
-                            device_id == '1019'):
+                            device_id == '1019' or device_id == '1022'):
                         self.add_dimmer_device(neighbor, serialnumber, roomnames)
 
                     # Scene or Timer
