@@ -281,12 +281,14 @@ class FahCover(FahDevice):
     """
     state = None
     position = None
+    forced_position = None
 
     # pylint: disable=too-many-arguments
-    def __init__(self, client, device_id, name, state, position):
+    def __init__(self, client, device_id, name, state, position, forced_position):
         FahDevice.__init__(self, client, device_id, name)
         self.state = state
         self.position = position
+        self.forced_position = forced_position
 
     def is_cover_closed(self):
         """ Return if the cover is closed   """
@@ -304,9 +306,17 @@ class FahCover(FahDevice):
         """ Return the cover position """
         return int(self.position)
 
+    def get_forced_cover_position(self):
+        """Return forced cover position."""
+        return int(self.forced_position)
+
     async def set_cover_position(self, position):
         """ Set the cover position  """
         await self.client.set_datapoint(self.device_id, 'idp0002', str(abs(100 - position)))
+
+    async def set_forced_cover_position(self, forced_position):
+        """Set forced cover position."""
+        await self.client.set_datapoint(self.device_id, 'idp0004', str(forced_position))
 
     async def open_cover(self):
         """ Open the cover   """
@@ -703,6 +713,10 @@ class Client(slixmpp.ClientXMPP):
         if cover_position is not None:
             self.cover_devices[device_id].position = \
                 str(abs(100 - int(float(cover_position))))
+        cover_forced_position = get_output_datapoint(channel, 'odp0004')
+        if cover_forced_position is not None:
+            self.cover_devices[device_id].forced_position = \
+                    int(cover_forced_position)
 
     def update_binary(self, device_id, channel):
         """ Update the status of binary devices   """
@@ -863,6 +877,7 @@ class Client(slixmpp.ClientXMPP):
 
                 cover_state = get_output_datapoint(channel, 'odp0000')
                 cover_position = str(abs(100 - int(float(get_output_datapoint(channel, 'odp0001')))))
+                cover_forced_position = get_output_datapoint(channel, 'odp0004')
 
                 single_cover = serialnumber + '/' + channel_id
                 if cover_name == '':
@@ -870,7 +885,7 @@ class Client(slixmpp.ClientXMPP):
                 if floor_id != '' and room_id != '' and self.use_room_names:
                     cover_name = cover_name + ' (' + roomnames[floor_id][room_id] + ')'
                 self.cover_devices[single_cover] = FahCover(self, single_cover, cover_name,
-                                                            cover_state, cover_position)
+                                                            cover_state, cover_position, cover_forced_position)
 
                 LOG.info('cover %s %s is %s', single_cover, cover_name, cover_state)
 
