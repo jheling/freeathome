@@ -1,19 +1,17 @@
 """ Support for Free@Home scenes. """
 import logging
 from homeassistant.components.scene import Scene
-import custom_components.freeathome as freeathome
-
-REQUIREMENTS = ['slixmpp==1.5.1']
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
+async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ scene specific code """
 
     _LOGGER.info('FreeAtHome setup scenes')
 
-    fah = hass.data[freeathome.DATA_MFH]
+    fah = hass.data[DOMAIN][config_entry.entry_id]
 
     devices = fah.get_devices('scene')
 

@@ -3,23 +3,21 @@ import logging
 from homeassistant.components.light import (
     ATTR_BRIGHTNESS, SUPPORT_BRIGHTNESS, LightEntity)
 
-import custom_components.freeathome as freeathome
-
-REQUIREMENTS = ['slixmpp==1.5.1']
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
 # 'switch' will receive discovery_info={'optional': 'arguments'}
 # as passed in above. 'light' will receive discovery_info=None
-async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
+async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ switch/light specific code."""
 
     _LOGGER.info('FreeAtHome setup light')
 
-    fah = hass.data[freeathome.DATA_MFH]
+    sysap = hass.data[DOMAIN][config_entry.entry_id]
 
-    devices = fah.get_devices('light')
+    devices = sysap.get_devices('light')
 
     for device, device_object in devices.items():
         async_add_devices([FreeAtHomeLight(device_object)])

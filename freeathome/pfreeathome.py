@@ -416,7 +416,7 @@ class Client(slixmpp.ClientXMPP):
         '41':'odp0001', '42':'odp0000', '43':'odp0001', '44':'odp0003'
         }
           
-    def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None):
+    def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
 
@@ -424,6 +424,7 @@ class Client(slixmpp.ClientXMPP):
         self.x_jid = jid
         self._host = host
         self._port = port
+        self.reconnect = reconnect
 
         LOG.info(' version: %s', self.fahversion)
 
@@ -465,6 +466,9 @@ class Client(slixmpp.ClientXMPP):
         """ If connection is lost, try to reconnect """
         LOG.info("Connection with SysAP lost")
         self.connect_in_error = True
+        if not self.reconnect:
+            return
+
         await asyncio.sleep(2)
 
         if version.parse(self.fahversion) >= version.parse("2.3.0"):
@@ -1251,6 +1255,7 @@ class FreeAtHomeSysApp(object):
         self._password = password
         self.xmpp = None
         self._use_room_names = False
+        self.reconnect = True
 
     @property
     def use_room_names(self):
@@ -1265,7 +1270,7 @@ class FreeAtHomeSysApp(object):
     async def connect(self):
         """ connect to the Free@Home sysap   """
         settings = SettingsFah(self._host)
-        await settings.load_json()         
+        await settings.load_json()
         self._jid = settings.get_jid(self._user)
 
         iterations = None
@@ -1280,9 +1285,19 @@ class FreeAtHomeSysApp(object):
             if version.parse(fahversion) >= version.parse("2.3.0"):
                 iterations, salt = settings.get_scram_settings(self._user, 'SCRAM-SHA-256')
             # create xmpp client
-            self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt)
+            self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt, self.reconnect)
             # connect
             self.xmpp.sysap_connect()
+
+    async def disconnect(self):
+        """Disconnect from sysap."""
+        if self.xmpp is not None:
+            # Make sure that client does not reconnect
+            self.xmpp.reconnect = False
+            self.xmpp.disconnect()
+
+        return True
+
 
     async def wait_for_connection(self):
         """ Wait til connection is made, if failed at first attempt retry until success """

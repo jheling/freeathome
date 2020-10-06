@@ -1,10 +1,7 @@
 """ Support for Free@Home cover forced position """
 import logging
 from homeassistant.components.switch import SwitchEntity
-
-import custom_components.freeathome as freeathome
-
-REQUIREMENTS = ['slixmpp==1.5.1']
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -16,12 +13,12 @@ STATE_FORCED_POSITION_DOWN = 3
 
 # 'switch' will receive discovery_info={'optional': 'arguments'}
 # as passed in above. 'light' will receive discovery_info=None
-async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
+async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ switch/light specific code."""
 
     _LOGGER.info('FreeAtHome setup switch')
 
-    fah = hass.data[freeathome.DATA_MFH]
+    fah = hass.data[DOMAIN][config_entry.entry_id]
 
     cover_devices = fah.get_devices('cover')
 

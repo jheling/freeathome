@@ -4,19 +4,18 @@ from homeassistant.components.cover import (
     CoverEntity, ATTR_POSITION,
     SUPPORT_CLOSE, SUPPORT_OPEN, SUPPORT_SET_POSITION, SUPPORT_STOP
 )
-import custom_components.freeathome as freeathome
 
-REQUIREMENTS = ['slixmpp==1.5.1']
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
 
-async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
+async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ cover specific code."""
 
     _LOGGER.info('FreeAtHome setup cover')
 
-    fah = hass.data[freeathome.DATA_MFH]
+    fah = hass.data[DOMAIN][config_entry.entry_id]
 
     devices = fah.get_devices('cover')
 
