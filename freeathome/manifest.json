@@ -2,7 +2,7 @@
   "domain": "freeathome",
   "name": "Busch Jaeger/ABB Free@Home",
   "documentation": "https://github.com/jheling/freeathome",
-  "config_flow": false,
+  "config_flow": true,
   "dependencies": [],
   "codeowners": ["@jheling"],
   "requirements": ["slixmpp==1.5.1", "libnacl==1.7.0"]

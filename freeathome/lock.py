@@ -1,20 +1,17 @@
 """ Support for Free@Home Lock through 7 inch panel """
 import logging
 from homeassistant.components.lock import (LockEntity)
-import custom_components.freeathome as freeathome
 
-REQUIREMENTS = ['slixmpp==1.5.1']
-
-DEPENDENCIES = ['freeathome']
+from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
+async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ setup """
 
     _LOGGER.info('FreeAtHome setup lock controll')
 
-    fah = hass.data[freeathome.DATA_MFH]
+    fah = hass.data[DOMAIN][config_entry.entry_id]
 
     devices = fah.get_devices('lock')
 
