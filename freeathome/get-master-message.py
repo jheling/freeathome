@@ -120,7 +120,7 @@ class Client(slixmpp.ClientXMPP):
         iq['from'] = self.boundjid.full
         iq.enable('rpc_query')
         iq['rpc_query']['method_call']['method_name'] = 'RemoteInterface.getAll'
-        iq['rpc_query']['method_call']['params'] = py2xml('de', 4, 0, 0)
+        iq['rpc_query']['method_call']['params'] = py2xml('de', 2, 1, 0)
 
         return iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
 
