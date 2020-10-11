@@ -47,9 +47,14 @@ class FreeAtHomeLight(LightEntity):
         return self._name
 
     @property
+    def device_info(self):
+        """Return device id."""
+        return self.light_device.device_info
+
+    @property
     def unique_id(self):
         """Return the ID """
-        return self.light_device.device_id
+        return self.light_device.serialnumber + '/' + self.light_device.channel_id
 
     @property
     def should_poll(self):
