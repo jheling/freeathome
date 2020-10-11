@@ -10,6 +10,7 @@ import logging
 import slixmpp
 import sys
 import zlib
+import asyncio
 # import fah
 # from slixmpp import asyncio
 from slixmpp import Message
@@ -327,8 +328,12 @@ def main():
     salt = None
 
     settings = SettingsFah(ipaddress)
+
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(settings.load_json())
+
     jid = settings.get_jid(username) 
-    fahversion = settings.get_flag('version')
+    fahversion = str(settings.get_flag('version'))
 
     if version.parse(fahversion) >= version.parse("2.3.0"):
         iterations, salt = settings.get_scram_settings(username, 'SCRAM-SHA-256')
