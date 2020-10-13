@@ -7,9 +7,11 @@ from common import load_fixture
 
 LOG = logging.getLogger(__name__)
 
-@pytest.fixture
-def client():
-    return Client()
+def get_client():
+    client = Client()
+    client.set_datapoint = AsyncMock()
+
+    return client
 
 @pytest.fixture(autouse=True)
 def mock_init():
@@ -23,14 +25,8 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("100C_sensor_actuator_1gang.xml"))
 class TestLight:
-    async def get_client(self):
-        client = Client()
-        client.set_datapoint = AsyncMock()
-
-        return client
-
     async def test_light(self, _):
-        client = await self.get_client()
+        client = get_client()
         await client.find_devices(True)
 
         assert len(client.light_devices) == 1
@@ -60,7 +56,7 @@ class TestLight:
 
 
     async def test_light_no_room_name(self, _):
-        client = await self.get_client()
+        client = get_client()
         await client.find_devices(False)
         light = client.light_devices["ABB700D12345/ch0003"]
 
