@@ -25,7 +25,6 @@ def mock_roomnames():
 class TestLight:
     async def get_client(self):
         client = Client()
-        client.get_datapoint = AsyncMock()
         client.set_datapoint = AsyncMock()
 
         return client
@@ -56,7 +55,7 @@ class TestLight:
         client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0003", "idp0000", "0")
 
         # Test device being turned off
-        await client.update_devices(load_fixture("100C_update.xml"))
+        await client.update_devices(load_fixture("100C_update_light.xml"))
         assert light.is_on() == False
 
 

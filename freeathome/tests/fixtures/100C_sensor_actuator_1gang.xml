@@ -76,7 +76,7 @@
      </inputs>
      <outputs>
       <dataPoint defaultConnection="true" nameId="000B" matchCode="00000403" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
-       <value>0</value>
+       <value>1</value>
        <address timeSlot="0" primary="true" singleSink="false">37c8</address>
       </dataPoint>
       <dataPoint defaultConnection="false" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
@@ -200,7 +200,7 @@
      </functions>
      <inputs>
       <dataPoint defaultConnection="false" nameId="000F" matchCode="0000000B" maxConnections="10" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
-       <value>1</value>
+       <value>0</value>
       </dataPoint>
       <dataPoint defaultConnection="false" nameId="0120" matchCode="00000002" maxConnections="10" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
        <value>0</value>
@@ -360,7 +360,7 @@
      </functions>
      <inputs>
       <dataPoint defaultConnection="false" nameId="000F" matchCode="0000000B" maxConnections="10" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
-       <value>1</value>
+       <value>0</value>
       </dataPoint>
       <dataPoint defaultConnection="false" nameId="0120" matchCode="00000002" maxConnections="10" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
        <value>0</value>
@@ -506,7 +506,7 @@
      </functions>
      <inputs>
       <dataPoint defaultConnection="false" nameId="000B" matchCode="00000001" maxConnections="20" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
-       <value>0</value>
+       <value>1</value>
        <address timeSlot="0" primary="true" singleSink="false">37c8</address>
       </dataPoint>
       <dataPoint defaultConnection="false" nameId="000C" matchCode="00000009" maxConnections="20" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
