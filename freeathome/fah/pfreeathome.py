@@ -685,50 +685,53 @@ class Client(slixmpp.ClientXMPP):
 
         # arg contains the devices that changed
         if args:
-            root = ET.fromstring(args[0])
+            await self.update_devices(args[0])
 
-            device = root.find('devices')
-            for device in device.findall('device'):
-                serialnumber = device.get('serialNumber')
+    async def update_devices(self, xml):
+        root = ET.fromstring(xml)
 
-                channels = device.find('channels')
-                if channels is not None:
-                    for channel in channels.findall('channel'):
-                        channel_id = channel.get('i')
+        device = root.find('devices')
+        for device in device.findall('device'):
+            serialnumber = device.get('serialNumber')
 
-                        # Now change the status of the device
-                        device_id = serialnumber + '/' + channel_id
+            channels = device.find('channels')
+            if channels is not None:
+                for channel in channels.findall('channel'):
+                    channel_id = channel.get('i')
 
-                        # if the device is a light
-                        if device_id in self.light_devices:
-                            self.update_light(device_id, channel)
-                            await self.light_devices[device_id].after_update()
+                    # Now change the status of the device
+                    device_id = serialnumber + '/' + channel_id
 
-                        # if the device is a cover
-                        if device_id in self.cover_devices:
-                            self.update_cover(device_id, channel)
-                            await self.cover_devices[device_id].after_update()
+                    # if the device is a light
+                    if device_id in self.light_devices:
+                        self.update_light(device_id, channel)
+                        await self.light_devices[device_id].after_update()
 
-                        # if the device is a binary sensor
-                        if device_id in self.binary_devices:
-                            self.update_binary(device_id, channel)
-                            await self.binary_devices[device_id].after_update()
+                    # if the device is a cover
+                    if device_id in self.cover_devices:
+                        self.update_cover(device_id, channel)
+                        await self.cover_devices[device_id].after_update()
 
-                        # if the device is a thermostat
-                        if device_id in self.thermostat_devices:
-                            self.update_thermostat(device_id, channel)
-                            await self.thermostat_devices[device_id].after_update()
-                            
-                        # if the device is a (weather) sensor  
-                        if device_id in self.sensor_devices:
-                            self.update_sensor(device_id, channel)
-                            await self.sensor_devices[device_id].after_update()
+                    # if the device is a binary sensor
+                    if device_id in self.binary_devices:
+                        self.update_binary(device_id, channel)
+                        await self.binary_devices[device_id].after_update()
 
-                        # if the device is a lock  
-                        if device_id in self.lock_devices:
-                            self.update_lock(device_id, channel)
-                            await self.lock_devices[device_id].after_update()
-                            
+                    # if the device is a thermostat
+                    if device_id in self.thermostat_devices:
+                        self.update_thermostat(device_id, channel)
+                        await self.thermostat_devices[device_id].after_update()
+
+                    # if the device is a (weather) sensor  
+                    if device_id in self.sensor_devices:
+                        self.update_sensor(device_id, channel)
+                        await self.sensor_devices[device_id].after_update()
+
+                    # if the device is a lock  
+                    if device_id in self.lock_devices:
+                        self.update_lock(device_id, channel)
+                        await self.lock_devices[device_id].after_update()
+
 
     def update_light(self, device_id, channel):
         """ Update status of light devices   """

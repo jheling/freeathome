@@ -55,6 +55,11 @@ class TestLight:
         await light.turn_off()
         client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0003", "idp0000", "0")
 
+        # Test device being turned off
+        await client.update_devices(load_fixture("100C_update.xml"))
+        assert light.is_on() == False
+
+
     async def test_light_no_room_name(self, _):
         client = await self.get_client()
         await client.find_devices(False)
