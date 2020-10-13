@@ -29,9 +29,9 @@ from .const import (
     FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER,
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
     )
-from .fah.messagereader import MessageReader
-from .fah.settings import SettingsFah
-from .fah.saslhandler import SaslHandler
+from .messagereader import MessageReader
+from .settings import SettingsFah
+from .saslhandler import SaslHandler
 
 LOG = logging.getLogger(__name__)
 
@@ -1050,22 +1050,29 @@ class Client(slixmpp.ClientXMPP):
 
                     LOG.info('lock  %s %s is %s', lock_device, lock_name, lock_state)
 
-    async def find_devices(self, use_room_names):
-        """ Find the devices in the system, this is a big XML file   """
-        self.use_room_names = use_room_names
-
+    async def get_config(self):
+        """Get config file via getAll RPC"""
         my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, 0, 0)
-
         my_iq.enable('rpc_query')
 
         if my_iq['rpc_query']['method_response']['fault'] is not None:
             fault = my_iq['rpc_query']['method_response']['fault']
             LOG.info(fault['string'])
-        else:
-            args = xml2py(my_iq['rpc_query']['method_response']['params'])
+            return None
+
+        args = xml2py(my_iq['rpc_query']['method_response']['params'])
+        return args[0]
+
+
+    async def find_devices(self, use_room_names):
+        """ Find the devices in the system, this is a big XML file   """
+        self.use_room_names = use_room_names
+        config = await self.get_config()
+
+        if config is not None:
             self.found_devices = True
 
-            root = ET.fromstring(args[0])
+            root = ET.fromstring(config)
 
             # make a list of the rooms and other names
             roomnames = get_room_names(root)

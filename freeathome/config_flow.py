@@ -9,7 +9,7 @@ from homeassistant.const import CONF_HOST, CONF_PORT, CONF_USERNAME, CONF_PASSWO
 
 from .fah.settings import SettingsFah
 from .const import DOMAIN, DEFAULT_USE_ROOM_NAMES, CONF_USE_ROOM_NAMES  # pylint:disable=unused-import
-from .pfreeathome import FreeAtHomeSysApp
+from .fah.pfreeathome import FreeAtHomeSysApp
 
 _LOGGER = logging.getLogger(__name__)
 
