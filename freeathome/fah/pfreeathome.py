@@ -1176,7 +1176,8 @@ class Client(slixmpp.ClientXMPP):
                             continue
 
                         # Add position suffix to name, e.g. 'LT' for left, top
-                        position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id]
+                        position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
+
                         self.add_sensor_unit(channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, roomnames)
 
                     # thermostat

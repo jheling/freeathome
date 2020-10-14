@@ -106,3 +106,62 @@ class TestBinarySensorsSplitted:
         sensor_top = client.binary_devices["ABB700D12345/ch0001"]
 
         assert sensor_top.name == "Sensor/ Schaltaktor Büro T"
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("B008_sensor_actuator_8gang.xml"))
+class TestBinarySensors8Gang:
+    async def test_binary_sensors(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        assert len(client.binary_devices) == 3
+
+        # Light switch
+        sensor = client.binary_devices["ABB2E0612345/ch0000"]
+
+        # Test attributes
+        assert sensor.name == "Taster (room1)"
+        assert sensor.serialnumber == "ABB2E0612345"
+        assert sensor.channel_id == "ch0000"
+        assert sensor.output_device == "odp0000"
+        assert sensor.device_info["identifiers"] == {("freeathome", "ABB2E0612345")}
+        assert sensor.device_info["name"] == "Sensor/ Schaltaktor 8/8fach, REG (ABB2E0612345)"
+        assert sensor.device_info["model"] == "Sensor/ Schaltaktor 8/8fach, REG"
+        assert sensor.device_info["sw_version"] == "1.11"
+        assert sensor.state == "0"
+
+        # Test device event
+        await client.update_devices(load_fixture("B008_update_sensor.xml"))
+        assert sensor.state == "1"
+
+        # Dimming sensor
+        dimming_sensor = client.binary_devices["ABB2E0612345/ch0001"]
+
+        assert dimming_sensor.name == "Dimmsensor (room1)"
+        assert dimming_sensor.serialnumber == "ABB2E0612345"
+        assert dimming_sensor.channel_id == "ch0001"
+        assert dimming_sensor.output_device == "odp0000"
+        assert dimming_sensor.state == "0"
+
+        # TODO: Add support for blind sensor
+
+        # Staircase sensor
+        staircase_sensor = client.binary_devices["ABB2E0612345/ch0003"]
+
+        assert staircase_sensor.name == "Treppenhauslichtsensor (room1)"
+        assert staircase_sensor.serialnumber == "ABB2E0612345"
+        assert staircase_sensor.channel_id == "ch0003"
+        assert staircase_sensor.output_device == "odp0000"
+        assert staircase_sensor.state == "0"
+
+        # TODO: Add support for force position light sensor
+        # TODO: Add support for force position cover sensor
+        # TODO: Add support for window contact sensor
+        # TODO: Add support for movement sensor
+
+    async def test_sensor_no_room_name(self, _):
+        client = get_client()
+        await client.find_devices(False)
+        sensor = client.binary_devices["ABB2E0612345/ch0000"]
+
+        assert sensor.name == "Taster"
+

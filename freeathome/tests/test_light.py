@@ -9,6 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
+    client.light_devices = {}
     client.set_datapoint = AsyncMock()
 
     return client
@@ -61,3 +62,43 @@ class TestLight:
         light = client.light_devices["ABB700D12345/ch0003"]
 
         assert light.name == "Büro"
+
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("B008_sensor_actuator_8gang.xml"))
+class TestLight8Gang:
+    async def test_light(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        assert len(client.light_devices) == 6
+        light = client.light_devices["ABB2E0612345/ch000C"]
+
+        # Test attributes
+        assert light.name == "Hinten rechts (room1)"
+        assert light.serialnumber == "ABB2E0612345"
+        assert light.channel_id == "ch000C"
+        assert light.device_info["identifiers"] == {("freeathome", "ABB2E0612345")}
+        assert light.device_info["name"] == "Sensor/ Schaltaktor 8/8fach, REG (ABB2E0612345)"
+        assert light.device_info["model"] == "Sensor/ Schaltaktor 8/8fach, REG"
+        assert light.device_info["sw_version"] == "1.11"
+        assert light.is_on() == False
+
+        # Test datapoints
+        await light.turn_on()
+        client.set_datapoint.assert_called_once_with("ABB2E0612345", "ch000C", "idp0000", "1")
+
+        client.set_datapoint.reset_mock()
+        await light.turn_off()
+        client.set_datapoint.assert_called_once_with("ABB2E0612345", "ch000C", "idp0000", "0")
+
+        # Test device being turned off
+        await client.update_devices(load_fixture("B008_update_light.xml"))
+        assert light.is_on() == True
+
+
+    async def test_light_no_room_name(self, _):
+        client = get_client()
+        await client.find_devices(False)
+        light = client.light_devices["ABB2E0612345/ch000C"]
+
+        assert light.name == "Hinten rechts"

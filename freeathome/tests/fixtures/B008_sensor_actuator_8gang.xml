@@ -1,0 +1,2134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="FEF1">Sensor/ Schaltaktor 8/8fach, REG</string>
+ </strings>
+ <devices>
+  <device domainAddress="1011" individualAddress="015B" nameId="FEF1" profile="0E20" maxAPDULength="38" compilerVersion="00000000" buildNumber="00000000" iconId="FFF0" protocolVersion="0000" minConfigVersion="0000" deviceFlavor="00" interface="TP" functionId="FEFC" shortSerialNumber="HUQ" softwareId="080B" softwareVersion="1.11" isTp="true" deviceId="B008" name="Sensor/switch&#x20;actuator,&#x20;8/8gang,&#x20;MDRC" serialNumber="ABB2E0612345" commissioningState="ready" consistencyTag="7800" copyId="7" progress="100">
+   <channels>
+    <channel channelId="040E" maxScenes="01" mask="00000001" nameId="021C" i="ch0000" cid="ABB2040E">
+     <attribute name="displayName">Taster</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">0</attribute>
+     <attribute name="offsetX">0.201846965699208</attribute>
+     <attribute name="offsetY">0.826166585286459</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1e</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">7ba9</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">d544</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="5" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000002" nameId="021D" i="ch0001" cid="ABB2040E">
+     <attribute name="displayName">Dimmsensor</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">1</attribute>
+     <attribute name="offsetX">0.431816498491788</attribute>
+     <attribute name="offsetY">0.779333292643229</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1e</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">8594</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">5ee2</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">b7f7</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000004" nameId="021E" i="ch0002" cid="ABB2040E">
+     <attribute name="displayName">Jalousiesensor</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">3</attribute>
+     <attribute name="offsetX">0.212401055408971</attribute>
+     <attribute name="offsetY">0.679333292643229</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1e</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">378b</address>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">6be0</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">cf94</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000008" nameId="021F" i="ch0003" cid="ABB2040E">
+     <attribute name="displayName">Treppenhauslichtsensor</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">0</attribute>
+     <attribute name="offsetX">0.0923482849604222</attribute>
+     <attribute name="offsetY">0.669333292643229</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1e</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">8594</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">b6b6</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000010" nameId="0220" i="ch0004" cid="ABB2040E">
+     <attribute name="displayName">Sensor Zwangsstellung Ein/Aus</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">5</attribute>
+     <attribute name="offsetX">0.325857519788918</attribute>
+     <attribute name="offsetY">0.805999959309896</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1e</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">7093</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+       <value>2</value>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000020" nameId="0221" i="ch0005" cid="ABB2040E">
+     <attribute name="displayName">Jalousiezwangsstellung</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">3</attribute>
+     <attribute name="offsetX">0.544854881266491</attribute>
+     <attribute name="offsetY">0.779333292643229</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1e</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">378b</address>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">392f</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">117e</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000040" nameId="0222" i="ch0006" cid="ABB2040E">
+     <attribute name="displayName">Fensterkontakt</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">f</attribute>
+     <attribute name="offsetX">0.662269129287599</attribute>
+     <attribute name="offsetY">0.770999959309896</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">51</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">5e72</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="040E" maxScenes="01" mask="00000080" nameId="0223" i="ch0007" cid="ABB2040E">
+     <attribute name="displayName">Bewegungsmelder-Sensor</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">11</attribute>
+     <attribute name="offsetX">0.783641160949868</attribute>
+     <attribute name="offsetY">0.779333292643229</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">52</attribute>
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+      <function functionId="002A" nameId="01D7" sensorMatchCode="00001000" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Switchover&#x20;heating/cooling"/>
+      <function functionId="0006" nameId="0035" sensorMatchCode="00000020" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Scene&#x20;sensor"/>
+      <function functionId="000C" nameId="015E" sensorMatchCode="00000040" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Wind&#x20;alarm"/>
+      <function functionId="000D" nameId="015F" sensorMatchCode="00000080" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Frost&#x20;alarm"/>
+      <function functionId="000E" nameId="0160" sensorMatchCode="00000100" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Rain&#x20;alarm"/>
+      <function functionId="000F" nameId="0161" sensorMatchCode="00000200" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Window&#x20;sensor"/>
+      <function functionId="0011" nameId="0163" sensorMatchCode="00000800" actuatorMatchCode="00000000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="true" bestMatch="false" name="Movement&#x20;detector&#x20;sensor"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000003" maxConnections="01" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0013" matchCode="00000002" maxConnections="01" pairingOptional="true" pairingId="0110" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Actual&#x20;Dimming&#x20;Value" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0151" matchCode="00000004" maxConnections="01" pairingOptional="true" pairingId="0120" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;2" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000008" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01D7" matchCode="00001000" maxConnections="01" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Switchover&#x20;heating/cooling" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000E" matchCode="00000020" maxConnections="01" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001A" matchCode="00000040" maxConnections="01" pairingId="0025" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Wind&#x20;Alarm" full="false" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001B" matchCode="00000080" maxConnections="01" pairingId="0026" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Frost&#x20;Alarm" full="false" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="001C" matchCode="00000100" maxConnections="01" pairingId="0027" dpt="0105" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Rain&#x20;Alarm" full="false" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="012E" matchCode="00000200" maxConnections="01" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000800" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp000D">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">3901</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="010E" maxScenes="01" mask="00000100" nameId="022B" i="ch0008" cid="ABB2010E">
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+     </functions>
+     <inputs/>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000808" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="010E" maxScenes="01" mask="00000200" nameId="022C" i="ch0009" cid="ABB2010E">
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+     </functions>
+     <inputs/>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000808" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="010E" maxScenes="01" mask="00000400" nameId="022D" i="ch000A" cid="ABB2010E">
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+     </functions>
+     <inputs/>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000808" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="010E" maxScenes="01" mask="00000800" nameId="022E" i="ch000B" cid="ABB2010E">
+     <functions>
+      <function functionId="0000" nameId="002F" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Control&#x20;element"/>
+      <function functionId="0001" nameId="0030" sensorMatchCode="00000002" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Dimming&#x20;sensor"/>
+      <function functionId="0003" nameId="0032" sensorMatchCode="00000004" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Blind&#x20;sensor"/>
+      <function functionId="0004" nameId="0033" sensorMatchCode="00000008" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Stairwell&#x20;light&#x20;sensor"/>
+      <function functionId="0005" nameId="0034" sensorMatchCode="00000010" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force&#x20;On/Off&#x20;sensor"/>
+      <function functionId="0028" nameId="01C6" sensorMatchCode="00002000" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Force-position&#x20;blind"/>
+     </functions>
+     <inputs/>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00000003" maxConnections="01" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0010" matchCode="00000002" maxConnections="01" pairingId="0010" dpt="0307" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Value" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0015" matchCode="00000004" maxConnections="01" pairingId="0020" dpt="0108" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Move&#x20;Up/Down" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0016" matchCode="00000004" maxConnections="01" pairingId="0021" dpt="0107" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Adjust&#x20;Up/Down" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000C" matchCode="00000808" maxConnections="01" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="000D" matchCode="00000010" maxConnections="01" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01C6" matchCode="00002000" maxConnections="01" pairingId="0028" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;blind" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0130" parameterId="0010" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="0000FFFF" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0006" isDefault="true" name="NO&#x20;contact"/>
+        <option key="2" nameId="0005" isDefault="false" name="NC&#x20;contact"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="020E" parameterId="0043" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002011" dpt="1464" visible="true" writable="true" name="Sensor&#x20;type" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="029F" isDefault="true" name="Buttons"/>
+        <option key="2" nameId="02A0" isDefault="false" name="Switch&#x20;(switchover)"/>
+        <option key="3" nameId="02A1" isDefault="false" name="Switch&#x20;(direct)"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01DA" parameterId="0011" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000010" dpt="1464" visible="true" writable="true" name="Forced&#x20;operation&#x20;value" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0186" isDefault="false" name="Force&#x20;Off"/>
+        <option key="2" nameId="0185" isDefault="true" name="Force&#x20;On"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="01C6" parameterId="000D" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00002000" dpt="1464" visible="true" writable="true" name="Force-position&#x20;blind" i="pm0003" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01C4" isDefault="true" name="Force-position&#x20;top"/>
+        <option key="2" nameId="01C5" isDefault="false" name="Force-position&#x20;bottom"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0211" parameterId="0024" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000020" dpt="1464" visible="true" writable="true" name="Long&#x20;press&#x20;of&#x20;the&#x20;button" i="pm0004" optional="false">
+       <valueEnum>
+        <option key="1" nameId="0212" isDefault="true" name="Overwrite&#x20;scene"/>
+        <option key="2" nameId="0213" isDefault="false" name="Retain&#x20;scene"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene nameId="0277" name="Scene" active="false" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00010000" nameId="004F" i="ch000C" cid="ABB20208">
+     <attribute name="displayName">Hinten rechts</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">7</attribute>
+     <attribute name="offsetX">0.158088892366816</attribute>
+     <attribute name="offsetY">0.741397688016201</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="true">5bb</address>
+       <address timeSlot="0" primary="false" singleSink="false">5b58</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>7</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">4cbe</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">c3fe</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="1" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="3" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00020000" nameId="0050" i="ch000D" cid="ABB20208">
+     <attribute name="displayName">Couchtisch</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">7</attribute>
+     <attribute name="offsetX">0.725985844287159</attribute>
+     <attribute name="offsetY">0.7413976880162011</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="true">2223</address>
+       <address timeSlot="0" primary="false" singleSink="false">4d42</address>
+       <address timeSlot="0" primary="false" singleSink="false">439d</address>
+       <address timeSlot="0" primary="false" singleSink="false">5ee2</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>1</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">7093</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>7</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">3901</address>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">8594</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">5b04</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="1" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="3" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>1</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00040000" nameId="0051" i="ch000E" cid="ABB20208">
+     <attribute name="displayName">Vorne links</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">7</attribute>
+     <attribute name="offsetX">0.725985844287159</attribute>
+     <attribute name="offsetY">0.48802518443901</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="true">bf91</address>
+       <address timeSlot="0" primary="false" singleSink="false">a18e</address>
+       <address timeSlot="0" primary="false" singleSink="false">1720</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>7</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">16d4</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">155f</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="1" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="3" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00080000" nameId="0052" i="ch000F" cid="ABB20208">
+     <attribute name="displayName">Küche hinten</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">7</attribute>
+     <attribute name="offsetX">0.468041174190561</attribute>
+     <attribute name="offsetY">0.236255856675183</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="true">861b</address>
+       <address timeSlot="0" primary="false" singleSink="false">5223</address>
+       <address timeSlot="0" primary="false" singleSink="false">44ec</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>1</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>7</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>1</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">8190</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">881b</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="1" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="5" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>1</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00100000" nameId="0053" i="ch0010" cid="ABB20208">
+     <attribute name="displayName">Küche Vorne</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">7</attribute>
+     <attribute name="offsetX">0.402963697295828</attribute>
+     <attribute name="offsetY">0.7761452721570152</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">1</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="true">3275</address>
+       <address timeSlot="0" primary="false" singleSink="false">cf7b</address>
+       <address timeSlot="0" primary="false" singleSink="false">dd0f</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>7</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">370c</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">b726</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="1" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00200000" nameId="0054" i="ch0011" cid="ABB20208">
+     <attribute name="functionId">7</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="true">2339</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>1</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>7</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>1</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">a527</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">d16f</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="1" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="3" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>1</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00400000" nameId="0055" i="ch0012" cid="ABB20208">
+     <attribute name="displayName">Trigger</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">45</attribute>
+     <attribute name="offsetX">0.079155672823219</attribute>
+     <attribute name="offsetY">0.826166585286459</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">11</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+       <value>10</value>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+    <channel channelId="0208" maxScenes="0A" mask="00800000" nameId="0056" i="ch0013" cid="ABB20208">
+     <attribute name="functionId">7</attribute>
+     <attribute name="selectedIcon">0</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00010000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00020000" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="true" nameId="000B" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="true">4dda</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00030000" maxConnections="14" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01F6" matchCode="00010000" maxConnections="14" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00010000" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">9975</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0150" matchCode="00010000" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;1" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">eac</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0028" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="18000" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0027" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00010000" dpt="1464" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00020000" dpt="0704" visible="false" writable="false" name="Trigger&#x20;duration" i="pm0002" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+   </channels>
+   <parameters>
+    <parameter channelSelector="true" deviceChannelSelector="false" nameId="0214" parameterId="0026" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="FFFFFFFF" dpt="14C8" visible="true" writable="true" name="Channel&#x20;selection&#x20;(inputs)" i="pm0000" optional="false">
+     <valueEnum>
+      <option key="1" nameId="0215" isDefault="true" mask="00FF00FF" name="ⓐ,&#x20;ⓑ,&#x20;ⓒ,&#x20;ⓓ,&#x20;ⓔ,&#x20;ⓕ,&#x20;ⓖ,&#x20;ⓗ"/>
+      <option key="2" nameId="0217" isDefault="false" mask="00FF0F00" name="ⓐ+ⓑ,&#x20;ⓒ+ⓓ,&#x20;ⓔ+ⓕ,&#x20;ⓖ+ⓗ"/>
+      <option key="3" nameId="0216" isDefault="false" mask="00FF03F0" name="ⓐ+ⓑ,&#x20;ⓒ+ⓓ,&#x20;ⓔ,&#x20;ⓕ,&#x20;ⓖ,&#x20;ⓗ"/>
+     </valueEnum>
+     <value>1</value>
+    </parameter>
+   </parameters>
+   <dicts/>
+  </device>
+ </devices>
+</project>
