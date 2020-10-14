@@ -1182,7 +1182,7 @@ class Client(slixmpp.ClientXMPP):
 
                     # thermostat
                     if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
-                        self.add_thermostat(channel, channel_id, display_name, device_info, device_serialnumber, roomnames)
+                        self.add_thermostat(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, roomnames)
 
                     # TODO: Add binary sensor based on its function ID
                     # # binary sensor
