@@ -165,3 +165,12 @@ class TestBinarySensors8Gang:
 
         assert sensor.name == "Taster"
 
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1013_blind_sensor_actuator_1gang.xml"))
+class TestBinarySensorsCover:
+    async def test_binary_sensors(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        # Cover sensor does not yield a binary sensor (there is no on/off state)
+        assert len(client.binary_devices) == 0
