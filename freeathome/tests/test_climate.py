@@ -97,6 +97,13 @@ class TestClimate:
         assert climate.ecomode == False
         assert climate.target_temperature == '21'
 
+        # Test alternative ecomode turn on
+        climate.update_datapoint('odp0009', '36')
+        assert climate.ecomode == True
+
+        climate.update_datapoint('odp0009', '33')
+        assert climate.ecomode == False
+
     async def test_climate_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)

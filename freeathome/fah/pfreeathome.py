@@ -231,7 +231,7 @@ class FahThermostat(FahDevice):
 
     @ecomode.setter
     def ecomode(self, eco_mode):
-        self._eco_mode = eco_mode == '68'
+        self._eco_mode = int(eco_mode) & 0x04 == 0x04
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
