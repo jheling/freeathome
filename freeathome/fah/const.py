@@ -54,3 +54,11 @@ NAME_IDS_TO_BINARY_SENSOR_SUFFIX = {
         0x0066: ' T',  # 1-way, top
         0x0067: ' B',
         }
+
+### Pairing IDs
+
+# Switch actuator
+PID_SWITCH_ON_OFF = 0x0001
+PID_ABSOLUTE_SET_VALUE = 0x0011
+PID_INFO_ON_OFF = 0x0100
+PID_INFO_ACTUAL_DIMMING_VALUE = 0x110

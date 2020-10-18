@@ -28,6 +28,10 @@ from .const import (
     FUNCTION_IDS_SCENE,
     FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER,
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
+    PID_SWITCH_ON_OFF,
+    PID_ABSOLUTE_SET_VALUE,
+    PID_INFO_ON_OFF,
+    PID_INFO_ACTUAL_DIMMING_VALUE,
     )
 from .messagereader import MessageReader
 from .settings import SettingsFah
@@ -71,13 +75,14 @@ def message2py(mes):
 class FahDevice:
     """ Free@Home base object """
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, device_updated_cb=None):
+    def __init__(self, client, device_info, serialnumber, channel_id, name, datapoints={}, device_updated_cb=None):
         self._device_info = device_info
         self._serialnumber = serialnumber
         self._channel_id = channel_id
         self._name = name
         self._client = client
         self._device_updated_cbs = []
+        self._datapoints = datapoints
         if device_updated_cb is not None:
             self.register_device_updated_cb(device_updated_cb)
 
@@ -118,6 +123,11 @@ class FahDevice:
     def device_info(self):
         """Return device info."""
         return self._device_info
+
+    @property
+    def lookup_key(self):
+        """Return device lookup key"""
+        return self.serialnumber + "/" + self.channel_id
 
 class FahSensor(FahDevice):
     """ Free@Home sensor object """
@@ -249,31 +259,32 @@ class FahLight(FahDevice):
     light_type = None
     brightness = None
 
-    # pylint: disable=too-many-arguments
-    def __init__(self, client, device_info, serialnumber, channel_id, name, state=False, light_type='normal', brightness=None):
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name)
-        self.state = state
-        self.light_type = light_type
-        self.brightness = brightness
+    def pairing_ids(function_id=None):
+        # TODO: Determine from function ID which pairing IDs are relevant
+        # E.g. dimmer -> Adds absolute set value and actual dimming value
+        return [
+                PID_SWITCH_ON_OFF,
+                PID_INFO_ON_OFF,
+                ]
 
     async def turn_on(self):
         """ Turn the light on   """
         oldstate = self.state
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0000', '1')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_SWITCH_ON_OFF], '1')
         self.state = True
 
-        if self.light_type == 'dimmer' \
+        if self.is_dimmer() \
                 and ((oldstate != self.state and int(self.brightness) > 0) or (oldstate == self.state)):
-            await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0002', str(self.brightness))
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ABSOLUTE_SET_VALUE], str(self.brightness))
 
     async def turn_off(self):
         """ Turn the light off   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0000', '0')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_SWITCH_ON_OFF], '0')
         self.state = False
 
     def set_brightness(self, brightness):
         """ Set the brightness of the light  """
-        if self.light_type == 'dimmer':
+        if self.is_dimmer():
             self.brightness = brightness
 
     def get_brightness(self):
@@ -283,6 +294,23 @@ class FahLight(FahDevice):
     def is_on(self):
         """ Return the state of the light   """
         return self.state
+
+    def is_dimmer(self):
+        """Return true if device is a dimmer"""
+        return PID_ABSOLUTE_SET_VALUE in self._datapoints
+
+    def update_datapoint(self, dp, value):
+        """Receive updated datapoint."""
+        if PID_INFO_ON_OFF in self._datapoints and self._datapoints[PID_INFO_ON_OFF] == dp:
+            self.state = (value == '1')
+            LOG.info("device %s (%s) is %s",
+                     self.name, self.lookup_key, self.state)
+
+        elif PID_INFO_ACTUAL_DIMMING_VALUE in self._datapoints and self._datapoints[PID_INFO_ACTUAL_DIMMING_VALUE] == dp:
+            self.brightness = value
+            LOG.info("device %s (%s) brightness %s",
+                     self.name, self.lookup_key,
+                     self.brightness)
 
 
 class FahLightScene(FahDevice):
@@ -411,14 +439,22 @@ def get_output_datapoint(xmlnode, output_name):
     return None
 
 
-def is_output_datapoint_assigned(xmlnode, output_name):
-    """Return True if output datapoint has an address assigned"""
-    outputs = xmlnode.find('outputs')
-    for datapoint in outputs.findall('dataPoint'):
-        if datapoint.get('i') == output_name:
-            if datapoint.find('address') is not None:
-                return True
-    return False
+def get_datapoint_by_pairing_id(xmlnode, pairing_id):
+    """Returns output datapoint by pairing id."""
+    for datapoint in xmlnode.findall('.//dataPoint'):
+        if int(datapoint.get('pairingId'), 16) == pairing_id:
+            return datapoint.get('i')
+
+    return None
+
+
+def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
+    """Returns a dict with pairing id as key and datapoint number as value."""
+    datapoints = {}
+    for pairing_id in pairing_ids:
+        datapoints[pairing_id] = get_datapoint_by_pairing_id(xmlnode, pairing_id)
+
+    return datapoints
 
 
 class Client(slixmpp.ClientXMPP):
@@ -430,13 +466,8 @@ class Client(slixmpp.ClientXMPP):
     connect_in_error = False
 
     # The specific devices
-    binary_devices = {}
-    light_devices = {}
-    scene_devices = {}
-    cover_devices = {}
-    thermostat_devices = {}
-    sensor_devices = {}
-    lock_devices = {}
+    devices = {}
+    monitored_datapoints = {}
 
     switch_type_1 = {
         '1': [0],  # Normal switch  (channel 0)
@@ -602,32 +633,36 @@ class Client(slixmpp.ClientXMPP):
 
         return my_iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
 
+    def filter_devices(self, device_class):
+        """Returns list of devices, filtered by a specific device class."""
+        return dict(filter(lambda el: isinstance(el[1], device_class), self.devices.items()))
+
     def get_devices(self, device_type):
         """ After all the devices have been extracted from the xml file,
         the lists with device objects are returned to HA
         """
-        return_type = None
+        return_type = {}
 
         if device_type == 'light':
-            return_type = self.light_devices
+            return self.filter_devices(FahLight)
 
-        if device_type == 'scene':
-            return_type = self.scene_devices
+        # if device_type == 'scene':
+        #     return_type = self.scene_devices
 
-        if device_type == 'cover':
-            return_type = self.cover_devices
+        # if device_type == 'cover':
+        #     return_type = self.cover_devices
 
-        if device_type == 'binary_sensor':
-            return_type = self.binary_devices
+        # if device_type == 'binary_sensor':
+        #     return_type = self.binary_devices
 
-        if device_type == 'thermostat':
-            return_type = self.thermostat_devices
+        # if device_type == 'thermostat':
+        #     return_type = self.thermostat_devices
 
-        if device_type == 'sensor':
-            return_type = self.sensor_devices
+        # if device_type == 'sensor':
+        #     return_type = self.sensor_devices
 
-        if device_type == 'lock':
-            return_type = self.lock_devices
+        # if device_type == 'lock':
+        #     return_type = self.lock_devices
 
         return return_type
 
@@ -690,8 +725,11 @@ class Client(slixmpp.ClientXMPP):
     async def update_devices(self, xml):
         root = ET.fromstring(xml)
 
-        device = root.find('devices')
-        for device in device.findall('device'):
+        updated_devices = set()
+
+        # Iterate over all channels -> devices -> datapoints
+        devices = root.find('devices')
+        for device in devices.findall('device'):
             serialnumber = device.get('serialNumber')
 
             channels = device.find('channels')
@@ -699,56 +737,23 @@ class Client(slixmpp.ClientXMPP):
                 for channel in channels.findall('channel'):
                     channel_id = channel.get('i')
 
-                    # Now change the status of the device
-                    device_id = serialnumber + '/' + channel_id
+                    datapoints = device.findall('.//dataPoint')
+                    if datapoints is not None:
+                        for datapoint in datapoints:
+                            datapoint_id = datapoint.get('i')
 
-                    # if the device is a light
-                    if device_id in self.light_devices:
-                        self.update_light(device_id, channel)
-                        await self.light_devices[device_id].after_update()
+                            # Notify every device that monitors the received datapoint
+                            lookup_key = serialnumber + '/' + channel_id + '/' + datapoint_id
+                            value = datapoint.find('value')
+                            if lookup_key in self.monitored_datapoints and value is not None:
+                                monitoring_device = self.monitored_datapoints[lookup_key]
+                                LOG.info("device %s: sending updated datapoint %s = %s", monitoring_device.name, lookup_key, value.text)
+                                monitoring_device.update_datapoint(datapoint_id, value.text)
+                                updated_devices.add(monitoring_device)
 
-                    # if the device is a cover
-                    if device_id in self.cover_devices:
-                        self.update_cover(device_id, channel)
-                        await self.cover_devices[device_id].after_update()
+        for device in updated_devices:
+            await device.after_update()
 
-                    # if the device is a binary sensor
-                    if device_id in self.binary_devices:
-                        self.update_binary(device_id, channel)
-                        await self.binary_devices[device_id].after_update()
-
-                    # if the device is a thermostat
-                    if device_id in self.thermostat_devices:
-                        self.update_thermostat(device_id, channel)
-                        await self.thermostat_devices[device_id].after_update()
-
-                    # if the device is a (weather) sensor  
-                    if device_id in self.sensor_devices:
-                        self.update_sensor(device_id, channel)
-                        await self.sensor_devices[device_id].after_update()
-
-                    # if the device is a lock  
-                    if device_id in self.lock_devices:
-                        self.update_lock(device_id, channel)
-                        await self.lock_devices[device_id].after_update()
-
-
-    def update_light(self, device_id, channel):
-        """ Update status of light devices   """
-        light_state = get_output_datapoint(channel, 'odp0000')
-        if light_state is not None:
-            state = (light_state == '1')
-
-            self.light_devices[device_id].state = state
-            LOG.info("device %s (%s) is %s",
-                     self.light_devices[device_id].name, device_id, state)
-
-        brightness = get_output_datapoint(channel, 'odp0001')
-        if brightness is not None:
-            self.light_devices[device_id].brightness = brightness
-            LOG.info("device %s (%s) brightness %s",
-                     self.light_devices[device_id].name, device_id,
-                     self.light_devices[device_id].brightness)
 
     def update_cover(self, device_id, channel):
         """ Update the status of blind/cover devices """
@@ -824,19 +829,28 @@ class Client(slixmpp.ClientXMPP):
             self.lock_devices[device_id].state = lock_state
             LOG.info("lock device %s output %s is %s", device_id, lock_state)            
 
-    def add_light_device(self, channel, channel_id, display_name, device_info, serialnumber, roomnames):
-        """ Add a switch unit to the list of light devices   """
-        # TODO: Derive odp from name_id
-        light_state = (get_output_datapoint(channel, 'odp0000') == '1')
+    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, pairing_ids):
+        """ Add generic device to the list of light devices   """
+        datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
+
+        device = fah_class(
+                self,
+                device_info,
+                serialnumber,
+                channel_id,
+                display_name,
+                datapoints=datapoints)
 
         lookup_key = serialnumber + '/' + channel_id
-        self.light_devices[lookup_key] = FahLight(self, device_info, serialnumber, channel_id,
-                                                    display_name, light_state)
+        self.devices[lookup_key] = device
 
-        LOG.info('light  %s %s is %s', lookup_key, display_name, light_state)
+        for datapoint in datapoints.values():
+            self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
+
+        LOG.info('light  %s %s, datapoints %s', lookup_key, display_name, datapoints)
 
 
-    def add_dimmer_device(self, channel, channel_id, display_name, device_info, serialnumber, roomnames):
+    def add_dimmer_device(self, channel, channel_id, display_name, device_info, serialnumber):
         """ Add a dimmer unit to the list of light devices  """
         brightness = get_output_datapoint(channel, 'odp0001')
         light_state = (get_output_datapoint(channel, 'odp0000') == '1')
@@ -849,7 +863,7 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('dimmer %s %s is %s', lookup_key, display_name, light_state)
 
 
-    def add_scene(self, channel, channel_id, display_name, device_info, serialnumber, roomnames):
+    def add_scene(self, channel, channel_id, display_name, device_info, serialnumber):
         """ Add a scene to the list of scenes   """
         lookup_key = serialnumber + '/' + channel_id
         self.scene_devices[lookup_key] = FahLightScene(self, device_info, serialnumber, channel_id, display_name)
@@ -857,7 +871,7 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('scene  %s %s', lookup_key, display_name)
 
 
-    def add_cover_device(self, channel, channel_id, display_name, device_info, serialnumber, roomnames):
+    def add_cover_device(self, channel, channel_id, display_name, device_info, serialnumber):
         """ Add a blind/cover to the list of cover devices   """
         cover_state = get_output_datapoint(channel, 'odp0000')
         cover_position = str(abs(100 - int(float(get_output_datapoint(channel, 'odp0001')))))
@@ -870,7 +884,7 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('cover %s %s is %s', lookup_key, display_name, cover_state)
 
 
-    def add_sensor_unit(self, channel, channel_id, display_name, device_info, serialnumber, roomnames):
+    def add_sensor_unit(self, channel, channel_id, display_name, device_info, serialnumber):
         """ Add a sensor unit to the list of binary devices """
         state = get_output_datapoint(channel, 'odp0000')
         lookup_key = serialnumber + '/' + channel_id
@@ -939,7 +953,7 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('movement sensor %s %s ', movement_device, movement_name)
             
 
-    def add_thermostat(self, channel, channel_id, display_name, device_info, serialnumber, roomnames):
+    def add_thermostat(self, channel, channel_id, display_name, device_info, serialnumber):
         """ Add a thermostat to the list of thermostat devices """
         device_id = 'ch0000'
         lookup_key = serialnumber + '/' + device_id
@@ -1154,35 +1168,37 @@ class Client(slixmpp.ClientXMPP):
 
                     # Switch actuators
                     if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR:
-                        self.add_light_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, roomnames)
+                        pairing_ids = FahLight.pairing_ids()
+                        self.add_device(FahLight, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
-                    # Dimming actuators
-                    if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
-                        self.add_dimmer_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, roomnames)
+                    # # Dimming actuators
+                    # if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
+                    #     self.add_dimmer_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
-                    # Scene or Timer
-                    if function_id in FUNCTION_IDS_SCENE:
-                        self.add_scene(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, roomnames)
+                    # # Scene or Timer
+                    # if function_id in FUNCTION_IDS_SCENE:
+                    #     self.add_scene(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
-                    # blind/cover device
-                    if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
-                        self.add_cover_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, roomnames)
+                    # # blind/cover device
+                    # if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
+                    #     self.add_cover_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
-                    # Sensor units 1/2 way
-                    if function_id in FUNCTION_IDS_SENSOR_UNIT:
-                        # Do not add sensor unit if it is not assigned to a device
-                        if not is_output_datapoint_assigned(channel, 'odp0000'):
-                            LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it has no address assigned', device_serialnumber, channel_id, function_id)
-                            continue
+                    # # Sensor units 1/2 way
+                    # if function_id in FUNCTION_IDS_SENSOR_UNIT:
+                    #     # Do not add sensor unit if it is not assigned to a device
+                    #     if not is_output_datapoint_assigned(channel, 'odp0000'):
+                    #         LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it has no address assigned', device_serialnumber, channel_id, function_id)
+                    #         continue
 
-                        # Add position suffix to name, e.g. 'LT' for left, top
-                        position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
+                    #     # Add position suffix to name, e.g. 'LT' for left, top
+                    #     position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
 
-                        self.add_sensor_unit(channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, roomnames)
+                    #     self.add_sensor_unit(channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber)
 
-                    # thermostat
-                    if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
-                        self.add_thermostat(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, roomnames)
+
+                    # # thermostat
+                    # if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
+                    #     self.add_thermostat(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
                     # TODO: Add binary sensor based on its function ID
                     # # binary sensor
@@ -1205,6 +1221,10 @@ class Client(slixmpp.ClientXMPP):
                     # if device_id == '1038':
                     #     self.scan_panel(device, device_info, device_serialnumber, roomnames)
 
+
+
+            # Update all devices with initial state
+            await self.update_devices(config)
 
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp

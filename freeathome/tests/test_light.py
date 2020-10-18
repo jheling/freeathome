@@ -9,7 +9,8 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.light_devices = {}
+    client.devices = {}
+    client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
 
     return client
@@ -30,8 +31,8 @@ class TestLight:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.light_devices) == 1
-        light = client.light_devices["ABB700D12345/ch0003"]
+        assert len(client.devices) == 1
+        light = client.get_devices("light")["ABB700D12345/ch0003"]
 
         # Test attributes
         assert light.name == "Büro (room1)"
@@ -59,7 +60,7 @@ class TestLight:
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        light = client.light_devices["ABB700D12345/ch0003"]
+        light = client.get_devices("light")["ABB700D12345/ch0003"]
 
         assert light.name == "Büro"
 
@@ -70,8 +71,8 @@ class TestLight8Gang:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.light_devices) == 6
-        light = client.light_devices["ABB2E0612345/ch000C"]
+        assert len(client.get_devices("light")) == 6
+        light = client.get_devices("light")["ABB2E0612345/ch000C"]
 
         # Test attributes
         assert light.name == "Hinten rechts (room1)"
@@ -99,6 +100,6 @@ class TestLight8Gang:
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        light = client.light_devices["ABB2E0612345/ch000C"]
+        light = client.get_devices("light")["ABB2E0612345/ch000C"]
 
         assert light.name == "Hinten rechts"
