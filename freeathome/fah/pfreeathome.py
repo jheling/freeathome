@@ -490,9 +490,6 @@ def get_output_datapoint(xmlnode, output_name):
 def get_datapoint_by_pairing_id(xmlnode, type, pairing_id):
     """Returns output datapoint by pairing id."""
     for datapoint in xmlnode.find(type).findall('dataPoint'):
-        # TODO: Hack: skip invalid (e.g. measured temperature for climate)
-        if datapoint.find('value').text == 'invalid':
-            continue
         if int(datapoint.get('pairingId'), 16) == pairing_id:
             return datapoint.get('i')
 
@@ -1068,6 +1065,7 @@ class Client(slixmpp.ClientXMPP):
                     channel_floor_id = get_attribute(channel, 'floor')
                     channel_room_id = get_attribute(channel, 'room')
 
+                    # TODO: Move this to the custom component part
                     # Use room information from device if channel is in same location
                     floor_id = device_floor_id if channel_floor_id == '' or same_location == 'true' else channel_floor_id
                     room_id = device_room_id if channel_floor_id == '' or same_location == 'true' else channel_room_id
