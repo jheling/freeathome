@@ -29,13 +29,13 @@ class FreeAtHomeLight(LightEntity):
     _name = ''
     _state = None
     _brightness = None
-    _light_type = None
+    _is_dimmer = None
 
     def __init__(self, device):
         self.light_device = device
         self._name = self.light_device.name
         self._state = self.light_device.state
-        self._light_type = self.light_device.light_type
+        self._is_dimmer = self.light_device.is_dimmer()
         if self.light_device.brightness is not None:
             self._brightness = int(float(self.light_device.brightness) * 2.55)
         else:
@@ -64,7 +64,7 @@ class FreeAtHomeLight(LightEntity):
     @property
     def supported_features(self):
         """Flag supported features."""
-        if self._light_type == 'dimmer':
+        if self._is_dimmer:
             return SUPPORT_BRIGHTNESS
         return 0
 

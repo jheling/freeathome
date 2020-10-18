@@ -1,6 +1,6 @@
 import pytest
 import logging
-from async_mock import patch, AsyncMock
+from async_mock import call,patch, AsyncMock
 
 from fah.pfreeathome import Client
 from common import load_fixture
@@ -103,3 +103,58 @@ class TestLight8Gang:
         light = client.get_devices("light")["ABB2E0612345/ch000C"]
 
         assert light.name == "Hinten rechts"
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("hue_dimmer.xml"))
+class TestDimmer:
+    async def test_dimmer(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        assert len(client.devices) == 1
+        light = client.get_devices("light")["BEED82AC0001/ch0000"]
+
+        # Test attributes
+        assert light.name == "Arbeitsfläche (room1)"
+        assert light.serialnumber == "BEED82AC0001"
+        assert light.channel_id == "ch0000"
+        assert light.device_info["identifiers"] == {("freeathome", "BEED82AC0001")}
+        assert light.device_info["name"] == "Arbeitsfläche (BEED82AC0001)"
+        assert light.device_info["model"] == "Hue Aktor"
+        assert light.device_info["sw_version"] == "123" # ABB dev humor?
+        assert light.is_on() == True
+
+        # Test datapoints
+        await light.turn_on()
+        client.set_datapoint.assert_has_calls([
+                call("BEED82AC0001", "ch0000", "idp0000", "1"),
+                call("BEED82AC0001", "ch0000", "idp0002", "100"),
+                ])
+
+        client.set_datapoint.reset_mock()
+        await light.turn_off()
+        client.set_datapoint.assert_called_once_with("BEED82AC0001", "ch0000", "idp0000", "0")
+
+        # Set brightness
+        client.set_datapoint.reset_mock()
+        light.set_brightness('48')
+        await light.turn_on()
+        client.set_datapoint.assert_has_calls([
+                call("BEED82AC0001", "ch0000", "idp0000", "1"),
+                call("BEED82AC0001", "ch0000", "idp0002", "48"),
+                ])
+
+        # Test device being turned off
+        light.update_datapoint('odp0001', '36')
+        assert light.get_brightness() == '36'
+
+        # Test device being turned off
+        light.update_datapoint('odp0000', '0')
+        assert light.is_on() == False
+
+
+    async def test_light_no_room_name(self, _):
+        client = get_client()
+        await client.find_devices(False)
+        light = client.get_devices("light")["BEED82AC0001/ch0000"]
+
+        assert light.name == "Arbeitsfläche"

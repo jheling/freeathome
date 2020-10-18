@@ -263,16 +263,26 @@ class FahLight(FahDevice):
     brightness = None
 
     def pairing_ids(function_id=None):
-        # TODO: Determine from function ID which pairing IDs are relevant
-        # E.g. dimmer -> Adds absolute set value and actual dimming value
-        return {
-                "inputs": [
-                    PID_SWITCH_ON_OFF,
-                    ],
-                "outputs": [
-                    PID_INFO_ON_OFF,
-                    ]
-                }
+        if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR:
+            return {
+                    "inputs": [
+                        PID_SWITCH_ON_OFF,
+                        ],
+                    "outputs": [
+                        PID_INFO_ON_OFF,
+                        ]
+                    }
+        elif function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
+            return {
+                    "inputs": [
+                        PID_SWITCH_ON_OFF,
+                        PID_ABSOLUTE_SET_VALUE,
+                        ],
+                    "outputs": [
+                        PID_INFO_ON_OFF,
+                        PID_INFO_ACTUAL_DIMMING_VALUE,
+                        ]
+                    }
 
     async def turn_on(self):
         """ Turn the light on   """
@@ -842,19 +852,6 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('light  %s %s, datapoints %s', lookup_key, display_name, datapoints)
 
 
-    def add_dimmer_device(self, channel, channel_id, display_name, device_info, serialnumber):
-        """ Add a dimmer unit to the list of light devices  """
-        brightness = get_output_datapoint(channel, 'odp0001')
-        light_state = (get_output_datapoint(channel, 'odp0000') == '1')
-
-        lookup_key = serialnumber + '/' + channel_id
-        self.light_devices[lookup_key] = FahLight(self, device_info, serialnumber, channel_id, display_name,
-                                                    light_state, light_type='dimmer',
-                                                    brightness=brightness)
-
-        LOG.info('dimmer %s %s is %s', lookup_key, display_name, light_state)
-
-
     def add_scene(self, channel, channel_id, display_name, device_info, serialnumber):
         """ Add a scene to the list of scenes   """
         lookup_key = serialnumber + '/' + channel_id
@@ -1095,12 +1092,13 @@ class Client(slixmpp.ClientXMPP):
 
                     # Switch actuators
                     if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR:
-                        pairing_ids = FahLight.pairing_ids()
+                        pairing_ids = FahLight.pairing_ids(function_id)
                         self.add_device(FahLight, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
-                    # # Dimming actuators
-                    # if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
-                    #     self.add_dimmer_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
+                    # Dimming actuators
+                    if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
+                        pairing_ids = FahLight.pairing_ids(function_id)
+                        self.add_device(FahLight, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
                     # # Scene or Timer
                     # if function_id in FUNCTION_IDS_SCENE:
