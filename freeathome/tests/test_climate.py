@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.thermostat_devices = {}
+    client.devices = {}
     client.set_datapoint = AsyncMock()
 
     return client
@@ -30,8 +30,8 @@ class TestClimate:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.thermostat_devices) == 1
-        climate = client.thermostat_devices["ABB700D12345/ch0000"]
+        assert len(client.get_devices("thermostat")) == 1
+        climate = client.get_devices("thermostat")["ABB700D12345/ch0000"]
 
         # Test attributes
         assert climate.name == "RTR AB (room1)"
@@ -97,9 +97,9 @@ class TestClimate:
         assert climate.ecomode == False
         assert climate.target_temperature == '21'
 
-    async def test_light_no_room_name(self, _):
+    async def test_climate_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        climate = client.thermostat_devices["ABB700D12345/ch0000"]
+        climate = client.get_devices("thermostat")["ABB700D12345/ch0000"]
 
         assert climate.name == "RTR AB"

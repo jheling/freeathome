@@ -39,6 +39,14 @@ from .const import (
     PID_INFO_MOVE_UP_DOWN,
     PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
     PID_FORCE_POSITION_INFO,
+    PID_ECO_MODE_ON_OFF_REQUEST,
+    PID_CONTROLLER_ON_OFF_REQUEST,
+    PID_ABSOLUTE_SETPOINT_TEMPERATURE,
+    PID_SET_VALUE_TEMPERATURE,
+    PID_CONTROLLER_ON_OFF,
+    PID_STATUS_INDICATION,
+    PID_MEASURED_TEMPERATURE,
+    PID_HEATING_DEMAND,
     )
 from .messagereader import MessageReader
 from .settings import SettingsFah
@@ -177,29 +185,37 @@ class FahThermostat(FahDevice):
     current_actuator = None
     target_temperature = None
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, temperature=None, target=None, state=None, eco_mode=None, heating_actor=None):
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name)
-        self.current_temperature = temperature
-        self.current_actuator = heating_actor
-        self.target_temperature = target
-        self.state = state
-        self.ecomode = eco_mode
+    def pairing_ids(function_id=None):
+        return {
+                "inputs": [
+                    PID_ECO_MODE_ON_OFF_REQUEST,
+                    PID_CONTROLLER_ON_OFF_REQUEST,
+                    PID_ABSOLUTE_SETPOINT_TEMPERATURE,
+                    ],
+                "outputs": [
+                    PID_SET_VALUE_TEMPERATURE,
+                    PID_CONTROLLER_ON_OFF,
+                    PID_STATUS_INDICATION,
+                    PID_MEASURED_TEMPERATURE,
+                    PID_HEATING_DEMAND,
+                    ]
+                }
 
     async def turn_on(self):
         """ Turn the thermostat on   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0011', '0')
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0012', '1')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ECO_MODE_ON_OFF_REQUEST], '0')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_CONTROLLER_ON_OFF_REQUEST], '1')
 
     async def turn_off(self):
         """ Turn the thermostat off   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0012', '0')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_CONTROLLER_ON_OFF_REQUEST], '0')
 
     async def eco_mode(self):
         """ Put the thermostat in eco mode   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0011', '2')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ECO_MODE_ON_OFF_REQUEST], '2')
 
     async def set_target_temperature(self, temperature):
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0016', '%.2f' % temperature)
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ABSOLUTE_SETPOINT_TEMPERATURE], '%.2f' % temperature)
 
     @property
     def state(self):
@@ -217,48 +233,28 @@ class FahThermostat(FahDevice):
     def ecomode(self, eco_mode):
         self._eco_mode = eco_mode == '68'
 
-class FahThermostatDisp(FahDevice):
-    """Free@Home thermostat """
-    current_temperature = None
-    target_temperature = None
+    def update_datapoint(self, dp, value):
+        """Receive updated datapoint."""
+        if self._datapoints.get(PID_SET_VALUE_TEMPERATURE) == dp:
+            self.target_temperature = value
+            LOG.info("thermostat device %s target temp is %s", self.lookup_key, value)
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, temperature=None, target=None, state=None, eco_mode=None):
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name)
-        self.current_temperature = temperature
-        self.target_temperature = target
-        self.state = state
-        self.ecomode = eco_mode
+        elif self._datapoints.get(PID_CONTROLLER_ON_OFF) == dp:
+            self.state = value
+            LOG.info("thermostat device %s state is %s", self.lookup_key, value)
 
-    async def turn_on(self):
-        """ Turn the thermostat on   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp000C', '1')
+        elif self._datapoints.get(PID_STATUS_INDICATION) == dp:
+            self.ecomode = value
+            LOG.info("thermostat device %s eco mode is %s", self.lookup_key, value)
 
-    async def turn_off(self):
-        """ Turn the thermostat off   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp000C', '0')
-		
-    async def eco_mode(self):
-        """ Put the thermostat in eco mode   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp000B', '1')
+        elif self._datapoints.get(PID_MEASURED_TEMPERATURE) == dp:
+            self.current_temperature = value
+            LOG.info("thermostat device %s current temp is %s", self.lookup_key, value)
 
-    async def set_target_temperature(self, temperature):
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0010', '%.2f' % temperature)
+        elif self._datapoints.get(PID_HEATING_DEMAND) == dp:
+            self.current_actuator = value
+            LOG.info("thermostat device %s current heating actuator state is %s", self.lookup_key, value)
 
-    @property
-    def state(self):
-        return self._state
-
-    @state.setter
-    def state(self, state):
-        self._state = state == '1'
-
-    @property
-    def ecomode(self):
-        return self._eco_mode
-
-    @ecomode.setter
-    def ecomode(self, eco_mode):
-        self._eco_mode = eco_mode == '68'
 
 class FahLight(FahDevice):
     """ Free@Home light object   """
@@ -269,10 +265,14 @@ class FahLight(FahDevice):
     def pairing_ids(function_id=None):
         # TODO: Determine from function ID which pairing IDs are relevant
         # E.g. dimmer -> Adds absolute set value and actual dimming value
-        return [
-                PID_SWITCH_ON_OFF,
-                PID_INFO_ON_OFF,
-                ]
+        return {
+                "inputs": [
+                    PID_SWITCH_ON_OFF,
+                    ],
+                "outputs": [
+                    PID_INFO_ON_OFF,
+                    ]
+                }
 
     async def turn_on(self):
         """ Turn the light on   """
@@ -343,15 +343,19 @@ class FahCover(FahDevice):
     def pairing_ids(function_id=None):
         # TODO: Determine from function ID which pairing IDs are relevant
         # E.g. Slats -> Add slats data points
-        return [
-                PID_MOVE_UP_DOWN,
-                PID_ADJUST_UP_DOWN,
-                PID_SET_ABSOLUTE_POSITION_BLINDS,
-                PID_FORCE_POSITION_BLIND,
-                PID_INFO_MOVE_UP_DOWN,
-                PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
-                PID_FORCE_POSITION_INFO,
-                ]
+        return {
+                "inputs": [
+                    PID_MOVE_UP_DOWN,
+                    PID_ADJUST_UP_DOWN,
+                    PID_SET_ABSOLUTE_POSITION_BLINDS,
+                    PID_FORCE_POSITION_BLIND,
+                    ],
+                "outputs": [
+                    PID_INFO_MOVE_UP_DOWN,
+                    PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+                    PID_FORCE_POSITION_INFO,
+                    ]
+                }
 
     def is_cover_closed(self):
         """ Return if the cover is closed   """
@@ -473,9 +477,12 @@ def get_output_datapoint(xmlnode, output_name):
     return None
 
 
-def get_datapoint_by_pairing_id(xmlnode, pairing_id):
+def get_datapoint_by_pairing_id(xmlnode, type, pairing_id):
     """Returns output datapoint by pairing id."""
-    for datapoint in xmlnode.findall('.//dataPoint'):
+    for datapoint in xmlnode.find(type).findall('dataPoint'):
+        # TODO: Hack: skip invalid (e.g. measured temperature for climate)
+        if datapoint.find('value').text == 'invalid':
+            continue
         if int(datapoint.get('pairingId'), 16) == pairing_id:
             return datapoint.get('i')
 
@@ -485,8 +492,9 @@ def get_datapoint_by_pairing_id(xmlnode, pairing_id):
 def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
     """Returns a dict with pairing id as key and datapoint number as value."""
     datapoints = {}
-    for pairing_id in pairing_ids:
-        datapoints[pairing_id] = get_datapoint_by_pairing_id(xmlnode, pairing_id)
+    for type, pairing_ids_for_type in pairing_ids.items():
+        for pairing_id in pairing_ids_for_type:
+            datapoints[pairing_id] = get_datapoint_by_pairing_id(xmlnode, type, pairing_id)
 
     return datapoints
 
@@ -689,8 +697,8 @@ class Client(slixmpp.ClientXMPP):
         # if device_type == 'binary_sensor':
         #     return_type = self.binary_devices
 
-        # if device_type == 'thermostat':
-        #     return_type = self.thermostat_devices
+        if device_type == 'thermostat':
+            return self.filter_devices(FahThermostat)
 
         # if device_type == 'sensor':
         #     return_type = self.sensor_devices
@@ -800,38 +808,6 @@ class Client(slixmpp.ClientXMPP):
         if binary_state is not None:
             self.binary_devices[device_id].state = binary_state
             LOG.info("binary device %s output %s is %s", device_id, self.binary_devices[device_id].output_device, binary_state)
-
-    def update_thermostat(self, device_id, channel):
-        """ Update the status of thermostat devices """
-        target_temp_state = get_output_datapoint(channel, 'odp0006')
-        if target_temp_state is not None:
-            self.thermostat_devices[device_id].target_temperature = target_temp_state
-            LOG.info("thermostat device %s target temp is %s", device_id, target_temp_state)
-
-        state = get_output_datapoint(channel, 'odp0008')
-        if state is not None:
-            self.thermostat_devices[device_id].state = state
-            LOG.info("thermostat device %s state is %s", device_id, state)
-
-        eco_mode = get_output_datapoint(channel, 'odp0009')
-        if eco_mode is not None:
-            self.thermostat_devices[device_id].ecomode = eco_mode
-            LOG.info("thermostat device %s eco mode is %s", device_id, eco_mode)
-
-        current_temp_state = get_output_datapoint(channel, 'odp0010')
-        if current_temp_state is not None:
-            self.thermostat_devices[device_id].current_temperature = current_temp_state
-            LOG.info("thermostat device %s current temp is %s", device_id, current_temp_state)
-        else:    
-            current_temp_state = get_output_datapoint(channel, 'odp000C')
-            if current_temp_state is not None:
-                self.thermostat_devices[device_id].current_temperature = current_temp_state
-                LOG.info("thermostatdisp device %s current temp is %s", device_id, current_temp_state)
-
-        current_actuator_state = get_output_datapoint(channel, 'odp0013')
-        if current_actuator_state is not None:
-            self.thermostat_devices[device_id].current_actuator = current_actuator_state
-            LOG.info("thermostat device %s current heating actuator state is %s", device_id, current_actuator_state)                
 
     def update_sensor(self, device_id, channel):
         sensor_state = get_output_datapoint(channel, self.sensor_devices[device_id].output_device)
@@ -954,59 +930,7 @@ class Client(slixmpp.ClientXMPP):
         self.sensor_devices[movement_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'lux', '0', outputid)
 
         LOG.info('movement sensor %s %s ', movement_device, movement_name)
-            
 
-    def add_thermostat(self, channel, channel_id, display_name, device_info, serialnumber):
-        """ Add a thermostat to the list of thermostat devices """
-        device_id = 'ch0000'
-        lookup_key = serialnumber + '/' + device_id
-
-        target_temperature = get_output_datapoint(channel, 'odp0006')
-        current_temperature = get_output_datapoint(channel, 'odp0010')
-        current_actuator = get_output_datapoint(channel, 'odp0013')
-        state = get_output_datapoint(channel, 'odp0008')
-        eco_mode = get_output_datapoint(channel, 'odp0009')
-
-        self.thermostat_devices[lookup_key] = FahThermostat(self, device_info, serialnumber, device_id, display_name,
-                                                               temperature=current_temperature,
-                                                               target=target_temperature,
-                                                               state=state,
-                                                               eco_mode=eco_mode,
-                                                               heating_actor=current_actuator
-                                                               )
-        LOG.info('thermostat %s %s ', lookup_key, display_name)
-
-    def add_thermostatdisp(self, xmlroot, device_info, serialnumber, roomnames):
-        """ Add a thermostat to the list of thermostat devices """
-        thermostat_basename = get_attribute(xmlroot, 'displayName')
-        floor_id = get_attribute(xmlroot, 'floor')
-        room_id = get_attribute(xmlroot, 'room')
-
-        channel_id = 'ch0010'
-        thermostat_device = serialnumber + '/' + channel_id
-        if floor_id != '' and room_id != '' and self.use_room_names:
-            thermostat_name = thermostat_basename + ' (' + roomnames[floor_id][room_id] + ')'
-        else:
-            thermostat_name = thermostat_basename
-
-        channels = xmlroot.find('channels')
-        if channels is not None:
-            for channel in channels.findall('channel'):
-                target_temperature = get_output_datapoint(channel, 'odp0006')
-                current_temperature = get_output_datapoint(channel, 'odp000C')
-                state = get_output_datapoint(channel, 'odp0008')
-                eco_mode = get_output_datapoint(channel, 'odp0009')
-
-        # pseudo prüfung wegen aktueller Temperatursensor
-        if current_temperature is None:
-            current_temperature = '0'
-
-        self.thermostat_devices[thermostat_device] = FahThermostatDisp(self, device_info, serialnumber, channel_id, thermostat_name,
-                                                               temperature=current_temperature,
-                                                               target=target_temperature,
-                                                               state=state,
-                                                               eco_mode=eco_mode)
-        LOG.info('thermostatdisp %s %s ', thermostat_device, thermostat_name)
 		
     def add_weather_station(self, xmlroot, device_info, serialnumber):
         ''' The weather station consists of 4 different sensors '''
@@ -1200,9 +1124,10 @@ class Client(slixmpp.ClientXMPP):
                     #     self.add_sensor_unit(channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber)
 
 
-                    # # thermostat
-                    # if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
-                    #     self.add_thermostat(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
+                    # thermostat
+                    if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
+                        pairing_ids = FahThermostat.pairing_ids()
+                        self.add_device(FahThermostat, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
                     # TODO: Add binary sensor based on its function ID
                     # # binary sensor
