@@ -32,6 +32,13 @@ from .const import (
     PID_ABSOLUTE_SET_VALUE,
     PID_INFO_ON_OFF,
     PID_INFO_ACTUAL_DIMMING_VALUE,
+    PID_MOVE_UP_DOWN,
+    PID_ADJUST_UP_DOWN,
+    PID_SET_ABSOLUTE_POSITION_BLINDS,
+    PID_FORCE_POSITION_BLIND,
+    PID_INFO_MOVE_UP_DOWN,
+    PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+    PID_FORCE_POSITION_INFO,
     )
 from .messagereader import MessageReader
 from .settings import SettingsFah
@@ -333,12 +340,18 @@ class FahCover(FahDevice):
     position = None
     forced_position = None
 
-    # pylint: disable=too-many-arguments
-    def __init__(self, client, device_info, serialnumber, channel_id, name, state, position, forced_position):
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name)
-        self.state = state
-        self.position = position
-        self.forced_position = forced_position
+    def pairing_ids(function_id=None):
+        # TODO: Determine from function ID which pairing IDs are relevant
+        # E.g. Slats -> Add slats data points
+        return [
+                PID_MOVE_UP_DOWN,
+                PID_ADJUST_UP_DOWN,
+                PID_SET_ABSOLUTE_POSITION_BLINDS,
+                PID_FORCE_POSITION_BLIND,
+                PID_INFO_MOVE_UP_DOWN,
+                PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+                PID_FORCE_POSITION_INFO,
+                ]
 
     def is_cover_closed(self):
         """ Return if the cover is closed   """
@@ -362,24 +375,45 @@ class FahCover(FahDevice):
 
     async def set_cover_position(self, position):
         """ Set the cover position  """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0002', str(abs(100 - position)))
+        dp = self._datapoints[PID_SET_ABSOLUTE_POSITION_BLINDS]
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(abs(100 - position)))
 
     async def set_forced_cover_position(self, forced_position):
         """Set forced cover position."""
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0004', str(forced_position))
+        dp = self._datapoints[PID_FORCE_POSITION_BLIND]
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(forced_position))
 
     async def open_cover(self):
         """ Open the cover   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0000', '0')
+        dp = self._datapoints[PID_MOVE_UP_DOWN]
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '0')
 
     async def close_cover(self):
         """ Close the cover   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0000', '1')
+        dp = self._datapoints[PID_MOVE_UP_DOWN]
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '1')
 
     async def stop_cover(self):
         """ Stop the cover, only if it is moving """
         if (self.state == '2') or (self.state == '3'):
-            await self.client.set_datapoint(self.serialnumber, self.channel_id, 'idp0001', '1')
+            dp = self._datapoints[PID_ADJUST_UP_DOWN]
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '1')
+
+    def update_datapoint(self, dp, value):
+        """Receive updated datapoint."""
+        if self._datapoints.get(PID_INFO_MOVE_UP_DOWN) == dp:
+            self.state = value
+            LOG.info("device %s (%s) is %s",
+                     self.name, self.lookup_key, self.state)
+
+        elif self._datapoints.get(PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE) == dp:
+            self.position = str(abs(100 - int(float(value))))
+            LOG.info("device %s (%s) position %s",
+                     self.name, self.lookup_key,
+                     self.position)
+
+        elif self._datapoints.get(PID_FORCE_POSITION_INFO) == dp:
+            self.forced_position = value
 
 
 def get_room_names(xmlroot):
@@ -649,8 +683,8 @@ class Client(slixmpp.ClientXMPP):
         # if device_type == 'scene':
         #     return_type = self.scene_devices
 
-        # if device_type == 'cover':
-        #     return_type = self.cover_devices
+        if device_type == 'cover':
+            return self.filter_devices(FahCover)
 
         # if device_type == 'binary_sensor':
         #     return_type = self.binary_devices
@@ -755,24 +789,6 @@ class Client(slixmpp.ClientXMPP):
             await device.after_update()
 
 
-    def update_cover(self, device_id, channel):
-        """ Update the status of blind/cover devices """
-        cover_state = get_output_datapoint(channel, 'odp0000')
-        if cover_state is not None:
-            # 0 = open, 1 = closed , 2 = moving up, 3 = moving down
-            self.cover_devices[device_id].state = cover_state
-            LOG.info("device %s (%s) is %s",
-                     self.cover_devices[device_id].name,
-                     device_id, cover_state)
-        cover_position = get_output_datapoint(channel, 'odp0001')
-        if cover_position is not None:
-            self.cover_devices[device_id].position = \
-                str(abs(100 - int(float(cover_position))))
-        cover_forced_position = get_output_datapoint(channel, 'odp0004')
-        if cover_forced_position is not None:
-            self.cover_devices[device_id].forced_position = \
-                    int(cover_forced_position)
-
     def update_binary(self, device_id, channel):
         """ Update the status of binary devices   """
         LOG.info("binary info channel %s device %s in/output %s ", channel , device_id, self.binary_devices[device_id].output_device)
@@ -869,19 +885,6 @@ class Client(slixmpp.ClientXMPP):
         self.scene_devices[lookup_key] = FahLightScene(self, device_info, serialnumber, channel_id, display_name)
 
         LOG.info('scene  %s %s', lookup_key, display_name)
-
-
-    def add_cover_device(self, channel, channel_id, display_name, device_info, serialnumber):
-        """ Add a blind/cover to the list of cover devices   """
-        cover_state = get_output_datapoint(channel, 'odp0000')
-        cover_position = str(abs(100 - int(float(get_output_datapoint(channel, 'odp0001')))))
-        cover_forced_position = get_output_datapoint(channel, 'odp0004')
-
-        lookup_key = serialnumber + '/' + channel_id
-        self.cover_devices[lookup_key] = FahCover(self, device_info, serialnumber, channel_id, display_name,
-                                                    cover_state, cover_position, cover_forced_position)
-
-        LOG.info('cover %s %s is %s', lookup_key, display_name, cover_state)
 
 
     def add_sensor_unit(self, channel, channel_id, display_name, device_info, serialnumber):
@@ -1179,9 +1182,10 @@ class Client(slixmpp.ClientXMPP):
                     # if function_id in FUNCTION_IDS_SCENE:
                     #     self.add_scene(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
-                    # # blind/cover device
-                    # if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
-                    #     self.add_cover_device(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
+                    # blind/cover device
+                    if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
+                        pairing_ids = FahCover.pairing_ids()
+                        self.add_device(FahCover, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
                     # # Sensor units 1/2 way
                     # if function_id in FUNCTION_IDS_SENSOR_UNIT:
