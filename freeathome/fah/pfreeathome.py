@@ -27,6 +27,7 @@ from .const import (
     FUNCTION_IDS_BLIND_ACTUATOR,
     FUNCTION_IDS_SCENE,
     FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER,
+    FUNCTION_IDS_MOVEMENT_DETECTOR,
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
     PID_SWITCH_ON_OFF,
     PID_ABSOLUTE_SET_VALUE,
@@ -47,6 +48,7 @@ from .const import (
     PID_STATUS_INDICATION,
     PID_MEASURED_TEMPERATURE,
     PID_HEATING_DEMAND,
+    PID_PRESENCE,
     )
 from .messagereader import MessageReader
 from .settings import SettingsFah
@@ -144,6 +146,7 @@ class FahDevice:
         """Return device lookup key"""
         return self.serialnumber + "/" + self.channel_id
 
+# TODO: Use FahSensor for movement detector lux sensor
 class FahSensor(FahDevice):
     """ Free@Home sensor object """
     state = None     
@@ -169,9 +172,18 @@ class FahBinarySensor(FahDevice):
                         ]
                     }
 
+        elif function_id in FUNCTION_IDS_MOVEMENT_DETECTOR:
+            return {
+                    "inputs": [],
+                    "outputs": [
+                        PID_PRESENCE,
+                        ]
+                    }
+
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
-        if self._datapoints.get(PID_SWITCH_ON_OFF) == dp:
+        if self._datapoints.get(PID_SWITCH_ON_OFF) == dp or \
+                self._datapoints.get(PID_PRESENCE) == dp:
             self.state = value
             LOG.debug("binary sensor device %s dp %s state %s", self.lookup_key, dp, value)
 
@@ -891,42 +903,6 @@ class Client(slixmpp.ClientXMPP):
 
                 LOG.info('binary %s %s output %s is %s', binary_device, binary_name, outputid , binary_state)
 
-    def add_movement_detector(self, xmlroot, device_info, serialnumber, roomnames):
-        ''' Add a movement detector to the list of binary devices '''
-
-        movement_basename = get_attribute(xmlroot, 'displayName')
-        floor_id = get_attribute(xmlroot, 'floor')
-        room_id = get_attribute(xmlroot, 'room')
-
-        if floor_id != '' and room_id != '' and self.use_room_names:
-            movement_name = movement_basename + ' (' + roomnames[floor_id][room_id] + ')'
-        else:
-            movement_name = movement_basename
-            
-        channels = xmlroot.find('channels')
-        if channels is not None:
-            for channel in channels.findall('channel'):
-                channel_id = channel.get('i')
-
-                outputid = 'odp0000' 
-                movement_device = serialnumber + '/' + channel_id
-        else:
-            channel_id = 'ch0000'
-            outputid = 'idp0000'
-            movement_device = serialnumber + '/' + channel_id
-            
-        self.binary_devices[movement_device] = FahBinarySensor(self, device_info, serialnumber, channel_id, movement_name, output_device=outputid)
-
-        """ a movement detector als has a lux sensor """
-        channel_id = 'ch0000'
-        outputid = 'odp0002'
-        movement_device = serialnumber + '/' + channel_id
-        station_name = movement_name + '_lux'                     
-        self.sensor_devices[movement_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'lux', '0', outputid)
-
-        LOG.info('movement sensor %s %s ', movement_device, movement_name)
-
-		
     def add_weather_station(self, xmlroot, device_info, serialnumber):
         ''' The weather station consists of 4 different sensors '''
         station_basename = get_attribute(xmlroot, 'displayName')
@@ -1136,12 +1112,6 @@ class Client(slixmpp.ClientXMPP):
                     # # # binary sensor
                     # # if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
                     # #     self.add_binary_sensor(device, device_info, device_serialnumber, roomnames)
-
-                    # # TODO: Add movement and lux sensor based on their function IDs
-                    # # # movement detector
-                    # # if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
-                    # #    device_id == '1008':
-                    # #     self.add_movement_detector(device, device_info, device_serialnumber, roomnames)
 
                     # # TODO: Add sensors one by one, based on their function ID
                     # # # weather station

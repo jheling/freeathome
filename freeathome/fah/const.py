@@ -43,6 +43,10 @@ FUNCTION_IDS_SCENE = [
         0x4A01, # Alert switch actuator
         ]
 
+FUNCTION_IDS_MOVEMENT_DETECTOR = [
+        0x0011, # Movement detector sensor
+        ]
+
 NAME_IDS_TO_BINARY_SENSOR_SUFFIX = {
         0x000A: '',   # 1-way
         0x0043: ' L',  # 2-way left
@@ -81,3 +85,6 @@ PID_CONTROLLER_ON_OFF = 0x0038
 PID_STATUS_INDICATION = 0x0036
 PID_MEASURED_TEMPERATURE = 0x0130
 PID_HEATING_DEMAND = 0x014D
+
+# Movement detector
+PID_PRESENCE = 0x0006

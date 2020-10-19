@@ -111,7 +111,7 @@ class TestBinarySensors8Gang:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("binary_sensor")) == 3
+        assert len(client.get_devices("binary_sensor")) == 4
 
         # Light switch
         sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0000"]
@@ -151,7 +151,15 @@ class TestBinarySensors8Gang:
         # TODO: Add support for force position light sensor
         # TODO: Add support for force position cover sensor
         # TODO: Add support for window contact sensor
-        # TODO: Add support for movement sensor
+
+        # Movement sensor
+        movement_sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0007"]
+
+        assert movement_sensor.name == "Bewegungsmelder-Sensor (room1)"
+        assert movement_sensor.serialnumber == "ABB2E0612345"
+        assert movement_sensor.channel_id == "ch0007"
+        assert movement_sensor.state == "0"
+
 
     async def test_sensor_no_room_name(self, _):
         client = get_client()
