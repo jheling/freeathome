@@ -173,7 +173,7 @@ class FahBinarySensor(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_SWITCH_ON_OFF) == dp:
             self.state = value
-            LOG.info("binary sensor device %s dp %s state %s", self.lookup_key, dp, value)
+            LOG.debug("binary sensor device %s dp %s state %s", self.lookup_key, dp, value)
 
 
 class FahLock(FahDevice):
@@ -332,12 +332,12 @@ class FahLight(FahDevice):
         """Receive updated datapoint."""
         if PID_INFO_ON_OFF in self._datapoints and self._datapoints[PID_INFO_ON_OFF] == dp:
             self.state = (value == '1')
-            LOG.info("device %s (%s) is %s",
+            LOG.info("light device %s (%s) is %s",
                      self.name, self.lookup_key, self.state)
 
         elif PID_INFO_ACTUAL_DIMMING_VALUE in self._datapoints and self._datapoints[PID_INFO_ACTUAL_DIMMING_VALUE] == dp:
             self.brightness = value
-            LOG.info("device %s (%s) brightness %s",
+            LOG.info("light device %s (%s) brightness %s",
                      self.name, self.lookup_key,
                      self.brightness)
 
@@ -430,12 +430,12 @@ class FahCover(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_INFO_MOVE_UP_DOWN) == dp:
             self.state = value
-            LOG.info("device %s (%s) is %s",
+            LOG.info("cover device %s (%s) is %s",
                      self.name, self.lookup_key, self.state)
 
         elif self._datapoints.get(PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE) == dp:
             self.position = str(abs(100 - int(float(value))))
-            LOG.info("device %s (%s) position %s",
+            LOG.info("cover device %s (%s) position %s",
                      self.name, self.lookup_key,
                      self.position)
 
@@ -598,7 +598,7 @@ class Client(slixmpp.ClientXMPP):
 
     async def _disconnected(self, event):
         """ If connection is lost, try to reconnect """
-        LOG.info("Connection with SysAP lost")
+        LOG.warn("Connection with SysAP lost")
         self.connect_in_error = True
         if not self.reconnect:
             return
@@ -728,7 +728,7 @@ class Client(slixmpp.ClientXMPP):
 
     def roster_callback(self, roster_iq):
         """ If the roster callback is called, the initial connection has finished  """
-        LOG.info("Roster callback ")
+        LOG.debug("Roster callback ")
         self.connect_finished = True
 
     def rpc_callback(self, my_iq):
@@ -807,7 +807,7 @@ class Client(slixmpp.ClientXMPP):
                             value = datapoint.find('value')
                             if lookup_key in self.monitored_datapoints and value is not None:
                                 monitoring_device = self.monitored_datapoints[lookup_key]
-                                LOG.info("device %s: sending updated datapoint %s = %s", monitoring_device.name, lookup_key, value.text)
+                                LOG.debug("device %s: sending updated datapoint %s = %s", monitoring_device.name, lookup_key, value.text)
                                 monitoring_device.update_datapoint(datapoint_id, value.text)
                                 updated_devices.add(monitoring_device)
 
@@ -857,7 +857,7 @@ class Client(slixmpp.ClientXMPP):
         for datapoint in datapoints.values():
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
-        LOG.info('%s  %s %s, datapoints %s', fah_class, lookup_key, display_name, datapoints)
+        LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
 
 
     def add_scene(self, channel, channel_id, display_name, device_info, serialnumber):
