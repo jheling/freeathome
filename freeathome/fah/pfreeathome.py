@@ -161,12 +161,13 @@ class FahBinarySensor(FahDevice):
     output_device = None
 
     def pairing_ids(function_id=None):
-        return {
-                "inputs": [],
-                "outputs": [
-                    PID_SWITCH_ON_OFF,
-                    ]
-                }
+        if function_id in FUNCTION_IDS_SENSOR_UNIT:
+            return {
+                    "inputs": [],
+                    "outputs": [
+                        PID_SWITCH_ON_OFF,
+                        ]
+                    }
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
@@ -196,20 +197,21 @@ class FahThermostat(FahDevice):
     target_temperature = None
 
     def pairing_ids(function_id=None):
-        return {
-                "inputs": [
-                    PID_ECO_MODE_ON_OFF_REQUEST,
-                    PID_CONTROLLER_ON_OFF_REQUEST,
-                    PID_ABSOLUTE_SETPOINT_TEMPERATURE,
-                    ],
-                "outputs": [
-                    PID_SET_VALUE_TEMPERATURE,
-                    PID_CONTROLLER_ON_OFF,
-                    PID_STATUS_INDICATION,
-                    PID_MEASURED_TEMPERATURE,
-                    PID_HEATING_DEMAND,
-                    ]
-                }
+        if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
+            return {
+                    "inputs": [
+                        PID_ECO_MODE_ON_OFF_REQUEST,
+                        PID_CONTROLLER_ON_OFF_REQUEST,
+                        PID_ABSOLUTE_SETPOINT_TEMPERATURE,
+                        ],
+                    "outputs": [
+                        PID_SET_VALUE_TEMPERATURE,
+                        PID_CONTROLLER_ON_OFF,
+                        PID_STATUS_INDICATION,
+                        PID_MEASURED_TEMPERATURE,
+                        PID_HEATING_DEMAND,
+                        ]
+                    }
 
     async def turn_on(self):
         """ Turn the thermostat on   """
@@ -363,19 +365,20 @@ class FahCover(FahDevice):
     def pairing_ids(function_id=None):
         # TODO: Determine from function ID which pairing IDs are relevant
         # E.g. Slats -> Add slats data points
-        return {
-                "inputs": [
-                    PID_MOVE_UP_DOWN,
-                    PID_ADJUST_UP_DOWN,
-                    PID_SET_ABSOLUTE_POSITION_BLINDS,
-                    PID_FORCE_POSITION_BLIND,
-                    ],
-                "outputs": [
-                    PID_INFO_MOVE_UP_DOWN,
-                    PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
-                    PID_FORCE_POSITION_INFO,
-                    ]
-                }
+        if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
+            return {
+                    "inputs": [
+                        PID_MOVE_UP_DOWN,
+                        PID_ADJUST_UP_DOWN,
+                        PID_SET_ABSOLUTE_POSITION_BLINDS,
+                        PID_FORCE_POSITION_BLIND,
+                        ],
+                    "outputs": [
+                        PID_INFO_MOVE_UP_DOWN,
+                        PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+                        PID_FORCE_POSITION_INFO,
+                        ]
+                    }
 
     def is_cover_closed(self):
         """ Return if the cover is closed   """
@@ -1031,6 +1034,9 @@ class Client(slixmpp.ClientXMPP):
                 device_name = device_display_name if device_display_name != '' else device_model
                 device_name = device_name + " (" + device_serialnumber + ")"
 
+                # TODO: Move this to the home assistant component and make it user configurable
+                # (Default should be false, to avoid circular definitions for users with
+                # emulated_hue enabled
                 # Ignore devices from external integrations (i.e. Hue)
                 is_external = device.get('isExternal')
                 if is_external == 'true':
@@ -1086,26 +1092,12 @@ class Client(slixmpp.ClientXMPP):
 
                     LOG.info('Encountered serialnumber %s, channel_id %s, function ID %s', device_serialnumber, channel_id, function_id)
 
-                    # Switch actuators
-                    if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR:
-                        pairing_ids = FahLight.pairing_ids(function_id)
-                        self.add_device(FahLight, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
-
-                    # Dimming actuators
-                    if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
-                        pairing_ids = FahLight.pairing_ids(function_id)
-                        self.add_device(FahLight, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
-
-                    # # Scene or Timer
-                    # if function_id in FUNCTION_IDS_SCENE:
-                    #     self.add_scene(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
-
-                    # blind/cover device
-                    if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
-                        pairing_ids = FahCover.pairing_ids()
-                        self.add_device(FahCover, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
-
-                    # Sensor units 1/2 way
+                    # Sensor units require special treatment. They are pseudo binary-sensors (see ugly
+                    # workaround below), and they may consist of more than one sensor (e.g. top left
+                    # for a 2-gang unit defined as toggles.
+                    # So we have to
+                    # 1. add a workaround to ignore devices that do not have an address assigned
+                    # 2. add a location suffix to the name (e.g. "Sensor unit LT", for left/top)
                     if function_id in FUNCTION_IDS_SENSOR_UNIT:
                         # Add position suffix to name, e.g. 'LT' for left, top
                         position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
@@ -1124,34 +1116,42 @@ class Client(slixmpp.ClientXMPP):
                             continue
 
                         self.add_device(FahBinarySensor, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
+                        continue
 
+                    # Ask all classes if the current function ID should be handled
+                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat]:
+                        # If function should be handled, it returns a list of relevant pairing IDs
+                        pairing_ids = fah_class.pairing_ids(function_id)
 
-                    # thermostat
-                    if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
-                        pairing_ids = FahThermostat.pairing_ids()
-                        self.add_device(FahThermostat, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
+                        # List of pairing IDs was returned, so given class wants to handle the current
+                        # function with the returned pairing IDs. Instantiate class and add it to the list
+                        if pairing_ids is not None:
+                            self.add_device(fah_class, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
-                    # TODO: Add binary sensor based on its function ID
-                    # # binary sensor
-                    # if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
-                    #     self.add_binary_sensor(device, device_info, device_serialnumber, roomnames)
+                    # # # Scene or Timer
+                    # # if function_id in FUNCTION_IDS_SCENE:
+                    # #     self.add_scene(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
-                    # TODO: Add movement and lux sensor based on their function IDs
-                    # # movement detector
-                    # if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
-                    #    device_id == '1008':
-                    #     self.add_movement_detector(device, device_info, device_serialnumber, roomnames)
+                    # # TODO: Add binary sensor based on its function ID
+                    # # # binary sensor
+                    # # if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
+                    # #     self.add_binary_sensor(device, device_info, device_serialnumber, roomnames)
 
-                    # TODO: Add sensors one by one, based on their function ID
-                    # # weather station
-                    # if device_id == '101D':
-                    #     self.add_weather_station(device, device_info, device_serialnumber)
+                    # # TODO: Add movement and lux sensor based on their function IDs
+                    # # # movement detector
+                    # # if device_id == '100A' or device_id == '9008' or device_id == '900A' or \
+                    # #    device_id == '1008':
+                    # #     self.add_movement_detector(device, device_info, device_serialnumber, roomnames)
 
-                    # TODO: Add lock based on function id
-                    # # 7 inch panel with possible lock controll
-                    # if device_id == '1038':
-                    #     self.scan_panel(device, device_info, device_serialnumber, roomnames)
+                    # # TODO: Add sensors one by one, based on their function ID
+                    # # # weather station
+                    # # if device_id == '101D':
+                    # #     self.add_weather_station(device, device_info, device_serialnumber)
 
+                    # # TODO: Add lock based on function id
+                    # # # 7 inch panel with possible lock controll
+                    # # if device_id == '1038':
+                    # #     self.scan_panel(device, device_info, device_serialnumber, roomnames)
 
 
             # Update all devices with initial state
