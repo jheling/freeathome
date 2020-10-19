@@ -39,8 +39,6 @@ FUNCTION_IDS_SCENE = [
         0x4802, # All lights off
         0x4803, # All blinds open
         0x4804, # All blinds closed
-        0x4A00, # Timer program switch actuator
-        0x4A01, # Alert switch actuator
         ]
 
 FUNCTION_IDS_MOVEMENT_DETECTOR = [
@@ -88,3 +86,6 @@ PID_HEATING_DEMAND = 0x014D
 
 # Movement detector
 PID_PRESENCE = 0x0006
+
+# Scenes
+PID_SCENE_CONTROL = 0x0004

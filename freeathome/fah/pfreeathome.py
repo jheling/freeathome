@@ -49,6 +49,7 @@ from .const import (
     PID_MEASURED_TEMPERATURE,
     PID_HEATING_DEMAND,
     PID_PRESENCE,
+    PID_SCENE_CONTROL,
     )
 from .messagereader import MessageReader
 from .settings import SettingsFah
@@ -353,16 +354,31 @@ class FahLight(FahDevice):
                      self.name, self.lookup_key,
                      self.brightness)
 
+# TODO: Add a FahTimerProfile class for timer profiles (function ID 4A00)
+# Timer profiles may be switched on and off, so they are not exactly
+# like scenes, but more like switches
 
 class FahLightScene(FahDevice):
     """ Free@home scene   """
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name):
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name)
+    def pairing_ids(function_id=None):
+        if function_id in FUNCTION_IDS_SCENE:
+            return {
+                    "inputs": [],
+                    "outputs": [
+                        PID_SCENE_CONTROL,
+                        ]
+                    }
 
     async def activate(self):
         """ Activate the scene   """
         await self.client.set_datapoint(self.serialnumber, self.channel_id, 'odp0000', '1')
+
+    def update_datapoint(self, dp, value):
+        """Receive updated datapoint."""
+        if self._datapoints.get(PID_SCENE_CONTROL) == dp:
+            self.state = value
+            LOG.info("scene %s (%s) is %s", self.name, self.lookup_key, self.state)
 
 
 class FahCover(FahDevice):
@@ -718,8 +734,8 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'light':
             return self.filter_devices(FahLight)
 
-        # if device_type == 'scene':
-        #     return_type = self.scene_devices
+        if device_type == 'scene':
+            return self.filter_devices(FahLightScene)
 
         if device_type == 'cover':
             return self.filter_devices(FahCover)
@@ -870,14 +886,6 @@ class Client(slixmpp.ClientXMPP):
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
-
-
-    def add_scene(self, channel, channel_id, display_name, device_info, serialnumber):
-        """ Add a scene to the list of scenes   """
-        lookup_key = serialnumber + '/' + channel_id
-        self.scene_devices[lookup_key] = FahLightScene(self, device_info, serialnumber, channel_id, display_name)
-
-        LOG.info('scene  %s %s', lookup_key, display_name)
 
 
     def add_binary_sensor(self, xmlroot, device_info, serialnumber, roomnames):
@@ -1095,7 +1103,7 @@ class Client(slixmpp.ClientXMPP):
                         continue
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat]:
+                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene]:
                         # If function should be handled, it returns a list of relevant pairing IDs
                         pairing_ids = fah_class.pairing_ids(function_id)
 
@@ -1103,10 +1111,6 @@ class Client(slixmpp.ClientXMPP):
                         # function with the returned pairing IDs. Instantiate class and add it to the list
                         if pairing_ids is not None:
                             self.add_device(fah_class, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
-
-                    # # # Scene or Timer
-                    # # if function_id in FUNCTION_IDS_SCENE:
-                    # #     self.add_scene(channel, channel_id, display_name + room_suffix, device_info, device_serialnumber)
 
                     # # TODO: Add binary sensor based on its function ID
                     # # # binary sensor
