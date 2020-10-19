@@ -31,7 +31,7 @@ class TestLight:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.devices) == 1
+        assert len(client.get_devices("light")) == 1
         light = client.get_devices("light")["ABB700D12345/ch0003"]
 
         # Test attributes

@@ -160,10 +160,20 @@ class FahBinarySensor(FahDevice):
     state = None
     output_device = None
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, state=False, output_device='odp0000'):
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name)
-        self.state = state
-        self.output_device = output_device
+    def pairing_ids(function_id=None):
+        return {
+                "inputs": [],
+                "outputs": [
+                    PID_SWITCH_ON_OFF,
+                    ]
+                }
+
+    def update_datapoint(self, dp, value):
+        """Receive updated datapoint."""
+        if self._datapoints.get(PID_SWITCH_ON_OFF) == dp:
+            self.state = value
+            LOG.info("binary sensor device %s dp %s state %s", self.lookup_key, dp, value)
+
 
 class FahLock(FahDevice):
     """" Free@home lock controll in 7 inch panel """
@@ -487,6 +497,16 @@ def get_output_datapoint(xmlnode, output_name):
     return None
 
 
+def is_output_pairing_id_assigned(xmlnode, pairing_id):
+    """Return True if output datapoint has an address assigned"""
+    outputs = xmlnode.find('outputs')
+    for datapoint in outputs.findall('dataPoint'):
+        if int(datapoint.get('pairingId'), 16) == pairing_id:
+            if datapoint.find('address') is not None:
+                return True
+    return False
+
+
 def get_datapoint_by_pairing_id(xmlnode, type, pairing_id):
     """Returns output datapoint by pairing id."""
     for datapoint in xmlnode.find(type).findall('dataPoint'):
@@ -517,18 +537,6 @@ class Client(slixmpp.ClientXMPP):
     # The specific devices
     devices = {}
     monitored_datapoints = {}
-
-    switch_type_1 = {
-        '1': [0],  # Normal switch  (channel 0)
-        '2': [1, 2]  # Impuls switch  (channel 1,2)
-    }
-
-    switch_type_2 = {
-        '1': [0, 3],  # Left switch, right switch (channel 0,3 )
-        '2': [0, 4, 5],  # Left switch, right impuls (channel 0,4,5)
-        '3': [1, 2, 3],  # Left impuls, right switch (channel 1,2,3)
-        '4': [1, 2, 4, 5]  # Left impuls, right impuls (channel 1,2,4,5)
-    }
 
     binary_function_output = {
         '0':'0', '1':'0', '3':'2', '4':'4', '5':'5','28':'6', '2a':'7' ,
@@ -701,8 +709,8 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'cover':
             return self.filter_devices(FahCover)
 
-        # if device_type == 'binary_sensor':
-        #     return_type = self.binary_devices
+        if device_type == 'binary_sensor':
+            return self.filter_devices(FahBinarySensor)
 
         if device_type == 'thermostat':
             return self.filter_devices(FahThermostat)
@@ -786,7 +794,7 @@ class Client(slixmpp.ClientXMPP):
                 for channel in channels.findall('channel'):
                     channel_id = channel.get('i')
 
-                    datapoints = device.findall('.//dataPoint')
+                    datapoints = channel.findall('.//dataPoint')
                     if datapoints is not None:
                         for datapoint in datapoints:
                             datapoint_id = datapoint.get('i')
@@ -846,7 +854,7 @@ class Client(slixmpp.ClientXMPP):
         for datapoint in datapoints.values():
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
-        LOG.info('light  %s %s, datapoints %s', lookup_key, display_name, datapoints)
+        LOG.info('%s  %s %s, datapoints %s', fah_class, lookup_key, display_name, datapoints)
 
 
     def add_scene(self, channel, channel_id, display_name, device_info, serialnumber):
@@ -855,16 +863,6 @@ class Client(slixmpp.ClientXMPP):
         self.scene_devices[lookup_key] = FahLightScene(self, device_info, serialnumber, channel_id, display_name)
 
         LOG.info('scene  %s %s', lookup_key, display_name)
-
-
-    def add_sensor_unit(self, channel, channel_id, display_name, device_info, serialnumber):
-        """ Add a sensor unit to the list of binary devices """
-        state = get_output_datapoint(channel, 'odp0000')
-        lookup_key = serialnumber + '/' + channel_id
-
-        self.binary_devices[lookup_key] = FahBinarySensor(self, device_info, serialnumber, channel_id, display_name, state=state)
-
-        LOG.info('binary button %s %s is %s', lookup_key, display_name, state)
 
 
     def add_binary_sensor(self, xmlroot, device_info, serialnumber, roomnames):
@@ -1107,17 +1105,25 @@ class Client(slixmpp.ClientXMPP):
                         pairing_ids = FahCover.pairing_ids()
                         self.add_device(FahCover, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
-                    # # Sensor units 1/2 way
-                    # if function_id in FUNCTION_IDS_SENSOR_UNIT:
-                    #     # Do not add sensor unit if it is not assigned to a device
-                    #     if not is_output_datapoint_assigned(channel, 'odp0000'):
-                    #         LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it has no address assigned', device_serialnumber, channel_id, function_id)
-                    #         continue
+                    # Sensor units 1/2 way
+                    if function_id in FUNCTION_IDS_SENSOR_UNIT:
+                        # Add position suffix to name, e.g. 'LT' for left, top
+                        position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
 
-                    #     # Add position suffix to name, e.g. 'LT' for left, top
-                    #     position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
+                        pairing_ids = FahBinarySensor.pairing_ids(function_id)
 
-                    #     self.add_sensor_unit(channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber)
+                        # Ugly workaround: There is no such thing as standalone sensor units.
+                        # They are either assigned to an actuator, or they are not. In the first case,
+                        # we simply take the output for the associated actuator as the binary sensor's
+                        # output. This is flawed at best. In the second case, there is no update for
+                        # the sensor at all, so it does not work.
+                        # In order to be as backwards compliant as possible, let's check if the
+                        # devices are assigned an address, and ignore them otherwise.
+                        if not is_output_pairing_id_assigned(channel, pairing_ids["outputs"][0]):
+                            LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it has no address assigned', device_serialnumber, channel_id, function_id)
+                            continue
+
+                        self.add_device(FahBinarySensor, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
 
 
                     # thermostat

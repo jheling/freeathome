@@ -9,7 +9,8 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.binary_devices = {}
+    client.devices = {}
+    client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
 
     return client
@@ -30,14 +31,13 @@ class TestBinarySensors:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.binary_devices) == 1
-        sensor = client.binary_devices["ABB700D12345/ch0000"]
+        assert len(client.get_devices("binary_sensor")) == 1
+        sensor = client.get_devices("binary_sensor")["ABB700D12345/ch0000"]
 
         # Test attributes
         assert sensor.name == "Sensor/ Schaltaktor Büro (room1)"
         assert sensor.serialnumber == "ABB700D12345"
         assert sensor.channel_id == "ch0000"
-        assert sensor.output_device == "odp0000"
         assert sensor.device_info["identifiers"] == {("freeathome", "ABB700D12345")}
         assert sensor.device_info["name"] == "Sensor/ Schaltaktor Büro (ABB700D12345)"
         assert sensor.device_info["model"] == "Sensor/ Schaltaktor 1/1-fach"
@@ -52,7 +52,7 @@ class TestBinarySensors:
     async def test_sensor_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        sensor = client.binary_devices["ABB700D12345/ch0000"]
+        sensor = client.get_devices("binary_sensor")["ABB700D12345/ch0000"]
 
         assert sensor.name == "Sensor/ Schaltaktor Büro"
 
@@ -60,7 +60,7 @@ class TestBinarySensors:
 class TestBinarySensorsSplitted:
     async def get_client(self):
         client = Client()
-        client.binary_devices = {}
+        client.devices = {}
         client.set_datapoint = AsyncMock()
 
         return client
@@ -69,14 +69,13 @@ class TestBinarySensorsSplitted:
         client = await self.get_client()
         await client.find_devices(True)
 
-        assert len(client.binary_devices) == 2
+        assert len(client.get_devices("binary_sensor")) == 2
 
         # Test attributes for top button
-        sensor_top = client.binary_devices["ABB700D12345/ch0001"]
+        sensor_top = client.get_devices("binary_sensor")["ABB700D12345/ch0001"]
         assert sensor_top.name == "Sensor/ Schaltaktor Büro T (room1)"
         assert sensor_top.serialnumber == "ABB700D12345"
         assert sensor_top.channel_id == "ch0001"
-        assert sensor_top.output_device == "odp0000"
         assert sensor_top.device_info["identifiers"] == {("freeathome", "ABB700D12345")}
         assert sensor_top.device_info["name"] == "Sensor/ Schaltaktor Büro (ABB700D12345)"
         assert sensor_top.device_info["model"] == "Sensor/ Schaltaktor 1/1-fach"
@@ -88,11 +87,10 @@ class TestBinarySensorsSplitted:
         assert sensor_top.state == "0"
 
         # Test attributes for bottom
-        sensor_bottom = client.binary_devices["ABB700D12345/ch0002"]
+        sensor_bottom = client.get_devices("binary_sensor")["ABB700D12345/ch0002"]
         assert sensor_bottom.name == "Sensor/ Schaltaktor Büro B (room1)"
         assert sensor_bottom.serialnumber == "ABB700D12345"
         assert sensor_bottom.channel_id == "ch0002"
-        assert sensor_bottom.output_device == "odp0000"
         assert sensor_bottom.device_info["identifiers"] == {("freeathome", "ABB700D12345")}
         assert sensor_bottom.device_info["name"] == "Sensor/ Schaltaktor Büro (ABB700D12345)"
         assert sensor_bottom.device_info["model"] == "Sensor/ Schaltaktor 1/1-fach"
@@ -103,7 +101,7 @@ class TestBinarySensorsSplitted:
     async def test_sensor_no_room_name(self, _):
         client = await self.get_client()
         await client.find_devices(False)
-        sensor_top = client.binary_devices["ABB700D12345/ch0001"]
+        sensor_top = client.get_devices("binary_sensor")["ABB700D12345/ch0001"]
 
         assert sensor_top.name == "Sensor/ Schaltaktor Büro T"
 
@@ -113,16 +111,15 @@ class TestBinarySensors8Gang:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.binary_devices) == 3
+        assert len(client.get_devices("binary_sensor")) == 3
 
         # Light switch
-        sensor = client.binary_devices["ABB2E0612345/ch0000"]
+        sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0000"]
 
         # Test attributes
         assert sensor.name == "Taster (room1)"
         assert sensor.serialnumber == "ABB2E0612345"
         assert sensor.channel_id == "ch0000"
-        assert sensor.output_device == "odp0000"
         assert sensor.device_info["identifiers"] == {("freeathome", "ABB2E0612345")}
         assert sensor.device_info["name"] == "Sensor/ Schaltaktor 8/8fach, REG (ABB2E0612345)"
         assert sensor.device_info["model"] == "Sensor/ Schaltaktor 8/8fach, REG"
@@ -134,23 +131,21 @@ class TestBinarySensors8Gang:
         assert sensor.state == "1"
 
         # Dimming sensor
-        dimming_sensor = client.binary_devices["ABB2E0612345/ch0001"]
+        dimming_sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0001"]
 
         assert dimming_sensor.name == "Dimmsensor (room1)"
         assert dimming_sensor.serialnumber == "ABB2E0612345"
         assert dimming_sensor.channel_id == "ch0001"
-        assert dimming_sensor.output_device == "odp0000"
         assert dimming_sensor.state == "0"
 
         # TODO: Add support for blind sensor
 
         # Staircase sensor
-        staircase_sensor = client.binary_devices["ABB2E0612345/ch0003"]
+        staircase_sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0003"]
 
         assert staircase_sensor.name == "Treppenhauslichtsensor (room1)"
         assert staircase_sensor.serialnumber == "ABB2E0612345"
         assert staircase_sensor.channel_id == "ch0003"
-        assert staircase_sensor.output_device == "odp0000"
         assert staircase_sensor.state == "0"
 
         # TODO: Add support for force position light sensor
@@ -161,7 +156,7 @@ class TestBinarySensors8Gang:
     async def test_sensor_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        sensor = client.binary_devices["ABB2E0612345/ch0000"]
+        sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0000"]
 
         assert sensor.name == "Taster"
 
@@ -173,4 +168,4 @@ class TestBinarySensorsCover:
         await client.find_devices(True)
 
         # Cover sensor does not yield a binary sensor (there is no on/off state)
-        assert len(client.binary_devices) == 0
+        assert len(client.get_devices("binary_sensor")) == 0
