@@ -6,7 +6,7 @@ from ..const import (
         FUNCTION_IDS_SENSOR_UNIT,
         FUNCTION_IDS_MOVEMENT_DETECTOR,
         PID_SWITCH_ON_OFF,
-        PID_PRESENCE,
+        PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
         )
 
 LOG = logging.getLogger(__name__)
@@ -28,13 +28,13 @@ class FahBinarySensor(FahDevice):
             return {
                     "inputs": [],
                     "outputs": [
-                        PID_PRESENCE,
+                        PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
                         ]
                     }
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_SWITCH_ON_OFF) == dp or \
-                self._datapoints.get(PID_PRESENCE) == dp:
+                self._datapoints.get(PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS) == dp:
             self.state = value
             LOG.debug("binary sensor device %s dp %s state %s", self.lookup_key, dp, value)
