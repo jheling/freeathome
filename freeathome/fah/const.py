@@ -23,6 +23,8 @@ FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER = [
         0x000A, # Room temperature controller with fan speed
         0x000B, # Room temperature controller extension unit
         0x0023, # Room temperature controller
+        0x003E, # Room temperature controller with fan speed wireless?
+        0x003F, # Room temperature controller with fan speed wireless?
         ]
 
 FUNCTION_IDS_BLIND_ACTUATOR = [
