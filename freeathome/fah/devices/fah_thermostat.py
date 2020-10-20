@@ -50,7 +50,7 @@ class FahThermostat(FahDevice):
 
     async def eco_mode(self):
         """ Put the thermostat in eco mode   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ECO_MODE_ON_OFF_REQUEST], '2')
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ECO_MODE_ON_OFF_REQUEST], '1')
 
     async def set_target_temperature(self, temperature):
         await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ABSOLUTE_SETPOINT_TEMPERATURE], '%.2f' % temperature)

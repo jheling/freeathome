@@ -65,7 +65,7 @@ class TestClimate:
 
         client.set_datapoint.reset_mock()
         await climate.eco_mode()
-        client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0000", "idp0011", "2")
+        client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0000", "idp0011", "1")
 
         client.set_datapoint.reset_mock()
         await climate.set_target_temperature(22.5)
