@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.devices = {}
+    client.devices = set()
     client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
 
@@ -31,8 +31,9 @@ class TestLight:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("light")) == 1
-        light = client.get_devices("light")["ABB700D12345/ch0003"]
+        devices = client.get_devices("light")
+        assert len(devices) == 1
+        light = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0003"))
 
         # Test attributes
         assert light.name == "Büro (room1)"
@@ -60,7 +61,10 @@ class TestLight:
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        light = client.get_devices("light")["ABB700D12345/ch0003"]
+
+        devices = client.get_devices("light")
+        assert len(devices) == 1
+        light = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0003"))
 
         assert light.name == "Büro"
 
@@ -71,8 +75,9 @@ class TestLight8Gang:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("light")) == 6
-        light = client.get_devices("light")["ABB2E0612345/ch000C"]
+        devices = client.get_devices("light")
+        assert len(devices) == 6
+        light = next((el for el in devices if el.lookup_key == "ABB2E0612345/ch000C"))
 
         # Test attributes
         assert light.name == "Hinten rechts (room1)"
@@ -100,7 +105,10 @@ class TestLight8Gang:
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        light = client.get_devices("light")["ABB2E0612345/ch000C"]
+
+        devices = client.get_devices("light")
+        assert len(devices) == 6
+        light = next((el for el in devices if el.lookup_key == "ABB2E0612345/ch000C"))
 
         assert light.name == "Hinten rechts"
 
@@ -110,8 +118,9 @@ class TestDimmer:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.devices) == 1
-        light = client.get_devices("light")["BEED82AC0001/ch0000"]
+        devices = client.get_devices("light")
+        assert len(devices) == 1
+        light = next((el for el in devices if el.lookup_key == "BEED82AC0001/ch0000"))
 
         # Test attributes
         assert light.name == "Arbeitsfläche (room1)"
@@ -155,6 +164,9 @@ class TestDimmer:
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        light = client.get_devices("light")["BEED82AC0001/ch0000"]
+
+        devices = client.get_devices("light")
+        assert len(devices) == 1
+        light = next((el for el in devices if el.lookup_key == "BEED82AC0001/ch0000"))
 
         assert light.name == "Arbeitsfläche"

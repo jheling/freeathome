@@ -43,7 +43,7 @@
        <address timeSlot="0" primary="true" singleSink="false">a50</address>
       </dataPoint>
       <dataPoint defaultConnection="true" nameId="04FD" matchCode="00000001" maxConnections="01" pairingId="0403" dpt="0904" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Measured&#x20;brightness" full="false" i="odp0002">
-       <value>0</value>
+       <value>20</value>
        <address timeSlot="0" primary="true" singleSink="false">2e96</address>
       </dataPoint>
      </outputs>

@@ -26,6 +26,7 @@ from .devices.fah_binary_sensor import FahBinarySensor
 from .devices.fah_thermostat import FahThermostat
 from .devices.fah_light_scene import FahLightScene
 from .devices.fah_cover import FahCover
+from .devices.fah_sensor import FahSensor
 
 from .const import (
     FUNCTION_IDS_SENSOR_UNIT,
@@ -166,7 +167,7 @@ class Client(slixmpp.ClientXMPP):
     connect_in_error = False
 
     # The specific devices
-    devices = {}
+    devices = set()
     monitored_datapoints = {}
 
     binary_function_output = {
@@ -323,7 +324,7 @@ class Client(slixmpp.ClientXMPP):
 
     def filter_devices(self, device_class):
         """Returns list of devices, filtered by a specific device class."""
-        return dict(filter(lambda el: isinstance(el[1], device_class), self.devices.items()))
+        return [el for el in self.devices if isinstance(el, device_class)]
 
     def get_devices(self, device_type):
         """ After all the devices have been extracted from the xml file,
@@ -346,8 +347,8 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'thermostat':
             return self.filter_devices(FahThermostat)
 
-        # if device_type == 'sensor':
-        #     return_type = self.sensor_devices
+        if device_type == 'sensor':
+            return self.filter_devices(FahSensor)
 
         # if device_type == 'lock':
         #     return_type = self.lock_devices
@@ -467,10 +468,8 @@ class Client(slixmpp.ClientXMPP):
             self.lock_devices[device_id].state = lock_state
             LOG.info("lock device %s output %s is %s", device_id, lock_state)            
 
-    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, pairing_ids):
+    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints):
         """ Add generic device to the list of light devices   """
-        datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
-
         device = fah_class(
                 self,
                 device_info,
@@ -480,7 +479,7 @@ class Client(slixmpp.ClientXMPP):
                 datapoints=datapoints)
 
         lookup_key = serialnumber + '/' + channel_id
-        self.devices[lookup_key] = device
+        self.devices.add(device)
 
         for datapoint in datapoints.values():
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
@@ -699,18 +698,24 @@ class Client(slixmpp.ClientXMPP):
                             LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it has no address assigned', device_serialnumber, channel_id, function_id)
                             continue
 
-                        self.add_device(FahBinarySensor, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
+                        datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
+                        self.add_device(FahBinarySensor, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
                         continue
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene]:
+                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahSensor]:
                         # If function should be handled, it returns a list of relevant pairing IDs
                         pairing_ids = fah_class.pairing_ids(function_id)
 
                         # List of pairing IDs was returned, so given class wants to handle the current
-                        # function with the returned pairing IDs. Instantiate class and add it to the list
+                        # function with the returned pairing IDs.
                         if pairing_ids is not None:
-                            self.add_device(fah_class, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, pairing_ids=pairing_ids)
+                            datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
+
+                            # There is at least one matching datapoint for requested pairing IDs, so
+                            # add the device
+                            if not all(value is None for value in datapoints.values()):
+                                self.add_device(fah_class, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
 
                     # # TODO: Add binary sensor based on its function ID
                     # # # binary sensor

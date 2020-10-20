@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.devices = {}
+    client.devices = set()
     client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
 
@@ -31,8 +31,10 @@ class TestBinarySensors:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("binary_sensor")) == 1
-        sensor = client.get_devices("binary_sensor")["ABB700D12345/ch0000"]
+        sensor_devices = client.get_devices("binary_sensor")
+        assert len(sensor_devices) == 1
+
+        sensor = next((el for el in sensor_devices if el.lookup_key == "ABB700D12345/ch0000"))
 
         # Test attributes
         assert sensor.name == "Sensor/ Schaltaktor Büro (room1)"
@@ -52,7 +54,9 @@ class TestBinarySensors:
     async def test_sensor_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        sensor = client.get_devices("binary_sensor")["ABB700D12345/ch0000"]
+
+        sensor_devices = client.get_devices("binary_sensor")
+        sensor = next((el for el in sensor_devices if el.lookup_key == "ABB700D12345/ch0000"))
 
         assert sensor.name == "Sensor/ Schaltaktor Büro"
 
@@ -60,7 +64,7 @@ class TestBinarySensors:
 class TestBinarySensorsSplitted:
     async def get_client(self):
         client = Client()
-        client.devices = {}
+        client.devices = set()
         client.set_datapoint = AsyncMock()
 
         return client
@@ -69,10 +73,11 @@ class TestBinarySensorsSplitted:
         client = await self.get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("binary_sensor")) == 2
+        sensor_devices = client.get_devices("binary_sensor")
+        assert len(sensor_devices) == 2
 
         # Test attributes for top button
-        sensor_top = client.get_devices("binary_sensor")["ABB700D12345/ch0001"]
+        sensor_top = next((el for el in sensor_devices if el.lookup_key == "ABB700D12345/ch0001"))
         assert sensor_top.name == "Sensor/ Schaltaktor Büro T (room1)"
         assert sensor_top.serialnumber == "ABB700D12345"
         assert sensor_top.channel_id == "ch0001"
@@ -87,7 +92,7 @@ class TestBinarySensorsSplitted:
         assert sensor_top.state == "0"
 
         # Test attributes for bottom
-        sensor_bottom = client.get_devices("binary_sensor")["ABB700D12345/ch0002"]
+        sensor_bottom = next((el for el in sensor_devices if el.lookup_key == "ABB700D12345/ch0002"))
         assert sensor_bottom.name == "Sensor/ Schaltaktor Büro B (room1)"
         assert sensor_bottom.serialnumber == "ABB700D12345"
         assert sensor_bottom.channel_id == "ch0002"
@@ -101,7 +106,8 @@ class TestBinarySensorsSplitted:
     async def test_sensor_no_room_name(self, _):
         client = await self.get_client()
         await client.find_devices(False)
-        sensor_top = client.get_devices("binary_sensor")["ABB700D12345/ch0001"]
+        sensor_devices = client.get_devices("binary_sensor")
+        sensor_top = next((el for el in sensor_devices if el.lookup_key == "ABB700D12345/ch0001"))
 
         assert sensor_top.name == "Sensor/ Schaltaktor Büro T"
 
@@ -111,10 +117,11 @@ class TestBinarySensors8Gang:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("binary_sensor")) == 4
+        sensor_devices = client.get_devices("binary_sensor")
+        assert len(sensor_devices) == 4
 
         # Light switch
-        sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0000"]
+        sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0000"))
 
         # Test attributes
         assert sensor.name == "Taster (room1)"
@@ -131,7 +138,7 @@ class TestBinarySensors8Gang:
         assert sensor.state == "1"
 
         # Dimming sensor
-        dimming_sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0001"]
+        dimming_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0001"))
 
         assert dimming_sensor.name == "Dimmsensor (room1)"
         assert dimming_sensor.serialnumber == "ABB2E0612345"
@@ -141,7 +148,7 @@ class TestBinarySensors8Gang:
         # TODO: Add support for blind sensor
 
         # Staircase sensor
-        staircase_sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0003"]
+        staircase_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0003"))
 
         assert staircase_sensor.name == "Treppenhauslichtsensor (room1)"
         assert staircase_sensor.serialnumber == "ABB2E0612345"
@@ -153,7 +160,7 @@ class TestBinarySensors8Gang:
         # TODO: Add support for window contact sensor
 
         # Movement sensor
-        movement_sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0007"]
+        movement_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0007"))
 
         assert movement_sensor.name == "Bewegungsmelder-Sensor (room1)"
         assert movement_sensor.serialnumber == "ABB2E0612345"
@@ -164,7 +171,8 @@ class TestBinarySensors8Gang:
     async def test_sensor_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        sensor = client.get_devices("binary_sensor")["ABB2E0612345/ch0000"]
+        sensor_devices = client.get_devices("binary_sensor")
+        sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0000"))
 
         assert sensor.name == "Taster"
 
@@ -173,7 +181,7 @@ class TestBinarySensors8Gang:
 class TestMovementDetector:
     async def get_client(self):
         client = Client()
-        client.devices = {}
+        client.devices = set()
         client.set_datapoint = AsyncMock()
 
         return client
@@ -182,10 +190,11 @@ class TestMovementDetector:
         client = await self.get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("binary_sensor")) == 1
+        sensor_devices = client.get_devices("binary_sensor")
+        assert len(sensor_devices) == 1
 
         # Test attributes for top button
-        sensor_top = client.get_devices("binary_sensor")["ABB700C12345/ch0000"]
+        sensor_top = next((el for el in sensor_devices if el.lookup_key == "ABB700C12345/ch0000"))
         assert sensor_top.name == "Bewegungssensor (room1)"
         assert sensor_top.serialnumber == "ABB700C12345"
         assert sensor_top.channel_id == "ch0000"

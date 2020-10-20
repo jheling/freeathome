@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.devices = {}
+    client.devices = set()
     client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
 
@@ -31,10 +31,11 @@ class TestLight:
         client = get_client()
         await client.find_devices(True)
 
-        assert len(client.get_devices("scene")) == 2
+        devices = client.get_devices("scene")
+        assert len(devices) == 2
 
         # First scene
-        scene = client.get_devices("scene")["FFFF4800000F/ch0000"]
+        scene = next((el for el in devices if el.lookup_key == "FFFF4800000F/ch0000"))
 
         # Test attributes
         assert scene.name == "Eigene Szene (room1)"
@@ -52,7 +53,7 @@ class TestLight:
         client.set_datapoint.reset_mock()
 
         # First scene
-        scene2 = client.get_devices("scene")["FFFF48010001/ch0000"]
+        scene2 = next((el for el in devices if el.lookup_key == "FFFF48010001/ch0000"))
 
         # Test attributes
         assert scene2.name == "Panikszene (room1)"
@@ -71,6 +72,8 @@ class TestLight:
     async def test_scene_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        scene = client.get_devices("scene")["FFFF4800000F/ch0000"]
+
+        devices = client.get_devices("scene")
+        scene = next((el for el in devices if el.lookup_key == "FFFF4800000F/ch0000"))
 
         assert scene.name == "Eigene Szene"

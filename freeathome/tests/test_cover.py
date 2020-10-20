@@ -9,7 +9,7 @@ LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.devices = {}
+    client.devices = set()
     client.set_datapoint = AsyncMock()
 
     return client
@@ -30,8 +30,9 @@ class TestCover:
         client = get_client()
         await client.find_devices(True)
 
+        devices = client.get_devices("cover")
         assert len(client.get_devices("cover")) == 1
-        cover = client.get_devices("cover")["ABB700D12345/ch0003"]
+        cover = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0003"))
 
         # Test attributes
         assert cover.name == "Gäste-WC (room1)"
@@ -111,6 +112,7 @@ class TestCover:
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
-        cover = client.get_devices("cover")["ABB700D12345/ch0003"]
+        devices = client.get_devices("cover")
+        cover = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0003"))
 
         assert cover.name == "Gäste-WC"
