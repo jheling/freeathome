@@ -169,6 +169,37 @@ class TestBinarySensors8Gang:
         assert sensor.name == "Taster"
 
 
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("100A_movement_detector_actuator_1gang.xml"))
+class TestMovementDetector:
+    async def get_client(self):
+        client = Client()
+        client.devices = {}
+        client.set_datapoint = AsyncMock()
+
+        return client
+
+    async def test_movement_detector(self, _):
+        client = await self.get_client()
+        await client.find_devices(True)
+
+        assert len(client.get_devices("binary_sensor")) == 1
+
+        # Test attributes for top button
+        sensor_top = client.get_devices("binary_sensor")["ABB700C12345/ch0000"]
+        assert sensor_top.name == "Bewegungssensor (room1)"
+        assert sensor_top.serialnumber == "ABB700C12345"
+        assert sensor_top.channel_id == "ch0000"
+        assert sensor_top.device_info["identifiers"] == {("freeathome", "ABB700C12345")}
+        assert sensor_top.device_info["name"] == "Bewegungssensor (ABB700C12345)"
+        assert sensor_top.device_info["model"] == "Bewegungsmelder/Schaltaktor 1-fach"
+        assert sensor_top.device_info["sw_version"] == "2.1366"
+        assert sensor_top.state == "1"
+
+        # Test device event
+        await client.update_devices(load_fixture("100A_update_movement_detector.xml"))
+        assert sensor_top.state == "0"
+
+
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1013_blind_sensor_actuator_1gang.xml"))
 class TestBinarySensorsCover:
     async def test_binary_sensors(self, _):
