@@ -158,6 +158,19 @@ def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
     return datapoints
 
 
+def get_all_datapoints_as_str(xmlnode):
+    """Returns all datapoints."""
+    datapoints = []
+    for datapoint in xmlnode.findall('.//dataPoint'):
+        dp = datapoint.get('i')
+        pid = datapoint.get('pairingId')
+        pid_10 = int(pid, 16)
+        nameid = datapoint.get('nameId')
+        datapoints.append("dp %s pid 0x%s/%s nameid %s" % (dp, pid, pid_10, nameid))
+
+    return datapoints
+
+
 class Client(slixmpp.ClientXMPP):
     """ Client for connecting to the free@home sysap   """
     found_devices = False
@@ -436,7 +449,7 @@ class Client(slixmpp.ClientXMPP):
                             value = datapoint.find('value')
                             if lookup_key in self.monitored_datapoints and value is not None:
                                 monitoring_device = self.monitored_datapoints[lookup_key]
-                                LOG.debug("device %s: sending updated datapoint %s = %s", monitoring_device.name, lookup_key, value.text)
+                                LOG.debug("%s %s: received datapoint %s = %s", monitoring_device.__class__.__name__, monitoring_device.name, lookup_key, value.text)
                                 monitoring_device.update_datapoint(datapoint_id, value.text)
                                 updated_devices.add(monitoring_device)
 
@@ -639,6 +652,8 @@ class Client(slixmpp.ClientXMPP):
                     LOG.info('Ignoring device with serialnumber %s since has no channels', device_serialnumber)
                     continue
 
+                LOG.info('Device: device id %s, name id %s, serialnumber %s, display name %s', device_id, device_name_id, device_serialnumber, device_display_name)
+
                 device_info = {"identifiers": {("freeathome", device_serialnumber)}, "name": device_name, "model": device_model, "sw_version": device_sw_version}
 
                 for channel in channels.findall('channel'):
@@ -674,6 +689,7 @@ class Client(slixmpp.ClientXMPP):
                         continue
 
                     LOG.info('Encountered serialnumber %s, channel_id %s, function ID %s', device_serialnumber, channel_id, function_id)
+                    LOG.debug(get_all_datapoints_as_str(channel))
 
                     # Sensor units require special treatment. They are pseudo binary-sensors (see ugly
                     # workaround below), and they may consist of more than one sensor (e.g. top left

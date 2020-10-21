@@ -45,4 +45,7 @@ class FahSensor(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_MEASURED_BRIGHTNESS) == dp:
             self.state = value
-            LOG.debug("sensor device %s dp %s state %s", self.lookup_key, dp, value)
+            LOG.info("sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
+
+        else:
+            LOG.info("sensor %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)

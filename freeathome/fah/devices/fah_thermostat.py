@@ -75,20 +75,23 @@ class FahThermostat(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_SET_VALUE_TEMPERATURE) == dp:
             self.target_temperature = value
-            LOG.info("thermostat device %s target temp is %s", self.lookup_key, value)
+            LOG.info("scene %s (%s) dp %s target temp %s", self.name, self.lookup_key, dp, value)
 
         elif self._datapoints.get(PID_CONTROLLER_ON_OFF) == dp:
             self.state = value
-            LOG.info("thermostat device %s state is %s", self.lookup_key, value)
+            LOG.info("thermostat %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
 
         elif self._datapoints.get(PID_STATUS_INDICATION) == dp:
             self.ecomode = value
-            LOG.info("thermostat device %s eco mode is %s", self.lookup_key, value)
+            LOG.info("thermostat %s (%s) dp %s ecomode %s", self.name, self.lookup_key, dp, value)
 
         elif self._datapoints.get(PID_MEASURED_TEMPERATURE) == dp:
             self.current_temperature = value
-            LOG.info("thermostat device %s current temp is %s", self.lookup_key, value)
+            LOG.info("thermostat %s (%s) dp %s current temperature %s", self.name, self.lookup_key, dp, value)
 
         elif self._datapoints.get(PID_HEATING_DEMAND) == dp:
             self.current_actuator = value
-            LOG.info("thermostat device %s current heating actuator state is %s", self.lookup_key, value)
+            LOG.info("thermostat %s (%s) dp %s current actuator %s", self.name, self.lookup_key, dp, value)
+
+        else:
+            LOG.info("thermostat %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)

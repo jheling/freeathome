@@ -37,4 +37,7 @@ class FahBinarySensor(FahDevice):
         if self._datapoints.get(PID_SWITCH_ON_OFF) == dp or \
                 self._datapoints.get(PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS) == dp:
             self.state = value
-            LOG.debug("binary sensor device %s dp %s state %s", self.lookup_key, dp, value)
+            LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
+
+        else:
+            LOG.info("binary sensor %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)

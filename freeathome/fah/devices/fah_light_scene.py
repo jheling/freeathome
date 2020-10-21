@@ -33,4 +33,7 @@ class FahLightScene(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_SCENE_CONTROL) == dp:
             self.state = value
-            LOG.info("scene %s (%s) is %s", self.name, self.lookup_key, self.state)
+            LOG.info("scene %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
+
+        else:
+            LOG.info("scene %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)

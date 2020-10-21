@@ -78,13 +78,11 @@ class FahLight(FahDevice):
         """Receive updated datapoint."""
         if PID_INFO_ON_OFF in self._datapoints and self._datapoints[PID_INFO_ON_OFF] == dp:
             self.state = (value == '1')
-            LOG.info("light device %s (%s) is %s",
-                     self.name, self.lookup_key, self.state)
+            LOG.info("light device %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
 
         elif PID_INFO_ACTUAL_DIMMING_VALUE in self._datapoints and self._datapoints[PID_INFO_ACTUAL_DIMMING_VALUE] == dp:
             self.brightness = value
-            LOG.info("light device %s (%s) brightness %s",
-                     self.name, self.lookup_key,
-                     self.brightness)
+            LOG.info("light device %s (%s) dp %s brightness %s", self.name, self.lookup_key, dp, value)
 
-
+        else:
+            LOG.info("light device %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)

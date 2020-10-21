@@ -92,17 +92,15 @@ class FahCover(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_INFO_MOVE_UP_DOWN) == dp:
             self.state = value
-            LOG.info("cover device %s (%s) is %s",
-                     self.name, self.lookup_key, self.state)
+            LOG.info("cover device %s (%s) dp %s state %s", self.name, self.lookup_key, dp, self.state)
 
         elif self._datapoints.get(PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE) == dp:
             self.position = str(abs(100 - int(float(value))))
-            LOG.info("cover device %s (%s) position %s",
-                     self.name, self.lookup_key,
-                     self.position)
+            LOG.info("cover device %s (%s) dp %s position %s", self.name, self.lookup_key, dp, value)
 
         elif self._datapoints.get(PID_FORCE_POSITION_INFO) == dp:
             self.forced_position = value
+            LOG.info("cover device %s (%s) dp %s forced position %s", self.name, self.lookup_key, dp, value)
 
-
-
+        else:
+            LOG.info("cover device %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)
