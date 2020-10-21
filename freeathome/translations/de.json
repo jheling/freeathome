@@ -1,24 +1,37 @@
 {
   "config": {
+    "flow_title": "{name}({host})",
     "step": {
       "user": {
+        "title": "Free@Home",
         "data": {
           "host": "Host",
-          "port": "Port",
           "username": "Username",
           "password": "Password",
-          "use_room_names": "Use room names"
+	  "use_room_names": "Use room names"
+        }
+      },
+      "link": {
+        "title": "Free@Home",
+        "description": "Do you want to setup {name} ({host})?",
+        "data": {
+          "username": "Username",
+          "password": "Password",
+	  "use_room_names": "Use room names"
         }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect",
-      "unknown": "Unexpected error"
+      "cannot_connect": "Failed to connect (probably wrong password)",
+      "unknown": "Unexpected error",
+      "unknown_host": "Connection error: please check your host",
+      "no_sysap": "Connection error: this host is not a sysap", 
+      "unknown_user": "Login error: please check your username"
     },
     "abort": {
       "already_configured": "Already configured. Only a single configuration possible.",
       "cannot_connect": "Failed to connect"
     }
-  }
+  }  
 }
 

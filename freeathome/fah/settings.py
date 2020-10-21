@@ -23,9 +23,10 @@ class SettingsFah:
                 async with aiohttp.ClientSession() as session:
                     html = await fetch(session, http)
                     self.data = json.loads(html)
-
+                    return True
             except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
                 log.error('server not found')
+                return False
         else:
             with open(self.filename, "r") as read_file:
                 self.data = json.load(read_file)

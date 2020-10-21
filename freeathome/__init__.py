@@ -29,7 +29,6 @@ DEFAULT_USE_ROOM_NAMES = False
 CONFIG_SCHEMA = vol.Schema({
     DOMAIN: vol.Schema({
         vol.Required(CONF_HOST): cv.string,
-        vol.Optional(CONF_PORT, default=5222): cv.port,
         vol.Optional(CONF_USERNAME, default='admin'): cv.string,
         vol.Optional(CONF_PASSWORD): cv.string,
         vol.Optional(CONF_USE_ROOM_NAMES,
@@ -63,7 +62,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     sysap = pfreeathome.FreeAtHomeSysApp(
             entry.data[CONF_HOST],
-            entry.data[CONF_PORT],
             entry.data[CONF_USERNAME],
             entry.data[CONF_PASSWORD])
 

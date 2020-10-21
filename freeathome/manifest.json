@@ -5,5 +5,6 @@
   "config_flow": true,
   "dependencies": [],
   "codeowners": ["@jheling"],
-  "requirements": ["slixmpp==1.5.1", "libnacl==1.7.0"]
+  "requirements": ["slixmpp==1.5.1", "libnacl==1.7.0"],
+  "zeroconf": ["_http._tcp.local."]
 }

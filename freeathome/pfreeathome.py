@@ -1246,10 +1246,10 @@ class FreeAtHomeSysApp(object):
           use_room_names - Show room names with the devices
     """
 
-    def __init__(self, host, port, user, password):
+    def __init__(self, host, user, password):
         """ x   """
         self._host = host
-        self._port = port
+        self._port = 5222
         self._user = user
         self._jid = None
         self._password = password
