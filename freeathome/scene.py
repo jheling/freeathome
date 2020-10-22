@@ -44,6 +44,11 @@ class FreeAtHomeScene(Scene):
         """There is no way of detecting if a scene is active (yet)."""
         return False
 
+    @property
+    def unique_id(self):
+        """Return the ID """
+        return self.scene_device.device_id
+
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
 
