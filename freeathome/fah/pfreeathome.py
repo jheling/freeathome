@@ -424,7 +424,7 @@ class Client(slixmpp.ClientXMPP):
         if args:
             await self.update_devices(args[0])
 
-    async def update_devices(self, xml):
+    async def update_devices(self, xml, initializing=False):
         root = ET.fromstring(xml)
 
         updated_devices = set()
@@ -447,6 +447,10 @@ class Client(slixmpp.ClientXMPP):
                             # Notify every device that monitors the received datapoint
                             lookup_key = serialnumber + '/' + channel_id + '/' + datapoint_id
                             value = datapoint.find('value')
+
+                            if not initializing and value is not None:
+                                LOG.debug("received datapoint %s = %s", lookup_key, value.text)
+
                             if lookup_key in self.monitored_datapoints and value is not None:
                                 monitoring_device = self.monitored_datapoints[lookup_key]
                                 LOG.debug("%s %s: received datapoint %s = %s", monitoring_device.__class__.__name__, monitoring_device.name, lookup_key, value.text)
@@ -750,7 +754,7 @@ class Client(slixmpp.ClientXMPP):
 
 
             # Update all devices with initial state
-            await self.update_devices(config)
+            await self.update_devices(config, initializing=True)
 
 class FreeAtHomeSysApp(object):
     """"  This class connects to the Busch Jeager Free @ Home sysapp
