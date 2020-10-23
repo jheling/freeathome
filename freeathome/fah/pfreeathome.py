@@ -499,6 +499,10 @@ class Client(slixmpp.ClientXMPP):
         self.devices.add(device)
 
         for datapoint in datapoints.values():
+            # State of devices is published only through output datapoints, so do not listen for input datapoints.
+            # There may be a better way to check for this.
+            if datapoint[0] == 'i':
+                continue
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
