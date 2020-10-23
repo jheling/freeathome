@@ -118,7 +118,7 @@ class TestBinarySensors8Gang:
         await client.find_devices(True)
 
         sensor_devices = client.get_devices("binary_sensor")
-        assert len(sensor_devices) == 4
+        assert len(sensor_devices) == 5
 
         # Light switch
         sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0000"))
@@ -155,7 +155,14 @@ class TestBinarySensors8Gang:
         assert staircase_sensor.channel_id == "ch0003"
         assert staircase_sensor.state == "0"
 
-        # TODO: Add support for force position light sensor
+        # Force position sensor
+        staircase_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0004"))
+
+        assert staircase_sensor.name == "Sensor Zwangsstellung Ein/Aus (room1)"
+        assert staircase_sensor.serialnumber == "ABB2E0612345"
+        assert staircase_sensor.channel_id == "ch0004"
+        assert staircase_sensor.state == "0"
+
         # TODO: Add support for force position cover sensor
         # TODO: Add support for window contact sensor
 

@@ -634,6 +634,8 @@ class Client(slixmpp.ClientXMPP):
                 device_name = device_display_name if device_display_name != '' else device_model
                 device_name = device_name + " (" + device_serialnumber + ")"
 
+                LOG.info('Device: device id %s, name id %s, serialnumber %s, display name %s', device_id, device_name_id, device_serialnumber, device_display_name)
+
                 # TODO: Move this to the home assistant component and make it user configurable
                 # (Default should be false, to avoid circular definitions for users with
                 # emulated_hue enabled
@@ -649,22 +651,47 @@ class Client(slixmpp.ClientXMPP):
                     LOG.info('Ignoring device with serialnumber %s since its commissioning state is not ready', device_serialnumber)
                     continue
 
-                channels = device.find('channels');
+                channels_xml = device.find('channels')
 
                 # Ignore devices without channels
-                if channels is None:
+                if channels_xml is None:
                     LOG.info('Ignoring device with serialnumber %s since has no channels', device_serialnumber)
                     continue
 
-                LOG.info('Device: device id %s, name id %s, serialnumber %s, display name %s', device_id, device_name_id, device_serialnumber, device_display_name)
+                # Filter channels based on channelSelector
+                # There is a device-level parameter called channelSelector. Each possible value of that parameter
+                # has a mask attribute. This mask can be used to filter channels that should be active.
+                # E.g. consider a sensor unit 1-gang. The sensor unit has two modes:
+                # 1. Rocker (aka on/off): mask 00000001
+                # 2. Push button: mask 00000002
+                # The sensor unit has three channels:
+                # 1. ch0000 (On/off): mask 00000001
+                # 2. ch0001 (Push button top): mask 00000002
+                # 3. ch0002 (Push button bottom: mask 00000002
+                # --> In Rocker mode, ch0000 is active, in Push button mode ch0001 and ch0002 is active
+                channel_selector_parameter = device.find("./parameters/parameter[@channelSelector='true']")
+                if channel_selector_parameter is not None:
+                    # See which option user has selected, e.g. '1'
+                    parameter_value = channel_selector_parameter.find("value").text
+                    # Find that option in the list of options
+                    option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
+                    # Get filter mask from mask attribute
+                    filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
+                else:
+                    filter_mask = 0xFFFFFFFF
 
                 device_info = {"identifiers": {("freeathome", device_serialnumber)}, "name": device_name, "model": device_model, "sw_version": device_sw_version}
 
-                for channel in channels.findall('channel'):
+                for channel in channels_xml.findall('channel'):
                     channel_id = channel.get('i')
                     channel_name_id = int(channel.get('nameId'), 16)
                     function_id = get_attribute(channel, 'functionId')
                     function_id = int(function_id, 16) if (function_id is not None and function_id != '') else None
+
+                    # Check if channel matches filter mask
+                    if not int(channel.get("mask"), 16) & filter_mask:
+                        LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it does not match device filter mask %s', device_serialnumber, channel_id, function_id, filter_mask)
+                        continue
 
                     same_location = channel.get('sameLocation')
                     channel_display_name = get_attribute(channel, 'displayName')
@@ -695,35 +722,11 @@ class Client(slixmpp.ClientXMPP):
                     LOG.info('Encountered serialnumber %s, channel_id %s, function ID %s', device_serialnumber, channel_id, function_id)
                     LOG.debug(get_all_datapoints_as_str(channel))
 
-                    # Sensor units require special treatment. They are pseudo binary-sensors (see ugly
-                    # workaround below), and they may consist of more than one sensor (e.g. top left
-                    # for a 2-gang unit defined as toggles.
-                    # So we have to
-                    # 1. add a workaround to ignore devices that do not have an address assigned
-                    # 2. add a location suffix to the name (e.g. "Sensor unit LT", for left/top)
-                    if function_id in FUNCTION_IDS_SENSOR_UNIT:
-                        # Add position suffix to name, e.g. 'LT' for left, top
-                        position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX[channel_name_id] if channel_display_name == '' else ''
-
-                        pairing_ids = FahBinarySensor.pairing_ids(function_id)
-
-                        # Ugly workaround: There is no such thing as standalone sensor units.
-                        # They are either assigned to an actuator, or they are not. In the first case,
-                        # we simply take the output for the associated actuator as the binary sensor's
-                        # output. This is flawed at best. In the second case, there is no update for
-                        # the sensor at all, so it does not work.
-                        # In order to be as backwards compliant as possible, let's check if the
-                        # devices are assigned an address, and ignore them otherwise.
-                        if not is_output_pairing_id_assigned(channel, pairing_ids["outputs"][0]):
-                            LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it has no address assigned', device_serialnumber, channel_id, function_id)
-                            continue
-
-                        datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
-                        self.add_device(FahBinarySensor, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
-                        continue
-
                     # Ask all classes if the current function ID should be handled
                     for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahSensor]:
+                        # Add position suffix to name, e.g. 'LT' for left, top
+                        position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX.get(channel_name_id, '')
+
                         # If function should be handled, it returns a list of relevant pairing IDs
                         pairing_ids = fah_class.pairing_ids(function_id)
 
@@ -735,7 +738,7 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-                                self.add_device(fah_class, channel, channel_id, display_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
+                                self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
 
                     # # TODO: Add binary sensor based on its function ID
                     # # # binary sensor
