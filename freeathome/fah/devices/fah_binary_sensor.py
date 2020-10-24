@@ -18,6 +18,7 @@ from ..const import (
         PID_WINDOW_DOOR,
         PID_SWITCHOVER_HEATING_COOLING,
         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
+        PID_PRESENCE,
         )
 
 LOG = logging.getLogger(__name__)
@@ -48,6 +49,7 @@ class FahBinarySensor(FahDevice):
                         PID_SWITCHOVER_HEATING_COOLING,
                         # Keep movement detector here, although in tests it only ever showed value '1'
                         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
+                        PID_PRESENCE,
                         ]
                     }
 
