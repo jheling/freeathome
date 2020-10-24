@@ -118,7 +118,7 @@ class TestBinarySensors8Gang:
         await client.find_devices(True)
 
         sensor_devices = client.get_devices("binary_sensor")
-        assert len(sensor_devices) == 5
+        assert len(sensor_devices) == 8
 
         # Light switch
         sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0000"))
@@ -145,7 +145,14 @@ class TestBinarySensors8Gang:
         assert dimming_sensor.channel_id == "ch0001"
         assert dimming_sensor.state == "0"
 
-        # TODO: Add support for blind sensor
+        # Dimming sensor
+        dimming_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0002"))
+
+        assert dimming_sensor.name == "Jalousiesensor (room1)"
+        assert dimming_sensor.serialnumber == "ABB2E0612345"
+        assert dimming_sensor.channel_id == "ch0002"
+        assert dimming_sensor.state == "0"
+
 
         # Staircase sensor
         staircase_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0003"))
@@ -163,8 +170,21 @@ class TestBinarySensors8Gang:
         assert staircase_sensor.channel_id == "ch0004"
         assert staircase_sensor.state == "0"
 
-        # TODO: Add support for force position cover sensor
-        # TODO: Add support for window contact sensor
+        # Cover force position sensor
+        cover_force_position_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0005"))
+
+        assert cover_force_position_sensor.name == "Jalousiezwangsstellung (room1)"
+        assert cover_force_position_sensor.serialnumber == "ABB2E0612345"
+        assert cover_force_position_sensor.channel_id == "ch0005"
+        assert cover_force_position_sensor.state == "0"
+
+        # Window contact sensor
+        window_contact_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0006"))
+
+        assert window_contact_sensor.name == "Fensterkontakt (room1)"
+        assert window_contact_sensor.serialnumber == "ABB2E0612345"
+        assert window_contact_sensor.channel_id == "ch0006"
+        assert window_contact_sensor.state == "0"
 
         # Movement sensor
         movement_sensor = next((el for el in sensor_devices if el.lookup_key == "ABB2E0612345/ch0007"))
@@ -222,5 +242,18 @@ class TestBinarySensorsCover:
         client = get_client()
         await client.find_devices(True)
 
-        # Cover sensor does not yield a binary sensor (there is no on/off state)
-        assert len(client.get_devices("binary_sensor")) == 0
+        # Cover sensor yields a binary sensor, although it has a limited function
+        # (off when moving up, on when moving down)
+        sensor_devices = client.get_devices("binary_sensor")
+        assert len(sensor_devices) == 1
+
+        # Test attributes for top button
+        sensor_cover = next((el for el in sensor_devices if el.lookup_key == "ABB700D12345/ch0000"))
+        assert sensor_cover.name == "Sensor/ Jalousieaktor 1/1-fach (room1)"
+        assert sensor_cover.serialnumber == "ABB700D12345"
+        assert sensor_cover.channel_id == "ch0000"
+        assert sensor_cover.device_info["identifiers"] == {("freeathome", "ABB700D12345")}
+        assert sensor_cover.device_info["name"] == "Sensor/ Jalousieaktor 1/1-fach (ABB700D12345)"
+        assert sensor_cover.device_info["model"] == "Sensor/ Jalousieaktor 1/1-fach"
+        assert sensor_cover.device_info["sw_version"] == "2.1366"
+        assert sensor_cover.state == "1"

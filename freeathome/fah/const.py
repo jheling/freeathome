@@ -1,12 +1,19 @@
 """Constants."""
-FUNCTION_IDS_SENSOR_UNIT = [
+FUNCTION_IDS_BINARY_SENSOR = [
         0x0000, # Control element
         0x0001, # Dimming sensor
         # 0x0002: Blind sensor is ignored, since it does not have an on/off state (odp0000)
+        0x0003, # Blind sensor
         0x0004, # Stairwell light sensor
         0x0005, # Force On/Off sensor
         0x0006, # Scene sensor
+        0x000C, # Wind alarm
+        0x000D, # Frost alarm
+        0x000E, # Rain alarm
+        0x000F, # Window sensor
+        0x0011, # Movement detector sensor
         0x0028, # Force-position blind
+        0x002A, # Switchover heating/cooling
         0x0071, # Timer program switch sensor
         ]
 
@@ -92,3 +99,18 @@ PID_MEASURED_BRIGHTNESS = 0x0403
 
 # Scenes
 PID_SCENE_CONTROL = 0x0004
+
+# Binary sensor
+# PID_SWITCH_ON_OFF = 0x0001 defined above
+PID_TIMED_START_STOP = 0x0002
+PID_FORCE_POSITION = 0x0003
+# PID_SCENE_CONTROL = 0x0004 defined above
+PID_RELATIVE_SET_VALUE = 0x0010
+# PID_MOVE_UP_DOWN = 0x0020 defined above
+# PID_ADJUST_UP_DOWN = 0x0021 defined above
+PID_WIND_ALARM = 0x0025
+PID_FROST_ALARM = 0x0026
+PID_RAIN_ALARM = 0x0027
+# PID_FORCE_POSITION_BLIND = 0x0028 defined above
+PID_WINDOW_DOOR = 0x0035
+PID_SWITCHOVER_HEATING_COOLING = 0x0135

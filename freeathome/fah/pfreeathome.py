@@ -29,7 +29,6 @@ from .devices.fah_cover import FahCover
 from .devices.fah_sensor import FahSensor
 
 from .const import (
-    FUNCTION_IDS_SENSOR_UNIT,
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
     )
 
@@ -183,11 +182,6 @@ class Client(slixmpp.ClientXMPP):
     devices = set()
     monitored_datapoints = {}
 
-    binary_function_output = {
-        '0':'0', '1':'0', '3':'2', '4':'4', '5':'5','28':'6', '2a':'7' ,
-        '6':'8', 'c':'9', 'd':'A', 'e':'B', 'f':'C', '11':'D'
-        }
-          
     weatherstation_function_output = { 
         '41':'odp0001', '42':'odp0000', '43':'odp0001', '44':'odp0003'
         }
@@ -439,15 +433,42 @@ class Client(slixmpp.ClientXMPP):
                 for channel in channels.findall('channel'):
                     channel_id = channel.get('i')
 
+                    # Check if channel has a <function> key. If so, get the current functions sensorMatchCode
+                    # and actuatorMatchCode, which serve as a filter for relevant datapoints
+                    # This ist mostly useful to correctly set the initial state for binary sensors
+                    datapoint_filter_mask = 0xFFFFFFFF
+
+                    xml_function_id = channel.find("attribute[@name='functionId']")
+                    if xml_function_id is not None:
+
+                        # Lookup function ID in list of all possible function IDs for this channel
+                        function_id = int(xml_function_id.text, 16)
+                        xml_function = channel.find("functions/function[@functionId='%04x']" % function_id)
+
+                        if xml_function is not None:
+                            # Get sensor and actuator match codes and combine both to act as a datapoint filter
+                            sensor_match_code = int(xml_function.get("sensorMatchCode"), 16)
+                            actuator_match_code = int(xml_function.get("actuatorMatchCode"), 16)
+                            datapoint_filter_mask = sensor_match_code | actuator_match_code
+
                     datapoints = channel.findall('.//dataPoint')
                     if datapoints is not None:
                         for datapoint in datapoints:
+
+                            # If match code is present (i.e. initializing), check if match code matches filter
+                            match_code_hex = datapoint.get("matchCode")
+                            if match_code_hex is not None:
+                                match_code = int(match_code_hex, 16)
+                                if match_code & datapoint_filter_mask == 0:
+                                    continue
+
                             datapoint_id = datapoint.get('i')
 
                             # Notify every device that monitors the received datapoint
                             lookup_key = serialnumber + '/' + channel_id + '/' + datapoint_id
                             value = datapoint.find('value')
 
+                            # Do not spam log messages during initialization, or if value is None
                             if not initializing and value is not None:
                                 LOG.debug("received datapoint %s = %s", lookup_key, value.text)
 
@@ -501,35 +522,12 @@ class Client(slixmpp.ClientXMPP):
         for datapoint in datapoints.values():
             # State of devices is published only through output datapoints, so do not listen for input datapoints.
             # There may be a better way to check for this.
-            if datapoint[0] == 'i':
+            if datapoint is None or datapoint[0] == 'i':
                 continue
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
 
-
-    def add_binary_sensor(self, xmlroot, device_info, serialnumber, roomnames):
-        """ Add a binary sensor to the list of binary devices   """
-        channels = xmlroot.find('channels')
-        if channels is not None:
-            for channel in channels.findall('channel'):
-                channel_id = channel.get('i')
-
-                floor_id = get_attribute(channel, 'floor')
-                room_id = get_attribute(channel, 'room')
-                function_id = get_attribute(channel, 'functionId')
-                outputid = 'odp000' + self.binary_function_output[function_id] 
-
-                binary_state = get_output_datapoint(channel, outputid )
-
-                binary_device = serialnumber + '/' + channel_id
-                binary_name = 'binary-' + channel_id
-                if floor_id != '' and room_id != '' and self.use_room_names:
-                    binary_name = binary_name + ' (' + roomnames[floor_id][room_id] + ')'
-                self.binary_devices[binary_device] = FahBinarySensor(self, device_info, serialnumber, channel_id,
-                                                                     binary_name, state=binary_state, output_device=outputid)
-
-                LOG.info('binary %s %s output %s is %s', binary_device, binary_name, outputid , binary_state)
 
     def add_weather_station(self, xmlroot, device_info, serialnumber):
         ''' The weather station consists of 4 different sensors '''
@@ -743,11 +741,6 @@ class Client(slixmpp.ClientXMPP):
                             # add the device
                             if not all(value is None for value in datapoints.values()):
                                 self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
-
-                    # # TODO: Add binary sensor based on its function ID
-                    # # # binary sensor
-                    # # if device_id == 'B005' or device_id == 'B006' or device_id == 'B007':
-                    # #     self.add_binary_sensor(device, device_info, device_serialnumber, roomnames)
 
                     # # TODO: Add sensors one by one, based on their function ID
                     # # # weather station
