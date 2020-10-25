@@ -54,6 +54,10 @@ FUNCTION_IDS_MOVEMENT_DETECTOR = [
         0x0011, # Movement detector sensor
         ]
 
+FUNCTION_IDS_DOOR_OPENER = [
+        0x001A, # Door opener actuator
+        ]
+
 NAME_IDS_TO_BINARY_SENSOR_SUFFIX = {
         0x000A: '',   # 1-way
         0x0043: ' L',  # 2-way left
@@ -115,3 +119,7 @@ PID_RAIN_ALARM = 0x0027
 # PID_FORCE_POSITION_BLIND = 0x0028 defined above
 PID_WINDOW_DOOR = 0x0035
 PID_SWITCHOVER_HEATING_COOLING = 0x0135
+
+# Lock
+PID_LOCK_UNLOCK_COMMAND = 0x0618
+PID_INFO_LOCK_UNLOCK = 0x0619

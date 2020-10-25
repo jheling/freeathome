@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Unlike the other test files, this file has NOT been extracted from a real
+system, but was crafted manually based on available information about the
+device. If you read this and own a control panel, please report it to the
+maintainers here: https://github.com/jheling/freeathome/issues/new so that
+we can include a correct file here and improve reliability of the component.
+-->
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="FFF1">free@homeTouch 7&quot;</string>
+ </strings>
+ <devices>
+        <device shortSerialNumber="FWG" nameId="FFF1" functionId="FEFD" iconId="FFF8" softwareVersion="0.2.1"
+                deviceId="1038" domainAddress="CFCC" sysAp="false" compilerVersion="006B1DE1" buildNumber="00000000"
+                serialNumber="ABB654612345" commissioningState="ready" copyId="d" progress="100">
+            <attribute name="busVoltage">28.095</attribute>
+            <attribute name="deviceErrors">0</attribute>
+            <attribute name="deviceReboots">2</attribute>
+            <attribute name="displayName">Control panel</attribute>
+            <attribute name="floor">00</attribute>
+            <attribute name="offsetX">0.593306</attribute>
+            <attribute name="offsetY">0.321247</attribute>
+            <attribute name="operationTime">1200</attribute>
+            <attribute name="room">00</attribute>
+            <channels>
+                <channel mask="FFFFFFFF" nameId="F000" combined="true" panel="true" i="ch0000" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">31</attribute>
+                    <attribute name="selectedIcon">1</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0001">
+                            <value>76</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000E">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000F">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0002">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F001" combined="true" panel="true" i="ch0001" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">30</attribute>
+                    <attribute name="selectedIcon">d</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000E">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000F">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F002" combined="true" panel="true" i="ch0002" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">33</attribute>
+                    <attribute name="selectedIcon">3</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0002">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0003">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0004">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0010">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0011">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0012">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0003">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0004">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F003" combined="true" panel="true" i="ch0003" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">37</attribute>
+                    <attribute name="selectedIcon">c</attribute>
+                    <inputs/>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0007">
+                            <value>3</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes>
+                        <scene active="true" sceneNumber="3" i="sc0000"/>
+                    </scenes>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F004" combined="true" panel="true" i="ch0004" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">31</attribute>
+                    <attribute name="selectedIcon">1</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0001">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000E">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000F">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0002">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F005" combined="true" panel="true" i="ch0005" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">30</attribute>
+                    <attribute name="selectedIcon">1</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000E">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000F">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F006" combined="true" panel="true" i="ch0006" cid="ABB60340"/>
+                <channel mask="FFFFFFFF" nameId="F007" combined="true" panel="true" i="ch0007" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">37</attribute>
+                    <attribute name="selectedIcon">c</attribute>
+                    <inputs/>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0007">
+                            <value>3</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes>
+                        <scene active="true" sceneNumber="0" i="sc0000"/>
+                    </scenes>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F008" combined="true" panel="true" i="ch0008" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">31</attribute>
+                    <attribute name="selectedIcon">1</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0001">
+                            <value>74</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000E">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000F">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0002">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F009" combined="true" panel="true" i="ch0009" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">38</attribute>
+                    <attribute name="selectedIcon">21</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0005">
+                            <value>22</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0006">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0007">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0008">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0009">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000A">
+                            <value>33</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0008">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0009">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp000A">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp000B">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp000C">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0002">
+                            <value>0</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F00A" combined="true" panel="true" i="ch000A" cid="ABB60340"/>
+                <channel mask="FFFFFFFF" nameId="F00B" combined="true" panel="true" i="ch000B" cid="ABB60340"/>
+                <channel mask="FFFFFFFF" nameId="F00C" combined="true" panel="true" i="ch000C" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">31</attribute>
+                    <attribute name="selectedIcon">1</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0001">
+                            <value>74</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000C">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000D">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000E">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp000F">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0013">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="idp0014">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000">
+                            <value>1</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint pairingId="FFFF" i="odp0002">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="F00D" combined="true" panel="true" i="ch000D" cid="ABB60340"/>
+                <channel mask="FFFFFFFF" nameId="F00E" combined="true" panel="true" i="ch000E" cid="ABB60340"/>
+                <channel mask="FFFFFFFF" nameId="F00F" combined="true" panel="true" i="ch000F" cid="ABB60340">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="functionId">37</attribute>
+                    <attribute name="selectedIcon">c</attribute>
+                    <inputs/>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0007">
+                            <value>3</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes>
+                        <scene active="true" sceneNumber="4" i="sc0000"/>
+                    </scenes>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="007A" i="ch0010" cid="ABB601C0">
+                    <attribute name="displayName">Door opener</attribute>
+                    <attribute name="functionId">1a</attribute>
+                    <attribute name="offsetX">0.103079</attribute>
+                    <attribute name="offsetY">0.242724</attribute>
+                    <attribute name="selectedIcon">14</attribute>
+                    <inputs>
+                        <dataPoint i="idp0000" pairingId="0618">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint i="odp0000" full="false" pairingId="0619">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="007B" i="ch0011" cid="ABB601C0">
+                    <attribute name="functionId">1a</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="007C" i="ch0012" cid="ABB601C0">
+                    <attribute name="functionId">1a</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="007D" i="ch0013" cid="ABB601C0">
+                    <attribute name="functionId">1a</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="007E" i="ch0014" cid="ABB601C0">
+                    <attribute name="functionId">1a</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="0084" i="ch0015" cid="ABB60200">
+                    <attribute name="displayName">Something</attribute>
+                    <attribute name="floor">00</attribute>
+                    <attribute name="functionId">21</attribute>
+                    <attribute name="offsetX">0.5</attribute>
+                    <attribute name="offsetY">0.753156</attribute>
+                    <attribute name="room">00</attribute>
+                    <attribute name="selectedIcon">67</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="017F" i="ch0016" cid="ABB60220">
+                    <attribute name="functionId">1d</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter i="pm0000">
+                            <value>5</value>
+                        </parameter>
+                    </parameters>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="0180" i="ch0017" cid="ABB60100">
+                    <attribute name="functionId">1e</attribute>
+                    <inputs/>
+                    <outputs/>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="018E" i="ch0018" cid="ABB600E0">
+                    <attribute name="functionId">1f</attribute>
+                    <inputs/>
+                    <outputs/>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="018F" i="ch0019" cid="ABB600E0">
+                    <attribute name="functionId">1f</attribute>
+                    <inputs/>
+                    <outputs/>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="0190" i="ch001A" cid="ABB600E0">
+                    <attribute name="functionId">1f</attribute>
+                    <inputs/>
+                    <outputs/>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="0191" i="ch001B" cid="ABB600E0">
+                    <attribute name="functionId">1f</attribute>
+                    <inputs/>
+                    <outputs/>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+                <channel mask="FFFFFFFF" nameId="0182" i="ch001C" cid="ABB601E0">
+                    <attribute name="functionId">20</attribute>
+                    <inputs>
+                        <dataPoint pairingId="FFFF" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint pairingId="FFFF" i="odp0000" full="false">
+                            <value>0</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+            </channels>
+        </device>
+ </devices>
+</project>

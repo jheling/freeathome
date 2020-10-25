@@ -27,6 +27,7 @@ from .devices.fah_thermostat import FahThermostat
 from .devices.fah_light_scene import FahLightScene
 from .devices.fah_cover import FahCover
 from .devices.fah_sensor import FahSensor
+from .devices.fah_lock import FahLock
 
 from .const import (
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
@@ -357,8 +358,8 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'sensor':
             return self.filter_devices(FahSensor)
 
-        # if device_type == 'lock':
-        #     return_type = self.lock_devices
+        if device_type == 'lock':
+            return self.filter_devices(FahLock)
 
         return return_type
 
@@ -500,12 +501,6 @@ class Client(slixmpp.ClientXMPP):
             self.sensor_devices[device_id].state = sensor_state
             LOG.info("sensor device %s output %s is %s", device_id, self.sensor_devices[device_id].output_device, sensor_state)    
 
-    def update_lock(self, device_id, channel):
-        lock_state = get_output_datapoint(channel, 'odp0000')
-        if lock_state is not None:
-            self.lock_devices[device_id].state = lock_state
-            LOG.info("lock device %s output %s is %s", device_id, lock_state)            
-
     def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints):
         """ Add generic device to the list of light devices   """
         device = fah_class(
@@ -563,33 +558,6 @@ class Client(slixmpp.ClientXMPP):
                 if function_id == '44':
                     station_name = station_basename + '_windstrength'
                     self.sensor_devices[sensor_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'windstrength', state, outputid)
-              
-    def scan_panel(self, xmlroot, device_info, serialnumber, roomnames):
-
-        channels = xmlroot.find('channels')
-        if channels is not None:             
-            for channel in channels.findall('channel'):
-                channel_id = channel.get('i')
-                function_id = get_attribute(channel, 'functionId')
-
-                lock_device = serialnumber + '/' + channel_id
-
-                # FID_DoorOpenerActuator
-                if function_id == '1a':                                  
-                    lock_name = get_attribute(channel, 'displayName')
-                    floor_id = get_attribute(channel, 'floor')
-                    room_id = get_attribute(channel, 'room')
-
-                    lock_state = get_output_datapoint(channel, 'odp0000')
-
-                    if lock_name == '':
-                        lock_name = lock_device
-                    if floor_id != '' and room_id != '' and self.use_room_names:
-                        lock_name = lock_name + ' (' + roomnames[floor_id][room_id] + ')'
-
-                    self.lock_devices[lock_device] = FahLock(self, device_info, serialnumber, channel_id, lock_name, lock_state)
-
-                    LOG.info('lock  %s %s is %s', lock_device, lock_name, lock_state)
 
     async def get_config(self):
         """Get config file via getAll RPC"""
@@ -725,7 +693,7 @@ class Client(slixmpp.ClientXMPP):
                     LOG.debug(get_all_datapoints_as_str(channel))
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahSensor]:
+                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahSensor, FahLock]:
                         # Add position suffix to name, e.g. 'LT' for left, top
                         position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX.get(channel_name_id, '')
 
@@ -746,11 +714,6 @@ class Client(slixmpp.ClientXMPP):
                     # # # weather station
                     # # if device_id == '101D':
                     # #     self.add_weather_station(device, device_info, device_serialnumber)
-
-                    # # TODO: Add lock based on function id
-                    # # # 7 inch panel with possible lock controll
-                    # # if device_id == '1038':
-                    # #     self.scan_panel(device, device_info, device_serialnumber, roomnames)
 
 
             # Update all devices with initial state
