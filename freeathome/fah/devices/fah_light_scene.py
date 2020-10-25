@@ -27,7 +27,8 @@ class FahLightScene(FahDevice):
 
     async def activate(self):
         """ Activate the scene   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, 'odp0000', '1')
+        dp = self._datapoints[PID_SCENE_CONTROL]
+        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '1')
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
