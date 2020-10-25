@@ -58,6 +58,13 @@ FUNCTION_IDS_DOOR_OPENER = [
         0x001A, # Door opener actuator
         ]
 
+FUNCTION_IDS_WEATHER_STATION = [
+        0x0041, # Brightness sensor
+        0x0042, # Rain sensor
+        0x0043, # Temperature sensor
+        0x0044, # Wind sensor
+        ]
+
 NAME_IDS_TO_BINARY_SENSOR_SUFFIX = {
         0x000A: '',   # 1-way
         0x0043: ' L',  # 2-way left
@@ -123,3 +130,9 @@ PID_SWITCHOVER_HEATING_COOLING = 0x0135
 # Lock
 PID_LOCK_UNLOCK_COMMAND = 0x0618
 PID_INFO_LOCK_UNLOCK = 0x0619
+
+# Weather station
+PID_OUTDOOR_TEMPERATURE = 0x0400
+# PID_MEASURED_BRIGHTNESS = 0x0403 defined above
+PID_WIND_SPEED = 0x0404
+PID_RAIN_DETECTION = 0x0405

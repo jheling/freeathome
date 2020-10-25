@@ -183,10 +183,6 @@ class Client(slixmpp.ClientXMPP):
     devices = set()
     monitored_datapoints = {}
 
-    weatherstation_function_output = { 
-        '41':'odp0001', '42':'odp0000', '43':'odp0001', '44':'odp0003'
-        }
-          
     def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
@@ -524,41 +520,6 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
 
 
-    def add_weather_station(self, xmlroot, device_info, serialnumber):
-        ''' The weather station consists of 4 different sensors '''
-        station_basename = get_attribute(xmlroot, 'displayName')
-
-        channels = xmlroot.find('channels')
-        if channels is not None:        
-           for channel in channels.findall('channel'):
-                channel_id = channel.get('i')
-                function_id = get_attribute(channel, 'functionId')
-
-                sensor_device = serialnumber + '/' + channel_id
-          
-                outputid = self.weatherstation_function_output[function_id]    
-                state = get_output_datapoint(channel, outputid)
-
-                # Luxsensor
-                if function_id == '41': 
-                    station_name = station_basename + '_lux'                     
-                    self.sensor_devices[sensor_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'lux', state, outputid)
-
-                # Rainsensor
-                if function_id == '42':
-                    station_name = station_basename + '_rain'
-                    self.sensor_devices[sensor_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'rain', state, outputid)
-
-                # Temperaturesensor
-                if function_id == '43':
-                    station_name = station_basename + '_temperature'
-                    self.sensor_devices[sensor_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'temperature', state, outputid)
-
-                # Windsensor
-                if function_id == '44':
-                    station_name = station_basename + '_windstrength'
-                    self.sensor_devices[sensor_device] = FahSensor(self, device_info, serialnumber, channel_id, station_name, 'windstrength', state, outputid)
-
     async def get_config(self):
         """Get config file via getAll RPC"""
         my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, 0, 0)
@@ -709,11 +670,6 @@ class Client(slixmpp.ClientXMPP):
                             # add the device
                             if not all(value is None for value in datapoints.values()):
                                 self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
-
-                    # # TODO: Add sensors one by one, based on their function ID
-                    # # # weather station
-                    # # if device_id == '101D':
-                    # #     self.add_weather_station(device, device_info, device_serialnumber)
 
 
             # Update all devices with initial state

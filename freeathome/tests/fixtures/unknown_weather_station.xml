@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Unlike the other test files, this file has NOT been extracted from a real
+system, but was crafted manually based on available information about the
+device. If you read this and own a weather station, please report it to the
+maintainers here: https://github.com/jheling/freeathome/issues/new
+-->
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="0241">Helligkeitssensor</string>
+  <string nameId="0246">Temperatursensor</string>
+  <string nameId="0249">Regensensor</string>
+  <string nameId="024A">Windsensor</string>
+  <string nameId="025A">Wetterstation</string>
+ </strings>
+ <devices>
+  <device nameId="025A" softwareVersion="2.1366" deviceId="101D" name="Weather&#x20;station" serialNumber="ABB121212345" commissioningState="ready">
+   <attribute name="displayName">Weather station</attribute>
+   <attribute name="floor">00</attribute>
+   <attribute name="room">00</attribute>
+   <channels>
+    <channel i="ch0000" nameId="0241" mask="FFFFFFFF">
+     <attribute name="functionId">41</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0403" i="odp0001">
+       <value>100</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel i="ch0001" nameId="0249" mask="FFFFFFFF">
+     <attribute name="functionId">42</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0405" i="odp0000">
+       <value>1</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel i="ch0002" nameId="0246" mask="FFFFFFFF">
+     <attribute name="functionId">43</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0400" i="odp0001">
+       <value>16.0</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel i="ch0003" nameId="024A" mask="FFFFFFFF">
+     <attribute name="functionId">44</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0404" i="odp0003">
+       <value>42</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+ </devices>
+</project>
