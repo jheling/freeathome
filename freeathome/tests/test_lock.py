@@ -31,6 +31,8 @@ class TestLock:
         client = get_client()
         await client.find_devices(True)
 
+        assert len(client.get_devices("light")) == 0
+
         devices = client.get_devices("lock")
         assert len(devices) == 1
         lock = next((el for el in devices if el.lookup_key == "ABB654612345/ch0010"))

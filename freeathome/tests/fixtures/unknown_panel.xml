@@ -428,12 +428,12 @@ we can include a correct file here and improve reliability of the component.
                     <attribute name="offsetY">0.242724</attribute>
                     <attribute name="selectedIcon">14</attribute>
                     <inputs>
-                        <dataPoint i="idp0000" pairingId="0618">
+                        <dataPoint i="idp0000" pairingId="2">
                             <value>0</value>
                         </dataPoint>
                     </inputs>
                     <outputs>
-                        <dataPoint i="odp0000" full="false" pairingId="0619">
+                        <dataPoint i="odp0000" full="false" pairingId="100">
                             <value>0</value>
                         </dataPoint>
                     </outputs>
