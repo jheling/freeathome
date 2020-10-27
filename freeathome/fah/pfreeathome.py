@@ -200,7 +200,7 @@ class Client(slixmpp.ClientXMPP):
         self.salt = salt
 
         if version.parse(self.fahversion) >= version.parse("2.3.0"):
-            self.saslhandler = SaslHandler(self, self.jid, self.password, self.iterations, self.salt)
+            self.saslhandler = SaslHandler(self, self.x_jid, self.password, self.iterations, self.salt)
 
         import os
         import binascii
@@ -239,7 +239,7 @@ class Client(slixmpp.ClientXMPP):
         await asyncio.sleep(2)
 
         if version.parse(self.fahversion) >= version.parse("2.3.0"):
-            self.saslhandler = SaslHandler(self, self.jid, self.password, self.iterations, self.salt)
+            self.saslhandler = SaslHandler(self, self.x_jid, self.password, self.iterations, self.salt)
 
         self.sysap_connect()
 
