@@ -47,7 +47,7 @@ class FreeAtHomeScene(Scene):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.scene_device.device_id
+        return self.scene_device.serialnumber + '/' + self.scene_device.channel_id
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
