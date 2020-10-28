@@ -154,7 +154,9 @@ def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
     datapoints = {}
     for type, pairing_ids_for_type in pairing_ids.items():
         for pairing_id in pairing_ids_for_type:
-            datapoints[pairing_id] = get_datapoint_by_pairing_id(xmlnode, type, pairing_id)
+            dp = get_datapoint_by_pairing_id(xmlnode, type, pairing_id)
+            if dp is not None:
+                datapoints[pairing_id] = dp
 
     return datapoints
 
