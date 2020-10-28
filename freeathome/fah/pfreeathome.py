@@ -419,7 +419,7 @@ class Client(slixmpp.ClientXMPP):
     async def update_devices(self, xml, initializing=False):
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
-        xml_without_names = re.sub(r'name="[^"]*" (.*)name="[^"]*"', r'\1', xml)
+        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
 
         root = ET.fromstring(xml_without_names)
 
@@ -549,7 +549,7 @@ class Client(slixmpp.ClientXMPP):
 
             # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
             # Strip them altogether.
-            config_without_names = re.sub(r'name="[^"]*" (.*)name="[^"]*"', r'\1', config)
+            config_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
 
             root = ET.fromstring(config_without_names)
 
