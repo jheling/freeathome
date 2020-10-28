@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="00EA">Raumtemperaturregler</string>
+ </strings>
+ <devices>
+  <device isTp="true" domainAddress="BAE7" individualAddress="0146" nameId="00EA" profile="0E00" maxAPDULength="39" compilerVersion="00000000" buildNumber="00000000" iconId="FFF6" protocolVersion="0000" minConfigVersion="0000" deviceFlavor="00" interface="TP" functionId="FEFE" shortSerialNumber="MYN" softwareId="0853" softwareVersion="1.83" deviceId="010D" name="2CSYE1202" serialNumber="ABB500012345" commissioningState="ready" consistencyTag="0" copyId="1" progress="100">
+    <channels>
+        <channel channelId="0805" name="Room-Temperature-Controller" maxScenes="08" mask="FFFFFFFF" nameId="0062" i="ch0000" cid="ABB50805">
+            <attribute name="displayName"> Termostato bagno</attribute>
+            <attribute name="floor">00</attribute>
+            <attribute name="functionId">23</attribute>
+            <attribute name="offsetX">0.593206592228102</attribute>
+            <attribute name="offsetY">0.600826188126858</attribute>
+            <attribute name="room">00</attribute>
+            <attribute name="selectedIcon">21</attribute>
+            <functions>
+                <function functionId="000A" nameId="01BB" sensorMatchCode="10000000" actuatorMatchCode="00000001" accessLevel="Enduser" isDefault="false" fixed="false" bestMatch="true" name="RTC&#x20;has&#x20;connected&#x20;the&#x20;fan&#x20;coil"/>
+                <function functionId="0023" nameId="01BA" sensorMatchCode="20000000" actuatorMatchCode="00000002" accessLevel="Enduser" isDefault="true" fixed="false" bestMatch="true" name="Room&#x20;temperature&#x20;controller"/>
+            </functions>
+            <inputs>
+                <dataPoint defaultConnection="false" name="Relative&#x20;Set&#x20;Point&#x20;Request" nameId="0115" matchCode="00000003" maxConnections="10" pairingId="0039" dpt="0901" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Point&#x20;Request" full="false" i="idp0000">
+                    <value>invalid</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Controller&#x20;On/Off&#x20;Request" nameId="0119" matchCode="00000003" maxConnections="10" pairingId="0042" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Controller&#x20;On/Off&#x20;Request" full="false" i="idp0001">
+                    <value>1</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Eco&#x20;mode&#x20;On/Off&#x20;Request" nameId="0117" matchCode="00000003" maxConnections="10" pairingId="003A" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Eco&#x20;mode&#x20;On/Off&#x20;Request" full="false" i="idp0002">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Scene&#x20;Control" nameId="000E" matchCode="00000003" maxConnections="20" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Absolute&#x20;set-point&#x20;temperature" nameId="0205" matchCode="00000003" maxConnections="01" pairingOptional="false" pairingId="0140" dpt="0901" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Absolute&#x20;setpoint&#x20;temperature" full="false" i="idp0004">
+                    <value>invalid</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Info&#x20;value&#x20;heating" nameId="017D" matchCode="30000000" maxConnections="10" pairingId="0131" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Value&#x20;Heating" full="false" i="idp0005">
+                    <value>0</value>
+                    <address timeSlot="0" primary="true" singleSink="false">a15d</address>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Info&#x20;value&#x20;cooling" nameId="01C7" matchCode="30000000" maxConnections="10" pairingId="0132" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;value&#x20;cooling" full="false" i="idp0006">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Heating&#x20;Demand&#x20;Info" nameId="039E" matchCode="00000003" maxConnections="01" pairingId="014F" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Heating&#x20;demand&#x20;feedback&#x20;signal" full="false" i="idp0007">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Cooling&#x20;Demand&#x20;Info" nameId="039F" matchCode="00000003" maxConnections="01" pairingId="0150" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Cooling&#x20;demand&#x20;feedback&#x20;signal" full="false" i="idp0008">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Window/Door" nameId="012E" matchCode="00000003" maxConnections="10" pairingId="0035" dpt="0113" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Window/Door" full="false" i="idp0009">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Fan&#x20;Stage&#x20;Request" nameId="0116" matchCode="00000003" maxConnections="10" pairingId="0040" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Fan&#x20;Level&#x20;Request" full="false" i="idp000A">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Info&#x20;Fan&#x20;Actuating&#x20;Stage&#x20;Heating" nameId="01F0" matchCode="10000000" maxConnections="10" pairingId="0145" dpt="050A" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Actuating&#x20;Fan&#x20;Stage&#x20;Heating" full="false" i="idp000B">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Info&#x20;Fan&#x20;Manual&#x20;On&#x20;Off&#x20;Heating" nameId="01F1" matchCode="10000000" maxConnections="10" pairingId="0146" dpt="0101" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Actuating&#x20;Fan&#x20;Manual&#x20;On/Off&#x20;Heating" full="false" i="idp000C">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Info&#x20;Fan&#x20;Actuating&#x20;Stage&#x20;Cooling" nameId="02C5" matchCode="10000000" maxConnections="10" pairingId="0149" dpt="050A" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Fan&#x20;Stage&#x20;Cooling" full="false" i="idp000D">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Info&#x20;Fan&#x20;Manual&#x20;On&#x20;Off&#x20;Cooling" nameId="02C6" matchCode="10000000" maxConnections="10" pairingId="014A" dpt="0101" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Fan&#x20;Manual&#x20;On/Off&#x20;Cooling" full="false" i="idp000E">
+                    <value>0</value>
+                </dataPoint>
+            </inputs>
+            <outputs>
+                <dataPoint defaultConnection="false" name="Actuating&#x20;Value&#x20;Heating" nameId="011B" matchCode="30000000" maxConnections="10" pairingId="0030" dpt="0501" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Actuating&#x20;Value&#x20;Heating" full="false" i="odp0000">
+                    <value>0</value>
+                    <address timeSlot="0" primary="true" singleSink="false">5339</address>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Actuating&#x20;Value&#x20;Cooling" nameId="0021" matchCode="30000000" maxConnections="10" pairingId="0032" dpt="0501" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Actuating&#x20;Value&#x20;Cooling" full="false" i="odp0001">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Set&#x20;Value&#x20;Temperature" nameId="0022" matchCode="00000003" maxConnections="10" pairingId="0033" dpt="0901" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Set&#x20;Value&#x20;Temperature" full="false" i="odp0002">
+                    <value>15</value>
+                    <address timeSlot="0" primary="true" singleSink="false">6839</address>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Relative&#x20;Set&#x20;Point&#x20;Temperature" nameId="010F" matchCode="00000003" maxConnections="10" pairingId="0034" dpt="0901" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Relative&#x20;Set&#x20;Point&#x20;Temperature" full="false" i="odp0003">
+                    <value>-6</value>
+                    <address timeSlot="0" primary="true" singleSink="false">475c</address>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Controller&#x20;On/Off" nameId="0112" matchCode="00000003" maxConnections="10" pairingId="0038" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Controller&#x20;On/Off" full="false" i="odp0004">
+                    <value>1</value>
+                    <address timeSlot="0" primary="true" singleSink="false">6b3c</address>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Measured&#x20;Temperature" nameId="0113" matchCode="00000003" maxConnections="10" pairingId="0130" dpt="0901" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Measured&#x20;Temperature" full="false" i="odp0005">
+                    <value>18.7</value>
+                    <address timeSlot="0" primary="true" singleSink="false">6981</address>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Status&#x20;indication" nameId="0025" matchCode="00000003" maxConnections="10" pairingId="0036" dpt="1501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Status&#x20;indication" full="false" i="odp0006">
+                    <value>97</value>
+                    <address timeSlot="0" primary="true" singleSink="false">68b6</address>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Heating&#x20;demand" nameId="039B" matchCode="30000000" maxConnections="10" pairingId="014D" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Heating&#x20;demand" full="false" i="odp0007">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Cooling&#x20;demand" nameId="039C" matchCode="30000000" maxConnections="10" pairingId="014E" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Cooling&#x20;demand" full="false" i="odp0008">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Actuating&#x20;Fan&#x20;Stage&#x20;Heating" nameId="0331" matchCode="10000000" maxConnections="10" pairingId="0136" dpt="050A" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Actuating&#x20;Fan&#x20;Stage&#x20;Heating" full="false" i="odp0009">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="Actuating&#x20;Fan&#x20;Stage&#x20;Cooling" nameId="02C3" matchCode="10000000" maxConnections="10" pairingId="0147" dpt="050A" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Actuating&#x20;Fan&#x20;Stage&#x20;Cooling" full="false" i="odp000A">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Fan&#x20;Coil&#x20;Level" nameId="0110" matchCode="00000003" maxConnections="10" pairingId="0031" dpt="1465" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Fan&#x20;Level&#x20;Heating" full="false" i="odp000B">
+                    <value>0</value>
+                    <address timeSlot="0" primary="true" singleSink="false">265c</address>
+                </dataPoint>
+                <dataPoint defaultConnection="true" name="Fan&#x20;Manual&#x20;On&#x20;Off" nameId="0118" matchCode="00000003" maxConnections="10" pairingId="0037" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Fan&#x20;Manual&#x20;On/Off&#x20;Request" full="false" i="odp000C">
+                    <value>0</value>
+                    <address timeSlot="0" primary="true" singleSink="false">692e</address>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="AL_HEATING_ACTIVE" nameId="0335" matchCode="00000003" maxConnections="10" pairingId="014B" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Heating&#x20;active" full="false" i="odp000D">
+                    <value>0</value>
+                </dataPoint>
+                <dataPoint defaultConnection="false" name="AL_COOLING_ACTIVE" nameId="0336" matchCode="00000003" maxConnections="10" pairingId="014C" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Cooling&#x20;active" full="false" i="odp000E">
+                    <value>0</value>
+                </dataPoint>
+            </outputs>
+        </channel>
+    </channels>
+    <dicts/>
+  </device>
+ </devices>
+</project>

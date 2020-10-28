@@ -112,3 +112,12 @@ class TestClimate:
         climate = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0000"))
 
         assert climate.name == "RTR AB"
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("duplicate-attributes.xml"))
+class TestBadXml:
+    async def test_climate(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        devices = client.get_devices("thermostat")
+        assert len(devices) == 1

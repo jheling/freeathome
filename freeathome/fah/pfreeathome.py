@@ -8,6 +8,7 @@ import logging
 # import urllib.request
 # import json
 import xml.etree.ElementTree as ET
+import re
 import slixmpp
 import zlib
 import sys
@@ -416,7 +417,11 @@ class Client(slixmpp.ClientXMPP):
             await self.update_devices(args[0])
 
     async def update_devices(self, xml, initializing=False):
-        root = ET.fromstring(xml)
+        # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
+        # Strip them altogether.
+        xml_without_names = re.sub(r'name="[^"]*" (.*)name="[^"]*"', r'\1', xml)
+
+        root = ET.fromstring(xml_without_names)
 
         updated_devices = set()
 
@@ -542,7 +547,11 @@ class Client(slixmpp.ClientXMPP):
         if config is not None:
             self.found_devices = True
 
-            root = ET.fromstring(config)
+            # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
+            # Strip them altogether.
+            config_without_names = re.sub(r'name="[^"]*" (.*)name="[^"]*"', r'\1', config)
+
+            root = ET.fromstring(config_without_names)
 
             # make a list of the rooms and other names
             roomnames = get_room_names(root)
