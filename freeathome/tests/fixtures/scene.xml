@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="0168">Neue Szene</string>
+  <string nameId="0169">Panikszene</string>
+  <string nameId="02AB">Zeitprogrammaktor</string>
+ </strings>
+ <devices>
+   <!-- NOTE -->
+   <!-- External devices (e.g. Hue) are excluded by default.
+        However, as I don't own a dimmer and can't add a device config for it,
+        let's fake it by setting isExternal to false -->
+  <device softwareId="0001" functionId="4800" softwareVersion="0.1" nameId="0168" deviceId="4800" deviceFlavor="00" domainAddress="1011" type="scene" profile="0000" maxAPDULength="31" iconId="FFFF" name="New&#x20;scene" serialNumber="FFFF4800000F" commissioningState="ready" consistencyTag="0" copyId="0">
+   <channels>
+    <channel channelId="8100" maxScenes="01" mask="FFFFFFFF" nameId="0168" i="ch0000" cid="FFFF8100">
+     <attribute name="displayName">Eigene Szene</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">4800</attribute>
+     <attribute name="name">Eigene Szene</attribute>
+     <attribute name="offsetX">0.684049079754601</attribute>
+     <attribute name="offsetY">0.224516050277218</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="selectedIcon">c</attribute>
+     <functions>
+      <function functionId="4800" nameId="0168" sensorMatchCode="00000001" actuatorMatchCode="00000002" isDefault="true" name="New&#x20;scene"/>
+     </functions>
+     <inputs/>
+     <outputs>
+      <dataPoint matchCode="00000001" maxConnections="01" pairingId="0004" dpt="1201" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes>
+      <scene active="true" sceneNumber="0" i="sc0000"/>
+     </scenes>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+  <device softwareId="0001" functionId="4801" softwareVersion="0.1" nameId="0169" deviceId="4801" deviceFlavor="00" domainAddress="1011" type="scene" profile="0000" maxAPDULength="31" iconId="FFFF" name="Panic&#x20;scene" serialNumber="FFFF48010001" commissioningState="ready" consistencyTag="0" copyId="0">
+   <channels>
+    <channel channelId="8200" maxScenes="01" mask="FFFFFFFF" nameId="0169" i="ch0000" cid="FFFF8200">
+     <attribute name="displayName">Panikszene</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">4801</attribute>
+     <attribute name="name">Panikszene</attribute>
+     <attribute name="offsetX">0.807662788478807</attribute>
+     <attribute name="offsetY">0.434225334919674</attribute>
+     <attribute name="room">00</attribute>
+     <attribute name="scope">room</attribute>
+     <functions>
+      <function functionId="4801" nameId="0169" sensorMatchCode="00000001" actuatorMatchCode="00000002" isDefault="true" name="Panic&#x20;scene"/>
+     </functions>
+     <inputs/>
+     <outputs>
+      <dataPoint matchCode="00000001" maxConnections="01" pairingId="0004" dpt="1201" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">edff</address>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes>
+      <scene active="true" sceneNumber="3" i="sc0000"/>
+     </scenes>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+  <device softwareId="0001" functionId="4A00" softwareVersion="0.1" nameId="02AB" deviceId="4A00" deviceFlavor="00" domainAddress="1011" type="timer" profile="0000" maxAPDULength="31" iconId="FFFF" name="Time&#x20;program&#x20;actuator" serialNumber="FFFF4A000001" commissioningState="ready" consistencyTag="0" copyId="0">
+   <channels>
+    <channel channelId="A001" maxScenes="0A" mask="FFFFFFFF" nameId="02AB" i="ch0000" cid="FFFFA001">
+     <attribute name="displayName">Grundprofil</attribute>
+     <attribute name="functionId">4a00</attribute>
+     <attribute name="offsetX">0</attribute>
+     <attribute name="offsetY">0</attribute>
+     <attribute name="selectedIcon">73</attribute>
+     <functions>
+      <function functionId="4A00" nameId="02AB" sensorMatchCode="00000000" actuatorMatchCode="00000001" isDefault="true" name="Time&#x20;program&#x20;actuator"/>
+     </functions>
+     <inputs>
+      <dataPoint matchCode="00000001" maxConnections="FF" pairingId="F101" dpt="0101" full="false" i="idp0000">
+       <value>1</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" matchCode="00000001" maxConnections="01" pairingId="F102" dpt="0101" full="false" i="odp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">8425</address>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0001">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0002">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="f102"/>
+      </scene>
+     </scenes>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+ </devices>
+</project>

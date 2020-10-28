@@ -58,7 +58,7 @@ async def async_setup(hass: HomeAssistant, base_config: dict):
 
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    from . import pfreeathome
+    from .fah import pfreeathome
 
     sysap = pfreeathome.FreeAtHomeSysApp(
             entry.data[CONF_HOST],

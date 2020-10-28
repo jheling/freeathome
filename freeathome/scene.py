@@ -15,7 +15,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     devices = fah.get_devices('scene')
 
-    for device, device_object in devices.items():
+    for device_object in devices:
         async_add_devices([FreeAtHomeScene(device_object)])
 
 
@@ -47,7 +47,7 @@ class FreeAtHomeScene(Scene):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.scene_device.device_id
+        return self.scene_device.serialnumber + '/' + self.scene_device.channel_id
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""

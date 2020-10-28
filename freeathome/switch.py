@@ -22,7 +22,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     cover_devices = fah.get_devices('cover')
 
-    for device, device_object in cover_devices.items():
+    for device_object in cover_devices:
         async_add_devices([
             FreeAtHomeCoverForcedPositionSwitch(device_object, STATE_FORCED_POSITION_UP, "up"),
             FreeAtHomeCoverForcedPositionSwitch(device_object, STATE_FORCED_POSITION_DOWN, "down"),
@@ -50,9 +50,14 @@ class FreeAtHomeCoverForcedPositionSwitch(SwitchEntity):
         return self._name + " force " + self._name_suffix
 
     @property
+    def device_info(self):
+        """Return device id."""
+        return self.cover_device.device_info
+
+    @property
     def unique_id(self):
         """Return the ID """
-        return self.cover_device.device_id + "_" + self._name_suffix
+        return self.cover_device.serialnumber + '/' + self.cover_device.channel_id + "_" + self._name_suffix
 
     @property
     def should_poll(self):

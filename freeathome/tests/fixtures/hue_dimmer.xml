@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="020D">Hue Aktor</string>
+ </strings>
+ <devices>
+   <!-- NOTE -->
+   <!-- External devices (e.g. Hue) are excluded by default.
+        However, as I don't own a dimmer and can't add a device config for it,
+        let's fake it by setting isExternal to false -->
+  <device isExternal="false" interface="hue" softwareId="0003" functionId="FEEE" softwareVersion="123" nameId="020D" protocolVersion="00FF" deviceId="10C3" minConfigVersion="0000" deviceFlavor="00" domainAddress="1011" individualAddress="A00F" profile="0810" maxAPDULength="37" compilerVersion="00000000" buildNumber="00000000" iconId="FFEE" name="Hue&#x20;actuator" serialNumber="BEED82AC0001" commissioningState="ready" consistencyTag="10" copyId="a" progress="100">
+   <attribute name="displayName">Arbeitsfläche</attribute>
+   <attribute name="floor">00</attribute>
+   <attribute name="offsetX">0.1175257102730348</attribute>
+   <attribute name="offsetY">0.4132701036112757</attribute>
+   <attribute name="room">00</attribute>
+   <channels>
+    <channel channelId="0064" maxScenes="10" mask="FFFFFFFF" nameId="0238" sameLocation="true" i="ch0000" cid="BEED0064">
+     <attribute name="functionId">12</attribute>
+     <attribute name="selectedIcon">1</attribute>
+     <functions>
+      <function functionId="0012" nameId="0238" sensorMatchCode="00000000" actuatorMatchCode="00000001" isDefault="true" name="HUE&#x20;dimmer"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000B" matchCode="00000001" maxConnections="20" pairingId="0001" dpt="0101" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">6797</address>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0010" matchCode="00000001" maxConnections="20" pairingId="0010" dpt="0307" name="Relative&#x20;Set&#x20;Value" full="false" i="idp0001">
+       <value>8</value>
+       <address timeSlot="0" primary="true" singleSink="false">16e6</address>
+      </dataPoint>
+      <dataPoint nameId="0011" matchCode="00000001" maxConnections="20" pairingId="0011" dpt="0501" name="Absolute&#x20;Set&#x20;Value" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint nameId="000C" matchCode="00000001" maxConnections="20" pairingId="0002" dpt="010A" name="Timed&#x20;Start/Stop" full="false" i="idp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint nameId="000E" matchCode="00000001" maxConnections="1" pairingId="0004" dpt="1201" name="Scene&#x20;Control" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint nameId="0012" matchCode="00000001" maxConnections="1" pairingId="0012" dpt="0102" autoConnectHouse="true" name="Night" i="idp0005">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">30b</address>
+      </dataPoint>
+      <dataPoint nameId="01F6" matchCode="00000001" maxConnections="20" pairingId="0006" dpt="010A" name="Presence" full="false" i="idp0006">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00000001" maxConnections="01" pairingId="0100" dpt="0101" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">90b4</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0120" matchCode="00000001" maxConnections="01" pairingId="0110" dpt="0501" name="Info&#x20;Actual&#x20;Dimming&#x20;Value" full="false" i="odp0001">
+       <value>100</value>
+       <address timeSlot="0" primary="true" singleSink="false">bf7b</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0014" matchCode="00000001" maxConnections="01" pairingId="0111" dpt="1503" name="Info&#x20;Error" full="false" i="odp0002">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">b39a</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="022F" parameterId="0029" matchCode="00000001" dpt="1464" visible="true" writable="true" name="Switch-on&#x20;mode" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="2" nameId="0239" isDefault="true" name="Last&#x20;brightness"/>
+        <option key="1" nameId="018C" isDefault="false" name="Maximum&#x20;brightness"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="01F4" parameterId="0005" matchCode="00000001" dpt="0501" visible="true" writable="true" name="Maximum&#x20;switch-on&#x20;brightness,&#x20;day" i="pm0001" optional="false">
+       <valueUnsigned factor="2.5500" stepWidth="1" maxValue="100" minValue="10" defaultValue="100"/>
+       <value>100</value>
+      </parameter>
+      <parameter nameId="01F5" parameterId="0012" matchCode="00000001" dpt="0501" visible="true" writable="true" name="Maximum&#x20;switch-on&#x20;brightness,&#x20;night" i="pm0002" optional="false">
+       <valueUnsigned factor="2.5500" stepWidth="1" maxValue="100" minValue="10" defaultValue="100"/>
+       <value>100</value>
+      </parameter>
+      <parameter nameId="016D" parameterId="0015" matchCode="00000001" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0003" optional="false">
+       <valueUnsigned factor="1.0000" stepWidth="10" maxValue="1800" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000A">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000B">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000C">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000D">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000E">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000F">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+       <storedDataPoint pairingId="110">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+ </devices>
+</project>

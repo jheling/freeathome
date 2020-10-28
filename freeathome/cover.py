@@ -19,7 +19,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     devices = fah.get_devices('cover')
 
-    for device, device_object in devices.items():
+    for device_object in devices:
         async_add_devices([FreeAtHomeCover(device_object)])
 
 
@@ -47,9 +47,14 @@ class FreeAtHomeCover(CoverEntity):
         return self._name
 
     @property
+    def device_info(self):
+        """Return cover device info."""
+        return self.cover_device.device_info
+
+    @property
     def unique_id(self):
         """Return the ID """
-        return self.cover_device.device_id
+        return self.cover_device.serialnumber + '/' + self.cover_device.channel_id
 
     @property
     def should_poll(self):

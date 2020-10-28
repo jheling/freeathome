@@ -50,7 +50,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     devices = fah.get_devices('sensor')
 
-    for device, device_object in devices.items():
+    for device_object in devices:
         async_add_devices([FreeAtHomeSensor(device_object)])
 
 class FreeAtHomeSensor(Entity):
@@ -79,9 +79,14 @@ class FreeAtHomeSensor(Entity):
         return self._icon
 
     @property
+    def device_info(self):
+        """Return device id."""
+        return self.sensor_device.device_info
+
+    @property
     def unique_id(self):
         """Return the ID """
-        return self.sensor_device.device_id
+        return self.sensor_device.serialnumber + '/' + self.sensor_device.channel_id
 
     @property
     def should_poll(self):

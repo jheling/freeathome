@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
+ <strings>
+  <string nameId="FFF6">Bewegungsmelder/Schaltaktor 1-fach</string>
+ </strings>
+ <devices>
+  <device domainAddress="661F" individualAddress="0127" nameId="FFF6" profile="0E00" maxAPDULength="37" compilerVersion="007A3CF9" buildNumber="00000556" iconId="FFF5" protocolVersion="0002" minConfigVersion="0001" deviceFlavor="00" interface="TP" functionId="FEFA" shortSerialNumber="DQK" softwareId="1556" softwareVersion="2.1366" isTp="true" deviceId="100A" name="Movement&#x20;detector/switch&#x20;actuator,&#x20;1-gang" serialNumber="ABB700C12345" commissioningState="ready" consistencyTag="484e" copyId="5" progress="100">
+   <attribute name="bitErrors">7</attribute>
+   <attribute name="busVoltage">28.74</attribute>
+   <attribute name="deviceErrors">0</attribute>
+   <attribute name="deviceReboots">89</attribute>
+   <attribute name="displayName">Bewegungssensor</attribute>
+   <attribute name="floor">00</attribute>
+   <attribute name="framingErrors">3</attribute>
+   <attribute name="offsetX">0.3069091796875</attribute>
+   <attribute name="offsetY">0.68596708823624</attribute>
+   <attribute name="operationTime">41665</attribute>
+   <attribute name="parityErrors">5</attribute>
+   <attribute name="room">00</attribute>
+   <attribute name="spikeErrors">7</attribute>
+   <channels>
+    <channel channelId="0308" maxScenes="00" mask="0000FFFF" nameId="0122" sameLocation="true" i="ch0000" cid="ABB70308">
+     <attribute name="functionId">11</attribute>
+     <attribute name="offsetX">0.3069091796875</attribute>
+     <attribute name="offsetY">0.68596708823624</attribute>
+     <attribute name="selectedIcon">52</attribute>
+     <functions>
+      <function functionId="0011" nameId="0122" sensorMatchCode="00000001" actuatorMatchCode="00000000" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Movement&#x20;Detector"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000F" matchCode="00000001" maxConnections="20" pairingOptional="true" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">5e58</address>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="02BD" matchCode="00000001" maxConnections="01" pairingId="0006" dpt="010A" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Movement&#x20;under&#x20;consideration&#x20;of&#x20;brightness" full="false" i="odp0000">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">3ad7</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="01F6" matchCode="00000001" maxConnections="01" pairingId="0007" dpt="010A" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Presence" full="false" i="odp0001">
+       <value>1</value>
+       <address timeSlot="0" primary="true" singleSink="false">a50</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="04FD" matchCode="00000001" maxConnections="01" pairingId="0403" dpt="0904" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Measured&#x20;brightness" full="false" i="odp0002">
+       <value>20</value>
+       <address timeSlot="0" primary="true" singleSink="false">2e96</address>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="0129" parameterId="0034" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000001" dpt="1464" visible="true" writable="true" name="Switch&#x20;on" i="pm0000" optional="false">
+       <valueEnum>
+        <option key="1" nameId="012A" isDefault="false" name="always"/>
+        <option key="2" nameId="0505" isDefault="true" name="Threshold"/>
+        <option key="3" nameId="012C" isDefault="false" name="if&#x20;its&#x20;really,&#x20;really&#x20;dark"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="04FE" parameterId="00D5" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000001" dpt="0900" visible="false" writable="true" name="Threshold" i="pm0001" optional="false">
+       <valueFloat factor="1" stepWidth="0.1" maxValue="400" minValue="0.5" defaultValue="15"/>
+       <value>15</value>
+      </parameter>
+     </parameters>
+     <scenes/>
+    </channel>
+    <channel channelId="014F" maxScenes="10" mask="0000FFFF" nameId="004F" i="ch0001" cid="ABB7014F">
+     <attribute name="functionId">7</attribute>
+     <functions>
+      <function functionId="0007" nameId="0001" sensorMatchCode="00000000" actuatorMatchCode="00000001" accessLevel="Enduser" preconfigured="false" isDefault="true" fixed="false" bestMatch="false" name="Switch&#x20;actuator"/>
+      <function functionId="0027" nameId="01C8" sensorMatchCode="00000000" actuatorMatchCode="00000002" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Heating&#x20;mode"/>
+      <function functionId="0024" nameId="01C9" sensorMatchCode="00000000" actuatorMatchCode="00000040" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Cooling&#x20;mode"/>
+      <function functionId="003D" nameId="025F" sensorMatchCode="00000000" actuatorMatchCode="00000004" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Add.&#x20;stage&#x20;for&#x20;heating&#x20;mode"/>
+      <function functionId="0087" nameId="04CF" sensorMatchCode="00000000" actuatorMatchCode="00000080" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Add.&#x20;stage&#x20;for&#x20;cooling&#x20;mode"/>
+      <function functionId="0045" nameId="0263" sensorMatchCode="00000000" actuatorMatchCode="00000008" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Trigger"/>
+      <function functionId="0056" nameId="0384" sensorMatchCode="00000000" actuatorMatchCode="00000010" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Central&#x20;heating&#x20;actuator"/>
+      <function functionId="0057" nameId="0385" sensorMatchCode="00000000" actuatorMatchCode="00000020" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Central&#x20;cooling&#x20;actuator"/>
+      <function functionId="0088" nameId="04D7" sensorMatchCode="00000000" actuatorMatchCode="00000100" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Two&#x20;Level&#x20;Heating&#x20;Actuator"/>
+      <function functionId="0089" nameId="04D8" sensorMatchCode="00000000" actuatorMatchCode="00000200" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Two&#x20;Level&#x20;Cooling&#x20;Actuator"/>
+      <function functionId="0029" nameId="01CA" sensorMatchCode="00000000" actuatorMatchCode="00000400" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Auto.&#x20;heating/cooling&#x20;mode"/>
+      <function functionId="00A4" nameId="05C6" sensorMatchCode="00000000" actuatorMatchCode="00000800" accessLevel="Installer" preconfigured="false" isDefault="false" fixed="false" bestMatch="false" name="Two-point&#x20;controller&#x20;for&#x20;heating&#x20;or&#x20;cooling"/>
+     </functions>
+     <inputs>
+      <dataPoint defaultConnection="false" nameId="000B" matchCode="00000001" maxConnections="20" pairingOptional="false" pairingId="0001" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Switch&#x20;On/Off" full="false" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000C" matchCode="00000009" maxConnections="20" pairingOptional="false" pairingId="0002" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Timed&#x20;Start/Stop" full="false" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000D" matchCode="00000001" maxConnections="20" pairingOptional="false" pairingId="0003" dpt="0201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position" full="false" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="000E" matchCode="00000009" maxConnections="20" pairingOptional="false" pairingId="0004" dpt="1201" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Scene&#x20;Control" full="false" i="idp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="02BD" matchCode="00000001" maxConnections="20" pairingOptional="false" pairingId="0006" dpt="010A" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Movement&#x20;under&#x20;consideration&#x20;of&#x20;brightness" full="false" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="011B" matchCode="00000D02" maxConnections="01" pairingOptional="false" pairingId="0030" dpt="0501" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Actuating&#x20;Value&#x20;Heating" full="false" i="idp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0021" matchCode="00000E40" maxConnections="01" pairingOptional="false" pairingId="0032" dpt="0501" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Actuating&#x20;Value&#x20;Cooling" full="false" i="idp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="025D" matchCode="00000004" maxConnections="01" pairingOptional="false" pairingId="0143" dpt="0101" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;value&#x20;additional&#x20;heating" full="false" i="idp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="025E" matchCode="00000080" maxConnections="01" pairingOptional="false" pairingId="0144" dpt="0101" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Control&#x20;value&#x20;additional&#x20;cooling" full="false" i="idp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="039B" matchCode="00000010" maxConnections="20" pairingOptional="false" pairingId="014D" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Heating&#x20;demand" full="false" i="idp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="039C" matchCode="00000020" maxConnections="20" pairingOptional="false" pairingId="014E" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Cooling&#x20;demand" full="false" i="idp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0023" matchCode="00000C00" maxConnections="01" pairingOptional="false" pairingId="0135" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="true" name="Heating/Cooling&#x20;On/Off" full="false" i="idp000B">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint defaultConnection="true" nameId="000F" matchCode="00000001" maxConnections="01" pairingId="0100" dpt="0101" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;On/Off" full="false" i="odp0000">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">4bac</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0204" matchCode="00000001" maxConnections="01" pairingId="0101" dpt="1464" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Force-position&#x20;info" full="false" i="odp0001">
+       <value>0</value>
+       <address timeSlot="0" primary="true" singleSink="false">2ada</address>
+      </dataPoint>
+      <dataPoint defaultConnection="true" nameId="0014" matchCode="00000FF6" maxConnections="01" pairingId="0111" dpt="1503" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Error" full="false" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="017D" matchCode="00000D02" maxConnections="01" pairingId="0131" dpt="0501" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;Value&#x20;Heating" full="false" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="01C7" matchCode="00000E40" maxConnections="01" pairingId="0132" dpt="0501" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Info&#x20;value&#x20;cooling" full="false" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="0261" matchCode="00000004" maxConnections="01" pairingId="0141" dpt="0101" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Additional&#x20;heating&#x20;value&#x20;info" full="false" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="025C" matchCode="00000080" maxConnections="01" pairingId="0142" dpt="0101" autoConnectRoom="true" autoConnectFloor="false" autoConnectHouse="false" name="Additional&#x20;cooling&#x20;value&#x20;info" full="false" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="039E" matchCode="00000010" maxConnections="01" pairingId="014F" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Heating&#x20;demand&#x20;feedback&#x20;signal" full="false" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint defaultConnection="false" nameId="039F" matchCode="00000020" maxConnections="01" pairingId="0150" dpt="0501" autoConnectRoom="false" autoConnectFloor="false" autoConnectHouse="false" name="Cooling&#x20;demand&#x20;feedback&#x20;signal" full="false" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters>
+      <parameter nameId="016D" parameterId="0015" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000001" dpt="0705" visible="true" writable="true" name="Autonomous&#x20;switch&#x20;off&#x20;time&#x20;duration" i="pm0000" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="1800" minValue="30" defaultValue="60"/>
+       <value>60</value>
+      </parameter>
+      <parameter nameId="0105" parameterId="0014" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000001" dpt="1464" visible="true" writable="false" name="Behaviour&#x20;on&#x20;malfunction" i="pm0001" optional="false">
+       <valueEnum>
+        <option key="1" nameId="00CD" isDefault="true" name="No&#x20;reaction"/>
+        <option key="2" nameId="00CE" isDefault="false" name="Close&#x20;contact"/>
+        <option key="3" nameId="00CF" isDefault="false" name="Open&#x20;contact"/>
+       </valueEnum>
+       <value>1</value>
+      </parameter>
+      <parameter nameId="0130" parameterId="002F" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000372" dpt="1464" visible="true" writable="true" name="Contact&#x20;type" i="pm0002" optional="false">
+       <valueEnum>
+        <option key="1" nameId="01B6" isDefault="true" name="currentless&#x20;closed"/>
+        <option key="2" nameId="01B5" isDefault="false" name="currentless&#x20;open"/>
+       </valueEnum>
+      </parameter>
+      <parameter nameId="0105" parameterId="0030" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000F42" dpt="0501" visible="true" writable="true" name="Behaviour&#x20;on&#x20;malfunction" i="pm0003" optional="false">
+       <valueUnsigned factor="2.55" stepWidth="5" maxValue="100" minValue="0" defaultValue="30"/>
+      </parameter>
+      <parameter nameId="0262" parameterId="0031" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000002" dpt="0705" visible="false" writable="true" name="PWM&#x20;period" i="pm0004" optional="false">
+       <valueUnsigned factor="1" stepWidth="10" maxValue="1800" minValue="120" defaultValue="900"/>
+      </parameter>
+      <parameter nameId="0264" parameterId="0032" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000008" dpt="0704" visible="false" writable="true" name="Trigger&#x20;duration" i="pm0005" optional="false">
+       <valueUnsigned factor="1" stepWidth="1" maxValue="50" minValue="1" defaultValue="10"/>
+      </parameter>
+      <parameter nameId="0004" parameterId="009A" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000030" dpt="0706" visible="true" writable="true" name="Switch-off&#x20;delay" i="pm0006" optional="false">
+       <valueUnsigned factor="60" stepWidth="1" maxValue="1440" minValue="6" defaultValue="6"/>
+      </parameter>
+      <parameter nameId="039D" parameterId="0056" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000030" dpt="0501" visible="true" writable="true" name="Threshold&#x20;value" i="pm0007" optional="false">
+       <valueUnsigned factor="2.55" stepWidth="1" maxValue="100" minValue="0" defaultValue="1"/>
+      </parameter>
+      <parameter nameId="0245" parameterId="009B" dependencyId="FFFF" accessLevel="Enduser" wizardOnly="false" matchCode="00000B00" dpt="1464" visible="true" writable="true" name="Hysteresis" i="pm0008" optional="false">
+       <valueEnum>
+        <option key="1" nameId="04D3" isDefault="false" name="10%&#x20;/&#x20;90%"/>
+        <option key="2" nameId="04D4" isDefault="true" name="20%&#x20;/&#x20;80%"/>
+        <option key="3" nameId="04D5" isDefault="false" name="30%&#x20;/&#x20;70%"/>
+        <option key="4" nameId="04D6" isDefault="false" name="40%&#x20;/&#x20;60%"/>
+       </valueEnum>
+      </parameter>
+     </parameters>
+     <scenes>
+      <scene active="false" sceneNumber="0" i="sc0000">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0001">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0002">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0003">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0004">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0005">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0006">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0007">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0008">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc0009">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000A">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000B">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000C">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000D">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000E">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+      <scene active="false" sceneNumber="0" i="sc000F">
+       <storedDataPoint pairingId="100">
+        <value>0</value>
+       </storedDataPoint>
+      </scene>
+     </scenes>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+ </devices>
+</project>

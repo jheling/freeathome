@@ -19,7 +19,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     devices = sysap.get_devices('light')
 
-    for device, device_object in devices.items():
+    for device_object in devices:
         async_add_devices([FreeAtHomeLight(device_object)])
 
 
@@ -29,13 +29,13 @@ class FreeAtHomeLight(LightEntity):
     _name = ''
     _state = None
     _brightness = None
-    _light_type = None
+    _is_dimmer = None
 
     def __init__(self, device):
         self.light_device = device
         self._name = self.light_device.name
         self._state = self.light_device.state
-        self._light_type = self.light_device.light_type
+        self._is_dimmer = self.light_device.is_dimmer()
         if self.light_device.brightness is not None:
             self._brightness = int(float(self.light_device.brightness) * 2.55)
         else:
@@ -47,9 +47,14 @@ class FreeAtHomeLight(LightEntity):
         return self._name
 
     @property
+    def device_info(self):
+        """Return device id."""
+        return self.light_device.device_info
+
+    @property
     def unique_id(self):
         """Return the ID """
-        return self.light_device.device_id
+        return self.light_device.serialnumber + '/' + self.light_device.channel_id
 
     @property
     def should_poll(self):
@@ -59,7 +64,7 @@ class FreeAtHomeLight(LightEntity):
     @property
     def supported_features(self):
         """Flag supported features."""
-        if self._light_type == 'dimmer':
+        if self._is_dimmer:
             return SUPPORT_BRIGHTNESS
         return 0
 
