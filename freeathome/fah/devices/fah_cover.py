@@ -44,7 +44,7 @@ class FahCover(FahDevice):
 
     def is_cover_closed(self):
         """ Return if the cover is closed   """
-        return int(self.position) == 0
+        return self.state == '1'
 
     def is_cover_opening(self):
         """ Return is the cover is opening   """
@@ -56,11 +56,13 @@ class FahCover(FahDevice):
 
     def get_cover_position(self):
         """ Return the cover position """
-        return int(self.position)
+        if self.supports_position():
+            return int(self.position)
 
     def get_forced_cover_position(self):
         """Return forced cover position."""
-        return int(self.forced_position)
+        if self.supports_forced_position():
+            return int(self.forced_position)
 
     async def set_cover_position(self, position):
         """ Set the cover position  """
@@ -98,6 +100,10 @@ class FahCover(FahDevice):
     def supports_stop(self):
         """ Returns true if cover supports stop """
         return PID_ADJUST_UP_DOWN in self._datapoints
+
+    def supports_forced_position(self):
+        """ Returns true if cover supports force position """
+        return PID_FORCE_POSITION_BLIND in self._datapoints
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""

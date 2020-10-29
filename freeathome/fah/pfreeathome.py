@@ -522,6 +522,7 @@ class Client(slixmpp.ClientXMPP):
             # There may be a better way to check for this.
             if datapoint is None or datapoint[0] == 'i':
                 continue
+            LOG.debug('Monitoring datapoint ' + serialnumber + '/' + channel_id + '/' + datapoint)
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
