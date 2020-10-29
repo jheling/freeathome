@@ -88,6 +88,14 @@ class FahCover(FahDevice):
             dp = self._datapoints[PID_ADJUST_UP_DOWN]
             await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '1')
 
+    def supports_position(self):
+        """ Returns true if cover supports position """
+        return PID_SET_ABSOLUTE_POSITION_BLINDS in self._datapoints
+
+    def supports_stop(self):
+        """ Returns true if cover supports stop """
+        return PID_ADJUST_UP_DOWN in self._datapoints
+
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_INFO_MOVE_UP_DOWN) == dp:
