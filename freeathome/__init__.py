@@ -22,6 +22,7 @@ PLATFORMS = [
         "switch"
         ]
 
+SERVICE_DUMP = "dump"
 
 DEFAULT_USE_ROOM_NAMES = False
 
@@ -76,6 +77,25 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.async_create_task(
                 hass.config_entries.async_forward_entry_setup(entry, component)
                 )
+
+    async def async_dump_service(call):
+        """Handle dump service calls."""
+        for sysap in hass.data[DOMAIN].values():
+            host = sysap.host
+            filename = f"freeathome_dump_{host}.xml"
+            with open(hass.config.path(filename), "wt") as f:
+                xml = await sysap.get_raw_config(pretty=True)
+                f.write(xml)
+
+            _LOGGER.info("Dumped devices for host %s to %s", host, filename)
+
+        return True
+
+    hass.services.async_register(
+            DOMAIN,
+            SERVICE_DUMP,
+            async_dump_service,
+            )
 
     return True
 

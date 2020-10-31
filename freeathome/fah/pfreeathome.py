@@ -525,9 +525,10 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
 
 
-    async def get_config(self):
+    async def get_config(self, pretty=False):
         """Get config file via getAll RPC"""
-        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, 0, 0)
+        pretty_value = 1 if pretty else 0
+        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, pretty_value, 0)
         my_iq.enable('rpc_query')
 
         if my_iq['rpc_query']['method_response']['fault'] is not None:
@@ -709,6 +710,11 @@ class FreeAtHomeSysApp(object):
         """ getter use_room_names   """
         return self._use_room_names
 
+    @property
+    def host(self):
+        """Getter for host"""
+        return self._host
+
     @use_room_names.setter
     def use_room_names(self, value):
         """ setter user_room_names   """
@@ -760,6 +766,10 @@ class FreeAtHomeSysApp(object):
     def get_devices(self, device_type):
         """ Get devices of a specific type from the sysap   """
         return self.xmpp.get_devices(device_type)
+
+    def get_raw_config(self, pretty=False):
+        """Return raw config"""
+        return self.xmpp.get_config(pretty=pretty)
 
     async def find_devices(self):
         """ find all the devices on the sysap   """

@@ -1,0 +1,2 @@
+dump:
+  description: "Dump free@home XML configuration to config folder"
