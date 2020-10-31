@@ -34,6 +34,8 @@ class TestMovementDetectorLuxSensor:
 
         return client
 
+
+    @pytest.mark.asyncio
     async def test_movement_detector_lux_sensor(self, _):
         client = await self.get_client()
         await client.find_devices(True)
@@ -67,6 +69,8 @@ class TestWeatherStation:
 
         return client
 
+
+    @pytest.mark.asyncio
     async def test_weather_station(self, _):
         client = await self.get_client()
         await client.find_devices(True)

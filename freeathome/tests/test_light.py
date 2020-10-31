@@ -27,6 +27,7 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("100C_sensor_actuator_1gang.xml"))
 class TestLight:
+    @pytest.mark.asyncio
     async def test_light(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -58,6 +59,7 @@ class TestLight:
         assert light.is_on() == False
 
 
+    @pytest.mark.asyncio
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -71,6 +73,7 @@ class TestLight:
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("B008_sensor_actuator_8gang.xml"))
 class TestLight8Gang:
+    @pytest.mark.asyncio
     async def test_light(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -102,6 +105,7 @@ class TestLight8Gang:
         assert light.is_on() == True
 
 
+    @pytest.mark.asyncio
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -114,6 +118,7 @@ class TestLight8Gang:
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("hue_dimmer.xml"))
 class TestDimmer:
+    @pytest.mark.asyncio
     async def test_dimmer(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -161,6 +166,7 @@ class TestDimmer:
         assert light.is_on() == False
 
 
+    @pytest.mark.asyncio
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)

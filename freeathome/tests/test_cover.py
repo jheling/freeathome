@@ -26,6 +26,7 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1013_blind_sensor_actuator_1gang.xml"))
 class TestCover:
+    @pytest.mark.asyncio
     async def test_cover(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -47,7 +48,8 @@ class TestCover:
         # TODO: This should return 73, reverse values in component
         assert cover.position == "27"
         assert cover.forced_position == "0"
-        assert cover.is_cover_closed() == False
+        assert cover.state == "1"
+        assert cover.is_cover_closed() == True
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
 
@@ -109,6 +111,8 @@ class TestCover:
         assert cover.is_cover_closed() == False
         assert cover.get_forced_cover_position() == 0
 
+
+    @pytest.mark.asyncio
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)

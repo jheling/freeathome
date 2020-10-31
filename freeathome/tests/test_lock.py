@@ -27,6 +27,7 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("unknown_panel.xml"))
 class TestLock:
+    @pytest.mark.asyncio
     async def test_lock(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -60,6 +61,7 @@ class TestLock:
         assert lock.state == '1'
 
 
+    @pytest.mark.asyncio
     async def test_lock_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)

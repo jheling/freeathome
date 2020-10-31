@@ -26,6 +26,7 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1004_room_temperature_controller.xml"))
 class TestClimate:
+    @pytest.mark.asyncio
     async def test_climate(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -105,6 +106,8 @@ class TestClimate:
         climate.update_datapoint('odp0009', '33')
         assert climate.ecomode == False
 
+
+    @pytest.mark.asyncio
     async def test_climate_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -115,6 +118,7 @@ class TestClimate:
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("duplicate-attributes.xml"))
 class TestBadXml:
+    @pytest.mark.asyncio
     async def test_climate(self, _):
         client = get_client()
         await client.find_devices(True)
