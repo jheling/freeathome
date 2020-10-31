@@ -541,6 +541,14 @@ class Client(slixmpp.ClientXMPP):
         args = xml2py(my_iq['rpc_query']['method_response']['params'])
         return args[0]
 
+    async def get_all_xml(self):
+        config = await self.get_config()
+
+        if config is None:
+            return None
+        
+        return re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
+
 
     async def find_devices(self, use_room_names):
         """ Find the devices in the system, this is a big XML file   """
@@ -763,6 +771,14 @@ class FreeAtHomeSysApp(object):
     def get_devices(self, device_type):
         """ Get devices of a specific type from the sysap   """
         return self.xmpp.get_devices(device_type)
+
+    async def get_all_xml(self):
+        """ get the whole xml """
+        try:
+            xml = await self.xmpp.get_all_xml()
+            return xml
+        except IqError as error:
+            raise error
 
     async def find_devices(self):
         """ find all the devices on the sysap   """
