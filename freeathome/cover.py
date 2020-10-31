@@ -100,7 +100,7 @@ class FreeAtHomeCover(CoverEntity):
 
     async def async_force_position(self, forced_position):
         """Instruct the cover to force stay open or closed."""
-        await self.cover_device.set_forced_cover_position(forced_position)
+        await self.cover_device.set_forced_cover_position(forced_position.lower())
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""

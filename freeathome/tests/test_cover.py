@@ -46,7 +46,7 @@ class TestCover:
         # TODO: Convert to int, make this a getter
         # TODO: This should return 73, reverse values in component
         assert cover.position == "27"
-        assert cover.get_forced_cover_position() == "off"
+        assert cover.get_forced_cover_position() == "none"
         assert cover.is_cover_closed() == False
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
@@ -71,7 +71,7 @@ class TestCover:
         client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0003", "idp0002", "59")
 
         client.set_datapoint.reset_mock()
-        await cover.set_forced_cover_position("off")
+        await cover.set_forced_cover_position("none")
         client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0003", "idp0004", "1")
 
         # Status updates
@@ -107,7 +107,7 @@ class TestCover:
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == True
         assert cover.is_cover_closed() == False
-        assert cover.get_forced_cover_position() == "off"
+        assert cover.get_forced_cover_position() == "none"
 
     async def test_light_no_room_name(self, _):
         client = get_client()

@@ -5,6 +5,6 @@ cover_force_position:
       description: Name(s) of the cover entities you want to control
       example: "cover.kitchen"
     forced_position:
-      description: Position you want the cover to be in. Supported positions are open, closed and off.
+      description: Position you want the cover to be in. Supported positions are open, closed and none.
       example: "closed"
 

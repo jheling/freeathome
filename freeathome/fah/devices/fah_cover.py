@@ -14,14 +14,14 @@ from ..const import (
     )
 
 FORCE_POSITION_COMMANDS = {
-        "off": "1",
+        "none": "1",
         "open": "2",
         "closed": "3",
         }
 
 
 FORCE_POSITION_STATES = {
-        "0": "off",
+        "0": "none",
         "2": "open",
         "3": "closed",
         }
