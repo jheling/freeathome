@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import call,patch, AsyncMock
 
@@ -27,7 +29,6 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("scene.xml"))
 class TestLight:
-    @pytest.mark.asyncio
     async def test_scene(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -71,7 +72,6 @@ class TestLight:
         client.set_datapoint.reset_mock()
 
 
-    @pytest.mark.asyncio
     async def test_scene_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)

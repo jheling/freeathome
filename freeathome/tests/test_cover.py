@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import call, patch, AsyncMock
 
@@ -26,7 +28,6 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1013_blind_sensor_actuator_1gang.xml"))
 class TestCover:
-    @pytest.mark.asyncio
     async def test_cover(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -49,7 +50,7 @@ class TestCover:
         assert cover.position == "27"
         assert cover.forced_position == "0"
         assert cover.state == "1"
-        assert cover.is_cover_closed() == True
+        assert cover.is_cover_closed() == False
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
 
@@ -112,7 +113,6 @@ class TestCover:
         assert cover.get_forced_cover_position() == 0
 
 
-    @pytest.mark.asyncio
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -124,7 +124,6 @@ class TestCover:
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("0109_cover_without_set_position.xml"))
 class TestCoverWithoutSetPosition:
-    @pytest.mark.asyncio
     async def test_cover_without_set_position(self, _):
         client = get_client()
         await client.find_devices(False)
