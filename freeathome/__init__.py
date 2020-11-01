@@ -106,6 +106,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             filename = f"freeathome_monitor_{host}.xml"
             f = open(hass.config.path(filename), "wt")
 
+            _LOGGER.info("Start monitoring for device updates at host %s", host)
+
             @callback
             def collect_msg(msg):
                 f.write(msg)
@@ -118,6 +120,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
                 """Stop monitoring and write dump to file"""
                 sysap.clear_update_handlers()
                 f.close()
+                _LOGGER.info("Finished monitoring for device updates at host %s, dumped to %s", host, filename)
 
             event.async_call_later(hass, call.data["duration"], finish_dump)
 
