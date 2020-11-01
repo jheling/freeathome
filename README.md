@@ -46,7 +46,7 @@ Then look in your Home Assistant configuration folder for a file called `freeath
 ### 2. Monitoring free@home status updates
 
 * Go to _Developer Tools_ -> _Services_
-* Enter _Service_: `freeathome.monitor
+* Enter _Service_: `freeathome.monitor`
 * Enter _Service data_: `duration: 5`
 * Hit _Call Service_
 
