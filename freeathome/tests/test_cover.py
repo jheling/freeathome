@@ -49,7 +49,7 @@ class TestCover:
         assert cover.position == "27"
         assert cover.forced_position == "0"
         assert cover.state == "1"
-        assert cover.is_cover_closed() == True
+        assert cover.is_cover_closed() == False
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
 
