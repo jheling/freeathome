@@ -32,9 +32,9 @@ freeathome:
 
 ## Debugging
 
-If one of your devices does not work, feel free to open an issue. Please provide some debugging information about your setup.
+If one of your devices does not work, feel free to open an issue. Please provide some debugging information about your setup. In order to add new devices, please also send a copy of your free@home device XML configuration as well as some status updates. See below how to obtain both.
 
-In order to add new devices, please also send a copy of your free@home device XML configuration. You may obtain one like this:
+### 1. Dumping free@home configuration
 
 * Go to _Developer Tools_ -> _Services_
 * Enter _Service_: `freeathome.dump`
@@ -42,6 +42,15 @@ In order to add new devices, please also send a copy of your free@home device XM
 * Hit _Call Service_
 
 Then look in your Home Assistant configuration folder for a file called `freeathome_dump_<ip>.xml` and attach it to an issue (e.g. by using https://paste.ubuntu.com/).
+
+### 2. Monitoring free@home status updates
+
+* Go to _Developer Tools_ -> _Services_
+* Enter _Service_: `freeathome.monitor
+* Enter _Service data_: `duration: 5`
+* Hit _Call Service_
+
+Now the system will record device updates for the next 5 seconds. Look in your Home Assistant configuration folder for a file called `freeathome_monitor_<ip>.xml` and attach it to your issue (e.g. by using https://paste.ubuntu.com/).
 
 ## Credits
 

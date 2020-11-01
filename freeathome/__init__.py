@@ -4,7 +4,8 @@ import logging
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import event
 from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
 import homeassistant.helpers.config_validation as cv
@@ -23,6 +24,7 @@ PLATFORMS = [
         ]
 
 SERVICE_DUMP = "dump"
+SERVICE_MONITOR = "monitor"
 
 DEFAULT_USE_ROOM_NAMES = False
 
@@ -95,6 +97,39 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             DOMAIN,
             SERVICE_DUMP,
             async_dump_service,
+            )
+
+    async def async_monitor_service(call):
+        """Handle monitor service calls."""
+        for sysap in hass.data[DOMAIN].values():
+            host = sysap.host
+            filename = f"freeathome_monitor_{host}.xml"
+            f = open(hass.config.path(filename), "wt")
+
+            @callback
+            def collect_msg(msg):
+                f.write(msg)
+                f.write("\n")
+                f.flush()
+
+            sysap.add_update_handler(collect_msg)
+
+            async def finish_dump(_):
+                """Stop monitoring and write dump to file"""
+                sysap.clear_update_handlers()
+                f.close()
+
+            event.async_call_later(hass, call.data["duration"], finish_dump)
+
+    hass.services.async_register(
+            DOMAIN,
+            SERVICE_MONITOR,
+            async_monitor_service,
+            schema=vol.Schema(
+                {
+                    vol.Optional("duration", default=5): int,
+                }
+            ),
             )
 
     return True

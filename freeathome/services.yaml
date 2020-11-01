@@ -1,2 +1,10 @@
 dump:
   description: "Dump free@home XML configuration to config folder"
+
+monitor:
+  description: "Monitor free@home XML messages and dump to file in config folder"
+  fields:
+    duration:
+      description: "How long we should listen for updates (in seconds)"
+      example: "5"
+      duration: "5"
