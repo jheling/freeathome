@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import patch, AsyncMock
 
@@ -27,7 +29,6 @@ def mock_roomnames():
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("100C_sensor_actuator_1gang.xml"))
 class TestBinarySensors:
-    @pytest.mark.asyncio
     async def test_binary_sensors(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -52,7 +53,6 @@ class TestBinarySensors:
         assert sensor.state == "0"
 
 
-    @pytest.mark.asyncio
     async def test_sensor_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -72,7 +72,6 @@ class TestBinarySensorsSplitted:
         return client
 
 
-    @pytest.mark.asyncio
     async def test_binary_sensors(self, _):
         client = await self.get_client()
         await client.find_devices(True)
@@ -107,7 +106,6 @@ class TestBinarySensorsSplitted:
         assert sensor_bottom.state == "0"
 
 
-    @pytest.mark.asyncio
     async def test_sensor_no_room_name(self, _):
         client = await self.get_client()
         await client.find_devices(False)
@@ -118,7 +116,6 @@ class TestBinarySensorsSplitted:
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("B008_sensor_actuator_8gang.xml"))
 class TestBinarySensors8Gang:
-    @pytest.mark.asyncio
     async def test_binary_sensors(self, _):
         client = get_client()
         await client.find_devices(True)
@@ -201,7 +198,6 @@ class TestBinarySensors8Gang:
         assert movement_sensor.state == "0"
 
 
-    @pytest.mark.asyncio
     async def test_sensor_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -221,7 +217,6 @@ class TestMovementDetector:
         return client
 
 
-    @pytest.mark.asyncio
     async def test_movement_detector(self, _):
         client = await self.get_client()
         await client.find_devices(True)
@@ -247,7 +242,6 @@ class TestMovementDetector:
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1013_blind_sensor_actuator_1gang.xml"))
 class TestBinarySensorsCover:
-    @pytest.mark.asyncio
     async def test_binary_sensors(self, _):
         client = get_client()
         await client.find_devices(True)
