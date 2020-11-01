@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project timeStamp="77832" sessionId="6088e42c" type="update" mrhaVersion="2.5.5" mrhaBuild="7857">
+    <privileges/>
+    <devices>
+        <device serialNumber="ABB5000ABCDE" domainAddress="BAE7" state="modified" commissioningState="ready" progress="100">
+            <channels>
+                <channel state="modified" i="ch0000" cid="ABB50502">
+                    <inputs/>
+                    <outputs>
+                        <dataPoint state="modified" i="odp0000" full="false">
+                            <value>3</value>
+                        </dataPoint>
+                    </outputs>
+                    <parameters/>
+                    <scenes/>
+                </channel>
+            </channels>
+        </device>
+    </devices>
+</project>
