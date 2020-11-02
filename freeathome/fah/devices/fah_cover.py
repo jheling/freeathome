@@ -13,6 +13,19 @@ from ..const import (
         PID_FORCE_POSITION_INFO,
     )
 
+FORCE_POSITION_COMMANDS = {
+        "none": "1",
+        "open": "2",
+        "closed": "3",
+        }
+
+
+FORCE_POSITION_STATES = {
+        "0": "none",
+        "2": "open",
+        "3": "closed",
+        }
+
 LOG = logging.getLogger(__name__)
 
 class FahCover(FahDevice):
@@ -60,7 +73,7 @@ class FahCover(FahDevice):
 
     def get_forced_cover_position(self):
         """Return forced cover position."""
-        return int(self.forced_position)
+        return FORCE_POSITION_STATES.get(self.forced_position)
 
     async def set_cover_position(self, position):
         """ Set the cover position  """
@@ -70,7 +83,8 @@ class FahCover(FahDevice):
     async def set_forced_cover_position(self, forced_position):
         """Set forced cover position."""
         dp = self._datapoints[PID_FORCE_POSITION_BLIND]
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(forced_position))
+        if forced_position in FORCE_POSITION_COMMANDS:
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, FORCE_POSITION_COMMANDS[forced_position])
 
     async def open_cover(self):
         """ Open the cover   """

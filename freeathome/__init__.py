@@ -19,7 +19,6 @@ PLATFORMS = [
         "lock",
         "scene",
         "sensor",
-        "switch"
         ]
 
 
