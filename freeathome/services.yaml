@@ -8,3 +8,14 @@ monitor:
       description: "How long we should listen for updates (in seconds)"
       example: "5"
       duration: "5"
+
+cover_force_position:
+  description: "Force a cover into a specific position, i.e. open or closed."
+  fields:
+    entity_id:
+      description: Name(s) of the cover entities you want to control
+      example: "cover.kitchen"
+    forced_position:
+      description: Position you want the cover to be in. Supported positions are open, closed and none.
+      example: "closed"
+
