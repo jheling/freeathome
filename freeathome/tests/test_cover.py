@@ -144,7 +144,7 @@ class TestCoverWithoutSetPosition:
         assert cover.position == None
         assert cover.forced_position == None
         assert cover.state == "1"
-        assert cover.is_cover_closed() == True
+        assert cover.is_cover_closed() == None
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
 
@@ -166,19 +166,19 @@ class TestCoverWithoutSetPosition:
         await client.update_devices(load_fixture("0109_update_closing.xml"))
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == True
-        assert cover.is_cover_closed() == False
+        assert cover.is_cover_closed() == None
 
         await client.update_devices(load_fixture("0109_update_closed.xml"))
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
-        assert cover.is_cover_closed() == True
+        assert cover.is_cover_closed() == None
 
         await client.update_devices(load_fixture("0109_update_opening.xml"))
         assert cover.is_cover_opening() == True
         assert cover.is_cover_closing() == False
-        assert cover.is_cover_closed() == False
+        assert cover.is_cover_closed() == None
 
         await client.update_devices(load_fixture("0109_update_open.xml"))
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
-        assert cover.is_cover_closed() == False
+        assert cover.is_cover_closed() == None
