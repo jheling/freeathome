@@ -47,7 +47,7 @@ class FahCover(FahDevice):
         if self.supports_position():
             return int(self.position) == 0
 
-        return self.state == '1'
+        return None
 
     def is_cover_opening(self):
         """ Return is the cover is opening   """
