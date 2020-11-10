@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project time="20201101142045747" localTime="20201101152045748" timeStamp="75961" sessionId="6088e42c" type="debug" mrhaVersion="2.5.5" mrhaBuild="7857">
+    <strings>
+        <string nameId="00E5">2CSYE1105</string>
+    </strings>
+    <devices>
+        <device isTp="true" domainAddress="BAE7" individualAddress="015B" nameId="00E5" profile="0E00" maxAPDULength="39" compilerVersion="00000000" buildNumber="00000000" iconId="FFF9" protocolVersion="0000" minConfigVersion="0000" deviceFlavor="00" interface="TP" functionId="FEFB" shortSerialNumber="WSM" softwareId="0833" softwareVersion="1.51" deviceId="0109" name="2CSYE1105" serialNumber="ABB5000ABCDE" commissioningState="ready" consistencyTag="3" copyId="2" progress="100">
+            <channels>
+                <channel channelId="0502" name="Shutter&#x20;Actuator" maxScenes="08" mask="FFFFFFFF" nameId="00E4" i="ch0000" cid="ABB50502">
+                    <attribute name="displayName">Cover</attribute>
+                    <attribute name="floor">02</attribute>
+                    <attribute name="functionId">2c</attribute>
+                    <attribute name="offsetX">0.7289617688836388</attribute>
+                    <attribute name="offsetY">0.8970079557163508</attribute>
+                    <attribute name="room">07</attribute>
+                    <attribute name="selectedIcon">3</attribute>
+                    <functions>
+                        <function functionId="002C" nameId="00E4" sensorMatchCode="00000000" actuatorMatchCode="00000001" isDefault="true" />
+                    </functions>
+                    <inputs>
+                        <dataPoint nameId="0015" matchCode="00000001" maxConnections="10" pairingId="0020" dpt="0108" full="false" i="idp0000">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint nameId="0016" matchCode="00000001" maxConnections="10" pairingId="0021" dpt="0107" full="false" i="idp0001">
+                            <value>0</value>
+                        </dataPoint>
+                        <dataPoint nameId="000E" matchCode="00000001" maxConnections="20" pairingId="0004" dpt="1201" full="false" i="idp0002">
+                            <value>0</value>
+                        </dataPoint>
+                    </inputs>
+                    <outputs>
+                        <dataPoint defaultConnection="true" nameId="001D" matchCode="00000001" maxConnections="1" pairingId="0120" dpt="1465" full="false" i="odp0000">
+                            <value>1</value>
+                            <address timeSlot="0" primary="true" singleSink="false">12f0</address>
+                        </dataPoint>
+                    </outputs>
+                    <parameters>
+                        <parameter nameId="0028" parameterId="FFFF" accessLevel="Enduser" matchCode="00000001" dpt="1464" visible="true" writable="true" i="pm0000" optional="false">
+                            <valueEnum>
+                                <option key="0" nameId="023C" isDefault="true" />
+                                <option key="1" nameId="0029" />
+                            </valueEnum>
+                            <value>0</value>
+                        </parameter>
+                        <parameter nameId="002C" parameterId="FFFF" matchCode="00000001" dpt="1464" visible="true" writable="true" i="pm0001" optional="false">
+                            <valueEnum>
+                                <option key="2" nameId="002E" isDefault="true" />
+                                <option key="3" nameId="00F5" />
+                                <option key="0" nameId="00F6" />
+                                <option key="1" nameId="00F7" />
+                            </valueEnum>
+                            <value>0</value>
+                        </parameter>
+                    </parameters>
+                    <scenes>
+                        <scene active="false" sceneNumber="0" i="sc0000">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0001">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0002">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0003">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0004">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0005">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0006">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                        <scene active="false" sceneNumber="0" i="sc0007">
+                            <storedDataPoint pairingId="120">
+                                <value>64</value>
+                            </storedDataPoint>
+                        </scene>
+                    </scenes>
+                </channel>
+            </channels>
+            <dicts/>
+        </device>
+    </devices>
+</project>

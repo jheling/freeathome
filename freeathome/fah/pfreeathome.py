@@ -154,7 +154,9 @@ def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
     datapoints = {}
     for type, pairing_ids_for_type in pairing_ids.items():
         for pairing_id in pairing_ids_for_type:
-            datapoints[pairing_id] = get_datapoint_by_pairing_id(xmlnode, type, pairing_id)
+            dp = get_datapoint_by_pairing_id(xmlnode, type, pairing_id)
+            if dp is not None:
+                datapoints[pairing_id] = dp
 
     return datapoints
 
@@ -426,7 +428,7 @@ class Client(slixmpp.ClientXMPP):
 
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
-        xml_without_names = re.sub(r'name="[^"]*" (.*)name="[^"]*"', r'\1', xml)
+        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
 
         root = ET.fromstring(xml_without_names)
 
@@ -517,6 +519,7 @@ class Client(slixmpp.ClientXMPP):
             # There may be a better way to check for this.
             if datapoint is None or datapoint[0] == 'i':
                 continue
+            LOG.debug('Monitoring datapoint ' + serialnumber + '/' + channel_id + '/' + datapoint)
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
@@ -536,6 +539,14 @@ class Client(slixmpp.ClientXMPP):
         args = xml2py(my_iq['rpc_query']['method_response']['params'])
         return args[0]
 
+    async def get_all_xml(self):
+        config = await self.get_config()
+
+        if config is None:
+            return None
+        
+        return re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
+
 
     async def find_devices(self, use_room_names):
         """ Find the devices in the system, this is a big XML file   """
@@ -547,7 +558,7 @@ class Client(slixmpp.ClientXMPP):
 
             # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
             # Strip them altogether.
-            config_without_names = re.sub(r'name="[^"]*" (.*)name="[^"]*"', r'\1', config)
+            config_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
 
             root = ET.fromstring(config_without_names)
 
@@ -764,6 +775,13 @@ class FreeAtHomeSysApp(object):
         """ Get devices of a specific type from the sysap   """
         return self.xmpp.get_devices(device_type)
 
+    async def get_all_xml(self):
+        """ get the whole xml """
+        try:
+            xml = await self.xmpp.get_all_xml()
+            return xml
+        except IqError as error:
+            raise error
     def get_raw_config(self, pretty=False):
         """Return raw config"""
         return self.xmpp.get_config(pretty=pretty)

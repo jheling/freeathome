@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import call, patch, AsyncMock
 
@@ -104,6 +106,7 @@ class TestClimate:
 
         climate.update_datapoint('odp0009', '33')
         assert climate.ecomode == False
+
 
     async def test_climate_no_room_name(self, _):
         client = get_client()

@@ -57,7 +57,10 @@ class FahCover(FahDevice):
 
     def is_cover_closed(self):
         """ Return if the cover is closed   """
-        return int(self.position) == 0
+        if self.supports_position():
+            return int(self.position) == 0
+
+        return None
 
     def is_cover_opening(self):
         """ Return is the cover is opening   """
@@ -69,22 +72,25 @@ class FahCover(FahDevice):
 
     def get_cover_position(self):
         """ Return the cover position """
-        return int(self.position)
+        if self.supports_position():
+            return int(self.position)
 
     def get_forced_cover_position(self):
         """Return forced cover position."""
-        return FORCE_POSITION_STATES.get(self.forced_position)
+        if self.supports_forced_position():
+            return int(self.forced_position)
 
     async def set_cover_position(self, position):
         """ Set the cover position  """
-        dp = self._datapoints[PID_SET_ABSOLUTE_POSITION_BLINDS]
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(abs(100 - position)))
+        if PID_SET_ABSOLUTE_POSITION_BLINDS in self._datapoints:
+            dp = self._datapoints[PID_SET_ABSOLUTE_POSITION_BLINDS]
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(abs(100 - position)))
 
     async def set_forced_cover_position(self, forced_position):
         """Set forced cover position."""
-        dp = self._datapoints[PID_FORCE_POSITION_BLIND]
-        if forced_position in FORCE_POSITION_COMMANDS:
-            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, FORCE_POSITION_COMMANDS[forced_position])
+        if PID_FORCE_POSITION_BLIND in self._datapoints:
+            dp = self._datapoints[PID_FORCE_POSITION_BLIND]
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(forced_position))
 
     async def open_cover(self):
         """ Open the cover   """
@@ -98,9 +104,22 @@ class FahCover(FahDevice):
 
     async def stop_cover(self):
         """ Stop the cover, only if it is moving """
-        if (self.state == '2') or (self.state == '3'):
-            dp = self._datapoints[PID_ADJUST_UP_DOWN]
-            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '1')
+        if PID_ADJUST_UP_DOWN in self._datapoints:
+            if (self.state == '2') or (self.state == '3'):
+                dp = self._datapoints[PID_ADJUST_UP_DOWN]
+                await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, '1')
+
+    def supports_position(self):
+        """ Returns true if cover supports position """
+        return PID_SET_ABSOLUTE_POSITION_BLINDS in self._datapoints
+
+    def supports_stop(self):
+        """ Returns true if cover supports stop """
+        return PID_ADJUST_UP_DOWN in self._datapoints
+
+    def supports_forced_position(self):
+        """ Returns true if cover supports force position """
+        return PID_FORCE_POSITION_BLIND in self._datapoints
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""

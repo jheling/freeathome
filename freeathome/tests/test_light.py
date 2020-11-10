@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import call,patch, AsyncMock
 

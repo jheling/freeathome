@@ -47,8 +47,15 @@ class FreeAtHomeCover(CoverEntity):
 
     @property
     def supported_features(self):
-        """Flag supported features."""
-        supported_features = SUPPORT_OPEN | SUPPORT_CLOSE | SUPPORT_SET_POSITION | SUPPORT_STOP
+        """Flag supported features (open and close are always supported)"""
+        supported_features = SUPPORT_OPEN | SUPPORT_CLOSE
+
+        if self.cover_device.supports_stop():
+            supported_features |= SUPPORT_STOP
+
+        if self.cover_device.supports_position():
+            supported_features |= SUPPORT_SET_POSITION
+
         return supported_features
 
     @property

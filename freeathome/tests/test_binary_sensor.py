@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import patch, AsyncMock
 
@@ -68,6 +70,7 @@ class TestBinarySensorsSplitted:
         client.set_datapoint = AsyncMock()
 
         return client
+
 
     async def test_binary_sensors(self, _):
         client = await self.get_client()
@@ -212,6 +215,7 @@ class TestMovementDetector:
         client.set_datapoint = AsyncMock()
 
         return client
+
 
     async def test_movement_detector(self, _):
         client = await self.get_client()

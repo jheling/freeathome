@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import call, patch, AsyncMock
 
@@ -46,7 +48,8 @@ class TestCover:
         # TODO: Convert to int, make this a getter
         # TODO: This should return 73, reverse values in component
         assert cover.position == "27"
-        assert cover.get_forced_cover_position() == "none"
+        assert cover.forced_position == "0"
+        assert cover.state == "1"
         assert cover.is_cover_closed() == False
         assert cover.is_cover_opening() == False
         assert cover.is_cover_closing() == False
@@ -109,6 +112,7 @@ class TestCover:
         assert cover.is_cover_closed() == False
         assert cover.get_forced_cover_position() == "none"
 
+
     async def test_light_no_room_name(self, _):
         client = get_client()
         await client.find_devices(False)
@@ -116,3 +120,65 @@ class TestCover:
         cover = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0003"))
 
         assert cover.name == "Gäste-WC"
+
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("0109_cover_without_set_position.xml"))
+class TestCoverWithoutSetPosition:
+    async def test_cover_without_set_position(self, _):
+        client = get_client()
+        await client.find_devices(False)
+
+        devices = client.get_devices("cover")
+        assert len(client.get_devices("cover")) == 1
+        cover = next((el for el in devices if el.lookup_key == "ABB5000ABCDE/ch0000"))
+
+        # Test attributes
+        assert cover.name == "Cover"
+        assert cover.serialnumber == "ABB5000ABCDE"
+        assert cover.channel_id == "ch0000"
+        assert cover.device_info["identifiers"] == {("freeathome", "ABB5000ABCDE")}
+        assert cover.device_info["name"] == "2CSYE1105 (ABB5000ABCDE)"
+        assert cover.device_info["model"] == "2CSYE1105"
+        assert cover.device_info["sw_version"] == "1.51"
+
+        assert cover.position == None
+        assert cover.forced_position == None
+        assert cover.state == "1"
+        assert cover.is_cover_closed() == None
+        assert cover.is_cover_opening() == False
+        assert cover.is_cover_closing() == False
+
+        # Test datapoints
+        await cover.open_cover()
+        client.set_datapoint.assert_called_once_with("ABB5000ABCDE", "ch0000", "idp0000", "0")
+
+        client.set_datapoint.reset_mock()
+        await cover.close_cover()
+        client.set_datapoint.assert_called_once_with("ABB5000ABCDE", "ch0000", "idp0000", "1")
+
+        client.set_datapoint.reset_mock()
+        # Simulate cover moving
+        cover.state = '2'
+        await cover.stop_cover()
+        client.set_datapoint.assert_called_once_with("ABB5000ABCDE", "ch0000", "idp0001", "1")
+
+        # Status updates
+        await client.update_devices(load_fixture("0109_update_closing.xml"))
+        assert cover.is_cover_opening() == False
+        assert cover.is_cover_closing() == True
+        assert cover.is_cover_closed() == None
+
+        await client.update_devices(load_fixture("0109_update_closed.xml"))
+        assert cover.is_cover_opening() == False
+        assert cover.is_cover_closing() == False
+        assert cover.is_cover_closed() == None
+
+        await client.update_devices(load_fixture("0109_update_opening.xml"))
+        assert cover.is_cover_opening() == True
+        assert cover.is_cover_closing() == False
+        assert cover.is_cover_closed() == None
+
+        await client.update_devices(load_fixture("0109_update_open.xml"))
+        assert cover.is_cover_opening() == False
+        assert cover.is_cover_closing() == False
+        assert cover.is_cover_closed() == None

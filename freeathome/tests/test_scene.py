@@ -1,4 +1,6 @@
 import pytest
+pytestmark = pytest.mark.asyncio
+
 import logging
 from async_mock import call,patch, AsyncMock
 
@@ -68,6 +70,7 @@ class TestLight:
         await scene2.activate()
         client.set_datapoint.assert_called_once_with("FFFF48010001", "ch0000", "odp0000", "1")
         client.set_datapoint.reset_mock()
+
 
     async def test_scene_no_room_name(self, _):
         client = get_client()
