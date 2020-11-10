@@ -186,6 +186,8 @@ class Client(slixmpp.ClientXMPP):
     devices = set()
     monitored_datapoints = {}
 
+    _update_handlers = []
+
     def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
@@ -419,6 +421,11 @@ class Client(slixmpp.ClientXMPP):
             await self.update_devices(args[0])
 
     async def update_devices(self, xml, initializing=False):
+        """Parse received update XML and update devices."""
+        # Notify update handlers
+        for handler in self._update_handlers:
+            handler(xml)
+
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
         xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
@@ -485,24 +492,14 @@ class Client(slixmpp.ClientXMPP):
         for device in updated_devices:
             await device.after_update()
 
+    def add_update_handler(self, handler):
+        """Add update handler"""
+        self._update_handlers.append(handler)
 
-    def update_binary(self, device_id, channel):
-        """ Update the status of binary devices   """
-        LOG.info("binary info channel %s device %s in/output %s ", channel , device_id, self.binary_devices[device_id].output_device)
-        # normally it is a output device, but if it is not linked, then it has a input datapoint
-        if self.binary_devices[device_id].output_device[0] == 'o':           
-            binary_state = get_output_datapoint(channel, self.binary_devices[device_id].output_device)
-        else:
-            binary_state = get_input_datapoint(channel, self.binary_devices[device_id].output_device)
-        if binary_state is not None:
-            self.binary_devices[device_id].state = binary_state
-            LOG.info("binary device %s output %s is %s", device_id, self.binary_devices[device_id].output_device, binary_state)
+    def clear_update_handlers(self):
+        """Clear update handlers"""
+        self._update_handlers = []
 
-    def update_sensor(self, device_id, channel):
-        sensor_state = get_output_datapoint(channel, self.sensor_devices[device_id].output_device)
-        if sensor_state is not None:
-            self.sensor_devices[device_id].state = sensor_state
-            LOG.info("sensor device %s output %s is %s", device_id, self.sensor_devices[device_id].output_device, sensor_state)    
 
     def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints):
         """ Add generic device to the list of light devices   """
@@ -528,9 +525,10 @@ class Client(slixmpp.ClientXMPP):
         LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
 
 
-    async def get_config(self):
+    async def get_config(self, pretty=False):
         """Get config file via getAll RPC"""
-        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, 0, 0)
+        pretty_value = 1 if pretty else 0
+        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, pretty_value, 0)
         my_iq.enable('rpc_query')
 
         if my_iq['rpc_query']['method_response']['fault'] is not None:
@@ -720,6 +718,11 @@ class FreeAtHomeSysApp(object):
         """ getter use_room_names   """
         return self._use_room_names
 
+    @property
+    def host(self):
+        """Getter for host"""
+        return self._host
+
     @use_room_names.setter
     def use_room_names(self, value):
         """ setter user_room_names   """
@@ -779,6 +782,17 @@ class FreeAtHomeSysApp(object):
             return xml
         except IqError as error:
             raise error
+    def get_raw_config(self, pretty=False):
+        """Return raw config"""
+        return self.xmpp.get_config(pretty=pretty)
+
+    def add_update_handler(self, handler):
+        """Add update handler"""
+        self.xmpp.add_update_handler(handler)
+
+    def clear_update_handlers(self):
+        """Clear update handlers"""
+        self.xmpp.clear_update_handlers()
 
     async def find_devices(self):
         """ find all the devices on the sysap   """

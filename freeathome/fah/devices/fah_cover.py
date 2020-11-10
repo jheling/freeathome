@@ -13,6 +13,19 @@ from ..const import (
         PID_FORCE_POSITION_INFO,
     )
 
+FORCE_POSITION_COMMANDS = {
+        "none": "1",
+        "open": "2",
+        "closed": "3",
+        }
+
+
+FORCE_POSITION_STATES = {
+        "0": "none",
+        "2": "open",
+        "3": "closed",
+        }
+
 LOG = logging.getLogger(__name__)
 
 class FahCover(FahDevice):

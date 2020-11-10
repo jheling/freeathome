@@ -1,14 +1,15 @@
 """ Support for Free@Home cover - blinds , shutters. """
 import logging
+import voluptuous as vol
 from homeassistant.components.cover import (
     CoverEntity, ATTR_POSITION,
     SUPPORT_CLOSE, SUPPORT_OPEN, SUPPORT_SET_POSITION, SUPPORT_STOP
 )
+from homeassistant.helpers import config_validation as cv, entity_platform, service
 
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
-
 
 async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ cover specific code."""
@@ -21,6 +22,15 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     for device_object in devices:
         async_add_devices([FreeAtHomeCover(device_object)])
+
+    platform = entity_platform.current_platform.get()
+    platform.async_register_entity_service(
+            "cover_force_position",
+            {
+                vol.Required("forced_position"): cv.string,
+            },
+            "async_force_position",
+        )
 
 
 class FreeAtHomeCover(CoverEntity):
@@ -87,6 +97,17 @@ class FreeAtHomeCover(CoverEntity):
     def current_cover_position(self):
         """Return the current position of the cover."""
         return self.cover_device.get_cover_position()
+
+    @property
+    def device_state_attributes(self):
+        """Return device specific state attributes."""
+        return {
+                "forced_position": self.cover_device.get_forced_cover_position(),
+                }
+
+    async def async_force_position(self, forced_position):
+        """Instruct the cover to force stay open or closed."""
+        await self.cover_device.set_forced_cover_position(forced_position.lower())
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""

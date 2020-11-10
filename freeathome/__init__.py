@@ -4,7 +4,8 @@ import logging
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
-from homeassistant.core import HomeAssistant
+from homeassistant.core import HomeAssistant, callback
+from homeassistant.helpers import event
 from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
 import homeassistant.helpers.config_validation as cv
@@ -19,9 +20,10 @@ PLATFORMS = [
         "lock",
         "scene",
         "sensor",
-        "switch"
         ]
 
+SERVICE_DUMP = "dump"
+SERVICE_MONITOR = "monitor"
 
 DEFAULT_USE_ROOM_NAMES = False
 
@@ -76,6 +78,61 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         hass.async_create_task(
                 hass.config_entries.async_forward_entry_setup(entry, component)
                 )
+
+    async def async_dump_service(call):
+        """Handle dump service calls."""
+        for sysap in hass.data[DOMAIN].values():
+            host = sysap.host
+            filename = f"freeathome_dump_{host}.xml"
+            with open(hass.config.path(filename), "wt") as f:
+                xml = await sysap.get_raw_config(pretty=True)
+                f.write(xml)
+
+            _LOGGER.info("Dumped devices for host %s to %s", host, filename)
+
+        return True
+
+    hass.services.async_register(
+            DOMAIN,
+            SERVICE_DUMP,
+            async_dump_service,
+            )
+
+    async def async_monitor_service(call):
+        """Handle monitor service calls."""
+        for sysap in hass.data[DOMAIN].values():
+            host = sysap.host
+            filename = f"freeathome_monitor_{host}.xml"
+            f = open(hass.config.path(filename), "wt")
+
+            _LOGGER.info("Start monitoring for device updates at host %s", host)
+
+            @callback
+            def collect_msg(msg):
+                f.write(msg)
+                f.write("\n")
+                f.flush()
+
+            sysap.add_update_handler(collect_msg)
+
+            async def finish_dump(_):
+                """Stop monitoring and write dump to file"""
+                sysap.clear_update_handlers()
+                f.close()
+                _LOGGER.info("Finished monitoring for device updates at host %s, dumped to %s", host, filename)
+
+            event.async_call_later(hass, call.data["duration"], finish_dump)
+
+    hass.services.async_register(
+            DOMAIN,
+            SERVICE_MONITOR,
+            async_monitor_service,
+            schema=vol.Schema(
+                {
+                    vol.Optional("duration", default=5): int,
+                }
+            ),
+            )
 
     return True
 
