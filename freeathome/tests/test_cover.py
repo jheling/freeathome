@@ -48,7 +48,7 @@ class TestCover:
         # TODO: Convert to int, make this a getter
         # TODO: This should return 73, reverse values in component
         assert cover.position == "27"
-        assert cover.forced_position == "0"
+        assert cover.get_forced_cover_position() == "none"
         assert cover.state == "1"
         assert cover.is_cover_closed() == False
         assert cover.is_cover_opening() == False
