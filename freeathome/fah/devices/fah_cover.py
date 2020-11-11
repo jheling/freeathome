@@ -78,7 +78,7 @@ class FahCover(FahDevice):
     def get_forced_cover_position(self):
         """Return forced cover position."""
         if self.supports_forced_position():
-            return int(self.forced_position)
+            return FORCE_POSITION_STATES.get(self.forced_position)
 
     async def set_cover_position(self, position):
         """ Set the cover position  """
@@ -90,7 +90,9 @@ class FahCover(FahDevice):
         """Set forced cover position."""
         if PID_FORCE_POSITION_BLIND in self._datapoints:
             dp = self._datapoints[PID_FORCE_POSITION_BLIND]
-            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(forced_position))
+            if forced_position in FORCE_POSITION_COMMANDS:
+                await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, FORCE_POSITION_COMMANDS[forced_position])
+
 
     async def open_cover(self):
         """ Open the cover   """
