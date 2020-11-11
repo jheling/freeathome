@@ -44,9 +44,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize."""
         self.discovered_conf = {}
 
-    """ free@home found thru zeroconf     
+    """ free@home found thru zeroconf """    
     async def async_step_zeroconf(self, zeroconf_info):
-        Handle zeroconf discovery. 
+        """ Handle zeroconf discovery. """
         if not zeroconf_info.get("name", "").startswith("free@home"):
             return self.async_abort(reason="not_free@home")
 
@@ -63,7 +63,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         self.context["title_placeholders"] = self.discovered_conf
 
         return await self.async_step_user()
-    """
+    
 
     async def async_step_user(self, user_input=None):
 
