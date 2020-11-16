@@ -607,6 +607,15 @@ class Client(slixmpp.ClientXMPP):
                     LOG.info('Ignoring device with serialnumber %s since has no channels', device_serialnumber)
                     continue
 
+                # There may be a device-level parameter called deviceChannelSelector. Each possible value of that
+                # parameter has a mask attribute. This mask can be used to filter applicable channelSelectors,
+                # see below.
+                device_filter_mask = 0xFFFFFFFF
+                device_channel_selector_parameter = device.find("./parameters/parameter[@deviceChannelSelector='true']")
+                if device_channel_selector_parameter is not None:
+                    parameter_value = device_channel_selector_parameter.find("value").text
+                    device_filter_mask = int(parameter_value, 16) # e.g. '00000001' -> 0x00000001
+
                 # Filter channels based on channelSelector
                 # There is a device-level parameter called channelSelector. Each possible value of that parameter
                 # has a mask attribute. This mask can be used to filter channels that should be active.
@@ -618,16 +627,18 @@ class Client(slixmpp.ClientXMPP):
                 # 2. ch0001 (Push button top): mask 00000002
                 # 3. ch0002 (Push button bottom: mask 00000002
                 # --> In Rocker mode, ch0000 is active, in Push button mode ch0001 and ch0002 is active
-                channel_selector_parameter = device.find("./parameters/parameter[@channelSelector='true']")
-                if channel_selector_parameter is not None:
-                    # See which option user has selected, e.g. '1'
-                    parameter_value = channel_selector_parameter.find("value").text
-                    # Find that option in the list of options
-                    option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
-                    # Get filter mask from mask attribute
-                    filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
-                else:
-                    filter_mask = 0xFFFFFFFF
+                filter_mask = 0xFFFFFFFF
+                channel_selector_parameters = device.findall("./parameters/parameter[@channelSelector='true']")
+                for channel_selector_parameter in channel_selector_parameters:
+                    # Check if matchCode matches deviceChannelSelector (see above)
+                    parameter_mask = int(channel_selector_parameter.get("matchCode"), 16)
+                    if parameter_mask & device_filter_mask:
+                        # See which option user has selected, e.g. '1'
+                        parameter_value = channel_selector_parameter.find("value").text
+                        # Find that option in the list of options
+                        option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
+                        # Get filter mask from mask attribute
+                        filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
 
                 device_info = {"identifiers": {("freeathome", device_serialnumber)}, "name": device_name, "model": device_model, "sw_version": device_sw_version}
 
@@ -638,8 +649,9 @@ class Client(slixmpp.ClientXMPP):
                     function_id = int(function_id, 16) if (function_id is not None and function_id != '') else None
 
                     # Check if channel matches filter mask
-                    if not int(channel.get("mask"), 16) & filter_mask:
-                        LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since it does not match device filter mask %s', device_serialnumber, channel_id, function_id, filter_mask)
+                    channel_mask = int(channel.get("mask"), 16)
+                    if not channel_mask & filter_mask:
+                        LOG.info('Ignoring serialnumber %s, channel_id %s, function ID %s since its channel mask %08x does not match device filter mask %08x', device_serialnumber, channel_id, function_id, channel_mask, filter_mask)
                         continue
 
                     same_location = channel.get('sameLocation')

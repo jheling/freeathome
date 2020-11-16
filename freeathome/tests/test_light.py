@@ -172,3 +172,23 @@ class TestDimmer:
         light = next((el for el in devices if el.lookup_key == "BEED82AC0001/ch0000"))
 
         assert light.name == "Arbeitsfläche"
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("1022_dimming_actuator_6gang.xml"))
+class TestDimmer6Gang:
+    async def test_light(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        devices = client.get_devices("light")
+        assert len(devices) == 6
+        light = next((el for el in devices if el.lookup_key == "ABB701312345/ch0005"))
+
+        # Test attributes
+        assert light.name == "Terassen Beleuchtung (room1)"
+        assert light.serialnumber == "ABB701312345"
+        assert light.channel_id == "ch0005"
+        assert light.device_info["identifiers"] == {("freeathome", "ABB701312345")}
+        assert light.device_info["name"] == "Dimmaktor 6-fach (ABB701312345)"
+        assert light.device_info["model"] == "Dimmaktor 6-fach"
+        assert light.device_info["sw_version"] == "2.1240"
+        assert light.is_on() == False
