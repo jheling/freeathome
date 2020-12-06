@@ -54,6 +54,7 @@ Now the system will record device updates for the next 5 seconds. Look in your H
 
 ## Credits
 
+Many thanks to Tho85 for building future proof, function based components
 Thanks to Foti for testing the cover device!
 Thanks to Lasse Magnussen for the climate device!
 Thanks to Nadir for testing the weather station
