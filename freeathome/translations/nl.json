@@ -24,10 +24,10 @@
       "unknown": "Onverwachte fout",
       "unknown_host": "Verbindingsfout: controleer de host",
       "no_sysap": "Verbindingsfout: Deze host is is geen sysap", 
-      "unknown_user": "Inlogfout: controleer de gebruikersnaam",
+      "unknown_user": "Inlogfout: controleer de gebruikersnaam"
     },
     "abort": {
-      "already_configured": "Host is al geconfigureerd"
+      "already_configured": "Host is al geconfigureerd",
       "cannot_connect": "Kan geen verbinding maken"
     }
   }
