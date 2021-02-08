@@ -64,3 +64,6 @@ class FahBinarySensor(FahDevice):
 
         self.state = '0' if value == '0' else '1'
         LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
+            
+    def update_parameter(self, param, value):
+        LOG.debug("Not yet implemented")

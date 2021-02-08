@@ -41,3 +41,6 @@ class FahLock(FahDevice):
 
         else:
             LOG.info("light device %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)
+            
+    def update_parameter(self, param, value):
+        LOG.debug("Not yet implemented")

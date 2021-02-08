@@ -120,7 +120,6 @@ def get_input_datapoint(xmlnode, input_name):
             return datapoints.find('value').text
     return None
 
-
 def get_output_datapoint(xmlnode, output_name):
     """ Return an output point value (xml)   """
     outputs = xmlnode.find('outputs')
@@ -149,6 +148,15 @@ def get_datapoint_by_pairing_id(xmlnode, type, pairing_id):
     return None
 
 
+def get_parameter_by_parameter_id(xmlnode, type, parameter_id):
+    """Returns output parameter by parameter id."""
+    for parameter in xmlnode.find(type).findall('parameter'):
+        if int(parameter.get('parameterId'), 16) == parameter_id:
+            return parameter.get('i')
+
+    return None
+
+
 def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
     """Returns a dict with pairing id as key and datapoint number as value."""
     datapoints = {}
@@ -159,6 +167,18 @@ def get_datapoints_by_pairing_ids(xmlnode, pairing_ids):
                 datapoints[pairing_id] = dp
 
     return datapoints
+
+
+def get_parameters_by_parameter_ids(xmlnode, parameter_ids):
+    """Returns a dict with parameter id as key and parameter number as value."""
+    parameters = {}
+    for type, parameter_ids_for_type in parameter_ids.items():
+        for parameter_id in parameter_ids_for_type:
+            param = get_parameter_by_parameter_id(xmlnode, type, parameter_id)
+            if param is not None:
+                parameters[parameter_id] = param
+
+    return parameters
 
 
 def get_all_datapoints_as_str(xmlnode):
@@ -185,6 +205,7 @@ class Client(slixmpp.ClientXMPP):
     # The specific devices
     devices = set()
     monitored_datapoints = {}
+    monitored_parameters = {}
 
     _update_handlers = []
 
@@ -315,6 +336,18 @@ class Client(slixmpp.ClientXMPP):
 
         try:
             await self.send_rpc_iq('RemoteInterface.setDatapoint',
+                                   name, command, callback=self.rpc_callback)
+        except IqError as error:
+            raise error
+
+    async def set_parameter(self, serialnumber, channel_id, parameter, command):
+        """ Send a command to the sysap   """
+        LOG.info("set_parameter %s/%s %s %s", serialnumber, channel_id, parameter, command)
+
+        name = serialnumber + '/' + channel_id + '/' + parameter
+
+        try:
+            await self.send_rpc_iq('RemoteInterface.setParameter',
                                    name, command, callback=self.rpc_callback)
         except IqError as error:
             raise error
@@ -462,7 +495,10 @@ class Client(slixmpp.ClientXMPP):
                             actuator_match_code = int(xml_function.get("actuatorMatchCode"), 16)
                             datapoint_filter_mask = sensor_match_code | actuator_match_code
 
-                    datapoints = channel.findall('.//dataPoint')
+                    datapoints = channel.findall('.//dataPoint') # All available dataPoints
+                    parameters = channel.findall('.//parameter') # All available parameters
+
+                    # Update datapoints
                     if datapoints is not None:
                         for datapoint in datapoints:
 
@@ -489,6 +525,28 @@ class Client(slixmpp.ClientXMPP):
                                 monitoring_device.update_datapoint(datapoint_id, value.text)
                                 updated_devices.add(monitoring_device)
 
+                    # Update parameters
+                    if parameters is not None:
+                        for parameter in parameters:
+
+                            # TODO: Do we require matchCode stuff?
+                            parameter_id = parameter.get('i')
+
+                             # Notify every device that monitors the received datapoint
+                            lookup_key = serialnumber + '/' + channel_id + '/' + parameter_id
+                            value = parameter.find('value')
+
+                            # Do not spam log messages during initialization, or if value is None
+                            if not initializing and value is not None:
+                                LOG.debug("received parameter %s = %s", lookup_key, value.text)
+
+                            if lookup_key in self.monitored_parameters and value is not None:
+                                monitoring_device = self.monitored_parameters[lookup_key]
+                                LOG.debug("%s %s: received parameter %s = %s", monitoring_device.__class__.__name__, monitoring_device.name, lookup_key, value.text)
+                            #     monitoring_device.update_parameter(parameter_id, value.text)
+                            #     updated_devices.add(monitoring_device)
+
+
         for device in updated_devices:
             await device.after_update()
 
@@ -501,7 +559,7 @@ class Client(slixmpp.ClientXMPP):
         self._update_handlers = []
 
 
-    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints):
+    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
         """ Add generic device to the list of light devices   """
         device = fah_class(
                 self,
@@ -509,7 +567,8 @@ class Client(slixmpp.ClientXMPP):
                 serialnumber,
                 channel_id,
                 display_name,
-                datapoints=datapoints)
+                datapoints=datapoints,
+                parameters=parameters)
 
         lookup_key = serialnumber + '/' + channel_id
         self.devices.add(device)
@@ -522,7 +581,13 @@ class Client(slixmpp.ClientXMPP):
             LOG.debug('Monitoring datapoint ' + serialnumber + '/' + channel_id + '/' + datapoint)
             self.monitored_datapoints[serialnumber + '/' + channel_id + '/' + datapoint] = device
 
-        LOG.info('add device %s  %s %s, datapoints %s', fah_class.__name__, lookup_key, display_name, datapoints)
+        for parameter in parameters.values():
+            if parameter is None or parameter[0] == 'i':
+                continue
+            LOG.debug('Monitoring parameter ' + serialnumber + '/' + channel_id + '/' + parameter)
+            self.monitored_parameters[serialnumber + '/' + channel_id + '/' + parameter] = device
+
+        LOG.info('add device %s  %s %s, datapoints %s, parameters %s', fah_class.__name__, lookup_key, display_name, datapoints, parameters)
 
 
     async def get_config(self, pretty=False):
@@ -696,10 +761,19 @@ class Client(slixmpp.ClientXMPP):
                         if pairing_ids is not None:
                             datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
 
+                           
+                            # Create an empty for all non thermostat devices
+                            parameters = {}
+
+                            # TODO: Get parameters for all device types
+                            if(fah_class in  [FahThermostat]):
+                                parameter_ids = fah_class.parameter_ids(function_id)
+                                parameters = get_parameters_by_parameter_ids(channel,parameter_ids)
+    
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-                                self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints)
+                                self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
 
 
             # Update all devices with initial state
