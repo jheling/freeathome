@@ -543,8 +543,8 @@ class Client(slixmpp.ClientXMPP):
                             if lookup_key in self.monitored_parameters and value is not None:
                                 monitoring_device = self.monitored_parameters[lookup_key]
                                 LOG.debug("%s %s: received parameter %s = %s", monitoring_device.__class__.__name__, monitoring_device.name, lookup_key, value.text)
-                            #     monitoring_device.update_parameter(parameter_id, value.text)
-                            #     updated_devices.add(monitoring_device)
+                                monitoring_device.update_parameter(parameter_id, value.text)
+                                updated_devices.add(monitoring_device)
 
 
         for device in updated_devices:
