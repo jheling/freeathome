@@ -114,4 +114,4 @@ class FahThermostat(FahDevice):
         """Receive updated parameter."""
         if self._parameters.get(PARAM_TEMPERATUR_CORRECTION) == param:
             self.temperature_correction = value
-            LOG.info("thermostat %s (%s) dp %s temperatur correction %s", self.name, self.lookup_key, dp, value)
+            LOG.info("thermostat %s (%s) param %s temperatur correction %s", self.name, self.lookup_key, param, value)
