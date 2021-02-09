@@ -67,7 +67,7 @@ class FreeAtHomeThermostat(ClimateEntity):
     @property
     def device_state_attributes(self):
         """Return device specific state attributes."""
-        attr = {"valve":self.current_actuator}
+        attr = {"valve":self.current_actuator,"temperature_correction":self.temperature_correction}
         return attr
 
     @property
@@ -94,6 +94,11 @@ class FreeAtHomeThermostat(ClimateEntity):
     def current_temperature(self):
         """Return the current temperature."""
         return float(self.thermostat_device.current_temperature)
+
+    @property
+    def temperature_correction(self):
+        """Return the current temperature_correction."""
+        return float(self.thermostat_device.temperature_correction)
 
     @property
     def current_actuator(self):
@@ -184,6 +189,11 @@ class FreeAtHomeThermostat(ClimateEntity):
         """Set new target temperature."""
         temperature = kwargs.get(ATTR_TEMPERATURE)
         await self.thermostat_device.set_target_temperature(temperature)
+
+    async def async_set_temperature_correction(self, **kwargs):
+        """Set new temperature_correction."""
+        temperature_correction = kwargs.get("temperature_correction")
+        await self.thermostat_device.set_temperature_correction(temperature_correction)
 
     async def async_update(self):
         pass
