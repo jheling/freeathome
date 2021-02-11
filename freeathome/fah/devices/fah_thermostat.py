@@ -66,7 +66,7 @@ class FahThermostat(FahDevice):
         await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ABSOLUTE_SETPOINT_TEMPERATURE], '%.2f' % temperature)
 
     async def set_temperature_correction(self, correction):
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._parameters[PARAM_TEMPERATUR_CORRECTION], '%.2f' % correction)
+        await self.client.set_parameter(self.serialnumber, self.channel_id, self._parameters[PARAM_TEMPERATUR_CORRECTION], '%.2f' % correction)
 
     @property
     def state(self):

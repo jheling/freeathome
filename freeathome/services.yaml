@@ -19,3 +19,13 @@ cover_force_position:
       description: Position you want the cover to be in. Supported positions are open, closed and none.
       example: "closed"
 
+thermostat_temperature_correction:
+  description: "Change temperature correction for a thermostat"
+  fields:
+    entity_id:
+      description: Name(s) of the thermostat entities you want to control
+      example: "climate.kitchen"
+    temperature_correction:
+      description: Desired temperature_correction. Supportes signed load values.
+      example: "-1.0"
+

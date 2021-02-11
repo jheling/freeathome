@@ -1,17 +1,18 @@
 """ Support for Free@Home thermostats """
 
 import logging
+import voluptuous as vol
 
 from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF,
                                                     SUPPORT_PRESET_MODE,
                                                     SUPPORT_TARGET_TEMPERATURE)
 from homeassistant.const import (ATTR_TEMPERATURE, DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS)
+from homeassistant.helpers import config_validation as cv, entity_platform, service
 
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
-
 
 async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ thermostat specific code."""
@@ -21,8 +22,20 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
 
     devices = fah.get_devices('thermostat')
 
+
+
     for device_object in devices:
         async_add_devices([FreeAtHomeThermostat(device_object)])
+    
+    # Add a custom entity service that allows to change the temperature correction
+    platform = entity_platform.current_platform.get()
+    platform.async_register_entity_service(
+            "thermostat_temperature_correction",
+            {
+               vol.Required('temperature_correction'): vol.Coerce(float),
+            },
+            "async_set_temperature_correction",
+        )
 
 
 # ch0, odp0008 = 1 == on
