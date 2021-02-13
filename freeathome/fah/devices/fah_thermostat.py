@@ -12,7 +12,7 @@ from ..const import (
         PID_STATUS_INDICATION,
         PID_MEASURED_TEMPERATURE,
         PID_HEATING_DEMAND,
-        PARAM_TEMPERATUR_CORRECTION,
+        PARAM_TEMPERATURE_CORRECTION,
     )
 
 LOG = logging.getLogger(__name__)
@@ -45,7 +45,7 @@ class FahThermostat(FahDevice):
         if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
             return {
                     "parameters": [
-                        PARAM_TEMPERATUR_CORRECTION,
+                        PARAM_TEMPERATURE_CORRECTION,
                         ]
                     }
 
@@ -66,7 +66,7 @@ class FahThermostat(FahDevice):
         await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ABSOLUTE_SETPOINT_TEMPERATURE], '%.2f' % temperature)
 
     async def set_temperature_correction(self, correction):
-        await self.client.set_parameter(self.serialnumber, self.channel_id, self._parameters[PARAM_TEMPERATUR_CORRECTION], '%.2f' % correction)
+        await self.client.set_parameter(self.serialnumber, self.channel_id, self._parameters[PARAM_TEMPERATURE_CORRECTION], '%.2f' % correction)
 
     @property
     def state(self):
@@ -112,6 +112,6 @@ class FahThermostat(FahDevice):
 
     def update_parameter(self, param, value):
         """Receive updated parameter."""
-        if self._parameters.get(PARAM_TEMPERATUR_CORRECTION) == param:
+        if self._parameters.get(PARAM_TEMPERATURE_CORRECTION) == param:
             self.temperature_correction = value
             LOG.info("thermostat %s (%s) param %s temperatur correction %s", self.name, self.lookup_key, param, value)
