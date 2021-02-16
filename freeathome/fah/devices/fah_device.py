@@ -1,7 +1,7 @@
 class FahDevice:
     """ Free@Home base object """
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, datapoints={}, device_updated_cb=None):
+    def __init__(self, client, device_info, serialnumber, channel_id, name, datapoints={},parameters={}, device_updated_cb=None):
         self._device_info = device_info
         self._serialnumber = serialnumber
         self._channel_id = channel_id
@@ -9,6 +9,7 @@ class FahDevice:
         self._client = client
         self._device_updated_cbs = []
         self._datapoints = datapoints
+        self._parameters = parameters
         if device_updated_cb is not None:
             self.register_device_updated_cb(device_updated_cb)
 

@@ -12,6 +12,7 @@ from ..const import (
         PID_STATUS_INDICATION,
         PID_MEASURED_TEMPERATURE,
         PID_HEATING_DEMAND,
+        PARAM_TEMPERATURE_CORRECTION,
     )
 
 LOG = logging.getLogger(__name__)
@@ -21,6 +22,7 @@ class FahThermostat(FahDevice):
     current_temperature = None
     current_actuator = None
     target_temperature = None
+    temperature_correction = None
 
     def pairing_ids(function_id=None):
         if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
@@ -39,6 +41,14 @@ class FahThermostat(FahDevice):
                         ]
                     }
 
+    def parameter_ids(function_id=None):
+        if function_id in FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER:
+            return {
+                    "parameters": [
+                        PARAM_TEMPERATURE_CORRECTION,
+                        ]
+                    }
+
     async def turn_on(self):
         """ Turn the thermostat on   """
         await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ECO_MODE_ON_OFF_REQUEST], '0')
@@ -54,6 +64,9 @@ class FahThermostat(FahDevice):
 
     async def set_target_temperature(self, temperature):
         await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_ABSOLUTE_SETPOINT_TEMPERATURE], '%.2f' % temperature)
+
+    async def set_temperature_correction(self, correction):
+        await self.client.set_parameter(self.serialnumber, self.channel_id, self._parameters[PARAM_TEMPERATURE_CORRECTION], '%.2f' % correction)
 
     @property
     def state(self):
@@ -75,7 +88,7 @@ class FahThermostat(FahDevice):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_SET_VALUE_TEMPERATURE) == dp:
             self.target_temperature = value
-            LOG.info("scene %s (%s) dp %s target temp %s", self.name, self.lookup_key, dp, value)
+            LOG.info("thermostat %s (%s) dp %s target temp %s", self.name, self.lookup_key, dp, value)
 
         elif self._datapoints.get(PID_CONTROLLER_ON_OFF) == dp:
             self.state = value
@@ -95,3 +108,10 @@ class FahThermostat(FahDevice):
 
         else:
             LOG.info("thermostat %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)
+
+
+    def update_parameter(self, param, value):
+        """Receive updated parameter."""
+        if self._parameters.get(PARAM_TEMPERATURE_CORRECTION) == param:
+            self.temperature_correction = value
+            LOG.info("thermostat %s (%s) param %s temperatur correction %s", self.name, self.lookup_key, param, value)
