@@ -121,6 +121,7 @@
                     <value>0</value>
                 </dataPoint>
             </outputs>
+            <parameters/>
         </channel>
     </channels>
     <dicts/>
