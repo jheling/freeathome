@@ -116,6 +116,61 @@ class TestClimate:
 
         assert climate.name == "RTR AB"
 
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("2043_room_temperature_controller_wireless.xml"))
+class TestWirelessClimate:
+    async def test_climate(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        devices = client.get_devices("thermostat")
+        assert len(devices) == 1
+        climate = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0000"))
+
+        # Test attributes
+        assert climate.name == "RTR with correction (room1)"
+        assert climate.serialnumber == "ABB700D12345"
+        assert climate.channel_id == "ch0000"
+        assert climate.device_info["identifiers"] == {("freeathome", "ABB700D12345")}
+        assert climate.device_info["name"] == "RTR with correction (ABB700D12345)"
+        assert climate.device_info["model"] == "Heizkörperthermostat Comfort"
+        assert climate.device_info["sw_version"] == "2.95"
+
+        assert climate.current_temperature == '19.71'
+        assert climate.target_temperature == '19.5'
+        assert climate.current_actuator == '0'
+        assert climate.temperature_correction == '0'
+        assert climate.state == True
+        assert climate.ecomode == False
+
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("2043_room_temperature_controller_wireless_without_correction.xml"))
+class TestWirelessClimateWithoutCorrection:
+    async def test_climate(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        devices = client.get_devices("thermostat")
+        assert len(devices) == 1
+        climate = next((el for el in devices if el.lookup_key == "ABB700D12345/ch0000"))
+
+        # Test attributes
+        assert climate.name == "RTR without correction (room1)"
+        assert climate.serialnumber == "ABB700D12345"
+        assert climate.channel_id == "ch0000"
+        assert climate.device_info["identifiers"] == {("freeathome", "ABB700D12345")}
+        assert climate.device_info["name"] == "RTR without correction (ABB700D12345)"
+        assert climate.device_info["model"] == "Heizkörperthermostat Comfort"
+        assert climate.device_info["sw_version"] == "2.95"
+
+        assert climate.current_temperature == '16.89'
+        assert climate.target_temperature == '16'
+        assert climate.current_actuator == '0'
+        assert climate.temperature_correction == None
+        assert climate.state == True
+        assert climate.ecomode == False
+
+
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("duplicate-attributes.xml"))
 class TestBadXml:
     async def test_climate(self, _):
