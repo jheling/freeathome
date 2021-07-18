@@ -761,7 +761,6 @@ class Client(slixmpp.ClientXMPP):
                         if pairing_ids is not None:
                             datapoints = get_datapoints_by_pairing_ids(channel, pairing_ids)
 
-                           
                             # Create an empty for all non thermostat devices
                             parameters = {}
 
@@ -769,7 +768,7 @@ class Client(slixmpp.ClientXMPP):
                             if(fah_class in  [FahThermostat]):
                                 parameter_ids = fah_class.parameter_ids(function_id)
                                 parameters = get_parameters_by_parameter_ids(channel,parameter_ids)
-    
+
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):

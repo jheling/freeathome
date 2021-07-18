@@ -2,8 +2,14 @@
 import logging
 import voluptuous as vol
 from homeassistant.components.cover import (
-    CoverEntity, ATTR_POSITION,
-    SUPPORT_CLOSE, SUPPORT_OPEN, SUPPORT_SET_POSITION, SUPPORT_STOP
+    CoverEntity,
+    ATTR_POSITION,
+    ATTR_TILT_POSITION,
+    SUPPORT_CLOSE,
+    SUPPORT_OPEN,
+    SUPPORT_SET_POSITION,
+    SUPPORT_SET_TILT_POSITION,
+    SUPPORT_STOP
 )
 from homeassistant.helpers import config_validation as cv, entity_platform, service
 
@@ -56,6 +62,9 @@ class FreeAtHomeCover(CoverEntity):
         if self.cover_device.supports_position():
             supported_features |= SUPPORT_SET_POSITION
 
+        if self.cover_device.supports_tilt_position():
+            supported_features |= SUPPORT_SET_TILT_POSITION
+
         return supported_features
 
     @property
@@ -97,6 +106,11 @@ class FreeAtHomeCover(CoverEntity):
     def current_cover_position(self):
         """Return the current position of the cover."""
         return self.cover_device.get_cover_position()
+
+    @property
+    def current_cover_tilt_position(self):
+        """Return the current tilt position of the cover."""
+        return self.cover_device.get_cover_tilt_position()
 
     @property
     def device_state_attributes(self):
@@ -142,3 +156,9 @@ class FreeAtHomeCover(CoverEntity):
         position = kwargs.get(ATTR_POSITION)
 
         await self.cover_device.set_cover_position(position)
+
+    async def async_set_cover_tilt_position(self, **kwargs):
+        """Move the cover to a specific tilt position."""
+        tilt_position = kwargs.get(ATTR_TILT_POSITION)
+
+        await self.cover_device.set_cover_tilt_position(tilt_position)
