@@ -4,12 +4,15 @@ import logging
 from .fah_device import FahDevice
 from ..const import (
         FUNCTION_IDS_BLIND_ACTUATOR,
+        FUNCTION_IDS_SHUTTER_ACTUATOR,
         PID_MOVE_UP_DOWN,
         PID_ADJUST_UP_DOWN,
         PID_SET_ABSOLUTE_POSITION_BLINDS,
+        PID_SET_ABSOLUTE_POSITION_SLATS,
         PID_FORCE_POSITION_BLIND,
         PID_INFO_MOVE_UP_DOWN,
         PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+        PID_CURRENT_ABSOLUTE_POSITION_SLATS_PERCENTAGE,
         PID_FORCE_POSITION_INFO,
     )
 
@@ -35,11 +38,10 @@ class FahCover(FahDevice):
     """
     state = None
     position = None
+    tilt_position = None
     forced_position = None
 
     def pairing_ids(function_id=None):
-        # TODO: Determine from function ID which pairing IDs are relevant
-        # E.g. Slats -> Add slats data points
         if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
             return {
                     "inputs": [
@@ -51,6 +53,22 @@ class FahCover(FahDevice):
                     "outputs": [
                         PID_INFO_MOVE_UP_DOWN,
                         PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+                        PID_FORCE_POSITION_INFO,
+                        ]
+                    }
+        elif function_id in FUNCTION_IDS_SHUTTER_ACTUATOR:
+            return {
+                    "inputs": [
+                        PID_MOVE_UP_DOWN,
+                        PID_ADJUST_UP_DOWN,
+                        PID_SET_ABSOLUTE_POSITION_BLINDS,
+                        PID_SET_ABSOLUTE_POSITION_SLATS,
+                        PID_FORCE_POSITION_BLIND,
+                        ],
+                    "outputs": [
+                        PID_INFO_MOVE_UP_DOWN,
+                        PID_CURRENT_ABSOLUTE_POSITION_BLINDS_PERCENTAGE,
+                        PID_CURRENT_ABSOLUTE_POSITION_SLATS_PERCENTAGE,
                         PID_FORCE_POSITION_INFO,
                         ]
                     }
@@ -75,6 +93,11 @@ class FahCover(FahDevice):
         if self.supports_position():
             return int(self.position)
 
+    def get_cover_tilt_position(self):
+        """ Return the cover position """
+        if self.supports_tilt_position():
+            return int(self.tilt_position)
+
     def get_forced_cover_position(self):
         """Return forced cover position."""
         if self.supports_forced_position():
@@ -85,6 +108,12 @@ class FahCover(FahDevice):
         if PID_SET_ABSOLUTE_POSITION_BLINDS in self._datapoints:
             dp = self._datapoints[PID_SET_ABSOLUTE_POSITION_BLINDS]
             await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(abs(100 - position)))
+
+    async def set_cover_tilt_position(self, tilt_position):
+        """ Set the cover tilt position  """
+        if PID_SET_ABSOLUTE_POSITION_SLATS in self._datapoints:
+            dp = self._datapoints[PID_SET_ABSOLUTE_POSITION_SLATS]
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, dp, str(abs(100 - tilt_position)))
 
     async def set_forced_cover_position(self, forced_position):
         """Set forced cover position."""
@@ -115,6 +144,10 @@ class FahCover(FahDevice):
         """ Returns true if cover supports position """
         return PID_SET_ABSOLUTE_POSITION_BLINDS in self._datapoints
 
+    def supports_tilt_position(self):
+        """ Returns true if cover supports tilt position """
+        return PID_SET_ABSOLUTE_POSITION_SLATS in self._datapoints
+
     def supports_stop(self):
         """ Returns true if cover supports stop """
         return PID_ADJUST_UP_DOWN in self._datapoints
@@ -133,12 +166,16 @@ class FahCover(FahDevice):
             self.position = str(abs(100 - int(float(value))))
             LOG.info("cover device %s (%s) dp %s position %s", self.name, self.lookup_key, dp, value)
 
+        elif self._datapoints.get(PID_CURRENT_ABSOLUTE_POSITION_SLATS_PERCENTAGE) == dp:
+            self.tilt_position = str(abs(100 - int(float(value))))
+            LOG.info("cover device %s (%s) dp %s tilt position %s", self.name, self.lookup_key, dp, value)
+
         elif self._datapoints.get(PID_FORCE_POSITION_INFO) == dp:
             self.forced_position = value
             LOG.info("cover device %s (%s) dp %s forced position %s", self.name, self.lookup_key, dp, value)
 
         else:
             LOG.info("cover device %s (%s) unknown dp %s value %s", self.name, self.lookup_key, dp, value)
-            
+
     def update_parameter(self, param, value):
         LOG.debug("Not yet implemented")
