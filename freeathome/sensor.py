@@ -8,7 +8,7 @@ from homeassistant.const import (
     TEMP_CELSIUS,
     )
 
-from homeassistant.helpers.entity import Entity
+from homeassistant.components.sensor import SensorEntity
 
 from .const import DOMAIN
 
@@ -51,9 +51,13 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
     devices = fah.get_devices('sensor')
 
     for device_object in devices:
-        async_add_devices([FreeAtHomeSensor(device_object)])
+        if device_object.type == "temperature":
+            async_add_devices([FreeAtHomeTemperatureSensor(device_object)])
+        else:
+            async_add_devices([FreeAtHomeOtherSensor(device_object)])
 
-class FreeAtHomeSensor(Entity):
+
+class FreeAtHomeSensor(SensorEntity):
     ''' Interface to the weather sensor devices of Free@Home '''
     _name = ''
     sensor_device = None
@@ -98,6 +102,22 @@ class FreeAtHomeSensor(Entity):
         """Return the device class of the sensor."""
         return self._device_class
 
+    async def async_added_to_hass(self):
+        """Register callback to update hass after device was changed."""
+        async def after_update_callback(device):
+            """Call after device was updated."""
+            await self.async_update_ha_state(True)
+        self.sensor_device.register_device_updated_cb(after_update_callback)
+
+    async def async_update(self):
+        """Retrieve latest state."""
+        self._state = self.sensor_device.state
+
+
+class FreeAtHomeOtherSensor(FreeAtHomeSensor):
+    def __init__(self, device):
+        FreeAtHomeSensor.__init__(self, device)
+
     @property
     def state(self):
         """Return the state of the device."""
@@ -111,13 +131,17 @@ class FreeAtHomeSensor(Entity):
         """Return the unit of measurement of this entity, if any."""
         return self._unit_of_measurement
 
-    async def async_added_to_hass(self):
-        """Register callback to update hass after device was changed."""
-        async def after_update_callback(device):
-            """Call after device was updated."""
-            await self.async_update_ha_state(True)
-        self.sensor_device.register_device_updated_cb(after_update_callback)
 
-    async def async_update(self):
-        """Retrieve latest state."""
-        self._state = self.sensor_device.state
+class FreeAtHomeTemperatureSensor(FreeAtHomeSensor):
+    def __init__(self, device):
+        FreeAtHomeSensor.__init__(self, device)
+
+    @property
+    def native_value(self):
+        """Return the state of the device."""
+        return self._state
+
+    @property
+    def native_unit_of_measurement(self):
+        """Return the unit of measurement of this entity, if any."""
+        return self._unit_of_measurement
