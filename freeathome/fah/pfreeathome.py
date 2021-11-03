@@ -705,7 +705,13 @@ class Client(slixmpp.ClientXMPP):
                         # Get filter mask from mask attribute
                         filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
 
-                device_info = {"identifiers": {("freeathome", device_serialnumber)}, "name": device_name, "model": device_model, "sw_version": device_sw_version}
+                device_info = {
+                        "configuration_url": "http://{}/".format(self._host),
+                        "identifiers": {("freeathome", device_serialnumber)},
+                        "name": device_name,
+                        "model": device_model,
+                        "sw_version": device_sw_version,
+                        }
 
                 for channel in channels_xml.findall('channel'):
                     channel_id = channel.get('i')
