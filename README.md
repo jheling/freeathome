@@ -31,7 +31,7 @@ freeathome:
 ```  
 
 ## Events
-Actuators that are exposed in Home Assistant as binary sensors (typically wall switches) fire an event when pressed. The event type is freeathome_event and contains the following actuator's information:
+Actuators that are exposed in Home Assistant as binary sensors (typically wall switches) fire an event when pressed. The event type is `freeathome_event` and contains the following actuator's information:
 
 | Key          | Type   | Example                                     |
 |--------------|--------|---------------------------------------------|
@@ -43,7 +43,7 @@ Actuators that are exposed in Home Assistant as binary sensors (typically wall s
 
 The event fires regardless of the state of the binary sensory in Home Assistant and Free@Home. Each time the wall switch is pressed, the event fires.
 
-These events can be used in automations, for example to turn on a light every time the actuator's "on" button is pressed:
+These events can be used in automations. For example to turn on a light every time the actuator's "on" button is pressed:
 ```
 trigger:
   - platform: event
