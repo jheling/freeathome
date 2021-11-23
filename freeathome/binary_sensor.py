@@ -78,4 +78,4 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
             "state"       : self._state,
             "command"     : "pressed"
         }
-        self._hass.bus.fire("freeathome_event", eventdata)
+        self._hass.bus.async_fire("freeathome_event", eventdata)
