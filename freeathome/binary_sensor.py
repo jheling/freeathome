@@ -15,7 +15,7 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
     devices = fah.get_devices('binary_sensor')
 
     for device_object in devices:
-        async_add_devices([FreeAtHomeBinarySensor(device_object)])
+        async_add_devices([FreeAtHomeBinarySensor(device_object,hass)])
 
 
 class FreeAtHomeBinarySensor(BinarySensorEntity):
@@ -23,11 +23,13 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
     _name = ''
     binary_device = None
     _state = None
+    _hass = None
 
-    def __init__(self, device):
+    def __init__(self, device, hass):
         self.binary_device = device
         self._name = self.binary_device.name
         self._state = (self.binary_device.state == '1')
+        self._hass = hass
 
     @property
     def name(self):
@@ -65,4 +67,15 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
 
     async def async_update(self):
         """Retrieve latest state."""
+
         self._state = (self.binary_device.state == '1')
+        _LOGGER.info('update sensor')
+
+        eventdata = {
+            "name"        : self._name,
+            "serialnumber": self.binary_device.serialnumber,
+            "unique_id"   : self.unique_id,
+            "state"       : self._state,
+            "command"     : "pressed"
+        }
+        self._hass.bus.async_fire("freeathome_event", eventdata)

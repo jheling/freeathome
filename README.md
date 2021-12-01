@@ -30,6 +30,36 @@ freeathome:
   use_room_names: <This is optional, if True then combine the device names with the rooms>
 ```  
 
+## Events
+Actuators that are exposed in Home Assistant as binary sensors (typically wall switches) fire an event when pressed. The event type is `freeathome_event` and contains the following actuator's information:
+
+| Key          | Type   | Example                                     |
+|--------------|--------|---------------------------------------------|
+| name         | string | Actuator Hallway                            |
+| serialnumber | string | ABB700CE9999                                |
+| unique_id    | string | ABB700CE9999/ch0000                         |
+| state        | bool   | true for on / false for off                 |
+| command      | string | "pressed" is the only option at this moment |
+
+The event fires regardless of the state of the binary sensory in Home Assistant and Free@Home. Each time the wall switch is pressed, the event fires.
+
+These events can be used in automations. For example to turn on a light every time the actuator's "on" button is pressed:
+```
+trigger:
+  - platform: event
+    event_type: freeathome_event
+    event_data:
+      unique_id: ABB700CE9999/ch0000
+      command: pressed
+      state: true
+action:
+  - service: light.turn_on
+    target:
+      entity_id:
+      - light.nice_lamp
+```
+
+
 ## Debugging
 
 If one of your devices does not work, feel free to open an issue. Please provide some debugging information about your setup. In order to add new devices, please also send a copy of your free@home device XML configuration as well as some status updates. See below how to obtain both.
