@@ -10,6 +10,8 @@ from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
 import homeassistant.helpers.config_validation as cv
 
+from datetime import datetime
+
 from .const import DOMAIN, CONF_USE_ROOM_NAMES
 
 PLATFORMS = [
@@ -83,7 +85,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         """Handle dump service calls."""
         for sysap in hass.data[DOMAIN].values():
             host = sysap.host
-            filename = f"freeathome_dump_{host}.xml"
+            now_formatted = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+            filename = f"freeathome_dump_{host}_{now_formatted}.xml"
             with open(hass.config.path(filename), "wt") as f:
                 xml = await sysap.get_raw_config(pretty=True)
                 f.write(xml)
@@ -102,16 +105,20 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         """Handle monitor service calls."""
         for sysap in hass.data[DOMAIN].values():
             host = sysap.host
-            filename = f"freeathome_monitor_{host}.xml"
+            now_formatted = datetime.now().strftime('%Y_%m_%d_%H_%M_%S')
+            filename = f"freeathome_monitor_{host}_{now_formatted}.xml"
             f = open(hass.config.path(filename), "wt")
 
             _LOGGER.info("Start monitoring for device updates at host %s", host)
 
             @callback
             def collect_msg(msg):
-                f.write(msg)
-                f.write("\n")
-                f.flush()
+                try:
+                    f.write(msg)
+                    f.write("\n")
+                    f.flush()
+                except IOError:
+                    _LOGGER.warning("Error while writing to file")
 
             sysap.add_update_handler(collect_msg)
 
