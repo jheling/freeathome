@@ -7,6 +7,7 @@ Lights, scenes, covers, binary sensors, climate devices and the sensors of the w
 
 ## Installation
 
+### Manual
 Place the files in the custom_components directory. This should be in the same directory as the configuration.yaml.
 Then you can do a restart of Home Assistant.
 
@@ -14,6 +15,9 @@ With Home Assistant version 0.88 the way sources should be placed in the custom_
 This version won't work on earlier versions.
 
 Free@home now appears as an integration in Home Assistant. 
+
+### HACS
+Install this component in HACS by adding it as a custom repository of the type integration.
 
 ## Configuration
 
