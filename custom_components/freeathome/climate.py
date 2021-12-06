@@ -78,7 +78,7 @@ class FreeAtHomeThermostat(ClimateEntity):
 
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return device specific state attributes."""
         attr = {"valve":self.current_actuator,"temperature_correction":self.temperature_correction}
         return attr
