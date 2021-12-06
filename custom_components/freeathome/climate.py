@@ -7,7 +7,7 @@ from homeassistant.components.climate import ClimateEntity
 from homeassistant.components.climate.const import (HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF,
                                                     SUPPORT_PRESET_MODE,
                                                     SUPPORT_TARGET_TEMPERATURE)
-from homeassistant.const import (ATTR_TEMPERATURE, DEVICE_CLASS_TEMPERATURE, TEMP_CELSIUS)
+from homeassistant.const import (ATTR_TEMPERATURE, TEMP_CELSIUS)
 from homeassistant.helpers import config_validation as cv, entity_platform, service
 
 from .const import DOMAIN
