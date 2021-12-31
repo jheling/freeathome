@@ -8,7 +8,7 @@ from ..const import (
         PID_MEASURED_BRIGHTNESS,
         PID_OUTDOOR_TEMPERATURE,
         PID_WIND_SPEED,
-        PID_RAIN_DETECTION,
+        PID_RAIN_ALARM,
         )
 
 LOG = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ def sensor_type_from_pairing_ids(datapoints):
 
         if pairing_id == PID_MEASURED_BRIGHTNESS:
             return "lux"
-        elif pairing_id == PID_RAIN_DETECTION:
+        elif pairing_id == PID_RAIN_ALARM:
             return "rain"
         elif pairing_id == PID_OUTDOOR_TEMPERATURE:
             return "temperature"
@@ -49,7 +49,7 @@ class FahSensor(FahDevice):
                         PID_OUTDOOR_TEMPERATURE,
                         PID_MEASURED_BRIGHTNESS,
                         PID_WIND_SPEED,
-                        PID_RAIN_DETECTION,
+                        PID_RAIN_ALARM,
                         ]
                     }
 
@@ -68,7 +68,7 @@ class FahSensor(FahDevice):
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_MEASURED_BRIGHTNESS) == dp or \
-                self._datapoints.get(PID_RAIN_DETECTION) == dp or \
+                self._datapoints.get(PID_RAIN_ALARM) == dp or \
                 self._datapoints.get(PID_OUTDOOR_TEMPERATURE) == dp or \
                 self._datapoints.get(PID_WIND_SPEED) == dp:
             self.state = value
