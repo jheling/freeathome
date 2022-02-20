@@ -1,9 +1,8 @@
 ''' Support for Free@Home Sensor devices like temperature sensors, lux sensors '''
 import logging
 
+from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
-    DEVICE_CLASS_ILLUMINANCE,
-    DEVICE_CLASS_TEMPERATURE,
     SPEED_KILOMETERS_PER_HOUR,
     TEMP_CELSIUS,
     )
@@ -19,7 +18,7 @@ SENSOR_TYPES = {
         "Temperature",
         TEMP_CELSIUS,
         "mdi:thermometer",
-        DEVICE_CLASS_TEMPERATURE,
+        SensorDeviceClass.TEMPERATURE,
     ],
     "windstrength": [
         "Wind Strength",
@@ -36,7 +35,7 @@ SENSOR_TYPES = {
         "Illumination",
         "lux",
         None,
-        DEVICE_CLASS_ILLUMINANCE],
+        SensorDeviceClass.ILLUMINANCE],
 }
 
 _LOGGER = logging.getLogger(__name__)

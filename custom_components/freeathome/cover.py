@@ -113,7 +113,7 @@ class FreeAtHomeCover(CoverEntity):
         return self.cover_device.get_cover_tilt_position()
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return device specific state attributes."""
         return {
                 "forced_position": self.cover_device.get_forced_cover_position(),

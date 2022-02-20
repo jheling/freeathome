@@ -47,10 +47,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """ free@home found thru zeroconf """    
     async def async_step_zeroconf(self, zeroconf_info):
         """ Handle zeroconf discovery. """
-        if not zeroconf_info.get("name", "").startswith("free@home"):
+        if not zeroconf_info.name.startswith("free@home"):
             return self.async_abort(reason="not_free@home")
 
-        friendly_name = zeroconf_info["name"].split(":",1)[1].split(".",1)[0]  
+        friendly_name = zeroconf_info.name.split(":",1)[1].split(".",1)[0]  
 
         await self.async_set_unique_id(zeroconf_info["host"])
         self._abort_if_unique_id_configured()
