@@ -24,6 +24,7 @@ from slixmpp import Iq
 
 from .devices.fah_light import FahLight
 from .devices.fah_binary_sensor import FahBinarySensor
+from .devices.fah_switch import FahSwitch
 from .devices.fah_thermostat import FahThermostat
 from .devices.fah_light_scene import FahLightScene
 from .devices.fah_cover import FahCover
@@ -200,6 +201,7 @@ class Client(slixmpp.ClientXMPP):
     connect_finished = False
     authenticated = False
     use_room_names = False
+    configure_as_switch = []
     connect_in_error = False
 
     # The specific devices
@@ -395,6 +397,9 @@ class Client(slixmpp.ClientXMPP):
         if device_type == 'lock':
             return self.filter_devices(FahLock)
 
+        if device_type == 'switch':
+            return self.filter_devices(FahSwitch)
+
         return return_type
 
     def roster_callback(self, roster_iq):
@@ -561,6 +566,16 @@ class Client(slixmpp.ClientXMPP):
 
     def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
         """ Add generic device to the list of light devices   """
+
+        lookup_key = serialnumber + '/' + channel_id
+
+        # Use a generic light as a switch in home assistant, override the fah_class
+        # check configure_as_switch parameter
+        if (lookup_key in self.configure_as_switch):
+            fah_class = FahSwitch
+
+        LOG.info(lookup_key + ' is ' + display_name)
+
         device = fah_class(
                 self,
                 device_info,
@@ -570,7 +585,6 @@ class Client(slixmpp.ClientXMPP):
                 datapoints=datapoints,
                 parameters=parameters)
 
-        lookup_key = serialnumber + '/' + channel_id
         self.devices.add(device)
 
         for datapoint in datapoints.values():
@@ -613,9 +627,11 @@ class Client(slixmpp.ClientXMPP):
         return re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
 
 
-    async def find_devices(self, use_room_names):
+    async def find_devices(self, use_room_names, configure_as_switch=None):
         """ Find the devices in the system, this is a big XML file   """
-        self.use_room_names = use_room_names
+        if configure_as_switch is not None:
+            self.use_room_names = use_room_names
+        self.configure_as_switch = configure_as_switch
         config = await self.get_config()
 
         if config is not None:
@@ -802,12 +818,18 @@ class FreeAtHomeSysApp(object):
         self._password = password
         self.xmpp = None
         self._use_room_names = False
+        self._configure_as_switch = []
         self.reconnect = True
 
     @property
     def use_room_names(self):
         """ getter use_room_names   """
         return self._use_room_names
+
+    @property
+    def configure_as_switch(self):
+        """ getter configure_as_switch   """
+        return self._configure_as_switch
 
     @property
     def host(self):
@@ -818,6 +840,11 @@ class FreeAtHomeSysApp(object):
     def use_room_names(self, value):
         """ setter user_room_names   """
         self._use_room_names = value
+
+    @configure_as_switch.setter
+    def configure_as_switch(self, value):
+        """ setter configure_as_switch   """
+        self._configure_as_switch = value
 
     async def connect(self):
         """ connect to the Free@Home sysap   """
@@ -888,6 +915,6 @@ class FreeAtHomeSysApp(object):
     async def find_devices(self):
         """ find all the devices on the sysap   """
         try:
-            await self.xmpp.find_devices(self._use_room_names)
+            await self.xmpp.find_devices(self._use_room_names, self._configure_as_switch)
         except IqError as error:
             raise error

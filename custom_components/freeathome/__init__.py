@@ -12,7 +12,7 @@ import homeassistant.helpers.config_validation as cv
 
 from datetime import datetime
 
-from .const import DOMAIN, CONF_USE_ROOM_NAMES
+from .const import DOMAIN, CONF_USE_ROOM_NAMES, CONF_CONFIGURE_AS_SWITCH
 
 PLATFORMS = [
         "binary_sensor",
@@ -22,6 +22,7 @@ PLATFORMS = [
         "lock",
         "scene",
         "sensor",
+        "switch",
         ]
 
 SERVICE_DUMP = "dump"
@@ -37,6 +38,8 @@ CONFIG_SCHEMA = vol.Schema({
         vol.Optional(CONF_PASSWORD): cv.string,
         vol.Optional(CONF_USE_ROOM_NAMES,
                      default=DEFAULT_USE_ROOM_NAMES): cv.boolean,
+        vol.Optional(CONF_CONFIGURE_AS_SWITCH,
+                     default=None): cv.ensure_list,
     })
 }, extra=vol.ALLOW_EXTRA)
 
@@ -70,6 +73,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             entry.data[CONF_PASSWORD])
 
     sysap.use_room_names = entry.data[CONF_USE_ROOM_NAMES]
+    sysap.configure_as_switch = entry.data[CONF_CONFIGURE_AS_SWITCH]
     hass.data[DOMAIN][entry.entry_id] = sysap
 
     await sysap.connect()
