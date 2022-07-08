@@ -305,8 +305,8 @@ class Client(slixmpp.ClientXMPP):
 
         identity = {'category': 'client', 'itype': 'pc', 'name': 'QxXmpp/JSJaC client'}
 
-        self['xep_0030'].static.add_identity(self.boundjid.full, capsversion, '', identity)
-        self['xep_0030'].static.set_features(self.boundjid.full, capsversion, '', features)
+        self['xep_0030'].static.add_identity(self.boundjid, capsversion, '', identity)
+        self['xep_0030'].static.set_features(self.boundjid, capsversion, '', features)
 
         LOG.info('send presence')
         self.send_presence()
