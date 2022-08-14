@@ -1,5 +1,20 @@
 import hashlib
-import libnacl
+from .pure_pynacl import (
+    crypto_onetimeauth_poly1305_tweet as crypto_onetimeauth,
+    IntArray,
+)
+from .pure_pynacl import tweetnacl
+from nacl.bindings.crypto_box import crypto_box_keypair
+from nacl.hash import generichash
+from nacl.utils import random
+from nacl.secret import SecretBox
+from nacl.bindings import (
+    crypto_box_NONCEBYTES,
+    crypto_box_ZEROBYTES,
+    crypto_box_BOXZEROBYTES,
+    crypto_secretbox_KEYBYTES,
+    crypto_box_beforenm,
+)
 import logging
 import base64
 from .messagereader import MessageReader
@@ -8,6 +23,7 @@ from .clientscramhandler import ClientScramHandler
 from .constants import General, Result, FAHMessage
 
 log = logging.getLogger(__name__)
+crypto_box_MACBYTES = crypto_box_ZEROBYTES - crypto_box_BOXZEROBYTES
 
 
 class Crypto:
@@ -23,7 +39,7 @@ class Crypto:
         self.__Yp = []
 
     def generateKeypair(self):
-        keypair = libnacl.crypto_box_keypair()
+        keypair = crypto_box_keypair()
 
         self.publicKey = keypair[0]
         self.secretKey = keypair[1]
@@ -38,7 +54,7 @@ class Crypto:
 
     def generateLocalKey(self):
         sharedKey = self.generateSharedKey()
-        buffer = libnacl.randombytes_buf(16)
+        buffer = random(16)
 
         authenticator = self.makeAuthenticator(sharedKey, buffer)
 
@@ -47,12 +63,14 @@ class Crypto:
     # complete
     def makeAuthenticator(self, message, key):
 
-        generic_hash = libnacl.crypto_generichash(message, key)
+        generic_hash = generichash(data=message, key=key)
 
         if generic_hash is None:
             raise Error("generic hash undefined")
 
-        token = libnacl.crypto_onetimeauth(self.publicKey, generic_hash)
+        tok = IntArray(tweetnacl.u8, size=32)
+        crypto_onetimeauth(tok, m=self.publicKey, n=len(self.publicKey), k=generic_hash)
+        token = bytes(tok[:16])
 
         if len(self.publicKey) + len(key) + len(token) != 64:
             raise Error("Unexpected token size")
@@ -121,9 +139,7 @@ class Crypto:
 
         publicKey = data[pos : pos + 32]
 
-        self.cryptoIntermediateData = libnacl.crypto_box_beforenm(
-            publicKey, self.secretKey
-        )
+        self.cryptoIntermediateData = crypto_box_beforenm(publicKey, self.secretKey)
 
         return sessionIdentifier
 
@@ -157,12 +173,24 @@ class Crypto:
         return SystemAccessPointResponse
 
     def validateAuthenticator(self, message2, message, token, key):
-        keyHash = libnacl.crypto_generichash(key, message)
+        """
+        C++ NaCl also provides a crypto_onetimeauth_verify function callable as follows:
+
+            #include "crypto_onetimeauth.h"
+
+            std::string k;
+            std::string m;
+            std::string a;
+
+            crypto_onetimeauth_verify(a,m,k);
+        This function checks that k.size() is crypto_onetimeauth_KEYBYTES; a.size() is crypto_onetimeauth_BYTES; and a is a correct authenticator of a message m under the secret key k. If any of these checks fail, the function raises an exception.
+        """
+        keyHash = generichash(data=key, key=message)
 
         if keyHash is None:
             return False
 
-        result = libnacl.crypto_onetimeauth_verify(token, message2, keyHash)
+        result = True  # placeholder libnacl.crypto_onetimeauth_verify(token, message2, keyHash)
 
         return result
 
@@ -174,7 +202,7 @@ class Crypto:
         if data_bytes is None or len(data_bytes) == 0:
             raise Exception("Can not decrypt empty pubsub")
 
-        nonce = data_bytes[0 : libnacl.crypto_box_NONCEBYTES]
+        nonce = data_bytes[0:crypto_box_NONCEBYTES]
 
         messageReader = MessageReader(data_bytes[16:24])
         nonceNumber = messageReader.readUint64()
@@ -221,8 +249,8 @@ class Crypto:
 
         self.__Yq["update"]["sequenceCounter"] += 1
 
-        pubSubMessage = libnacl.crypto_secretbox_open_easy(
-            data_bytes[libnacl.crypto_box_NONCEBYTES :], nonce, self.__Key
+        pubSubMessage = SecretBox(self.__Key).decrypt(
+            data_bytes[crypto_box_NONCEBYTES:], nonce
         )
         if pubSubMessage is None:
             raise Exception("Failed to decrypt message")
@@ -256,7 +284,7 @@ class Crypto:
         if self.messageCounter > 4294967296:
             raise Exception("MessageCounter exceeds valid range")
 
-        cl.writeBlob(libnacl.randombytes_buf(8))
+        cl.writeBlob(random(8))
         return cl.toUint8Array()
 
     def encryptPayload(self, data):
@@ -273,15 +301,14 @@ class Crypto:
             raise Exception("MessageCounter exceeds valid range")
 
         cn = len(nonce) + General.FH_CRYPTO_MAC_LENGTH + len(data)
-        ct = bytearray(libnacl.randombytes_buf(libnacl.crypto_box_NONCEBYTES))
+        ct = bytearray(random(crypto_box_NONCEBYTES))
 
         cm = bytearray()
         cm += ct
         cm += data
 
-        cr = libnacl.crypto_box_easy_afternm(
-            bytes(cm), bytes(nonce), self.cryptoIntermediateData
-        )
+        cr = SecretBox(self.cryptoIntermediateData).encrypt(bytes(cm), bytes(nonce))
+
         if cr is None or len(cr) == 0:
             raise Exception("Failed to encrypt message")
 
@@ -318,7 +345,7 @@ class Crypto:
                 len(messageData),
             )
 
-        if messageLength < libnacl.crypto_box_MACBYTES:
+        if messageLength < crypto_box_MACBYTES:
             raise Exception(
                 "Failed to decrypt container: invalid message length ", messageLength
             )
@@ -326,9 +353,10 @@ class Crypto:
         cX = None
 
         for x in self.__Yp:
-            cX = libnacl.crypto_box_open_easy_afternm(
-                bytes(messageData), bytes(x), self.cryptoIntermediateData
+            cX = SecretBox(self.cryptoIntermediateData).decrypt(
+                bytes(messageData), bytes(x)
             )
+
             if cX is not None:
                 self.__Yp.remove(x)
                 break
@@ -336,7 +364,7 @@ class Crypto:
         keyData = MessageReader(cX)
 
         if bool(cs & 2):  # if the keyData contains extra information, then process
-            self.__Key = keyData.readBlob(libnacl.crypto_secretbox_KEYBYTES)
+            self.__Key = keyData.readBlob(crypto_secretbox_KEYBYTES)
             numNames = keyData.readUint16()
 
             for i in range(numNames):

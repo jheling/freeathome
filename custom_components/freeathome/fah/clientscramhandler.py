@@ -1,5 +1,5 @@
-import hashlib, binascii
-import libnacl
+import hashlib
+from nacl.utils import random
 import base64
 import hmac
 import logging
@@ -10,7 +10,7 @@ log = logging.getLogger(__name__)
 class ClientScramHandler:
     def createClientFirst(self, text):
 
-        buf = libnacl.randombytes_buf(32)
+        buf = random(32)
         if buf is None or len(buf) != 32:
             raise Exception("Could not generate random bytes")
 
