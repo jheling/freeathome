@@ -1,19 +1,23 @@
 import hashlib
 from .pure_pynacl import (
     crypto_onetimeauth_poly1305_tweet as crypto_onetimeauth,
+    crypto_onetimeauth_poly1305_tweet_verify as crypto_onetimeauth_verify,
     IntArray,
 )
 from .pure_pynacl import tweetnacl
 from nacl.bindings.crypto_box import crypto_box_keypair
 from nacl.hash import generichash
 from nacl.utils import random
-from nacl.secret import SecretBox
+from nacl.encoding import RawEncoder
 from nacl.bindings import (
     crypto_box_NONCEBYTES,
     crypto_box_ZEROBYTES,
     crypto_box_BOXZEROBYTES,
     crypto_secretbox_KEYBYTES,
     crypto_box_beforenm,
+    crypto_box_afternm,
+    crypto_box_open_afternm,
+    crypto_secretbox_open,
 )
 import logging
 import base64
@@ -63,7 +67,7 @@ class Crypto:
     # complete
     def makeAuthenticator(self, message, key):
 
-        generic_hash = generichash(data=message, key=key)
+        generic_hash = generichash(data=message, key=key, encoder=RawEncoder)
 
         if generic_hash is None:
             raise Error("generic hash undefined")
@@ -173,24 +177,13 @@ class Crypto:
         return SystemAccessPointResponse
 
     def validateAuthenticator(self, message2, message, token, key):
-        """
-        C++ NaCl also provides a crypto_onetimeauth_verify function callable as follows:
 
-            #include "crypto_onetimeauth.h"
-
-            std::string k;
-            std::string m;
-            std::string a;
-
-            crypto_onetimeauth_verify(a,m,k);
-        This function checks that k.size() is crypto_onetimeauth_KEYBYTES; a.size() is crypto_onetimeauth_BYTES; and a is a correct authenticator of a message m under the secret key k. If any of these checks fail, the function raises an exception.
-        """
-        keyHash = generichash(data=key, key=message)
+        keyHash = generichash(data=key, key=message, encoder=RawEncoder)
 
         if keyHash is None:
             return False
 
-        result = True  # placeholder libnacl.crypto_onetimeauth_verify(token, message2, keyHash)
+        result = crypto_onetimeauth_verify(token, message2, len(message2), keyHash)
 
         return result
 
@@ -248,10 +241,10 @@ class Crypto:
                     self.__Yq["update"]["skippedSymmetricSequences"].remove(a[i])
 
         self.__Yq["update"]["sequenceCounter"] += 1
-
-        pubSubMessage = SecretBox(self.__Key).decrypt(
-            data_bytes[crypto_box_NONCEBYTES:], nonce
+        pubSubMessage = crypto_secretbox_open(
+            data_bytes[crypto_box_NONCEBYTES:], nonce, self.__Key
         )
+
         if pubSubMessage is None:
             raise Exception("Failed to decrypt message")
 
@@ -307,7 +300,7 @@ class Crypto:
         cm += ct
         cm += data
 
-        cr = SecretBox(self.cryptoIntermediateData).encrypt(bytes(cm), bytes(nonce))
+        cr = crypto_box_afternm(bytes(cm), bytes(nonce), self.cryptoIntermediateData)
 
         if cr is None or len(cr) == 0:
             raise Exception("Failed to encrypt message")
@@ -353,8 +346,8 @@ class Crypto:
         cX = None
 
         for x in self.__Yp:
-            cX = SecretBox(self.cryptoIntermediateData).decrypt(
-                bytes(messageData), bytes(x)
+            cX = crypto_box_open_afternm(
+                bytes(messageData), bytes(x), self.cryptoIntermediateData
             )
 
             if cX is not None:

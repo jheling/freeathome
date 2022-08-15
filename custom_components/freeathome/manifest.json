@@ -6,7 +6,7 @@
   "config_flow": true,
   "dependencies": [],
   "codeowners": ["@jheling"],
-  "requirements": ["slixmpp==1.8.2", "libnacl==1.7.0"],
+  "requirements": ["slixmpp==1.8.2", "pynacl==1.5.0"],
   "iot_class": "local_push",
   "zeroconf": ["_http._tcp.local."]
 }
