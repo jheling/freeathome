@@ -94,3 +94,4 @@ Thanks to Foti for testing the cover device!
 Thanks to Lasse Magnussen for the climate device!
 Thanks to Nadir for testing the weather station
 Thanks to jfindlay for making the the pure_pynacl library available: https://github.com/jfindlay/pure_pynacl
+Thanks to jeroen84 for the PyNaCl implementation
