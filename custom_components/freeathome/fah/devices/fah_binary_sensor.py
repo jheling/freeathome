@@ -27,7 +27,7 @@ LOG = logging.getLogger(__name__)
 class FahBinarySensor(FahDevice):
     """Free@Home binary object """
     state = None
-    attributes = {}
+    window_position = None
 
     def pairing_ids(function_id=None):
         if function_id in FUNCTION_IDS_BINARY_SENSOR:
@@ -59,14 +59,7 @@ class FahBinarySensor(FahDevice):
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_WINDOW_DOOR_POSITION) == dp:
-            if value == '0':
-                self.attributes["window_position"] = "closed"
-            elif value == '33':
-                self.attributes["window_position"] = "tilted"
-            elif value == '100':
-                self.attributes["window_position"] = "open"
-            else:
-                self.attributes["window_position"] = None
+            self.window_position = dp
         else:
             self.state = '0' if value == '0' else '1'
         LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
