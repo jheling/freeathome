@@ -56,6 +56,11 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
         """Return true if sensor is on."""
         return self._state
 
+    @property
+    def extra_state_attributes(self):
+        """Return specific state attributes."""
+        return self.binary_device.attributes
+
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
 
@@ -69,6 +74,7 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
         """Retrieve latest state."""
 
         self._state = (self.binary_device.state == '1')
+        self._attributes = self.binary_device.attributes
         _LOGGER.info('update sensor')
 
         eventdata = {
