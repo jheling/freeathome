@@ -59,7 +59,7 @@ class FahBinarySensor(FahDevice):
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
         if self._datapoints.get(PID_WINDOW_DOOR_POSITION) == dp:
-            self.window_position = dp
+            self.window_position = value
         else:
             self.state = '0' if value == '0' else '1'
         LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
