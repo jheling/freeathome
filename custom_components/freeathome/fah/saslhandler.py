@@ -33,7 +33,7 @@ class SaslHandler:
         except (NameError, ValueError) as e:
             log.error(e)
         except:
-            log.error('error send_cryptExchangeLocalKeys2 ', sys.exc_info()[0])
+            log.error('error send_cryptExchangeLocalKeys2: %s', sys.exc_info()[0])
         else:
             log.debug('crypt_exchange_callback')
 
@@ -59,7 +59,7 @@ class SaslHandler:
                     except (NameError, ValueError, TypeError) as e:
                         log.error(e)
                     except:
-                        log.error('error send_cryptMessage ', sys.exc_info()[0])
+                        log.error('error send_cryptMessage: %s', sys.exc_info()[0])
                     else:
                         iq.enable('rpc_query')
 
@@ -88,7 +88,7 @@ class SaslHandler:
                                 try:
                                     iq = await self.send_cryptMessage(base64.b64encode(payload))
                                 except:
-                                    log.error('error send_cryptMessage ', sys.exc_info()[0])
+                                    log.error('error send_cryptMessage: %s', sys.exc_info()[0])
                                 else:
 
                                     iq.enable('rpc_query')
@@ -120,7 +120,7 @@ class SaslHandler:
                                             try:
                                                 iq = await self.send_cryptMessage(base64.b64encode(payload))
                                             except:
-                                                log.error('error send_cryptMessage ', sys.exc_info()[0])
+                                                log.error('error send_cryptMessage: %s', sys.exc_info()[0])
                                             else:
                                                 iq.enable('rpc_query')
 
@@ -143,7 +143,7 @@ class SaslHandler:
                                                             log.info("Received SASL Login Confirmation")
                                                             log.info("Successfully Authenticated")
                                         else:
-                                            log.info("Wrong response ", msgId)
+                                            log.info("Wrong response: %s", msgId)
 
     # First call
     def send_cryptExchangeLocalKeys2(self, jid, key, timeout=None, callback=None, timeout_callback=None):
