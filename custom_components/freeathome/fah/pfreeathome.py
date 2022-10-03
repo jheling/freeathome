@@ -559,13 +559,14 @@ class Client(slixmpp.ClientXMPP):
         self._update_handlers = []
 
 
-    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
+    def add_device(self, fah_class, channel, channel_id, function_id, display_name, device_info, serialnumber, datapoints, parameters):
         """ Add generic device to the list of light devices   """
         device = fah_class(
                 self,
                 device_info,
                 serialnumber,
                 channel_id,
+                function_id,
                 display_name,
                 datapoints=datapoints,
                 parameters=parameters)
@@ -778,7 +779,7 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-                                self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                self.add_device(fah_class, channel, channel_id, function_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
 
 
             # Update all devices with initial state

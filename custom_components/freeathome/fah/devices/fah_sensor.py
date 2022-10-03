@@ -54,7 +54,7 @@ class FahSensor(FahDevice):
                     }
 
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, datapoints={}, parameters={}, device_updated_cb=None):
+    def __init__(self, client, device_info, serialnumber, channel_id, function_id, name, datapoints={}, parameters={}, device_updated_cb=None):
         # Determine sensor type (e.g. temperature, brightness) from datapoints
         self.type = sensor_type_from_pairing_ids(datapoints)
 
@@ -62,7 +62,7 @@ class FahSensor(FahDevice):
         if self.type is not None:
             name = name + '_' + self.type
 
-        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, name, datapoints=datapoints, parameters=parameters, device_updated_cb=None)
+        FahDevice.__init__(self, client, device_info, serialnumber, channel_id, function_id, name, datapoints=datapoints, parameters=parameters, device_updated_cb=None)
 
 
     def update_datapoint(self, dp, value):
