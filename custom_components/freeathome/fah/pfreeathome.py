@@ -629,9 +629,11 @@ class Client(slixmpp.ClientXMPP):
 
     async def find_devices(self, use_room_names, configure_as_switch=None):
         """ Find the devices in the system, this is a big XML file   """
+        self.use_room_names = use_room_names
+        
         if configure_as_switch is not None:
-            self.use_room_names = use_room_names
-        self.configure_as_switch = configure_as_switch
+            self.configure_as_switch = configure_as_switch
+        
         config = await self.get_config()
 
         if config is not None:
