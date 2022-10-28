@@ -461,7 +461,7 @@ class Client(slixmpp.ClientXMPP):
 
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
-        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
+        xml_without_names = self.clean_xml(xml)
 
         root = ET.fromstring(xml_without_names)
 
@@ -550,14 +550,20 @@ class Client(slixmpp.ClientXMPP):
         for device in updated_devices:
             await device.after_update()
 
+    def clean_xml(self, xml):
+        # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
+        # Strip them altogether.
+        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
+        xml_without_imaginary = re.sub(r'imaginary="[^"]" ([^>])imaginary="[^"]*"', r'\1', xml_without_names)
+        return xml_without_imaginary
+
     def add_update_handler(self, handler):
         """Add update handler"""
         self._update_handlers.append(handler)
 
     def clear_update_handlers(self):
         """Clear update handlers"""
-        self._update_handlers = []
-
+        self._update_handlers = []    
 
     def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
         """ Add generic device to the list of light devices   """
@@ -610,7 +616,7 @@ class Client(slixmpp.ClientXMPP):
         if config is None:
             return None
         
-        return re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
+        return self.clean_xml(config)
 
 
     async def find_devices(self, use_room_names):
@@ -623,7 +629,7 @@ class Client(slixmpp.ClientXMPP):
 
             # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
             # Strip them altogether.
-            config_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
+            config_without_names = self.clean_xml(config)
 
             root = ET.fromstring(config_without_names)
 
