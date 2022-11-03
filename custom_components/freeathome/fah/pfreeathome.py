@@ -554,7 +554,7 @@ class Client(slixmpp.ClientXMPP):
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
         xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
-        xml_without_imaginary = re.sub(r'imaginary="[^"]" ([^>])imaginary="[^"]*"', r'\1', xml_without_names)
+        xml_without_imaginary = re.sub(r'imaginary="[^"]*" ([^>]*)imaginary="[^"]*"', r'\1', xml_without_names)
         return xml_without_imaginary
 
     def add_update_handler(self, handler):
