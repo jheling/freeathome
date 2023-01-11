@@ -709,13 +709,8 @@ class Client(slixmpp.ClientXMPP):
                         # Find that option in the list of options
                         option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
                         # Get filter mask from mask attribute
-                        filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
-                        
-                        
-                         option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
-                          # Get filter mask from mask attribute
-                         if option is not None: 
-                         filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
+                        if option is not None: 
+                            filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
 
                 device_info = {
                         "configuration_url": "http://{}/".format(self._host),
