@@ -20,6 +20,11 @@ Free@home now appears as an integration in Home Assistant.
 ### HACS
 Install this component in HACS by adding it as a custom repository of the type integration.
 
+### Youtube
+This is a German tutorial about using Home Assistant for integrating Free@Home and Apple Homekit/Siri. 
+It shows how to install Home Assistant and this integration on a Raspberry Pi. 
+https://youtu.be/9xfUhRiwK_s
+
 ## Configuration
 
 The sysap will be autodetected through zeroconf. Then you only have to fill in a username and password.
