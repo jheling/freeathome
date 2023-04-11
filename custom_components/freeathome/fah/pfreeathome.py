@@ -26,6 +26,7 @@ from .devices.fah_light import FahLight
 from .devices.fah_binary_sensor import FahBinarySensor
 from .devices.fah_thermostat import FahThermostat
 from .devices.fah_light_scene import FahLightScene
+from .devices.fah_light_group import FahLightGroup
 from .devices.fah_cover import FahCover
 from .devices.fah_sensor import FahSensor
 from .devices.fah_lock import FahLock
@@ -375,7 +376,7 @@ class Client(slixmpp.ClientXMPP):
         return_type = {}
 
         if device_type == 'light':
-            return self.filter_devices(FahLight)
+            return self.filter_devices(FahLight) + self.filter_devices(FahLightGroup)
 
         if device_type == 'scene':
             return self.filter_devices(FahLightScene)
@@ -740,7 +741,8 @@ class Client(slixmpp.ClientXMPP):
                     # TODO: Move this to the custom component part
                     # Use room information from device if channel is in same location
                     floor_id = device_floor_id if channel_floor_id == '' or same_location == 'true' else channel_floor_id
-                    room_id = device_room_id if channel_floor_id == '' or same_location == 'true' else channel_room_id
+                    room_id = device_room_id if channel_room_id == '' or same_location == 'true' else channel_room_id
+                    LOG.debug('Device floor/room ID %s/%s, channel floor/room ID %s/%s', device_floor_id, device_room_id, channel_floor_id, channel_room_id)
 
                     # Use device display name if not configured on channel
                     display_name = channel_display_name if channel_display_name != '' else device_display_name
@@ -762,7 +764,7 @@ class Client(slixmpp.ClientXMPP):
                     LOG.debug(get_all_datapoints_as_str(channel))
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahSensor, FahLock]:
+                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
                         # Add position suffix to name, e.g. 'LT' for left, top
                         position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX.get(channel_name_id, '')
 
