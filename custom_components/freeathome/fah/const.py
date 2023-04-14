@@ -34,8 +34,6 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x1059, # FID_FORCE_ON_OFF_SENSOR_PUSHBUTTON_TYPE1
         0x105A, # FID_FORCE_ON_OFF_SENSOR_PUSHBUTTON_TYPE2
         0x105B, # FID_FORCE_ON_OFF_SENSOR_PUSHBUTTON_TYPE3
-        
-
         ]
 
 FUNCTION_IDS_SWITCHING_ACTUATOR = [
@@ -74,12 +72,16 @@ FUNCTION_IDS_SHUTTER_ACTUATOR = [
         ]
 
 FUNCTION_IDS_SCENE = [
-        0x4000, # Light group
         0x4800, # Custom scene
         0x4801, # Panic scene
         0x4802, # All lights off
         0x4803, # All blinds open
         0x4804, # All blinds closed
+        ]
+
+FUNCTION_IDS_LIGHT_GROUP = [
+        0x4000, # Light group
+        0x4002, # Dimming group
         ]
 
 FUNCTION_IDS_MOVEMENT_DETECTOR = [
@@ -123,6 +125,10 @@ PID_SWITCH_ON_OFF = 0x0001
 PID_ABSOLUTE_SET_VALUE = 0x0011
 PID_INFO_ON_OFF = 0x0100
 PID_INFO_ACTUAL_DIMMING_VALUE = 0x0110
+
+# Groups
+PID_SYSAP_INFO_ON_OFF = 0x0105
+PID_SYSAP_INFO_ACTUAL_DIMMING_VALUE = 0x0115
 
 # Cover
 PID_MOVE_UP_DOWN = 0x0020
