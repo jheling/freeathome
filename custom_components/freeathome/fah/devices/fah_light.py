@@ -45,8 +45,9 @@ class FahLight(FahDevice):
     async def turn_on(self):
         """ Turn the light on   """
         oldstate = self.state
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_SWITCH_ON_OFF], '1')
-        self.state = True
+        if self.state == False:
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_SWITCH_ON_OFF], '1')
+            self.state = True
 
         if self.is_dimmer() \
                 and ((oldstate != self.state and int(self.brightness) > 0) or (oldstate == self.state)):
@@ -54,8 +55,9 @@ class FahLight(FahDevice):
 
     async def turn_off(self):
         """ Turn the light off   """
-        await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_SWITCH_ON_OFF], '0')
-        self.state = False
+        if self.state == True:
+            await self.client.set_datapoint(self.serialnumber, self.channel_id, self._datapoints[PID_SWITCH_ON_OFF], '0')
+            self.state = False
 
     def set_brightness(self, brightness):
         """ Set the brightness of the light  """
