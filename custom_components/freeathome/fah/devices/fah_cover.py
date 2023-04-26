@@ -3,6 +3,8 @@ import logging
 
 from .fah_device import FahDevice
 from ..const import (
+        FUNCTION_IDS_AWNING_ACTUATOR,
+        FUNCTION_IDS_ATTIC_WINDOW_ACTUATOR,
         FUNCTION_IDS_BLIND_ACTUATOR,
         FUNCTION_IDS_SHUTTER_ACTUATOR,
         PID_MOVE_UP_DOWN,
@@ -42,7 +44,9 @@ class FahCover(FahDevice):
     forced_position = None
 
     def pairing_ids(function_id=None):
-        if function_id in FUNCTION_IDS_BLIND_ACTUATOR:
+        if function_id in FUNCTION_IDS_BLIND_ACTUATOR or \
+                function_id in FUNCTION_IDS_ATTIC_WINDOW_ACTUATOR or \
+                function_id in FUNCTION_IDS_AWNING_ACTUATOR:
             return {
                     "inputs": [
                         PID_MOVE_UP_DOWN,
@@ -155,6 +159,17 @@ class FahCover(FahDevice):
     def supports_forced_position(self):
         """ Returns true if cover supports force position """
         return PID_FORCE_POSITION_BLIND in self._datapoints
+
+    def device_class(self):
+        """ Returns device class as string """
+        if self._function_id in FUNCTION_IDS_ATTIC_WINDOW_ACTUATOR:
+            return "window"
+        elif self._function_id in FUNCTION_IDS_AWNING_ACTUATOR:
+            return "awning"
+        elif self._function_id in FUNCTION_IDS_SHUTTER_ACTUATOR:
+            return "shutter"
+        else:
+            return None
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
