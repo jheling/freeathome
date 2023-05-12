@@ -118,6 +118,11 @@ NAME_IDS_TO_BINARY_SENSOR_SUFFIX = {
         0x0067: ' B',
         }
 
+FUNCTION_IDS_AIR_QUALITY_SENSOR = [
+        0x00bd, # Air quality sensor
+        ]
+
+
 ### Pairing IDs
 
 # Switch actuator
@@ -153,6 +158,11 @@ PID_HEATING_DEMAND = 0x014D
 
 # Thermostat parameters
 PARAM_TEMPERATURE_CORRECTION = 0x001B
+
+# Air quality sensor
+PID_MEASURED_HUMIDITY = 0x0151
+PID_MEASURED_VOC = 0x0622
+PID_MEASURED_CO2 = 0x061B
 
 # Movement detector
 PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS = 0x0006
