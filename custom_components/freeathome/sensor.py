@@ -5,12 +5,14 @@ from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
     SPEED_KILOMETERS_PER_HOUR,
     TEMP_CELSIUS,
+    PERCENTAGE,
+    CONCENTRATION_PARTS_PER_MILLION,
+    CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
     )
 
 from homeassistant.components.sensor import SensorEntity
 
-from .const import DOMAIN
-
+from .fah.devices.fah_device import FahDevice
 from .const import DOMAIN
 
 SENSOR_TYPES = {
@@ -36,9 +38,25 @@ SENSOR_TYPES = {
         "lux",
         None,
         SensorDeviceClass.ILLUMINANCE],
+    "humidity": [
+        "Humidity",
+        PERCENTAGE,
+        None,
+        SensorDeviceClass.HUMIDITY],
+    "co2": [
+        "CO2",
+        CONCENTRATION_PARTS_PER_MILLION,
+        None,
+        SensorDeviceClass.CO2],
+    "voc": [
+        "VOC",
+        CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        None,
+        SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS],
 }
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def async_setup_entry(hass, config_entry, async_add_devices, discovery_info=None):
     """ setup """
@@ -48,28 +66,31 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
     fah = hass.data[DOMAIN][config_entry.entry_id]
 
     devices = fah.get_devices('sensor')
+    sensors = []
 
     for device_object in devices:
         if device_object.type == "temperature":
-            async_add_devices([FreeAtHomeTemperatureSensor(device_object)])
+            sensors.append(FreeAtHomeTemperatureSensor(device_object))
         else:
-            async_add_devices([FreeAtHomeOtherSensor(device_object)])
+            sensors.append(FreeAtHomeOtherSensor(device_object))
+
+    async_add_devices(sensors)
 
 
 class FreeAtHomeSensor(SensorEntity):
-    ''' Interface to the weather sensor devices of Free@Home '''
+    """ Interface to the weather sensor devices of Free@Home """
     _name = ''
     sensor_device = None
     _state = None
 
-    def __init__(self, device):
+    def __init__(self, device: FahDevice):
         self.sensor_device = device
         self.type  = self.sensor_device.type
         self._name = self.sensor_device.name
         self._state = self.sensor_device.state
         self._device_class = SENSOR_TYPES[self.type][3]
         self._icon = SENSOR_TYPES[self.type][2]
-        self._unit_of_measurement = SENSOR_TYPES[self.type][1]        
+        self._unit_of_measurement = SENSOR_TYPES[self.type][1]
 
     @property
     def name(self):
@@ -89,7 +110,7 @@ class FreeAtHomeSensor(SensorEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.sensor_device.serialnumber + '/' + self.sensor_device.channel_id
+        return self.sensor_device.lookup_key
 
     @property
     def should_poll(self):
@@ -114,7 +135,7 @@ class FreeAtHomeSensor(SensorEntity):
 
 
 class FreeAtHomeOtherSensor(FreeAtHomeSensor):
-    def __init__(self, device):
+    def __init__(self, device: FahDevice):
         FreeAtHomeSensor.__init__(self, device)
 
     @property
@@ -132,7 +153,7 @@ class FreeAtHomeOtherSensor(FreeAtHomeSensor):
 
 
 class FreeAtHomeTemperatureSensor(FreeAtHomeSensor):
-    def __init__(self, device):
+    def __init__(self, device: FahDevice):
         FreeAtHomeSensor.__init__(self, device)
 
     @property

@@ -22,6 +22,7 @@ from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, Even
 from slixmpp.exceptions import IqError
 from slixmpp import Iq
 
+from .devices.fah_device import FahDevice
 from .devices.fah_light import FahLight
 from .devices.fah_binary_sensor import FahBinarySensor
 from .devices.fah_thermostat import FahThermostat
@@ -33,6 +34,7 @@ from .devices.fah_lock import FahLock
 
 from .const import (
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
+    FUNCTION_IDS_AIR_QUALITY_SENSOR
     )
 
 from .messagereader import MessageReader
@@ -239,13 +241,13 @@ class Client(slixmpp.ClientXMPP):
         self.add_event_handler("pubsub_publish", self.pub_sub_callback)
         self.add_event_handler("failed_auth", self.failed_auth)
         self.add_event_handler("disconnected", self._disconnected)
-        
+
         # register plugins
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060')  # PubSub
         self.register_plugin('xep_0199', {'keepalive': True, 'frequency': 60})  # ping
 
-        
+
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
         register_stanza_plugin(RPCQuery, MethodResponse)
@@ -564,9 +566,26 @@ class Client(slixmpp.ClientXMPP):
 
     def clear_update_handlers(self):
         """Clear update handlers"""
-        self._update_handlers = []    
+        self._update_handlers = []
 
-    def add_device(self, fah_class, channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
+    def add_devices_for_all_datapoints(self, fah_class: type[FahDevice], channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
+        devices = []
+        for pairing_id, datapoint in datapoints.items():
+            device = self.add_device(fah_class,
+                            channel,
+                            channel_id,
+                            display_name,
+                            device_info,
+                            serialnumber,
+                            datapoints={pairing_id: datapoint},
+                            parameters=parameters)
+            devices.append(device)
+        return devices
+
+    def add_device(self, fah_class: type[FahDevice], channel: object, channel_id: str, display_name: str, device_info: object,
+                   serialnumber: str,
+                   datapoints: dict[str, str],
+                   parameters: object) -> FahDevice:
         """ Add generic device to the list of light devices   """
         device = fah_class(
                 self,
@@ -577,7 +596,6 @@ class Client(slixmpp.ClientXMPP):
                 datapoints=datapoints,
                 parameters=parameters)
 
-        lookup_key = serialnumber + '/' + channel_id
         self.devices.add(device)
 
         for datapoint in datapoints.values():
@@ -594,7 +612,8 @@ class Client(slixmpp.ClientXMPP):
             LOG.debug('Monitoring parameter ' + serialnumber + '/' + channel_id + '/' + parameter)
             self.monitored_parameters[serialnumber + '/' + channel_id + '/' + parameter] = device
 
-        LOG.info('add device %s  %s %s, datapoints %s, parameters %s', fah_class.__name__, lookup_key, display_name, datapoints, parameters)
+        LOG.info('add device %s  %s %s, datapoints %s, parameters %s', fah_class.__name__, device.lookup_key, display_name, datapoints, parameters)
+        return device
 
 
     async def get_config(self, pretty=False):
@@ -616,7 +635,7 @@ class Client(slixmpp.ClientXMPP):
 
         if config is None:
             return None
-        
+
         return self.clean_xml(config)
 
 
@@ -710,7 +729,7 @@ class Client(slixmpp.ClientXMPP):
                         # Find that option in the list of options
                         option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
                         # Get filter mask from mask attribute
-                        if option is not None: 
+                        if option is not None:
                             filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
 
                 device_info = {
@@ -787,7 +806,11 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-                                self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+
+                                if function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
+                                    self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                else:
+                                    self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
 
 
             # Update all devices with initial state
