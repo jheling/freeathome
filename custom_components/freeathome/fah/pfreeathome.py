@@ -676,13 +676,11 @@ class Client(slixmpp.ClientXMPP):
 
                 LOG.info('Device: device id %s, name id %s, serialnumber %s, display name %s', device_id, device_name_id, device_serialnumber, device_display_name)
 
+                # Ignore devices from Philips Hue, to avoid circular definitions for users with
+                # emulated_hue enabled.
                 # TODO: Move this to the home assistant component and make it user configurable
-                # (Default should be false, to avoid circular definitions for users with
-                # emulated_hue enabled
-                # Ignore devices from external integrations (i.e. Hue)
-                is_external = device.get('isExternal')
-                if is_external == 'true':
-                    LOG.info('Ignoring device with serialnumber %s since it is external', device_serialnumber)
+                if device.get('isExternal') == 'true' and device.get('interface') == 'hue':
+                    LOG.info('Ignoring Hue device with serial number %s', device_serialnumber)
                     continue
 
                 # Ignore devices that are not yet commissioned
