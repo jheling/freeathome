@@ -20,16 +20,7 @@ class FahLight(FahDevice):
     brightness = None
 
     def pairing_ids(function_id=None):
-        if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR:
-            return {
-                    "inputs": [
-                        PID_SWITCH_ON_OFF,
-                        ],
-                    "outputs": [
-                        PID_INFO_ON_OFF,
-                        ]
-                    }
-        elif function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
+        if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
             return {
                     "inputs": [
                         PID_SWITCH_ON_OFF,

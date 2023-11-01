@@ -22,6 +22,7 @@ PLATFORMS = [
         "lock",
         "scene",
         "sensor",
+        "switch"
         ]
 
 SERVICE_DUMP = "dump"

@@ -23,6 +23,7 @@ from slixmpp.exceptions import IqError
 from slixmpp import Iq
 
 from .devices.fah_device import FahDevice
+from .devices.fah_switch import FahSwitch
 from .devices.fah_light import FahLight
 from .devices.fah_binary_sensor import FahBinarySensor
 from .devices.fah_thermostat import FahThermostat
@@ -379,6 +380,9 @@ class Client(slixmpp.ClientXMPP):
 
         if device_type == 'light':
             return self.filter_devices(FahLight) + self.filter_devices(FahLightGroup)
+        
+        if device_type == 'switch':
+            return self.filter_devices(FahSwitch)
 
         if device_type == 'scene':
             return self.filter_devices(FahLightScene)
@@ -781,7 +785,7 @@ class Client(slixmpp.ClientXMPP):
                     LOG.debug(get_all_datapoints_as_str(channel))
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
+                    for fah_class in [FahLight, FahSwitch, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
                         # Add position suffix to name, e.g. 'LT' for left, top
                         position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX.get(channel_name_id, '')
 
