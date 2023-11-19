@@ -8,7 +8,7 @@ from homeassistant import config_entries, core, exceptions
 from homeassistant.const import CONF_HOST, CONF_PORT, CONF_USERNAME, CONF_PASSWORD, CONF_NAME
 
 from .fah.settings import SettingsFah
-from .const import DOMAIN, DEFAULT_USE_ROOM_NAMES, CONF_USE_ROOM_NAMES  # pylint:disable=unused-import
+from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X  # pylint:disable=unused-import
 from .fah.pfreeathome import FreeAtHomeSysApp
 
 _LOGGER = logging.getLogger(__name__)
@@ -178,7 +178,8 @@ def _ordered_shared_schema(schema_input):
     return {
         vol.Required(CONF_USERNAME, default=schema_input.get(CONF_USERNAME, "")): str,
         vol.Required(CONF_PASSWORD, default=schema_input.get(CONF_PASSWORD, "")): str,
-		vol.Optional(CONF_USE_ROOM_NAMES, default=False): bool,
+		vol.Optional(CONF_USE_ROOM_NAMES, default=DEFAULT_USE_ROOM_NAMES): bool,
+        vol.Optional(CONF_SWITCH_AS_X, default=DEFAULT_SWITCH_AS_X): bool,
     }
 
 

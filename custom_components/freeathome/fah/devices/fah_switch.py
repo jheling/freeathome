@@ -15,8 +15,9 @@ class FahSwitch(FahDevice):
     """ Free@Home switch object   """
     state = None
 
-    def pairing_ids(function_id=None):
-        if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR:
+    def pairing_ids(function_id=None, switch_as_x=False):
+        # If switch_as_x is True, we want to treat the switching actuator as an actual switch in HA
+        if function_id in FUNCTION_IDS_SWITCHING_ACTUATOR and switch_as_x:
             return {
                     "inputs": [
                         PID_SWITCH_ON_OFF,
@@ -25,6 +26,7 @@ class FahSwitch(FahDevice):
                         PID_INFO_ON_OFF,
                         ]
                     }
+
 
     async def turn_on(self):
         """ Turn the switch on   """

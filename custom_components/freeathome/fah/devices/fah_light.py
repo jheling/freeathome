@@ -19,7 +19,7 @@ class FahLight(FahDevice):
     state = None
     brightness = None
 
-    def pairing_ids(function_id=None):
+    def pairing_ids(function_id=None, switch_as_x=False):
         if function_id in FUNCTION_IDS_DIMMING_ACTUATOR:
             return {
                     "inputs": [
@@ -29,6 +29,16 @@ class FahLight(FahDevice):
                     "outputs": [
                         PID_INFO_ON_OFF,
                         PID_INFO_ACTUAL_DIMMING_VALUE,
+                        ]
+                    }
+        # If switch_as_x is False, we want to treat the switching actuator as a light
+        elif function_id in FUNCTION_IDS_SWITCHING_ACTUATOR and not switch_as_x:
+            return {
+                    "inputs": [
+                        PID_SWITCH_ON_OFF,
+                        ],
+                    "outputs": [
+                        PID_INFO_ON_OFF,
                         ]
                     }
 
