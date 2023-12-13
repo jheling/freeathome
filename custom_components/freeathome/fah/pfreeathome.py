@@ -23,6 +23,7 @@ from slixmpp.exceptions import IqError
 from slixmpp import Iq
 
 from .devices.fah_device import FahDevice
+from .devices.fah_switch import FahSwitch
 from .devices.fah_light import FahLight
 from .devices.fah_binary_sensor import FahBinarySensor
 from .devices.fah_thermostat import FahThermostat
@@ -203,6 +204,7 @@ class Client(slixmpp.ClientXMPP):
     connect_finished = False
     authenticated = False
     use_room_names = False
+    switch_as_x = False
     connect_in_error = False
 
     # The specific devices
@@ -379,6 +381,9 @@ class Client(slixmpp.ClientXMPP):
 
         if device_type == 'light':
             return self.filter_devices(FahLight) + self.filter_devices(FahLightGroup)
+        
+        if device_type == 'switch':
+            return self.filter_devices(FahSwitch)
 
         if device_type == 'scene':
             return self.filter_devices(FahLightScene)
@@ -639,9 +644,10 @@ class Client(slixmpp.ClientXMPP):
         return self.clean_xml(config)
 
 
-    async def find_devices(self, use_room_names):
+    async def find_devices(self, use_room_names, switch_as_x=False):
         """ Find the devices in the system, this is a big XML file   """
         self.use_room_names = use_room_names
+        self.switch_as_x = switch_as_x
         config = await self.get_config()
 
         if config is not None:
@@ -781,12 +787,17 @@ class Client(slixmpp.ClientXMPP):
                     LOG.debug(get_all_datapoints_as_str(channel))
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
+                    for fah_class in [FahLight, FahSwitch, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
                         # Add position suffix to name, e.g. 'LT' for left, top
                         position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX.get(channel_name_id, '')
 
                         # If function should be handled, it returns a list of relevant pairing IDs
-                        pairing_ids = fah_class.pairing_ids(function_id)
+                        if fah_class in [FahLight, FahSwitch]:
+                            # Handle special case for lights and switches,
+                            # based on switch_as_x feature, different pairing IDs are returned
+                            pairing_ids = fah_class.pairing_ids(function_id, switch_as_x=self.switch_as_x)
+                        else:
+                            pairing_ids = fah_class.pairing_ids(function_id)
 
                         # List of pairing IDs was returned, so given class wants to handle the current
                         # function with the returned pairing IDs.
@@ -821,6 +832,7 @@ class FreeAtHomeSysApp(object):
           username
           password
           use_room_names - Show room names with the devices
+          switch_as_x - Enable switch_as_x feature
     """
 
     def __init__(self, host, user, password):
@@ -832,22 +844,33 @@ class FreeAtHomeSysApp(object):
         self._password = password
         self.xmpp = None
         self._use_room_names = False
+        self._switch_as_x = False
         self.reconnect = True
-
-    @property
-    def use_room_names(self):
-        """ getter use_room_names   """
-        return self._use_room_names
 
     @property
     def host(self):
         """Getter for host"""
         return self._host
 
+    @property
+    def use_room_names(self):
+        """ getter use_room_names   """
+        return self._use_room_names
+
     @use_room_names.setter
     def use_room_names(self, value):
         """ setter user_room_names   """
         self._use_room_names = value
+
+    @property
+    def switch_as_x(self):
+        """ getter switch_as_x   """
+        return self._switch_as_x
+    
+    @switch_as_x.setter
+    def switch_as_x(self, value):
+        """ setter switch_as_x   """
+        self._switch_as_x = value
 
     async def connect(self):
         """ connect to the Free@Home sysap   """
@@ -918,6 +941,6 @@ class FreeAtHomeSysApp(object):
     async def find_devices(self):
         """ find all the devices on the sysap   """
         try:
-            await self.xmpp.find_devices(self._use_room_names)
+            await self.xmpp.find_devices(self._use_room_names, self._switch_as_x)
         except IqError as error:
             raise error

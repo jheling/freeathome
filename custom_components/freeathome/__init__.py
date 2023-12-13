@@ -12,7 +12,7 @@ import homeassistant.helpers.config_validation as cv
 
 from datetime import datetime
 
-from .const import DOMAIN, CONF_USE_ROOM_NAMES
+from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X, BACKWARD_COMPATIBILE_SWITCH_AS_X
 
 PLATFORMS = [
         "binary_sensor",
@@ -22,12 +22,11 @@ PLATFORMS = [
         "lock",
         "scene",
         "sensor",
+        "switch"
         ]
 
 SERVICE_DUMP = "dump"
 SERVICE_MONITOR = "monitor"
-
-DEFAULT_USE_ROOM_NAMES = False
 
 # Validation of the user's configuration
 CONFIG_SCHEMA = vol.Schema({
@@ -37,6 +36,8 @@ CONFIG_SCHEMA = vol.Schema({
         vol.Optional(CONF_PASSWORD): cv.string,
         vol.Optional(CONF_USE_ROOM_NAMES,
                      default=DEFAULT_USE_ROOM_NAMES): cv.boolean,
+        vol.Optional(CONF_SWITCH_AS_X,
+                     default=DEFAULT_SWITCH_AS_X): cv.boolean,
     })
 }, extra=vol.ALLOW_EXTRA)
 
@@ -70,6 +71,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             entry.data[CONF_PASSWORD])
 
     sysap.use_room_names = entry.data[CONF_USE_ROOM_NAMES]
+    try:
+        sysap.switch_as_x = entry.data[CONF_SWITCH_AS_X]
+    except KeyError:
+        _LOGGER.warning("No switch_as_x option found in saved config, consider adding it")
+        sysap.switch_as_x = BACKWARD_COMPATIBILE_SWITCH_AS_X
+
     hass.data[DOMAIN][entry.entry_id] = sysap
 
     await sysap.connect()
