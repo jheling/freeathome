@@ -4,6 +4,7 @@ import logging
 from .fah_device import FahDevice
 from ..const import (
         FUNCTION_IDS_BINARY_SENSOR,
+        FUNCTION_IDS_WEATHER_STATION,
         PID_SWITCH_ON_OFF,
         PID_TIMED_START_STOP,
         PID_FORCE_POSITION,
@@ -14,6 +15,7 @@ from ..const import (
         PID_WIND_ALARM,
         PID_FROST_ALARM,
         PID_RAIN_ALARM,
+        PID_BRIGHTNESS_ALARM,
         PID_FORCE_POSITION_BLIND,
         PID_WINDOW_DOOR,
         PID_SWITCHOVER_HEATING_COOLING,
@@ -44,6 +46,7 @@ class FahBinarySensor(FahDevice):
                         PID_WIND_ALARM,
                         PID_FROST_ALARM,
                         PID_RAIN_ALARM,
+                        PID_BRIGHTNESS_ALARM,
                         PID_FORCE_POSITION_BLIND,
                         PID_WINDOW_DOOR,
                         PID_SWITCHOVER_HEATING_COOLING,
@@ -51,6 +54,16 @@ class FahBinarySensor(FahDevice):
                         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
                         PID_PRESENCE,
                         ]
+                    }
+        elif function_id in FUNCTION_IDS_WEATHER_STATION:
+            return {
+                    "inputs": [],
+                    "outputs": [
+                        PID_WIND_ALARM,
+                        PID_FROST_ALARM,
+                        PID_BRIGHTNESS_ALARM,
+                        ]
+
                     }
 
     def update_datapoint(self, dp, value):

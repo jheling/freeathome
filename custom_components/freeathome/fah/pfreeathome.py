@@ -35,7 +35,8 @@ from .devices.fah_lock import FahLock
 
 from .const import (
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
-    FUNCTION_IDS_AIR_QUALITY_SENSOR
+    FUNCTION_IDS_AIR_QUALITY_SENSOR,
+    FUNCTION_IDS_WEATHER_STATION
     )
 
 from .messagereader import MessageReader
@@ -747,6 +748,7 @@ class Client(slixmpp.ClientXMPP):
                 for channel in channels_xml.findall('channel'):
                     channel_id = channel.get('i')
                     channel_name_id = int(channel.get('nameId'), 16)
+                    channel_name_id_hex = channel.get('nameId')
                     function_id = get_attribute(channel, 'functionId')
                     function_id = int(function_id, 16) if (function_id is not None and function_id != '') else None
 
@@ -818,6 +820,14 @@ class Client(slixmpp.ClientXMPP):
 
                                 if function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
                                     self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                elif function_id in FUNCTION_IDS_WEATHER_STATION:    
+                                    # extract extra names for weather station
+                                    if channel_name_id_hex in names:
+                                        channel_name = names[channel_name_id_hex]
+                                    else:
+                                        channel_name = display_name + position_suffix
+                                    self.add_device(fah_class, channel, channel_id, channel_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                        
                                 else:
                                     self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
 
