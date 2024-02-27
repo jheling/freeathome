@@ -21,6 +21,8 @@ from ..const import (
         PID_SWITCHOVER_HEATING_COOLING,
         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
         PID_PRESENCE,
+        PID_FIRE_ALARM_ACTIVE,
+        PID_CO_ALARM_ACTIVE,
         )
 
 LOG = logging.getLogger(__name__)
@@ -53,6 +55,8 @@ class FahBinarySensor(FahDevice):
                         # Keep movement detector here, although in tests it only ever showed value '1'
                         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
                         PID_PRESENCE,
+                        PID_FIRE_ALARM_ACTIVE,
+                        PID_CO_ALARM_ACTIVE,
                         ]
                     }
         elif function_id in FUNCTION_IDS_WEATHER_STATION:
@@ -77,6 +81,14 @@ class FahBinarySensor(FahDevice):
 
         self.state = '0' if value == '0' else '1'
         LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
-            
+
+    def is_fire_sensor(self):
+        """Return true if device is a dimmer"""
+        return PID_FIRE_ALARM_ACTIVE in self._datapoints
+
+    def is_co_sensor(self):
+        """Return true if device is a dimmer"""
+        return PID_CO_ALARM_ACTIVE in self._datapoints
+
     def update_parameter(self, param, value):
         LOG.debug("Not yet implemented")
