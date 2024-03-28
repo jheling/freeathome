@@ -3,13 +3,9 @@ import logging
 import voluptuous as vol
 from homeassistant.components.cover import (
     CoverEntity,
+    CoverEntityFeature,
     ATTR_POSITION,
     ATTR_TILT_POSITION,
-    SUPPORT_CLOSE,
-    SUPPORT_OPEN,
-    SUPPORT_SET_POSITION,
-    SUPPORT_SET_TILT_POSITION,
-    SUPPORT_STOP
 )
 from homeassistant.helpers import config_validation as cv, entity_platform, service
 
@@ -52,18 +48,19 @@ class FreeAtHomeCover(CoverEntity):
         self._state = self.cover_device.state
 
     @property
-    def supported_features(self):
+    def supported_features(self) -> CoverEntityFeature:
         """Flag supported features (open and close are always supported)"""
-        supported_features = SUPPORT_OPEN | SUPPORT_CLOSE
+        supported_features = CoverEntityFeature(0)
+        supported_features = (CoverEntityFeature.OPEN | CoverEntityFeature.CLOSE)
 
         if self.cover_device.supports_stop():
-            supported_features |= SUPPORT_STOP
+            supported_features |= CoverEntityFeature.STOP
 
         if self.cover_device.supports_position():
-            supported_features |= SUPPORT_SET_POSITION
+            supported_features |= CoverEntityFeature.SET_POSITION
 
         if self.cover_device.supports_tilt_position():
-            supported_features |= SUPPORT_SET_TILT_POSITION
+            supported_features |= CoverEntityFeature.SET_TILT_POSITION
 
         return supported_features
 
