@@ -1,7 +1,7 @@
 """ Support for Free@Home lights dimmers """
 import logging
 from homeassistant.components.light import (
-    ATTR_BRIGHTNESS, SUPPORT_BRIGHTNESS, LightEntity)
+    ATTR_BRIGHTNESS, ColorMode, LightEntity)
 
 from .const import DOMAIN
 
@@ -62,11 +62,18 @@ class FreeAtHomeLight(LightEntity):
         return False
 
     @property
-    def supported_features(self):
-        """Flag supported features."""
+    def color_mode(self) -> str | None:
+        """Return the color mode of the light."""                
         if self._is_dimmer:
-            return SUPPORT_BRIGHTNESS
-        return 0
+            return ColorMode.BRIGHTNESS
+        return ColorMode.ONOFF
+    
+    @property
+    def supported_color_modes(self) -> set[str] | None:
+        """Flag supported color modes."""
+        if self._is_dimmer:
+            return {ColorMode.BRIGHTNESS}
+        return {ColorMode.ONOFF}    
 
     @property
     def is_on(self):

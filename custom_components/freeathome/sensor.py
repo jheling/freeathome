@@ -3,8 +3,8 @@ import logging
 
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
-    SPEED_KILOMETERS_PER_HOUR,
-    TEMP_CELSIUS,
+    UnitOfSpeed,
+    UnitOfTemperature,
     PERCENTAGE,
     CONCENTRATION_PARTS_PER_MILLION,
     CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
@@ -18,13 +18,13 @@ from .const import DOMAIN
 SENSOR_TYPES = {
     "temperature": [
         "Temperature",
-        TEMP_CELSIUS,
+        UnitOfTemperature.CELSIUS,
         "mdi:thermometer",
         SensorDeviceClass.TEMPERATURE,
     ],
     "windstrength": [
         "Wind Strength",
-        SPEED_KILOMETERS_PER_HOUR,
+        UnitOfSpeed.KILOMETERS_PER_HOUR,
         "mdi:weather-windy",
         None,
     ],
@@ -141,7 +141,7 @@ class FreeAtHomeOtherSensor(FreeAtHomeSensor):
     @property
     def state(self):
         """Return the state of the device."""
-        if self._unit_of_measurement == SPEED_KILOMETERS_PER_HOUR:
+        if self._unit_of_measurement == UnitOfSpeed.KILOMETERS_PER_HOUR:
             return ("%.2f" % (float(self._state) * 3.6))
         else:    
             return self._state
