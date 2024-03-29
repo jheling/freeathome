@@ -18,6 +18,8 @@ class FahLightGroup(FahDevice):
     """ Free@home light group """
     state = None
     brightness = None
+    color_temp = None 
+    rgb_color = None
 
     def pairing_ids(function_id=None):
         if function_id in FUNCTION_IDS_LIGHT_GROUP:
@@ -68,6 +70,12 @@ class FahLightGroup(FahDevice):
     def is_dimmer(self):
         """Return true if device is a dimmer"""
         return PID_ABSOLUTE_SET_VALUE in self._datapoints
+
+    def is_color_temp(self):
+        return False
+
+    def is_rgb(self):
+        return False
 
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
