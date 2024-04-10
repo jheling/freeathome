@@ -14,6 +14,7 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x0011, # Movement detector sensor
         0x0028, # Force-position blind
         0x002A, # Switchover heating/cooling
+        0x0064, # Window/Door position sensor
         0x0071, # Timer program switch sensor
         0x1008, # FID_SWITCH_SENSOR_PUSHBUTTON_TYPE0
         0x1009, # FID_SWITCH_SENSOR_PUSHBUTTON_TYPE1
@@ -187,6 +188,9 @@ PID_BRIGHTNESS_ALARM = 0x0402
 # PID_FORCE_POSITION_BLIND = 0x0028 defined above
 PID_WINDOW_DOOR = 0x0035
 PID_SWITCHOVER_HEATING_COOLING = 0x0135
+
+# Window/door position sensor
+PID_WINDOW_DOOR_POSITION = 0x0029
 
 # Lock
 # PID_TIMED_START_STOP = 0x0002 defined above
