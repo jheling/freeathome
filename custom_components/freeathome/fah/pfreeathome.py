@@ -625,7 +625,7 @@ class Client(slixmpp.ClientXMPP):
     async def get_config(self, pretty=False):
         """Get config file via getAll RPC"""
         pretty_value = 1 if pretty else 0
-        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 2, pretty_value, 0)
+        my_iq = await self.send_rpc_iq('RemoteInterface.getAll', 'de', 1, pretty_value, 0)
         my_iq.enable('rpc_query')
 
         if my_iq['rpc_query']['method_response']['fault'] is not None:
