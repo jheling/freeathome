@@ -562,11 +562,12 @@ class Client(slixmpp.ClientXMPP):
     def clean_xml(self, xml):
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
-        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
-        xml_without_imaginary = re.sub(r'imaginary="[^"]*" ([^>]*)imaginary="[^"]*"', r'\1', xml_without_names)
-        xml_without_inputPairingId = re.sub(r'inputPairingId="[^"]*" ([^>]*)inputPairingId="[^"]*"', r'\1', xml_without_imaginary)
-        xml_without_outputPairingId = re.sub(r'outputPairingId="[^"]*" ([^>]*)outputPairingId="[^"]*"', r'\1', xml_without_inputPairingId)
-        return xml_without_outputPairingId
+        duplicates = ["name", "imaginary", "inputPairingId", "outputPairingId"]
+
+        for duplicate in duplicates:
+            xml = re.sub(rf"{duplicate}=\"[^\"]*\" ([^>]*){duplicate}=\"[^\"]*\"", r'\1', xml)
+
+        return xml
 
     def add_update_handler(self, handler):
         """Add update handler"""
