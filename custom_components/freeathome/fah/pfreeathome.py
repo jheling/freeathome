@@ -564,7 +564,9 @@ class Client(slixmpp.ClientXMPP):
         # Strip them altogether.
         xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
         xml_without_imaginary = re.sub(r'imaginary="[^"]*" ([^>]*)imaginary="[^"]*"', r'\1', xml_without_names)
-        return xml_without_imaginary
+        xml_without_inputPairingId = re.sub(r'inputPairingId="[^"]*" ([^>]*)inputPairingId="[^"]*"', r'\1', xml_without_imaginary)
+        xml_without_outputPairingId = re.sub(r'outputPairingId="[^"]*" ([^>]*)outputPairingId="[^"]*"', r'\1', xml_without_inputPairingId)
+        return xml_without_outputPairingId
 
     def add_update_handler(self, handler):
         """Add update handler"""
