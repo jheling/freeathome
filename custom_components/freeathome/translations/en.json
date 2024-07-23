@@ -8,7 +8,8 @@
           "host": "Host",
           "username": "Username",
           "password": "Password",
-	  "use_room_names": "Use room names"
+	        "use_room_names": "Use room names",
+          "switch_as_x": "Use switch_as_x feature (configure switching devices as switches in HA)"
         }
       },
       "link": {
@@ -17,7 +18,8 @@
         "data": {
           "username": "Username",
           "password": "Password",
-	  "use_room_names": "Use room names"
+	        "use_room_names": "Use room names",
+          "switch_as_x": "Use switch_as_x feature (configure switching devices as switches in HA)"
         }
       }
     },

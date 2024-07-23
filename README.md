@@ -4,7 +4,7 @@
 Free@Home component for Home Assistant
 
 This is a component for Free @ Home from Busch-Jaeger.
-Lights, scenes, covers, binary sensors, climate devices and the sensors of the weather station wil show up in Home Assistant. 
+Lights, light groups, scenes, covers, binary sensors, climate devices and the sensors of the weather station wil show up in Home Assistant. 
 
 ## Installation
 
@@ -20,6 +20,11 @@ Free@home now appears as an integration in Home Assistant.
 ### HACS
 Install this component in HACS by adding it as a custom repository of the type integration.
 
+### Youtube
+This is a German tutorial about using Home Assistant for integrating Free@Home and Apple Homekit/Siri. 
+It shows how to install Home Assistant and this integration on a Raspberry Pi. 
+https://youtu.be/9xfUhRiwK_s
+
 ## Configuration
 
 The sysap will be autodetected through zeroconf. Then you only have to fill in a username and password.
@@ -32,8 +37,15 @@ freeathome:
   host: <ip adress of the sysapserver> or SysAP.local  
   username: <Username in free@home>    
   password: <Password in free@home>    
-  use_room_names: <This is optional, if True then combine the device names with the rooms>
-```  
+  use_room_names: <This is optional, if True then combine the device names with the rooms. False by default>
+  switch_as_x: <This is optional, if False then switching devices are exposed as lights. True by default>
+```
+
+### `switch_as_x` feature
+
+Recently a change has been made to the way switches are exposed in Home Assistant. Before they were all exposed as `light`s but now they are exposed as `switch`es. This would be a breaking change for people who have automations that use the `light.turn_on` service, but it should be working the same as before if you are upgrading from an older version of this custom component. If you want to be sure, you can set the `switch_as_x` option to `False` in your configuration.yaml.
+
+Any new installation of this custom component will have `switch_as_x` set to `True` by default. This means that all switches will be exposed as `switch`es and you'll be able to use the HA [switch_as_x](https://www.home-assistant.io/integrations/switch_as_x/) feature. If you want to expose them as `light`s, you can set `switch_as_x` to `False` in your configuration.yaml.
 
 ## Events
 Actuators that are exposed in Home Assistant as binary sensors (typically wall switches) fire an event when pressed. The event type is `freeathome_event` and contains the following actuator's information:

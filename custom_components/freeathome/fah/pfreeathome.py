@@ -22,16 +22,21 @@ from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, Even
 from slixmpp.exceptions import IqError
 from slixmpp import Iq
 
+from .devices.fah_device import FahDevice
+from .devices.fah_switch import FahSwitch
 from .devices.fah_light import FahLight
 from .devices.fah_binary_sensor import FahBinarySensor
 from .devices.fah_thermostat import FahThermostat
 from .devices.fah_light_scene import FahLightScene
+from .devices.fah_light_group import FahLightGroup
 from .devices.fah_cover import FahCover
 from .devices.fah_sensor import FahSensor
 from .devices.fah_lock import FahLock
 
 from .const import (
     NAME_IDS_TO_BINARY_SENSOR_SUFFIX,
+    FUNCTION_IDS_AIR_QUALITY_SENSOR,
+    FUNCTION_IDS_WEATHER_STATION
     )
 
 from .messagereader import MessageReader
@@ -200,6 +205,7 @@ class Client(slixmpp.ClientXMPP):
     connect_finished = False
     authenticated = False
     use_room_names = False
+    switch_as_x = False
     connect_in_error = False
 
     # The specific devices
@@ -238,13 +244,13 @@ class Client(slixmpp.ClientXMPP):
         self.add_event_handler("pubsub_publish", self.pub_sub_callback)
         self.add_event_handler("failed_auth", self.failed_auth)
         self.add_event_handler("disconnected", self._disconnected)
-        
+
         # register plugins
         self.register_plugin('xep_0030')  # RPC
         self.register_plugin('xep_0060')  # PubSub
         self.register_plugin('xep_0199', {'keepalive': True, 'frequency': 60})  # ping
 
-        
+
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
         register_stanza_plugin(RPCQuery, MethodResponse)
@@ -375,7 +381,10 @@ class Client(slixmpp.ClientXMPP):
         return_type = {}
 
         if device_type == 'light':
-            return self.filter_devices(FahLight)
+            return self.filter_devices(FahLight) + self.filter_devices(FahLightGroup)
+        
+        if device_type == 'switch':
+            return self.filter_devices(FahSwitch)
 
         if device_type == 'scene':
             return self.filter_devices(FahLightScene)
@@ -461,7 +470,7 @@ class Client(slixmpp.ClientXMPP):
 
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
-        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
+        xml_without_names = self.clean_xml(xml)
 
         root = ET.fromstring(xml_without_names)
 
@@ -550,6 +559,16 @@ class Client(slixmpp.ClientXMPP):
         for device in updated_devices:
             await device.after_update()
 
+    def clean_xml(self, xml):
+        # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
+        # Strip them altogether.
+        duplicates = ["name", "imaginary", "inputPairingId", "outputPairingId"]
+
+        for duplicate in duplicates:
+            xml = re.sub(rf"{duplicate}=\"[^\"]*\" ([^>]*){duplicate}=\"[^\"]*\"", r'\1', xml)
+
+        return xml
+
     def add_update_handler(self, handler):
         """Add update handler"""
         self._update_handlers.append(handler)
@@ -558,8 +577,24 @@ class Client(slixmpp.ClientXMPP):
         """Clear update handlers"""
         self._update_handlers = []
 
+    def add_devices_for_all_datapoints(self, fah_class: type[FahDevice], channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
+        devices = []
+        for pairing_id, datapoint in datapoints.items():
+            device = self.add_device(fah_class,
+                            channel,
+                            channel_id,
+                            display_name,
+                            device_info,
+                            serialnumber,
+                            datapoints={pairing_id: datapoint},
+                            parameters=parameters)
+            devices.append(device)
+        return devices
 
-    def add_device(self, fah_class, channel, channel_id, function_id, display_name, device_info, serialnumber, datapoints, parameters):
+    def add_device(self, fah_class: type[FahDevice], channel: object, channel_id: str, display_name: str, device_info: object,
+                   serialnumber: str,
+                   datapoints: dict[str, str],
+                   parameters: object) -> FahDevice:
         """ Add generic device to the list of light devices   """
         device = fah_class(
                 self,
@@ -571,7 +606,6 @@ class Client(slixmpp.ClientXMPP):
                 datapoints=datapoints,
                 parameters=parameters)
 
-        lookup_key = serialnumber + '/' + channel_id
         self.devices.add(device)
 
         for datapoint in datapoints.values():
@@ -588,7 +622,8 @@ class Client(slixmpp.ClientXMPP):
             LOG.debug('Monitoring parameter ' + serialnumber + '/' + channel_id + '/' + parameter)
             self.monitored_parameters[serialnumber + '/' + channel_id + '/' + parameter] = device
 
-        LOG.info('add device %s  %s %s, datapoints %s, parameters %s', fah_class.__name__, lookup_key, display_name, datapoints, parameters)
+        LOG.info('add device %s  %s %s, datapoints %s, parameters %s', fah_class.__name__, device.lookup_key, display_name, datapoints, parameters)
+        return device
 
 
     async def get_config(self, pretty=False):
@@ -610,13 +645,14 @@ class Client(slixmpp.ClientXMPP):
 
         if config is None:
             return None
-        
-        return re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
+
+        return self.clean_xml(config)
 
 
-    async def find_devices(self, use_room_names):
+    async def find_devices(self, use_room_names, switch_as_x=False):
         """ Find the devices in the system, this is a big XML file   """
         self.use_room_names = use_room_names
+        self.switch_as_x = switch_as_x
         config = await self.get_config()
 
         if config is not None:
@@ -624,7 +660,7 @@ class Client(slixmpp.ClientXMPP):
 
             # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
             # Strip them altogether.
-            config_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', config)
+            config_without_names = self.clean_xml(config)
 
             root = ET.fromstring(config_without_names)
 
@@ -651,13 +687,11 @@ class Client(slixmpp.ClientXMPP):
 
                 LOG.info('Device: device id %s, name id %s, serialnumber %s, display name %s', device_id, device_name_id, device_serialnumber, device_display_name)
 
+                # Ignore devices from Philips Hue, to avoid circular definitions for users with
+                # emulated_hue enabled.
                 # TODO: Move this to the home assistant component and make it user configurable
-                # (Default should be false, to avoid circular definitions for users with
-                # emulated_hue enabled
-                # Ignore devices from external integrations (i.e. Hue)
-                is_external = device.get('isExternal')
-                if is_external == 'true':
-                    LOG.info('Ignoring device with serialnumber %s since it is external', device_serialnumber)
+                if device.get('isExternal') == 'true' and device.get('interface') == 'hue':
+                    LOG.info('Ignoring Hue device with serial number %s', device_serialnumber)
                     continue
 
                 # Ignore devices that are not yet commissioned
@@ -704,7 +738,8 @@ class Client(slixmpp.ClientXMPP):
                         # Find that option in the list of options
                         option = channel_selector_parameter.find("./valueEnum/option[@key='{}']".format(parameter_value))
                         # Get filter mask from mask attribute
-                        filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
+                        if option is not None:
+                            filter_mask = int(option.get('mask'), 16) # e.g. '00000001' -> 0x00000001
 
                 device_info = {
                         "configuration_url": "http://{}/".format(self._host),
@@ -717,6 +752,7 @@ class Client(slixmpp.ClientXMPP):
                 for channel in channels_xml.findall('channel'):
                     channel_id = channel.get('i')
                     channel_name_id = int(channel.get('nameId'), 16)
+                    channel_name_id_hex = channel.get('nameId')
                     function_id = get_attribute(channel, 'functionId')
                     function_id = int(function_id, 16) if (function_id is not None and function_id != '') else None
 
@@ -734,7 +770,8 @@ class Client(slixmpp.ClientXMPP):
                     # TODO: Move this to the custom component part
                     # Use room information from device if channel is in same location
                     floor_id = device_floor_id if channel_floor_id == '' or same_location == 'true' else channel_floor_id
-                    room_id = device_room_id if channel_floor_id == '' or same_location == 'true' else channel_room_id
+                    room_id = device_room_id if channel_room_id == '' or same_location == 'true' else channel_room_id
+                    LOG.debug('Device floor/room ID %s/%s, channel floor/room ID %s/%s', device_floor_id, device_room_id, channel_floor_id, channel_room_id)
 
                     # Use device display name if not configured on channel
                     display_name = channel_display_name if channel_display_name != '' else device_display_name
@@ -756,12 +793,17 @@ class Client(slixmpp.ClientXMPP):
                     LOG.debug(get_all_datapoints_as_str(channel))
 
                     # Ask all classes if the current function ID should be handled
-                    for fah_class in [FahLight, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahSensor, FahLock]:
+                    for fah_class in [FahLight, FahSwitch, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
                         # Add position suffix to name, e.g. 'LT' for left, top
                         position_suffix = NAME_IDS_TO_BINARY_SENSOR_SUFFIX.get(channel_name_id, '')
 
                         # If function should be handled, it returns a list of relevant pairing IDs
-                        pairing_ids = fah_class.pairing_ids(function_id)
+                        if fah_class in [FahLight, FahSwitch]:
+                            # Handle special case for lights and switches,
+                            # based on switch_as_x feature, different pairing IDs are returned
+                            pairing_ids = fah_class.pairing_ids(function_id, switch_as_x=self.switch_as_x)
+                        else:
+                            pairing_ids = fah_class.pairing_ids(function_id)
 
                         # List of pairing IDs was returned, so given class wants to handle the current
                         # function with the returned pairing IDs.
@@ -779,8 +821,18 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-                                self.add_device(fah_class, channel, channel_id, function_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
-
+                                if function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
+                                    self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                elif function_id in FUNCTION_IDS_WEATHER_STATION:    
+                                    # extract extra names for weather station
+                                    if channel_name_id_hex in names:
+                                        channel_name = names[channel_name_id_hex]
+                                    else:
+                                        channel_name = display_name + position_suffix
+                                    self.add_device(fah_class, channel, channel_id, channel_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                        
+                                else:
+                                    self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
 
             # Update all devices with initial state
             await self.update_devices(config, initializing=True)
@@ -792,6 +844,7 @@ class FreeAtHomeSysApp(object):
           username
           password
           use_room_names - Show room names with the devices
+          switch_as_x - Enable switch_as_x feature
     """
 
     def __init__(self, host, user, password):
@@ -803,22 +856,33 @@ class FreeAtHomeSysApp(object):
         self._password = password
         self.xmpp = None
         self._use_room_names = False
+        self._switch_as_x = False
         self.reconnect = True
-
-    @property
-    def use_room_names(self):
-        """ getter use_room_names   """
-        return self._use_room_names
 
     @property
     def host(self):
         """Getter for host"""
         return self._host
 
+    @property
+    def use_room_names(self):
+        """ getter use_room_names   """
+        return self._use_room_names
+
     @use_room_names.setter
     def use_room_names(self, value):
         """ setter user_room_names   """
         self._use_room_names = value
+
+    @property
+    def switch_as_x(self):
+        """ getter switch_as_x   """
+        return self._switch_as_x
+    
+    @switch_as_x.setter
+    def switch_as_x(self, value):
+        """ setter switch_as_x   """
+        self._switch_as_x = value
 
     async def connect(self):
         """ connect to the Free@Home sysap   """
@@ -889,6 +953,6 @@ class FreeAtHomeSysApp(object):
     async def find_devices(self):
         """ find all the devices on the sysap   """
         try:
-            await self.xmpp.find_devices(self._use_room_names)
+            await self.xmpp.find_devices(self._use_room_names, self._switch_as_x)
         except IqError as error:
             raise error
