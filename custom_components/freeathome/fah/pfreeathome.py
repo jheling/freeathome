@@ -601,6 +601,7 @@ class Client(slixmpp.ClientXMPP):
                 device_info,
                 serialnumber,
                 channel_id,
+                function_id,
                 display_name,
                 datapoints=datapoints,
                 parameters=parameters)
@@ -820,7 +821,6 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-
                                 if function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
                                     self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
                                 elif function_id in FUNCTION_IDS_WEATHER_STATION:    
@@ -833,7 +833,6 @@ class Client(slixmpp.ClientXMPP):
                                         
                                 else:
                                     self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
-
 
             # Update all devices with initial state
             await self.update_devices(config, initializing=True)

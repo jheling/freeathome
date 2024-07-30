@@ -62,8 +62,6 @@ FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER = [
 FUNCTION_IDS_BLIND_ACTUATOR = [
         0x002C, # Cover (undocumented)
         0x0061, # Roller blind actuator
-        0x0062, # Attic window actuator
-        0x0063, # Awning actuator
         0x1820, # FID_BLINDS_ACTUATOR_TYPE0
         0x1821, # FID_BLINDS_ACTUATOR_TYPE1
         0x1822, # FID_BLINDS_ACTUATOR_TYPE2
@@ -71,9 +69,17 @@ FUNCTION_IDS_BLIND_ACTUATOR = [
         0x1825, # FID_BLINDS_ACTUATOR_TYPE5
         ]
 
+FUNCTION_IDS_ATTIC_WINDOW_ACTUATOR = [
+        0x0062, # Attic window actuator
+]
+
 FUNCTION_IDS_SHUTTER_ACTUATOR = [
         0x0009, # Shutter actuator
         ]
+
+FUNCTION_IDS_AWNING_ACTUATOR = [
+        0x0063, # Awning actuator
+]
 
 FUNCTION_IDS_SCENE = [
         0x4800, # Custom scene

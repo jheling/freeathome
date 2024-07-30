@@ -5,6 +5,7 @@ class FahDevice:
         self._device_info = device_info
         self._serialnumber = serialnumber
         self._channel_id = channel_id
+        self._function_id = function_id
         self._name = name
         self._client = client
         self._device_updated_cbs = []

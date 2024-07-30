@@ -2,6 +2,7 @@
 import logging
 import voluptuous as vol
 from homeassistant.components.cover import (
+    CoverDeviceClass,
     CoverEntity,
     CoverEntityFeature,
     ATTR_POSITION,
@@ -83,6 +84,18 @@ class FreeAtHomeCover(CoverEntity):
     def should_poll(self):
         """Return that polling is not necessary."""
         return False
+
+    @property
+    def device_class(self):
+        """Return the device class of the sensor."""
+        if self.cover_device.device_class() == "window":
+            return CoverDeviceClass.WINDOW
+        elif self.cover_device.device_class() == "awning":
+            return CoverDeviceClass.AWNING
+        elif self.cover_device.device_class() == "shutter":
+            return CoverDeviceClass.SHUTTER
+
+        return None
 
     @property
     def is_closed(self):
