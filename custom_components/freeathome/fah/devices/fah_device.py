@@ -1,7 +1,7 @@
 class FahDevice:
     """ Free@Home base object """
 
-    def __init__(self, client, device_info, serialnumber, channel_id, name, datapoints: dict[str, str]={},parameters={}, device_updated_cb=None):
+    def __init__(self, client, device_info, serialnumber, channel_id, function_id, name, datapoints: dict[str, str]={},parameters={}, device_updated_cb=None):
         self._device_info = device_info
         self._serialnumber = serialnumber
         self._channel_id = channel_id
