@@ -14,6 +14,7 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x0011, # Movement detector sensor
         0x0028, # Force-position blind
         0x002A, # Switchover heating/cooling
+        0x004B, # FID_WINDOW_DOOR_ACTUATOR
         0x0071, # Timer program switch sensor
         0x1000, # FID_SWITCH_SENSOR_ROCKER_TYPE0
         0x1001, # FID_SWITCH_SENSOR_ROCKER_TYPE1
