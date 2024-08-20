@@ -562,9 +562,12 @@ class Client(slixmpp.ClientXMPP):
     def clean_xml(self, xml):
         # Ugly hack: Some SysAPs seem to return invalid XML, i.e. duplicate name attributes
         # Strip them altogether.
-        xml_without_names = re.sub(r'name="[^"]*" ([^>]*)name="[^"]*"', r'\1', xml)
-        xml_without_imaginary = re.sub(r'imaginary="[^"]*" ([^>]*)imaginary="[^"]*"', r'\1', xml_without_names)
-        return xml_without_imaginary
+        duplicates = ["name", "imaginary", "inputPairingId", "outputPairingId"]
+
+        for duplicate in duplicates:
+            xml = re.sub(rf"{duplicate}=\"[^\"]*\" ([^>]*){duplicate}=\"[^\"]*\"", r'\1', xml)
+
+        return xml
 
     def add_update_handler(self, handler):
         """Add update handler"""
@@ -574,7 +577,7 @@ class Client(slixmpp.ClientXMPP):
         """Clear update handlers"""
         self._update_handlers = []
 
-    def add_devices_for_all_datapoints(self, fah_class: type[FahDevice], channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters):
+    def add_devices_for_all_datapoints(self, fah_class: type[FahDevice], channel, channel_id, display_name, device_info, serialnumber, datapoints, parameters, function_id):
         devices = []
         for pairing_id, datapoint in datapoints.items():
             device = self.add_device(fah_class,
@@ -584,20 +587,22 @@ class Client(slixmpp.ClientXMPP):
                             device_info,
                             serialnumber,
                             datapoints={pairing_id: datapoint},
-                            parameters=parameters)
+                            parameters=parameters, function_id=function_id)
             devices.append(device)
         return devices
 
     def add_device(self, fah_class: type[FahDevice], channel: object, channel_id: str, display_name: str, device_info: object,
                    serialnumber: str,
                    datapoints: dict[str, str],
-                   parameters: object) -> FahDevice:
+                   parameters: object, 
+                   function_id) -> FahDevice:
         """ Add generic device to the list of light devices   """
         device = fah_class(
                 self,
                 device_info,
                 serialnumber,
                 channel_id,
+                function_id,
                 display_name,
                 datapoints=datapoints,
                 parameters=parameters)
@@ -817,20 +822,18 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
-
                                 if function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
-                                    self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                    self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
                                 elif function_id in FUNCTION_IDS_WEATHER_STATION:    
                                     # extract extra names for weather station
                                     if channel_name_id_hex in names:
                                         channel_name = names[channel_name_id_hex]
                                     else:
                                         channel_name = display_name + position_suffix
-                                    self.add_device(fah_class, channel, channel_id, channel_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
+                                    self.add_device(fah_class, channel, channel_id, channel_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
                                         
                                 else:
-                                    self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters)
-
+                                    self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
 
             # Update all devices with initial state
             await self.update_devices(config, initializing=True)
