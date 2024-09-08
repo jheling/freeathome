@@ -4,10 +4,8 @@ import logging
 import voluptuous as vol
 
 from homeassistant.components.climate import ClimateEntity
-from homeassistant.components.climate.const import (HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF,
-                                                    SUPPORT_PRESET_MODE,
-                                                    SUPPORT_TARGET_TEMPERATURE)
-from homeassistant.const import (ATTR_TEMPERATURE, TEMP_CELSIUS)
+from homeassistant.components.climate.const import (HVACMode, ClimateEntityFeature)
+from homeassistant.const import (ATTR_TEMPERATURE, UnitOfTemperature)
 from homeassistant.helpers import config_validation as cv, entity_platform, service
 
 from .const import DOMAIN
@@ -123,14 +121,14 @@ class FreeAtHomeThermostat(ClimateEntity):
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        if self.hvac_mode == HVAC_MODE_OFF:
+        if self.hvac_mode == HVACMode.OFF:
             return None
         return float(self.thermostat_device.target_temperature)
 
     @property
     def temperature_unit(self):
         """Return the unit of measurement used by the platform."""
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def target_temperature_step(self):
@@ -139,19 +137,19 @@ class FreeAtHomeThermostat(ClimateEntity):
     @property
     def supported_features(self):
         """Return the list of supported features."""
-        return SUPPORT_TARGET_TEMPERATURE | SUPPORT_PRESET_MODE
+        return ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE
 
     @property
     def hvac_mode(self):
         if not self.thermostat_device.state:
-            return HVAC_MODE_OFF
+            return HVACMode.OFF
         else:
-            return HVAC_MODE_HEAT_COOL
+            return HVACMode.HEAT_COOL
 
     @property
     def hvac_modes(self):
         """Return the list of available hvac operation modes."""
-        return [HVAC_MODE_HEAT_COOL, HVAC_MODE_OFF]
+        return [HVACMode.HEAT_COOL, HVACMode.OFF]
 
     @property
     def preset_modes(self):
@@ -168,9 +166,9 @@ class FreeAtHomeThermostat(ClimateEntity):
     def state(self):
         """Return current operation ie. heat, cool, idle."""
         if not self.thermostat_device.state:
-            return HVAC_MODE_OFF
+            return HVACMode.OFF
         else:
-            return HVAC_MODE_HEAT_COOL
+            return HVACMode.HEAT_COOL
 
     @property
     def icon(self):
@@ -187,10 +185,10 @@ class FreeAtHomeThermostat(ClimateEntity):
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Set new target operation mode."""
-        if hvac_mode == HVAC_MODE_HEAT_COOL:
+        if hvac_mode == HVACMode.HEAT_COOL:
             await self.thermostat_device.turn_on()
 
-        if hvac_mode == HVAC_MODE_OFF:
+        if hvac_mode == HVACMode.OFF:
             await self.thermostat_device.turn_off()
 
     async def async_set_preset_mode(self, preset_mode):

@@ -1,6 +1,6 @@
 """ Support for Free@Home Binary devices like sensors, movement detectors """
 import logging
-from homeassistant.components.binary_sensor import (BinarySensorEntity)
+from homeassistant.components.binary_sensor import (BinarySensorEntity, BinarySensorDeviceClass)
 from .const import DOMAIN
 
 _LOGGER = logging.getLogger(__name__)
@@ -55,6 +55,18 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
     def is_on(self):
         """Return true if sensor is on."""
         return self._state
+    
+    @property
+    def device_class(self) -> BinarySensorDeviceClass | None:
+        """Return the class of the binary sensor."""
+
+        if self.binary_device.is_fire_sensor():
+            return BinarySensorDeviceClass.SMOKE 
+        
+        if self.binary_device.is_co_sensor():
+            return BinarySensorDeviceClass.CO
+
+        return None
 
     @property
     def extra_state_attributes(self):
