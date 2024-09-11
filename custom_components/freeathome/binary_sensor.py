@@ -94,7 +94,6 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
         """Retrieve latest state."""
 
         self._state = (self.binary_device.state == '1')
-        self._attributes = self.binary_device.attributes
         _LOGGER.info('update sensor')
 
         eventdata = {
