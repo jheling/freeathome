@@ -18,6 +18,7 @@ from ..const import (
         PID_BRIGHTNESS_ALARM,
         PID_FORCE_POSITION_BLIND,
         PID_WINDOW_DOOR,
+        PID_WINDOW_DOOR_POSITION,
         PID_SWITCHOVER_HEATING_COOLING,
         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
         PID_PRESENCE,
@@ -30,6 +31,7 @@ LOG = logging.getLogger(__name__)
 class FahBinarySensor(FahDevice):
     """Free@Home binary object """
     state = None
+    window_position = None
 
     def pairing_ids(function_id=None):
         if function_id in FUNCTION_IDS_BINARY_SENSOR:
@@ -70,16 +72,13 @@ class FahBinarySensor(FahDevice):
 
                     }
 
+
     def update_datapoint(self, dp, value):
         """Receive updated datapoint."""
-        # Simplified approach: We have a binary sensor, so per definition it should only send
-        # a single data point, so we ignore which data point exactly. Just consider a '0' as
-        # 'off', and everything else as 'on'
-        #
-        # Special cases:
-        # * Cover move up/down sensor: Binary sensor is off when moving up, and on when moving down
-
-        self.state = '0' if value == '0' else '1'
+        if self._datapoints.get(PID_WINDOW_DOOR_POSITION) == dp:
+            self.window_position = value
+        else:
+            self.state = '0' if value == '0' else '1'
         LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
 
     def is_fire_sensor(self):

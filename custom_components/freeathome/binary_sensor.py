@@ -68,6 +68,19 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
 
         return None
 
+    @property
+    def extra_state_attributes(self):
+        """Return specific state attributes."""
+        attributes = {}
+        if self.binary_device.window_position == '0':
+            attributes["window_position"] = "closed"
+        elif self.binary_device.window_position == '33':
+            attributes["window_position"] = "tilted"
+        elif self.binary_device.window_position == '100':
+            attributes["window_position"] = "open"
+
+        return attributes
+
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
 

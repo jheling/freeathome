@@ -14,6 +14,7 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x0011, # Movement detector sensor
         0x0028, # Force-position blind
         0x002A, # Switchover heating/cooling
+        0x0064, # Window/Door position sensor
         0x004B, # FID_WINDOW_DOOR_ACTUATOR
         0x0071, # Timer program switch sensor
         0x1000, # FID_SWITCH_SENSOR_ROCKER_TYPE0
@@ -214,6 +215,9 @@ PID_WINDOW_DOOR = 0x0035
 PID_SWITCHOVER_HEATING_COOLING = 0x0135
 PID_FIRE_ALARM_ACTIVE = 0x02c3
 PID_CO_ALARM_ACTIVE = 0x02C4
+
+# Window/door position sensor
+PID_WINDOW_DOOR_POSITION = 0x0029
 
 # Lock
 # PID_TIMED_START_STOP = 0x0002 defined above
