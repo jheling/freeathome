@@ -53,6 +53,7 @@ class FahBinarySensor(FahDevice):
                         PID_BRIGHTNESS_ALARM,
                         PID_FORCE_POSITION_BLIND,
                         PID_WINDOW_DOOR,
+                        PID_WINDOW_DOOR_POSITION,
                         PID_SWITCHOVER_HEATING_COOLING,
                         # Keep movement detector here, although in tests it only ever showed value '1'
                         PID_MOVEMENT_UNDER_CONSIDERATION_OF_BRIGHTNESS,
