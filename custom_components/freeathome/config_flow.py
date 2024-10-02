@@ -10,6 +10,7 @@ from homeassistant import config_entries, core, exceptions
 from homeassistant.components import zeroconf
 from homeassistant.const import (
     CONF_HOST,
+    CONF_NAME,
     CONF_PASSWORD,
     CONF_USERNAME,
 )
@@ -65,12 +66,14 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         if not isinstance(discovery_info.ip_address, IPv4Address):
             return self.async_abort(reason="not_ipv4address")
 
+        friendly_name = discovery_info.name.split(":", 1)[1].split(".", 1)[0]
         freeathome_host = discovery_info.ip_address.exploded
 
         await self.async_set_unique_id(discovery_info.name)
         self._abort_if_unique_id_configured(updates={CONF_HOST: freeathome_host})
 
         self.discovered_conf = {
+            CONF_NAME: friendly_name,
             CONF_HOST: freeathome_host,
         }
 
