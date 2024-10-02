@@ -1,24 +1,38 @@
 """Config flow for freeathome."""
-import logging
+
 import ipaddress
+import logging
 import socket
+from ipaddress import IPv4Address
+
 import voluptuous as vol
-
 from homeassistant import config_entries, core, exceptions
-from homeassistant.const import CONF_HOST, CONF_PORT, CONF_USERNAME, CONF_PASSWORD, CONF_NAME
+from homeassistant.components import zeroconf
+from homeassistant.const import (
+    CONF_HOST,
+    CONF_PASSWORD,
+    CONF_USERNAME,
+)
 
-from .fah.settings import SettingsFah
-from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X  # pylint:disable=unused-import
+from .const import (
+    CONF_SWITCH_AS_X,
+    CONF_USE_ROOM_NAMES,
+    DEFAULT_SWITCH_AS_X,
+    DEFAULT_USE_ROOM_NAMES,
+    DOMAIN,
+)  # pylint:disable=unused-import
 from .fah.pfreeathome import FreeAtHomeSysApp
+from .fah.settings import SettingsFah
 
 _LOGGER = logging.getLogger(__name__)
+
 
 async def validate_input(hass: core.HomeAssistant, data: dict):
     """Validate the user input allows us to connect."""
     sysap = FreeAtHomeSysApp(
-            data[CONF_HOST],
-            data[CONF_USERNAME],
-            data[CONF_PASSWORD],
+        data[CONF_HOST],
+        data[CONF_USERNAME],
+        data[CONF_PASSWORD],
     )
 
     # Only try to connect once
@@ -44,31 +58,29 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize."""
         self.discovered_conf = {}
 
-    """ free@home found thru zeroconf """    
-    async def async_step_zeroconf(self, zeroconf_info):
-        """ Handle zeroconf discovery. """
-        if not zeroconf_info.name.startswith("free@home"):
-            return self.async_abort(reason="not_free@home")
+    """ free@home found thru zeroconf """
 
-        friendly_name = zeroconf_info.name.split(":",1)[1].split(".",1)[0]  
+    async def async_step_zeroconf(self, discovery_info: zeroconf.ZeroconfServiceInfo):
+        """Handle zeroconf discovery."""
+        if not isinstance(discovery_info.ip_address, IPv4Address):
+            return self.async_abort(reason="not_ipv4address")
 
-        await self.async_set_unique_id(zeroconf_info.host)
-        self._abort_if_unique_id_configured()
+        freeathome_host = discovery_info.ip_address.exploded
+
+        await self.async_set_unique_id(discovery_info.name)
+        self._abort_if_unique_id_configured(updates={CONF_HOST: freeathome_host})
 
         self.discovered_conf = {
-            CONF_NAME: friendly_name,
-            CONF_HOST: zeroconf_info.host,
+            CONF_HOST: freeathome_host,
         }
 
         self.context["title_placeholders"] = self.discovered_conf
 
         return await self.async_step_user()
-    
 
     async def async_step_user(self, user_input=None):
-
         errors = {}
-        
+
         if user_input is None:
             return await self._show_setup_form(user_input, None)
 
@@ -79,10 +91,10 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         username = user_input[CONF_USERNAME]
         password = user_input[CONF_PASSWORD]
 
-        # checking the user input 
+        # checking the user input
         if check_ip_adress(host):
             ip_adress = host
-        else:    
+        else:
             # maybe it is a hostname
             ip_adress = get_host_name_ip(host)
             if ip_adress is None:
@@ -90,20 +102,20 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         # checking user
         settings = SettingsFah(ip_adress)
-        found =  await settings.load_json()
+        found = await settings.load_json()
 
         if found:
             jid = settings.get_jid(username)
             if jid is None:
-                errors[CONF_USERNAME] = 'unknown_user'
+                errors[CONF_USERNAME] = "unknown_user"
         else:
             errors[CONF_HOST] = "no_sysap"
-            _LOGGER.info('not a sysap')                
+            _LOGGER.info("not a sysap")
 
         if errors:
             return await self._show_setup_form(user_input, errors)
-        
-        """Handle the initial step."""        
+
+        """Handle the initial step."""
         if user_input is not None:
             try:
                 info = await validate_input(self.hass, user_input)
@@ -126,7 +138,6 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
         """
-
 
     async def async_step_import(self, import_config):
         """Import config entry from YAML."""
@@ -178,7 +189,7 @@ def _ordered_shared_schema(schema_input):
     return {
         vol.Required(CONF_USERNAME, default=schema_input.get(CONF_USERNAME, "")): str,
         vol.Required(CONF_PASSWORD, default=schema_input.get(CONF_PASSWORD, "")): str,
-		vol.Optional(CONF_USE_ROOM_NAMES, default=DEFAULT_USE_ROOM_NAMES): bool,
+        vol.Optional(CONF_USE_ROOM_NAMES, default=DEFAULT_USE_ROOM_NAMES): bool,
         vol.Optional(CONF_SWITCH_AS_X, default=DEFAULT_SWITCH_AS_X): bool,
     }
 
@@ -187,7 +198,7 @@ def check_ip_adress(host):
     try:
         ip = ipaddress.ip_address(host)
         return True
-    except ValueError:    
+    except ValueError:
         return False
 
 
@@ -196,4 +207,3 @@ def get_host_name_ip(host_name):
         host_ip = socket.gethostbyname(host_name)
     except:
         return None
-    
