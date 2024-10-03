@@ -69,7 +69,17 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         friendly_name = discovery_info.name.split(":", 1)[1].split(".", 1)[0]
         freeathome_host = discovery_info.ip_address.exploded
 
-        await self.async_set_unique_id(discovery_info.name)
+        settings = SettingsFah(freeathome_host)
+
+        found = await settings.load_json()
+        if not found:
+            self.async_abort("not_sysap")
+
+        serial_number = settings.get_flag("serialNumber")
+        if not serial_number:
+            self.async_abort("serialNumber_not_found")
+
+        await self.async_set_unique_id(serial_number)
         self._abort_if_unique_id_configured(updates={CONF_HOST: freeathome_host})
 
         self.discovered_conf = {
@@ -123,7 +133,11 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             try:
                 info = await validate_input(self.hass, user_input)
 
-                await self.async_set_unique_id(ip_adress, raise_on_progress=False)
+                serial_number = settings.get_flag("serialNumber")
+                await self.async_set_unique_id(
+                    serial_number if serial_number else ip_adress,
+                    raise_on_progress=False,
+                )
                 self._abort_if_unique_id_configured()
 
                 return self.async_create_entry(title=info["title"], data=user_input)
@@ -136,7 +150,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         # If there is no user input or there were errors, show the form again, including any errors that were found with the input.
         if errors:
             return await self._show_setup_form(user_input, errors)
-        """ 
+        """
         return self.async_show_form(
             step_id="user", data_schema=DATA_SCHEMA, errors=errors
         )
