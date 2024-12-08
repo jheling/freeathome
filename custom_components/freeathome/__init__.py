@@ -83,10 +83,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     await sysap.wait_for_connection()
     await sysap.find_devices()
 
-    for component in PLATFORMS:
-        hass.async_create_task(
-                hass.config_entries.async_forward_entry_setup(entry, component)
-                )
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)           
 
     async def async_dump_service(call):
         """Handle dump service calls."""
@@ -152,14 +149,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload config entry."""
-    unload_ok = all(
-        await asyncio.gather(
-            *[
-                hass.config_entries.async_forward_entry_unload(entry, component)
-                for component in PLATFORMS
-            ]
-        )
-    )
+    unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
     sysap = hass.data[DOMAIN][entry.entry_id]
     await sysap.disconnect()
