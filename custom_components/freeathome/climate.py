@@ -73,7 +73,7 @@ class FreeAtHomeThermostat(ClimateEntity):
     def __init__(self, device):
         self.thermostat_device = device
         self._name = self.thermostat_device.name
-
+        self._enable_turn_on_off_backwards_compatibility = False
 
     @property
     def extra_state_attributes(self):
@@ -137,7 +137,7 @@ class FreeAtHomeThermostat(ClimateEntity):
     @property
     def supported_features(self):
         """Return the list of supported features."""
-        return ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE
+        return ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON
 
     @property
     def hvac_mode(self):
@@ -210,3 +210,10 @@ class FreeAtHomeThermostat(ClimateEntity):
 
     async def async_update(self):
         pass
+
+    async def async_turn_off(self) -> None:
+        await self.async_set_hvac_mode(HVACMode.OFF)
+
+    async def async_turn_on(self) -> None:
+        await self.async_set_hvac_mode(HVACMode.HEAT_COOL)
+
