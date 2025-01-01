@@ -14,9 +14,15 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x0011, # Movement detector sensor
         0x0028, # Force-position blind
         0x002A, # Switchover heating/cooling
+        0x0030, # FID_PANEL_SWITCH_SENSOR
+        0x0031, # FID_PANEL_DIMMING_SENSOR
+        0x0033, # FID_PANEL_BLIND_SENSOR
+        0x0034, # FID_PANEL_STAIRCASE_LIGHT_SENSOR 
+        0x0035, # FID_PANEL_FORCE_ON_OFF_SENSOR
         0x0064, # Window/Door position sensor
         0x004B, # FID_WINDOW_DOOR_ACTUATOR
         0x0071, # Timer program switch sensor
+        0x00D4, # FID_PANEL_LIGHT_SWITCH_SENSOR
         0x1000, # FID_SWITCH_SENSOR_ROCKER_TYPE0
         0x1001, # FID_SWITCH_SENSOR_ROCKER_TYPE1
         0x1002, # FID_SWITCH_SENSOR_ROCKER_TYPE2
@@ -73,6 +79,8 @@ FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER = [
         0x0023, # Room temperature controller
         0x003E, # Room temperature controller with fan speed wireless?
         0x003F, # Room temperature controller with fan speed wireless?
+        0x00C1, # FID_PANEL_ROOM_TEMPERATURE_CONTROLLER_MASTER_WITHOUT_FAN
+        0x00C2, # FID_PANEL_ROOM_TEMPERATURE_CONTROLLER_MASTER_WITH_FAN
         ]
 
 FUNCTION_IDS_BLIND_ACTUATOR = [
