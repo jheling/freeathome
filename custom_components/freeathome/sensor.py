@@ -38,6 +38,11 @@ SENSOR_TYPES = {
         "lux",
         None,
         SensorDeviceClass.ILLUMINANCE],
+    "valve_volume_flow": [
+        "Heating valve volume flow",
+        PERCENTAGE,
+        None,
+        None],
     "humidity": [
         "Humidity",
         PERCENTAGE,

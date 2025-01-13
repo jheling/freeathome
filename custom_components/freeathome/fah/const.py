@@ -75,6 +75,10 @@ FUNCTION_IDS_ROOM_TEMPERATURE_CONTROLLER = [
         0x003F, # Room temperature controller with fan speed wireless?
         ]
 
+FUNCTION_IDS_HEATING_ACTOR = [
+        0x0027, # FID_HEATING_ACTUATOR
+        ]
+
 FUNCTION_IDS_BLIND_ACTUATOR = [
         0x002C, # Cover (undocumented)
         0x0061, # Roller blind actuator
@@ -184,6 +188,9 @@ PID_HEATING_DEMAND = 0x014D
 
 # Thermostat parameters
 PARAM_TEMPERATURE_CORRECTION = 0x001B
+
+# Heating Actor
+PID_INFO_VALUE_HEATING = 0x0131
 
 # Air quality sensor
 PID_MEASURED_HUMIDITY = 0x0151
