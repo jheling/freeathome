@@ -6,13 +6,15 @@ from ..const import (
         FUNCTION_IDS_MOVEMENT_DETECTOR,
         FUNCTION_IDS_WEATHER_STATION,
         FUNCTION_IDS_AIR_QUALITY_SENSOR,
+        FUNCTION_IDS_HEATING_ACTOR,
         PID_MEASURED_BRIGHTNESS,
         PID_OUTDOOR_TEMPERATURE,
         PID_WIND_SPEED,
         PID_RAIN_ALARM,
         PID_MEASURED_HUMIDITY,
         PID_MEASURED_VOC,
-        PID_MEASURED_CO2
+        PID_MEASURED_CO2,
+        PID_INFO_VALUE_HEATING
         )
 
 LOG = logging.getLogger(__name__)
@@ -32,6 +34,8 @@ def sensor_type_from_pairing_ids(datapoints):
             return "windstrength"
         elif pairing_id == PID_MEASURED_HUMIDITY:
             return "humidity"
+        elif pairing_id == PID_INFO_VALUE_HEATING:
+            return "valve_volume_flow"
         elif pairing_id == PID_MEASURED_VOC:
             return "voc"
         elif pairing_id == PID_MEASURED_CO2:
@@ -66,6 +70,14 @@ class FahSensor(FahDevice):
                         ]
                     }
 
+        elif function_id in FUNCTION_IDS_HEATING_ACTOR:
+            return {
+                    "inputs": [],
+                    "outputs": [
+                        PID_INFO_VALUE_HEATING,
+                        ]
+                    }
+
         elif function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
             return {
                     "inputs": [],
@@ -89,6 +101,7 @@ class FahSensor(FahDevice):
         if self._datapoints.get(PID_MEASURED_BRIGHTNESS) == dp or \
                 self._datapoints.get(PID_RAIN_ALARM) == dp or \
                 self._datapoints.get(PID_OUTDOOR_TEMPERATURE) == dp or \
+                self._datapoints.get(PID_INFO_VALUE_HEATING) == dp or \
                 self._datapoints.get(PID_WIND_SPEED) == dp or \
                 self._datapoints.get(PID_MEASURED_HUMIDITY) == dp or \
                 self._datapoints.get(PID_MEASURED_VOC) == dp or \
