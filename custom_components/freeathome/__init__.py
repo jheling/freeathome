@@ -7,7 +7,7 @@ from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers import event
 from homeassistant.helpers.discovery import load_platform
-from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT
+from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT, EVENT_HOMEASSISTANT_STOP
 import homeassistant.helpers.config_validation as cv
 
 from datetime import datetime
@@ -81,6 +81,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await sysap.connect()
     await sysap.wait_for_connection()
+
+    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, sysap.shutdown)
+
     await sysap.find_devices()
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)           
