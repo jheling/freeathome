@@ -87,6 +87,14 @@ FUNCTION_IDS_HEATING_ACTOR = [
         0x0027, # FID_HEATING_ACTUATOR
         ]
 
+FUNCTION_IDS_COOLING_ACTOR = [
+        0x0024, # FID_COOLING_ACTUATOR
+        ]
+
+FUNCTION_IDS_HEATING_COOLING_ACTOR = [
+        0x0029, # FID_HEATING_COOLING_ACTUATOR
+        ]
+
 FUNCTION_IDS_BLIND_ACTUATOR = [
         0x002C, # Cover (undocumented)
         0x0061, # Roller blind actuator
@@ -197,8 +205,9 @@ PID_HEATING_DEMAND = 0x014D
 # Thermostat parameters
 PARAM_TEMPERATURE_CORRECTION = 0x001B
 
-# Heating Actor
+# Heating/Cooling Actor
 PID_INFO_VALUE_HEATING = 0x0131
+PID_INFO_VALUE_COOLING = 0x0132
 
 # Air quality sensor
 PID_MEASURED_HUMIDITY = 0x0151
