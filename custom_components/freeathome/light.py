@@ -1,7 +1,7 @@
 """ Support for Free@Home lights dimmers """
 import logging
 from homeassistant.components.light import (
-    ATTR_BRIGHTNESS, ColorMode, LightEntity)
+    ATTR_BRIGHTNESS, ATTR_COLOR_TEMP, ATTR_RGB_COLOR, ColorMode, LightEntity)
 
 from .const import DOMAIN
 
@@ -30,16 +30,39 @@ class FreeAtHomeLight(LightEntity):
     _state = None
     _brightness = None
     _is_dimmer = None
+    _is_rgb = None
+    _is_color_temp = None
+    _color_temp_kelvin = None
+    _max_color_temp_kelvin = None
+    _min_color_temp_kelvin = None
+    _rgb_color = None
 
     def __init__(self, device):
         self.light_device = device
         self._name = self.light_device.name
         self._state = self.light_device.state
+        
         self._is_dimmer = self.light_device.is_dimmer()
         if self.light_device.brightness is not None:
             self._brightness = int(float(self.light_device.brightness) * 2.55)
         else:
             self._brightness = None
+
+        self._is_color_temp = self.light_device.is_color_temp()
+        if self.light_device.color_temp is not None:
+            self._color_temp_kelvin =  self.light_device.get_color_temp()
+            self._max_color_temp_kelvin = self.light_device.max_color_temp
+            self._min_color_temp_kelvin = self.light_device.min_color_temp
+        else:
+            self._color_temp_kelvin = None
+            self._max_color_temp_kelvin = None
+            self._min_color_temp_kelvin = None
+
+        self._is_rgb = self.light_device.is_rgb()
+        if self.light_device.rgb_color  is not None:
+            self._rgb_color = self.light_device.get_rgb_color()
+        else:
+            self._rgb_color = None
 
     @property
     def name(self):
@@ -63,7 +86,11 @@ class FreeAtHomeLight(LightEntity):
 
     @property
     def color_mode(self) -> str | None:
-        """Return the color mode of the light."""                
+        """Return the color mode of the light."""   
+        if self._is_rgb:
+            return ColorMode.RGB            
+        if self._is_color_temp:
+            return ColorMode.COLOR_TEMP
         if self._is_dimmer:
             return ColorMode.BRIGHTNESS
         return ColorMode.ONOFF
@@ -71,6 +98,10 @@ class FreeAtHomeLight(LightEntity):
     @property
     def supported_color_modes(self) -> set[str] | None:
         """Flag supported color modes."""
+        if self._is_rgb:
+            return {ColorMode.RGB}            
+        if self._is_color_temp:
+            return {ColorMode.COLOR_TEMP}                
         if self._is_dimmer:
             return {ColorMode.BRIGHTNESS}
         return {ColorMode.ONOFF}    
@@ -84,6 +115,22 @@ class FreeAtHomeLight(LightEntity):
     def brightness(self):
         """Brightness of this light between 0..255."""
         return self._brightness
+    
+    @property
+    def color_temp_kelvin(self) -> int | None:
+        return self._color_temp_kelvin
+
+    @property
+    def max_color_temp_kelvin(self) -> int | None:
+        return self._max_color_temp_kelvin
+    
+    @property
+    def min_color_temp_kelvin(self) -> int | None:
+        return self._min_color_temp_kelvin
+    
+    @property
+    def rgb_color(self) -> tuple[int, int, int] | None:
+        return self._rgb_color
 
     async def async_added_to_hass(self):
         """Register callback to update hass after device was changed."""
@@ -97,6 +144,14 @@ class FreeAtHomeLight(LightEntity):
     async def async_turn_on(self, **kwargs):
         """Instruct the light to turn on.
         """
+        if ATTR_COLOR_TEMP in kwargs:            
+            self._color_temp_kelvin = kwargs[ATTR_COLOR_TEMP]
+            self.light_device.set_color_temp(self._color_temp_kelvin)
+
+        if ATTR_RGB_COLOR in kwargs:
+            self._rgb_color = kwargs[ATTR_RGB_COLOR]    
+            self.light_device.set_rgb_color(int( self._rgb_color[0]), int( self._rgb_color[1]), int( self._rgb_color[2]))
+
         if ATTR_BRIGHTNESS in kwargs:
             self._brightness = kwargs[ATTR_BRIGHTNESS]
             self.light_device.set_brightness(int(self._brightness / 2.55))
@@ -117,3 +172,9 @@ class FreeAtHomeLight(LightEntity):
         self._state = self.light_device.is_on()
         if self.light_device.brightness is not None:
             self._brightness = int(float(self.light_device.get_brightness()) * 2.55)
+
+        if self.light_device.color_temp is not None:
+            self._color_temp_kelvin = self.light_device.get_color_temp()
+
+        if self.light_device.rgb_color is not None:        
+            self._rgb_color = self.light_device.get_rgb_color()
