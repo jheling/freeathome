@@ -911,11 +911,15 @@ class FreeAtHomeSysApp(object):
         """Disconnect from sysap."""
         if self.xmpp is not None:
             # Make sure that client does not reconnect
+            LOG.info("Disconnecting connection with Free@Home")
             self.xmpp.reconnect = False
             self.xmpp.disconnect()
 
         return True
 
+    async def shutdown(self, event=None):
+        LOG.info("Detecting shutdown home assistant")
+        await self.disconnect();
 
     async def wait_for_connection(self):
         """ Wait til connection is made, if failed at first attempt retry until success """
