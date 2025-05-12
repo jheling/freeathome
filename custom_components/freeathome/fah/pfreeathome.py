@@ -3,15 +3,17 @@
 """
 Interface for accessing Free@Home
 """
+import aiofiles
 import asyncio
 import logging
 # import urllib.request
-# import json
+import json
 import xml.etree.ElementTree as ET
 import re
 import slixmpp
 import zlib
 import sys
+import os
 
 from packaging import version
 from slixmpp import Message
@@ -107,6 +109,24 @@ def get_names(xmlroot):
         name = string.text
         result[name_id] = name
 
+    return result
+
+async def get_json_names():
+    
+    current_working_directory = os.getcwd()   
+    async with aiofiles.open(current_working_directory + '/custom_components/freeathome/names.json', mode='r') as f:
+        contents = await f.read()
+    data = json.loads(contents)
+
+    result = {}
+    
+    for i in data['strings']:
+        name_id = i['nameId']
+        name = i['string']
+        result[name_id] = name
+
+    LOG.debug('{} names have been loaded from the backup device name file'.format(len(result)))
+    
     return result
 
 def get_attribute(xmlnode, name):
@@ -668,6 +688,8 @@ class Client(slixmpp.ClientXMPP):
             # make a list of the rooms and other names
             roomnames = get_room_names(root)
             names = get_names(root)
+            if names == {}: 
+                names = await get_json_names()
 
             # Now look for the devices
             devices = root.find('devices')
