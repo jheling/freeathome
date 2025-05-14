@@ -7,7 +7,7 @@ from ipaddress import IPv4Address
 
 import voluptuous as vol
 from homeassistant import config_entries, core, exceptions
-from homeassistant.components import zeroconf
+from homeassistant.helpers.service_info import zeroconf
 from homeassistant.const import (
     CONF_HOST,
     CONF_NAME,
