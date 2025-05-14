@@ -1,0 +1,9912 @@
+{
+  "strings": [
+    {
+      "nameId": "081A",
+      "string": "Animation LED"
+    },
+    {
+      "nameId": "001F",
+      "string": "Aktuelle absolute Lamellenposition in %"
+    },
+    {
+      "nameId": "F051",
+      "string": "3,1,3"
+    },
+    {
+      "nameId": "081B",
+      "string": "LED Zustand aktiv"
+    },
+    {
+      "nameId": "001C",
+      "string": "Regenalarm"
+    },
+    {
+      "nameId": "F056",
+      "string": "3,2,3"
+    },
+    {
+      "nameId": "0818",
+      "string": "Hintergrund LED"
+    },
+    {
+      "nameId": "001D",
+      "string": "Info Fahren Auf/Ab"
+    },
+    {
+      "nameId": "F057",
+      "string": "3,2,4"
+    },
+    {
+      "nameId": "0819",
+      "string": "Farbe aus"
+    },
+    {
+      "nameId": "0012",
+      "string": "Nacht"
+    },
+    {
+      "nameId": "081E",
+      "string": "Geräteauthentifizierung %1"
+    },
+    {
+      "nameId": "0013",
+      "string": "Aktueller Dimmwert"
+    },
+    {
+      "nameId": "081F",
+      "string": "Gerät %1 kann authentifiziert werden, um dieser Installation beizutreten. Bestätigen Sie nur, wenn Sie dem Gerät vertrauen."
+    },
+    {
+      "nameId": "0010",
+      "string": "Relativer Sollwert"
+    },
+    {
+      "nameId": "F04A",
+      "string": "2,5,1"
+    },
+    {
+      "nameId": "081C",
+      "string": "LED Zustand inaktiv"
+    },
+    {
+      "nameId": "0011",
+      "string": "Absoluter Sollwert"
+    },
+    {
+      "nameId": "F04B",
+      "string": "2,5,2"
+    },
+    {
+      "nameId": "081D",
+      "string": "Dynamische Zwangsabschaltung"
+    },
+    {
+      "nameId": "0016",
+      "string": "Verstellen Auf/Ab"
+    },
+    {
+      "nameId": "F048",
+      "string": "2,4,4"
+    },
+    {
+      "nameId": "0812",
+      "string": "[Exported energy cost today]"
+    },
+    {
+      "nameId": "0017",
+      "string": "Zugeordneter Stopp"
+    },
+    {
+      "nameId": "F049",
+      "string": "2,4,5"
+    },
+    {
+      "nameId": "0813",
+      "string": "[Total energy cost imported]"
+    },
+    {
+      "nameId": "0014",
+      "string": "Info Fehler"
+    },
+    {
+      "nameId": "F04E",
+      "string": "2,5,5"
+    },
+    {
+      "nameId": "0810",
+      "string": "[Group D]"
+    },
+    {
+      "nameId": "0015",
+      "string": "Fahren Auf/Ab"
+    },
+    {
+      "nameId": "0811",
+      "string": "[Imported energy cost today]"
+    },
+    {
+      "nameId": "000A",
+      "string": "Wippe"
+    },
+    {
+      "nameId": "F04C",
+      "string": "2,5,3"
+    },
+    {
+      "nameId": "0816",
+      "string": "Unterputzgerät"
+    },
+    {
+      "nameId": "000B",
+      "string": "Schalten Ein/Aus"
+    },
+    {
+      "nameId": "F04D",
+      "string": "2,5,4"
+    },
+    {
+      "nameId": "0817",
+      "string": "Vordergrund LED"
+    },
+    {
+      "nameId": "0008",
+      "string": "Umschalten"
+    },
+    {
+      "nameId": "F042",
+      "string": "2,3,3"
+    },
+    {
+      "nameId": "0814",
+      "string": "[Total energy cost exported]"
+    },
+    {
+      "nameId": "0009",
+      "string": "Schaltbedienung"
+    },
+    {
+      "nameId": "F043",
+      "string": "2,3,4"
+    },
+    {
+      "nameId": "0815",
+      "string": "Taster oben/unten"
+    },
+    {
+      "nameId": "000E",
+      "string": "Szenensteuerung"
+    },
+    {
+      "nameId": "F040",
+      "string": "2,3,1"
+    },
+    {
+      "nameId": "080A",
+      "string": "[Info maximum charging current limit]"
+    },
+    {
+      "nameId": "000F",
+      "string": "Info Ein/Aus"
+    },
+    {
+      "nameId": "F041",
+      "string": "2,3,2"
+    },
+    {
+      "nameId": "080B",
+      "string": "[Air quality sensor]"
+    },
+    {
+      "nameId": "000C",
+      "string": "Start/Stop Timer"
+    },
+    {
+      "nameId": "F046",
+      "string": "2,4,2"
+    },
+    {
+      "nameId": "0808",
+      "string": "Manueller Kühlbetrieb"
+    },
+    {
+      "nameId": "000D",
+      "string": "Zwangsstellung"
+    },
+    {
+      "nameId": "F047",
+      "string": "2,4,3"
+    },
+    {
+      "nameId": "0809",
+      "string": "Nicht verbunden"
+    },
+    {
+      "nameId": "0002",
+      "string": "Ein"
+    },
+    {
+      "nameId": "F044",
+      "string": "2,3,5"
+    },
+    {
+      "nameId": "080E",
+      "string": "[Group B]"
+    },
+    {
+      "nameId": "0003",
+      "string": "Aus"
+    },
+    {
+      "nameId": "F045",
+      "string": "2,4,1"
+    },
+    {
+      "nameId": "080F",
+      "string": "[Group C]"
+    },
+    {
+      "nameId": "0000",
+      "string": "ungültige string id"
+    },
+    {
+      "nameId": "F07A",
+      "string": "4,4,4"
+    },
+    {
+      "nameId": "080C",
+      "string": "[Sensor groups]"
+    },
+    {
+      "nameId": "0001",
+      "string": "Schaltaktor"
+    },
+    {
+      "nameId": "F07B",
+      "string": "4,4,5"
+    },
+    {
+      "nameId": "080D",
+      "string": "[Group A]"
+    },
+    {
+      "nameId": "0006",
+      "string": "Schließer"
+    },
+    {
+      "nameId": "F078",
+      "string": "4,4,2"
+    },
+    {
+      "nameId": "0802",
+      "string": "[Info timed dimming]"
+    },
+    {
+      "nameId": "0007",
+      "string": "Schaltausgang"
+    },
+    {
+      "nameId": "F079",
+      "string": "4,4,3"
+    },
+    {
+      "nameId": "0803",
+      "string": "Touch-Bedienelement"
+    },
+    {
+      "nameId": "0004",
+      "string": "Nachlaufzeit"
+    },
+    {
+      "nameId": "F07E",
+      "string": "4,5,3"
+    },
+    {
+      "nameId": "0800",
+      "string": "[Info allow free vending]"
+    },
+    {
+      "nameId": "0005",
+      "string": "Öffner"
+    },
+    {
+      "nameId": "F07F",
+      "string": "4,5,4"
+    },
+    {
+      "nameId": "0801",
+      "string": "[Timed dimming]"
+    },
+    {
+      "nameId": "003A",
+      "string": "Ⓓ +…"
+    },
+    {
+      "nameId": "F07C",
+      "string": "4,5,1"
+    },
+    {
+      "nameId": "0806",
+      "string": "Benachrichtigung bei Aktivschaltung"
+    },
+    {
+      "nameId": "003B",
+      "string": "Kanalauswahl"
+    },
+    {
+      "nameId": "F07D",
+      "string": "4,5,2"
+    },
+    {
+      "nameId": "0807",
+      "string": "Benachrichtigung bei Inaktivschaltung"
+    },
+    {
+      "nameId": "0038",
+      "string": "Ⓑ +…"
+    },
+    {
+      "nameId": "F072",
+      "string": "4,3,1"
+    },
+    {
+      "nameId": "0804",
+      "string": "Keine Benachrichtigung"
+    },
+    {
+      "nameId": "0039",
+      "string": "Ⓒ +…"
+    },
+    {
+      "nameId": "F073",
+      "string": "4,3,2"
+    },
+    {
+      "nameId": "0805",
+      "string": "Push Nachricht"
+    },
+    {
+      "nameId": "003E",
+      "string": "Ⓐ+Ⓑ, Ⓒ+Ⓓ"
+    },
+    {
+      "nameId": "F070",
+      "string": "4,2,4"
+    },
+    {
+      "nameId": "083A",
+      "string": "Zentraler Kühlaktor an"
+    },
+    {
+      "nameId": "003F",
+      "string": "Ⓐ+Ⓑ+Ⓒ, Ⓓ"
+    },
+    {
+      "nameId": "F071",
+      "string": "4,2,5"
+    },
+    {
+      "nameId": "083B",
+      "string": "Zentraler Kühlaktor aus"
+    },
+    {
+      "nameId": "003C",
+      "string": "Ⓐ, Ⓑ, Ⓒ, Ⓓ"
+    },
+    {
+      "nameId": "F076",
+      "string": "4,3,5"
+    },
+    {
+      "nameId": "0838",
+      "string": "Zentraler Heizungsaktor an"
+    },
+    {
+      "nameId": "003D",
+      "string": "Ⓐ+Ⓑ, Ⓒ,Ⓓ"
+    },
+    {
+      "nameId": "F077",
+      "string": "4,4,1"
+    },
+    {
+      "nameId": "0839",
+      "string": "Zentraler Heizungsaktor aus"
+    },
+    {
+      "nameId": "0032",
+      "string": "Rolladenbedienung"
+    },
+    {
+      "nameId": "F074",
+      "string": "4,3,3"
+    },
+    {
+      "nameId": "083E",
+      "string": "ⓔ,ⓕ"
+    },
+    {
+      "nameId": "0033",
+      "string": "Schaltbedienung mit Nachlaufzeit"
+    },
+    {
+      "nameId": "F075",
+      "string": "4,3,4"
+    },
+    {
+      "nameId": "083F",
+      "string": "ⓖ,ⓗ"
+    },
+    {
+      "nameId": "0030",
+      "string": "Dimmbedienung"
+    },
+    {
+      "nameId": "F06A",
+      "string": "4,1,3"
+    },
+    {
+      "nameId": "083C",
+      "string": "ⓘ+ⓙ"
+    },
+    {
+      "nameId": "0031",
+      "string": "Jalousiebedienung"
+    },
+    {
+      "nameId": "F06B",
+      "string": "4,1,4"
+    },
+    {
+      "nameId": "083D",
+      "string": "ⓒ,ⓓ"
+    },
+    {
+      "nameId": "0036",
+      "string": "LED An/Aus"
+    },
+    {
+      "nameId": "0832",
+      "string": "[Sliding configuration]"
+    },
+    {
+      "nameId": "0037",
+      "string": "Ⓐ + …"
+    },
+    {
+      "nameId": "0833",
+      "string": "[Slide blinds]"
+    },
+    {
+      "nameId": "0034",
+      "string": "Aktor sperren"
+    },
+    {
+      "nameId": "0830",
+      "string": "Aktoreinstellungen"
+    },
+    {
+      "nameId": "0035",
+      "string": "Szenenbedienung"
+    },
+    {
+      "nameId": "F06F",
+      "string": "4,2,3"
+    },
+    {
+      "nameId": "0831",
+      "string": "Smart Switch"
+    },
+    {
+      "nameId": "002A",
+      "string": "LED-Einschalthelligkeit Nacht"
+    },
+    {
+      "nameId": "F06C",
+      "string": "4,1,5"
+    },
+    {
+      "nameId": "0836",
+      "string": "PIN-Code (4-stellig)"
+    },
+    {
+      "nameId": "002B",
+      "string": "LED-Einschalthelligkeit Tag"
+    },
+    {
+      "nameId": "0837",
+      "string": "[Channel selector for combined input]"
+    },
+    {
+      "nameId": "0028",
+      "string": "Betriebsart"
+    },
+    {
+      "nameId": "F062",
+      "string": "3,4,5"
+    },
+    {
+      "nameId": "0834",
+      "string": "[Slide slats]"
+    },
+    {
+      "nameId": "0029",
+      "string": "Jalousien"
+    },
+    {
+      "nameId": "F063",
+      "string": "3,5,1"
+    },
+    {
+      "nameId": "0835",
+      "string": "Slowakisch"
+    },
+    {
+      "nameId": "002E",
+      "string": "Statusanzeige"
+    },
+    {
+      "nameId": "F060",
+      "string": "3,4,3"
+    },
+    {
+      "nameId": "082A",
+      "string": "Slowenisch"
+    },
+    {
+      "nameId": "002F",
+      "string": "Bedienelement"
+    },
+    {
+      "nameId": "F061",
+      "string": "3,4,4"
+    },
+    {
+      "nameId": "082B",
+      "string": "[Dimming sliding sensor]"
+    },
+    {
+      "nameId": "002C",
+      "string": "LED-Betriebsart"
+    },
+    {
+      "nameId": "F066",
+      "string": "3,5,4"
+    },
+    {
+      "nameId": "0828",
+      "string": "[Pause charging]"
+    },
+    {
+      "nameId": "002D",
+      "string": "Orientierungslicht"
+    },
+    {
+      "nameId": "F067",
+      "string": "3,5,5"
+    },
+    {
+      "nameId": "0829",
+      "string": "Arabisch"
+    },
+    {
+      "nameId": "0022",
+      "string": "Temperatur Sollwert"
+    },
+    {
+      "nameId": "F064",
+      "string": "3,5,2"
+    },
+    {
+      "nameId": "082E",
+      "string": "Temperatureinstellungen"
+    },
+    {
+      "nameId": "0023",
+      "string": "Heizen/Kühlen Ein/Aus"
+    },
+    {
+      "nameId": "F065",
+      "string": "3,5,3"
+    },
+    {
+      "nameId": "082F",
+      "string": "LED und Displayeinstellungen"
+    },
+    {
+      "nameId": "0020",
+      "string": "Gültige absolute Position"
+    },
+    {
+      "nameId": "082C",
+      "string": "[Blind sliding sensor]"
+    },
+    {
+      "nameId": "0021",
+      "string": "Stellgröße Kühlung"
+    },
+    {
+      "nameId": "082D",
+      "string": "Zeitgesteuerte Stummschaltung"
+    },
+    {
+      "nameId": "0026",
+      "string": "Aktuelle Temperatur"
+    },
+    {
+      "nameId": "0822",
+      "string": "Benutzerauthentifizierung"
+    },
+    {
+      "nameId": "0823",
+      "string": "Benutzer %1 möchte als Dienstanbieter in Ihrem System registriert werden."
+    },
+    {
+      "nameId": "0024",
+      "string": "Frost-/Hitzeschutz"
+    },
+    {
+      "nameId": "0820",
+      "string": "Aktiviere Objekt RTR"
+    },
+    {
+      "nameId": "0025",
+      "string": "Statusanzeige"
+    },
+    {
+      "nameId": "0821",
+      "string": "Luftgüteaktuator"
+    },
+    {
+      "nameId": "005A",
+      "string": "Ⓜ"
+    },
+    {
+      "nameId": "0826",
+      "string": "LED Helligkeit"
+    },
+    {
+      "nameId": "005B",
+      "string": "Ⓝ"
+    },
+    {
+      "nameId": "0827",
+      "string": "LED Farbeinstellungen"
+    },
+    {
+      "nameId": "0058",
+      "string": "Ⓙ"
+    },
+    {
+      "nameId": "0824",
+      "string": "[Measured temperature raw]"
+    },
+    {
+      "nameId": "0059",
+      "string": "Ⓚ"
+    },
+    {
+      "nameId": "0825",
+      "string": "[Measured temperature override]"
+    },
+    {
+      "nameId": "005E",
+      "string": "Ⓠ"
+    },
+    {
+      "nameId": "085A",
+      "string": "[Additional extension unit]"
+    },
+    {
+      "nameId": "005F",
+      "string": "Schaltaktor 8-fach, REG"
+    },
+    {
+      "nameId": "085B",
+      "string": "Erster Alarm"
+    },
+    {
+      "nameId": "005C",
+      "string": "Ⓞ"
+    },
+    {
+      "nameId": "0858",
+      "string": "[Switch off main]"
+    },
+    {
+      "nameId": "005D",
+      "string": "Ⓟ"
+    },
+    {
+      "nameId": "0859",
+      "string": "[Allow same mode]"
+    },
+    {
+      "nameId": "0052",
+      "string": "Ⓓ"
+    },
+    {
+      "nameId": "085E",
+      "string": "Eltern"
+    },
+    {
+      "nameId": "0053",
+      "string": "Ⓔ"
+    },
+    {
+      "nameId": "085F",
+      "string": "Hauptzähler"
+    },
+    {
+      "nameId": "0050",
+      "string": "Ⓑ"
+    },
+    {
+      "nameId": "085C",
+      "string": "Lokale Umstellung am Gerät"
+    },
+    {
+      "nameId": "0051",
+      "string": "Ⓒ"
+    },
+    {
+      "nameId": "085D",
+      "string": "Zählertyp"
+    },
+    {
+      "nameId": "0056",
+      "string": "Ⓗ"
+    },
+    {
+      "nameId": "0852",
+      "string": "Benutzerdefinierte Farbe 3"
+    },
+    {
+      "nameId": "0057",
+      "string": "Ⓘ"
+    },
+    {
+      "nameId": "0853",
+      "string": "Benutzerdefinierte Farbe 4"
+    },
+    {
+      "nameId": "0054",
+      "string": "Ⓕ"
+    },
+    {
+      "nameId": "0850",
+      "string": "Benutzerdefinierte Farbe 1"
+    },
+    {
+      "nameId": "0055",
+      "string": "Ⓖ"
+    },
+    {
+      "nameId": "0851",
+      "string": "Benutzerdefinierte Farbe 2"
+    },
+    {
+      "nameId": "004A",
+      "string": "Linke Wippe, rechts Taster"
+    },
+    {
+      "nameId": "0856",
+      "string": "Splitunit Nebenstelle"
+    },
+    {
+      "nameId": "004B",
+      "string": "Links Taster, rechte Wippe"
+    },
+    {
+      "nameId": "0857",
+      "string": "[Behaviour if active]"
+    },
+    {
+      "nameId": "0048",
+      "string": "Unterer rechter Taster"
+    },
+    {
+      "nameId": "F082",
+      "string": "1,2,6"
+    },
+    {
+      "nameId": "0854",
+      "string": "Binäreingang 10-fach, REG"
+    },
+    {
+      "nameId": "0049",
+      "string": "Linke Wippe, rechte Wippe"
+    },
+    {
+      "nameId": "F083",
+      "string": "1,3,6"
+    },
+    {
+      "nameId": "0855",
+      "string": "Die Wahrnehmung der Farbgenauigkeit der Farben weiß, orange, gelb, violett kann je nach LED Helligkeit und Blickwinkel variieren."
+    },
+    {
+      "nameId": "004E",
+      "string": "Heizungsaktor"
+    },
+    {
+      "nameId": "F080",
+      "string": "4,5,5"
+    },
+    {
+      "nameId": "084A",
+      "string": "ⓐ+ⓑ+ⓒ"
+    },
+    {
+      "nameId": "004F",
+      "string": "Ⓐ"
+    },
+    {
+      "nameId": "F081",
+      "string": "1,1,6"
+    },
+    {
+      "nameId": "084B",
+      "string": "ⓓ+ⓔ+ⓕ"
+    },
+    {
+      "nameId": "004C",
+      "string": "Links Taster, rechts Taster"
+    },
+    {
+      "nameId": "0848",
+      "string": "ⓐ+ⓑ+ⓒ, ⓓ, ⓔ+ⓕ"
+    },
+    {
+      "nameId": "004D",
+      "string": "Türöffner"
+    },
+    {
+      "nameId": "0849",
+      "string": "ⓐ+ⓑ+ⓒ, ⓓ+ⓔ+ⓕ"
+    },
+    {
+      "nameId": "0042",
+      "string": "2-fach Wippe, 4-fach Taster"
+    },
+    {
+      "nameId": "084E",
+      "string": "[3 movement detector channnel active]"
+    },
+    {
+      "nameId": "0043",
+      "string": "Linke Wippe"
+    },
+    {
+      "nameId": "084F",
+      "string": "[4 movement detector channnel active]"
+    },
+    {
+      "nameId": "0040",
+      "string": "Ⓐ+Ⓑ+Ⓒ+Ⓓ"
+    },
+    {
+      "nameId": "084C",
+      "string": "[1 movement detector channnel active]"
+    },
+    {
+      "nameId": "0041",
+      "string": "4-fach Mehrkanaldimmer"
+    },
+    {
+      "nameId": "084D",
+      "string": "[2 movement detector channnel active]"
+    },
+    {
+      "nameId": "0046",
+      "string": "Unterer linker Taster"
+    },
+    {
+      "nameId": "0842",
+      "string": "ⓐ+ⓑ+ⓒ, ⓓ"
+    },
+    {
+      "nameId": "0047",
+      "string": "Oberer rechter Taster"
+    },
+    {
+      "nameId": "0843",
+      "string": "ⓐ, ⓑ, ⓒ, ⓓ, ⓔ, ⓕ"
+    },
+    {
+      "nameId": "0044",
+      "string": "Rechte Wippe"
+    },
+    {
+      "nameId": "0840",
+      "string": "ⓘ,ⓙ"
+    },
+    {
+      "nameId": "0045",
+      "string": "Oberer linker Taster"
+    },
+    {
+      "nameId": "0841",
+      "string": "ⓐ+Led"
+    },
+    {
+      "nameId": "007A",
+      "string": "Türöffner 1"
+    },
+    {
+      "nameId": "0846",
+      "string": "ⓐ+ⓑ, ⓒ+ⓓ, ⓔ+ⓕ"
+    },
+    {
+      "nameId": "007B",
+      "string": "Türöffner 2"
+    },
+    {
+      "nameId": "0847",
+      "string": "ⓐ+ⓑ+ⓒ, ⓓ, ⓔ, ⓕ"
+    },
+    {
+      "nameId": "0078",
+      "string": "1,4,3"
+    },
+    {
+      "nameId": "0844",
+      "string": "ⓐ+ⓑ, ⓒ, ⓓ, ⓔ, ⓕ"
+    },
+    {
+      "nameId": "0079",
+      "string": "1,4,4"
+    },
+    {
+      "nameId": "0845",
+      "string": "ⓐ+ⓑ, ⓒ+ⓓ, ⓔ, ⓕ"
+    },
+    {
+      "nameId": "007E",
+      "string": "Voreingestellte Tür"
+    },
+    {
+      "nameId": "087A",
+      "string": "[Unknown card]"
+    },
+    {
+      "nameId": "007F",
+      "string": "Klingel 1"
+    },
+    {
+      "nameId": "087B",
+      "string": "[Silent door alarm starts]"
+    },
+    {
+      "nameId": "007C",
+      "string": "Türöffner 3"
+    },
+    {
+      "nameId": "0878",
+      "string": "[Valid access]"
+    },
+    {
+      "nameId": "007D",
+      "string": "Türöffner 4"
+    },
+    {
+      "nameId": "0879",
+      "string": "[Unauthorized card]"
+    },
+    {
+      "nameId": "0072",
+      "string": "1,3,1"
+    },
+    {
+      "nameId": "087E",
+      "string": "Gruppenteilnehmer in der Schaltwelt anzeigen"
+    },
+    {
+      "nameId": "0073",
+      "string": "1,3,2"
+    },
+    {
+      "nameId": "087F",
+      "string": "Horizontaler Wippe"
+    },
+    {
+      "nameId": "0070",
+      "string": "1,2,3"
+    },
+    {
+      "nameId": "087C",
+      "string": "[Silent door alarm ends]"
+    },
+    {
+      "nameId": "0071",
+      "string": "1,2,4"
+    },
+    {
+      "nameId": "087D",
+      "string": "Media Player Sensor"
+    },
+    {
+      "nameId": "0076",
+      "string": "1,4,1"
+    },
+    {
+      "nameId": "0872",
+      "string": "{{subjectResource.displayName}} ist nicht mit Sensoren verpaart. Bitte platzieren Sie den Kanal auf dem Grundriss und verpaaren Sie ihn mit mindestens einem Sensor."
+    },
+    {
+      "nameId": "0077",
+      "string": "1,4,2"
+    },
+    {
+      "nameId": "0873",
+      "string": "Gerät %s wurde neu gestartet."
+    },
+    {
+      "nameId": "0074",
+      "string": "1,3,3"
+    },
+    {
+      "nameId": "0870",
+      "string": "%s.\\n\\n{{subjectResource.displayName}} wurde nicht aktiviert!"
+    },
+    {
+      "nameId": "0075",
+      "string": "1,3,4"
+    },
+    {
+      "nameId": "0871",
+      "string": "{{subjectResource.displayName}} ist nicht konfiguriert"
+    },
+    {
+      "nameId": "006A",
+      "string": "1,1,1"
+    },
+    {
+      "nameId": "0876",
+      "string": "Türschlösser"
+    },
+    {
+      "nameId": "006B",
+      "string": "1,1,2"
+    },
+    {
+      "nameId": "0877",
+      "string": "Türschlosskanal"
+    },
+    {
+      "nameId": "0068",
+      "string": "Drucktaster oben, Drucktaster unten"
+    },
+    {
+      "nameId": "0874",
+      "string": "[Door lock card event]"
+    },
+    {
+      "nameId": "0069",
+      "string": "Sensor/Dimmaktor 1/1-fach"
+    },
+    {
+      "nameId": "0875",
+      "string": "[Silent door alarm]"
+    },
+    {
+      "nameId": "006E",
+      "string": "1,2,1"
+    },
+    {
+      "nameId": "086A",
+      "string": "{{createdLocalDateTime}} {{subjectResource.displayName}} ist inaktiv"
+    },
+    {
+      "nameId": "006F",
+      "string": "1,2,2"
+    },
+    {
+      "nameId": "086B",
+      "string": "Die Sensorgruppe überwacht ihre verpaarten Sensoren."
+    },
+    {
+      "nameId": "006C",
+      "string": "1,1,3"
+    },
+    {
+      "nameId": "0868",
+      "string": "%s %s in %s ???"
+    },
+    {
+      "nameId": "006D",
+      "string": "1,1,4"
+    },
+    {
+      "nameId": "0869",
+      "string": "{{createdLocalDateTime}} {{subjectResource.displayName}} ist aktiv"
+    },
+    {
+      "nameId": "0062",
+      "string": "Raumtemperaturregler"
+    },
+    {
+      "nameId": "086E",
+      "string": "%s {{senderResource.displayName}} in {{senderResource.room.displayName}} hat ausgelöst!"
+    },
+    {
+      "nameId": "0063",
+      "string": "Binäreingang 4-fach, REG"
+    },
+    {
+      "nameId": "086F",
+      "string": "{{createdLocalDateTime}} {{subjectResource.displayName}} kann nicht aktiviert werden!"
+    },
+    {
+      "nameId": "0060",
+      "string": "Schaltaktor 4-fach, REG"
+    },
+    {
+      "nameId": "086C",
+      "string": "Die Sensorgruppe hat die Überwachung ihrer Sensoren eingestellt."
+    },
+    {
+      "nameId": "0061",
+      "string": "Jalousieaktor 4-fach, REG"
+    },
+    {
+      "nameId": "086D",
+      "string": "{{createdLocalDateTime}} {{subjectResource.displayName}} hat ausgelöst"
+    },
+    {
+      "nameId": "0066",
+      "string": "Drucktaster oben"
+    },
+    {
+      "nameId": "0862",
+      "string": "Zweirohrbetrieb"
+    },
+    {
+      "nameId": "0067",
+      "string": "Drucktaster unten"
+    },
+    {
+      "nameId": "0863",
+      "string": "Vierrohrbetrieb"
+    },
+    {
+      "nameId": "0064",
+      "string": "Sensor/Dimmaktor 2/1-fach"
+    },
+    {
+      "nameId": "0860",
+      "string": "Zwischenzähler"
+    },
+    {
+      "nameId": "0065",
+      "string": "Wippe"
+    },
+    {
+      "nameId": "0861",
+      "string": "Innentemperatur mit Hysterese"
+    },
+    {
+      "nameId": "009A",
+      "string": "Schaltaktor 2"
+    },
+    {
+      "nameId": "0866",
+      "string": "%s %s in %s reagiert nicht"
+    },
+    {
+      "nameId": "009B",
+      "string": "Schaltaktor 3"
+    },
+    {
+      "nameId": "0867",
+      "string": "%s %s in %s ist defekt"
+    },
+    {
+      "nameId": "0098",
+      "string": "Sensorkanal 20"
+    },
+    {
+      "nameId": "0864",
+      "string": "%s %s in %s ist offen"
+    },
+    {
+      "nameId": "0099",
+      "string": "Schaltaktor 1"
+    },
+    {
+      "nameId": "0865",
+      "string": "%s %s in %s ist ausgelöst"
+    },
+    {
+      "nameId": "009E",
+      "string": "Schaltaktor 6"
+    },
+    {
+      "nameId": "089A",
+      "string": "Anlernmodus"
+    },
+    {
+      "nameId": "009F",
+      "string": "Schaltaktor 7"
+    },
+    {
+      "nameId": "089B",
+      "string": "Info Anlernmodus"
+    },
+    {
+      "nameId": "009C",
+      "string": "Schaltaktor 4"
+    },
+    {
+      "nameId": "0898",
+      "string": "Frostschutztemperatur"
+    },
+    {
+      "nameId": "009D",
+      "string": "Schaltaktor 5"
+    },
+    {
+      "nameId": "0899",
+      "string": "Hitzeschutztemperatur"
+    },
+    {
+      "nameId": "0092",
+      "string": "Sensorkanal 14"
+    },
+    {
+      "nameId": "0093",
+      "string": "Sensorkanal 15"
+    },
+    {
+      "nameId": "0090",
+      "string": "Sensorkanal 12"
+    },
+    {
+      "nameId": "089C",
+      "string": "Anlernmodus Time-Out"
+    },
+    {
+      "nameId": "0091",
+      "string": "Sensorkanal 13"
+    },
+    {
+      "nameId": "089D",
+      "string": "Die Benutzung des internen und externen Temperatursensors kann konfiguriert werden. Die Temperaturregelung kann entweder nach der Messung des internen Sensor, des externen Sensors oder einer Kombination aus beiden erfolgen. Weiterhin ist es möglich, nach dem internen Temperatursensor zu regeln und die Temperatur (z.B. des Fußbodens bei einer Fußbodenheizung) über den externen Temperatursensor zu begrenzen. In diesem Fall ist die Temperaturgrenze einstellbar."
+    },
+    {
+      "nameId": "0096",
+      "string": "Sensorkanal 18"
+    },
+    {
+      "nameId": "0892",
+      "string": "NFC-Sensor"
+    },
+    {
+      "nameId": "0097",
+      "string": "Sensorkanal 19"
+    },
+    {
+      "nameId": "0893",
+      "string": "Fingerabdrucksensor"
+    },
+    {
+      "nameId": "0094",
+      "string": "Sensorkanal 16"
+    },
+    {
+      "nameId": "0890",
+      "string": "Außenstation"
+    },
+    {
+      "nameId": "0095",
+      "string": "Sensorkanal 17"
+    },
+    {
+      "nameId": "0891",
+      "string": "PIN-Code-Sensor"
+    },
+    {
+      "nameId": "008A",
+      "string": "Sensorkanal 6"
+    },
+    {
+      "nameId": "0896",
+      "string": "Zweites Türschloss"
+    },
+    {
+      "nameId": "008B",
+      "string": "Sensorkanal 7"
+    },
+    {
+      "nameId": "0897",
+      "string": "[Sensor group]"
+    },
+    {
+      "nameId": "0088",
+      "string": "Sensorkanal 4"
+    },
+    {
+      "nameId": "0894",
+      "string": "Bluetooth-Sensor"
+    },
+    {
+      "nameId": "0089",
+      "string": "Sensorkanal 5"
+    },
+    {
+      "nameId": "0895",
+      "string": "Standard-Türschloss"
+    },
+    {
+      "nameId": "008E",
+      "string": "Sensorkanal 10"
+    },
+    {
+      "nameId": "088A",
+      "string": "Anzeige, wenn Gerät aus"
+    },
+    {
+      "nameId": "008F",
+      "string": "Sensorkanal 11"
+    },
+    {
+      "nameId": "088B",
+      "string": "Lüfterverstellung"
+    },
+    {
+      "nameId": "008C",
+      "string": "Sensorkanal 8"
+    },
+    {
+      "nameId": "0888",
+      "string": "Bewegungstoleranz"
+    },
+    {
+      "nameId": "008D",
+      "string": "Sensorkanal 9"
+    },
+    {
+      "nameId": "0889",
+      "string": "Thread Kommunikationsinterface"
+    },
+    {
+      "nameId": "0082",
+      "string": "Klingel 4"
+    },
+    {
+      "nameId": "088E",
+      "string": "Gemeinsame Lüfterstufe für Heizen und Kühlbetrieb"
+    },
+    {
+      "nameId": "0083",
+      "string": "Allgemeine Klingel"
+    },
+    {
+      "nameId": "088F",
+      "string": "OneTouch7-IP"
+    },
+    {
+      "nameId": "0080",
+      "string": "Klingel 2"
+    },
+    {
+      "nameId": "088C",
+      "string": "[HF Presence Detector 24G]"
+    },
+    {
+      "nameId": "0081",
+      "string": "Klingel 3"
+    },
+    {
+      "nameId": "088D",
+      "string": "[HF Presence Detector 5.8G]"
+    },
+    {
+      "nameId": "0086",
+      "string": "Sensorkanal 2"
+    },
+    {
+      "nameId": "0882",
+      "string": "Vertikaler Taster"
+    },
+    {
+      "nameId": "0087",
+      "string": "Sensorkanal 3"
+    },
+    {
+      "nameId": "0883",
+      "string": "[HF Presence Detector]"
+    },
+    {
+      "nameId": "0084",
+      "string": "Flurlicht"
+    },
+    {
+      "nameId": "0880",
+      "string": "Vertikale Wippe"
+    },
+    {
+      "nameId": "0085",
+      "string": "Sensorkanal 1"
+    },
+    {
+      "nameId": "0881",
+      "string": "Horizontaler Taster"
+    },
+    {
+      "nameId": "00BA",
+      "string": "Jalousieaktor 14"
+    },
+    {
+      "nameId": "0886",
+      "string": "Unterstützt Eco-Mode"
+    },
+    {
+      "nameId": "00BB",
+      "string": "Jalousieaktor 15"
+    },
+    {
+      "nameId": "0887",
+      "string": "Umgebungssensor"
+    },
+    {
+      "nameId": "00B8",
+      "string": "Jalousieaktor 12"
+    },
+    {
+      "nameId": "0884",
+      "string": "[Time zone offset]"
+    },
+    {
+      "nameId": "00B9",
+      "string": "Jalousieaktor 13"
+    },
+    {
+      "nameId": "0885",
+      "string": "Alarmzerzögerung"
+    },
+    {
+      "nameId": "00BE",
+      "string": "Jalousieaktor 18"
+    },
+    {
+      "nameId": "00BF",
+      "string": "Jalousieaktor 19"
+    },
+    {
+      "nameId": "00BC",
+      "string": "Jalousieaktor 16"
+    },
+    {
+      "nameId": "00BD",
+      "string": "Jalousieaktor 17"
+    },
+    {
+      "nameId": "00B2",
+      "string": "Jalousieaktor 6"
+    },
+    {
+      "nameId": "00B3",
+      "string": "Jalousieaktor 7"
+    },
+    {
+      "nameId": "00B0",
+      "string": "Jalousieaktor 4"
+    },
+    {
+      "nameId": "00B1",
+      "string": "Jalousieaktor 5"
+    },
+    {
+      "nameId": "00B6",
+      "string": "Jalousieaktor 10"
+    },
+    {
+      "nameId": "00B7",
+      "string": "Jalousieaktor 11"
+    },
+    {
+      "nameId": "00B4",
+      "string": "Jalousieaktor 8"
+    },
+    {
+      "nameId": "00B5",
+      "string": "Jalousieaktor 9"
+    },
+    {
+      "nameId": "00AA",
+      "string": "Schaltaktor 18"
+    },
+    {
+      "nameId": "00AB",
+      "string": "Schaltaktor 19"
+    },
+    {
+      "nameId": "00A8",
+      "string": "Schaltaktor 16"
+    },
+    {
+      "nameId": "00A9",
+      "string": "Schaltaktor 17"
+    },
+    {
+      "nameId": "00AE",
+      "string": "Jalousieaktor 2"
+    },
+    {
+      "nameId": "00AF",
+      "string": "Jalousieaktor 3"
+    },
+    {
+      "nameId": "00AC",
+      "string": "Schaltaktor 20"
+    },
+    {
+      "nameId": "00AD",
+      "string": "Jalousieaktor 1"
+    },
+    {
+      "nameId": "00A2",
+      "string": "Schaltaktor 10"
+    },
+    {
+      "nameId": "00A3",
+      "string": "Schaltaktor 11"
+    },
+    {
+      "nameId": "00A0",
+      "string": "Schaltaktor 8"
+    },
+    {
+      "nameId": "F11A",
+      "string": "Helligkeit Weiß"
+    },
+    {
+      "nameId": "00A1",
+      "string": "Schaltaktor 9"
+    },
+    {
+      "nameId": "F11B",
+      "string": "Info Helligkeit Weiß"
+    },
+    {
+      "nameId": "00A6",
+      "string": "Schaltaktor 14"
+    },
+    {
+      "nameId": "F118",
+      "string": "Maximale Farbtemperatur (Kelvin)"
+    },
+    {
+      "nameId": "00A7",
+      "string": "Schaltaktor 15"
+    },
+    {
+      "nameId": "F119",
+      "string": "Minimale Farbtemperatur (Kelvin)"
+    },
+    {
+      "nameId": "00A4",
+      "string": "Schaltaktor 12"
+    },
+    {
+      "nameId": "00A5",
+      "string": "Schaltaktor 13"
+    },
+    {
+      "nameId": "00DA",
+      "string": "Eingang B"
+    },
+    {
+      "nameId": "F11C",
+      "string": "SysAP-Info Helligkeit Weiß"
+    },
+    {
+      "nameId": "00DB",
+      "string": "2CSYE1002"
+    },
+    {
+      "nameId": "F11D",
+      "string": "[SysAP information rgb]"
+    },
+    {
+      "nameId": "00D8",
+      "string": "2CSYE1001"
+    },
+    {
+      "nameId": "F112",
+      "string": "SysAP Info Color Mode"
+    },
+    {
+      "nameId": "00D9",
+      "string": "Eingang A"
+    },
+    {
+      "nameId": "F113",
+      "string": "Saturation"
+    },
+    {
+      "nameId": "00DE",
+      "string": "2CSYE1011"
+    },
+    {
+      "nameId": "F110",
+      "string": "SysAP Info HSV"
+    },
+    {
+      "nameId": "00DF",
+      "string": "2CSYE1012"
+    },
+    {
+      "nameId": "F111",
+      "string": "Info Color Mode"
+    },
+    {
+      "nameId": "00DC",
+      "string": "Frontal-Wippe"
+    },
+    {
+      "nameId": "F116",
+      "string": "Info switch entity On/Off"
+    },
+    {
+      "nameId": "00DD",
+      "string": "2CSYE1003"
+    },
+    {
+      "nameId": "F117",
+      "string": "SysAP-InfoActualFanSpeed"
+    },
+    {
+      "nameId": "00D2",
+      "string": "Benachrichtigungscenter"
+    },
+    {
+      "nameId": "F114",
+      "string": "HUE"
+    },
+    {
+      "nameId": "00D3",
+      "string": "Warnbenachrichtigung 1"
+    },
+    {
+      "nameId": "F115",
+      "string": "Switch entity On/Off"
+    },
+    {
+      "nameId": "00D0",
+      "string": "Planner-Schaltaktor"
+    },
+    {
+      "nameId": "F10A",
+      "string": "Info RGB color"
+    },
+    {
+      "nameId": "00D1",
+      "string": "Planner-Dimmaktor"
+    },
+    {
+      "nameId": "F10B",
+      "string": "Info Color Temperature"
+    },
+    {
+      "nameId": "00D6",
+      "string": "Warnbenachrichtigung 4"
+    },
+    {
+      "nameId": "F108",
+      "string": "RGB color"
+    },
+    {
+      "nameId": "00D7",
+      "string": "Warnbenachrichtigung 5"
+    },
+    {
+      "nameId": "F109",
+      "string": "Color Temperature"
+    },
+    {
+      "nameId": "00D4",
+      "string": "Warnbenachrichtigung 2"
+    },
+    {
+      "nameId": "F10E",
+      "string": "HSV"
+    },
+    {
+      "nameId": "00D5",
+      "string": "Warnbenachrichtigung 3"
+    },
+    {
+      "nameId": "F10F",
+      "string": "Info HSV"
+    },
+    {
+      "nameId": "00CA",
+      "string": "Dimmaktor 10"
+    },
+    {
+      "nameId": "F10C",
+      "string": "SysAP-Info RGB color"
+    },
+    {
+      "nameId": "00CB",
+      "string": "Planner"
+    },
+    {
+      "nameId": "F10D",
+      "string": "SysAP-Info Color Temperature"
+    },
+    {
+      "nameId": "00C8",
+      "string": "Dimmaktor 8"
+    },
+    {
+      "nameId": "F102",
+      "string": "SysAP-InfoMoveUpDown"
+    },
+    {
+      "nameId": "00C9",
+      "string": "Dimmaktor 9"
+    },
+    {
+      "nameId": "F103",
+      "string": "SysAP-InfoCurrentAbsoluteBlindsPercentage"
+    },
+    {
+      "nameId": "00CE",
+      "string": "Kontakt schließen"
+    },
+    {
+      "nameId": "F100",
+      "string": "SysAP-InfoOnOff"
+    },
+    {
+      "nameId": "00CF",
+      "string": "Kontakt öffnen"
+    },
+    {
+      "nameId": "F101",
+      "string": "SysAP-InfoCurrentDimmingValue"
+    },
+    {
+      "nameId": "00CC",
+      "string": "Planner-Sensor"
+    },
+    {
+      "nameId": "F106",
+      "string": "SysAP-InfoError"
+    },
+    {
+      "nameId": "00CD",
+      "string": "Keine Reaktion"
+    },
+    {
+      "nameId": "F107",
+      "string": "RGB Sensor"
+    },
+    {
+      "nameId": "00C2",
+      "string": "Dimmaktor 2"
+    },
+    {
+      "nameId": "F104",
+      "string": "SysAP-InfoCurrentAbsoluteSlatsPercentage"
+    },
+    {
+      "nameId": "00C3",
+      "string": "Dimmaktor 3"
+    },
+    {
+      "nameId": "F105",
+      "string": "SysAP-InfoForce"
+    },
+    {
+      "nameId": "00C0",
+      "string": "Jalousieaktor 20"
+    },
+    {
+      "nameId": "00C1",
+      "string": "Dimmaktor 1"
+    },
+    {
+      "nameId": "00C6",
+      "string": "Dimmaktor 6"
+    },
+    {
+      "nameId": "00C7",
+      "string": "Dimmaktor 7"
+    },
+    {
+      "nameId": "00C4",
+      "string": "Dimmaktor 4"
+    },
+    {
+      "nameId": "00C5",
+      "string": "Dimmaktor 5"
+    },
+    {
+      "nameId": "00FA",
+      "string": "Glühlampe"
+    },
+    {
+      "nameId": "00FB",
+      "string": "Induktive Last"
+    },
+    {
+      "nameId": "00F8",
+      "string": "Dummy-Parameter"
+    },
+    {
+      "nameId": "00F9",
+      "string": "Binärsensor"
+    },
+    {
+      "nameId": "00FE",
+      "string": "Schnell"
+    },
+    {
+      "nameId": "00FF",
+      "string": "Normal"
+    },
+    {
+      "nameId": "00FC",
+      "string": "Lastart"
+    },
+    {
+      "nameId": "00FD",
+      "string": "Dimmgeschwindigkeit"
+    },
+    {
+      "nameId": "00F2",
+      "string": "IR-Taste 5"
+    },
+    {
+      "nameId": "00F3",
+      "string": "IR-Taste 6"
+    },
+    {
+      "nameId": "00F0",
+      "string": "IR-Taste 3"
+    },
+    {
+      "nameId": "00F1",
+      "string": "IR-Taste 4"
+    },
+    {
+      "nameId": "00F6",
+      "string": "Immer an"
+    },
+    {
+      "nameId": "00F7",
+      "string": "Immer aus"
+    },
+    {
+      "nameId": "00F4",
+      "string": "2CSYE1702"
+    },
+    {
+      "nameId": "00F5",
+      "string": "Invertierte Statusanzeige"
+    },
+    {
+      "nameId": "00EA",
+      "string": "2CSYE1202"
+    },
+    {
+      "nameId": "00EB",
+      "string": "2CSYE1205"
+    },
+    {
+      "nameId": "00E8",
+      "string": "2CSYE1108"
+    },
+    {
+      "nameId": "00E9",
+      "string": "Chronothermostat"
+    },
+    {
+      "nameId": "00EE",
+      "string": "2CSYE1218"
+    },
+    {
+      "nameId": "00EF",
+      "string": "IR-Taste 2"
+    },
+    {
+      "nameId": "00EC",
+      "string": "Dimmaktor"
+    },
+    {
+      "nameId": "00ED",
+      "string": "2CSYE1206"
+    },
+    {
+      "nameId": "00E2",
+      "string": "2CSYE1103"
+    },
+    {
+      "nameId": "00E3",
+      "string": "2CSYE1104"
+    },
+    {
+      "nameId": "00E0",
+      "string": "2CSYE1101"
+    },
+    {
+      "nameId": "00E1",
+      "string": "2CSYE1102"
+    },
+    {
+      "nameId": "00E6",
+      "string": "2CSYE1106"
+    },
+    {
+      "nameId": "00E7",
+      "string": "2CSYE1107"
+    },
+    {
+      "nameId": "00E4",
+      "string": "Jalousieaktor"
+    },
+    {
+      "nameId": "00E5",
+      "string": "2CSYE1105"
+    },
+    {
+      "nameId": "011A",
+      "string": "Präsenzmelder"
+    },
+    {
+      "nameId": "011B",
+      "string": "Stellwert Heizen"
+    },
+    {
+      "nameId": "0118",
+      "string": "Abfrage Lüfter manuell An/Aus"
+    },
+    {
+      "nameId": "0119",
+      "string": "Abfrage Regler An/Aus"
+    },
+    {
+      "nameId": "011E",
+      "string": "ECO Temperaturabsenkung"
+    },
+    {
+      "nameId": "011F",
+      "string": "Nachlaufzeit bei Abwesenheit"
+    },
+    {
+      "nameId": "011C",
+      "string": "Beschattung"
+    },
+    {
+      "nameId": "011D",
+      "string": "Komforttemperatur"
+    },
+    {
+      "nameId": "0112",
+      "string": "Regler An/Aus"
+    },
+    {
+      "nameId": "0113",
+      "string": "Gemessene Temperatur"
+    },
+    {
+      "nameId": "0110",
+      "string": "Lüfterstufe Heizen"
+    },
+    {
+      "nameId": "0111",
+      "string": "Lüfter Heizen manuell An/Aus"
+    },
+    {
+      "nameId": "0116",
+      "string": "Abfrage Lüfterstufe"
+    },
+    {
+      "nameId": "0117",
+      "string": "Abfrage ECO-Betrieb An/Aus"
+    },
+    {
+      "nameId": "0114",
+      "string": "Statusanzeige"
+    },
+    {
+      "nameId": "0115",
+      "string": "Abfrage relativer Sollwert"
+    },
+    {
+      "nameId": "010A",
+      "string": "Stopp und keine weitere Aktion"
+    },
+    {
+      "nameId": "010B",
+      "string": "Aktueller absoluter Prozentanteil Jalousie"
+    },
+    {
+      "nameId": "0108",
+      "string": "Hochfahren"
+    },
+    {
+      "nameId": "0109",
+      "string": "Runterfahren"
+    },
+    {
+      "nameId": "010E",
+      "string": "Raumtemperaturregler-Nebenstelle"
+    },
+    {
+      "nameId": "010F",
+      "string": "Relative Solltemperatur"
+    },
+    {
+      "nameId": "010C",
+      "string": "Aktueller absoluter Prozentanteil Lamellen"
+    },
+    {
+      "nameId": "010D",
+      "string": "Raumtemperaturregler mit Lüfterstufe"
+    },
+    {
+      "nameId": "0102",
+      "string": "Gesamte kalibrierte Fahrzeit"
+    },
+    {
+      "nameId": "0103",
+      "string": "Gesamte Lamellen-Fahrzeit"
+    },
+    {
+      "nameId": "0100",
+      "string": "Langsam"
+    },
+    {
+      "nameId": "0101",
+      "string": "Gesamte Fahrzeit"
+    },
+    {
+      "nameId": "0106",
+      "string": "Nein"
+    },
+    {
+      "nameId": "0107",
+      "string": "Ja"
+    },
+    {
+      "nameId": "0104",
+      "string": "Gesamte kalibrierte Lamellen-Fahrzeit"
+    },
+    {
+      "nameId": "0105",
+      "string": "Verhalten bei Störungen"
+    },
+    {
+      "nameId": "013A",
+      "string": "Sicherheitszone"
+    },
+    {
+      "nameId": "013B",
+      "string": "ABC"
+    },
+    {
+      "nameId": "0138",
+      "string": "Domuslink-Temperatur"
+    },
+    {
+      "nameId": "0139",
+      "string": "Domuslink-Alarm"
+    },
+    {
+      "nameId": "013E",
+      "string": "BCD"
+    },
+    {
+      "nameId": "013F",
+      "string": "AB"
+    },
+    {
+      "nameId": "013C",
+      "string": "ABD"
+    },
+    {
+      "nameId": "013D",
+      "string": "ACD"
+    },
+    {
+      "nameId": "0132",
+      "string": "Schließer"
+    },
+    {
+      "nameId": "0133",
+      "string": "Binärsensor"
+    },
+    {
+      "nameId": "0130",
+      "string": "Kontaktart"
+    },
+    {
+      "nameId": "0131",
+      "string": "Öffner"
+    },
+    {
+      "nameId": "0136",
+      "string": "Betriebsart"
+    },
+    {
+      "nameId": "0137",
+      "string": "Heizen/Kühlen"
+    },
+    {
+      "nameId": "0134",
+      "string": "Benachrichtigungstext"
+    },
+    {
+      "nameId": "0135",
+      "string": "Klingelsignalsensor"
+    },
+    {
+      "nameId": "012A",
+      "string": "immer"
+    },
+    {
+      "nameId": "012B",
+      "string": "…bei Dämmerung"
+    },
+    {
+      "nameId": "0128",
+      "string": "Dunkler"
+    },
+    {
+      "nameId": "0129",
+      "string": "Einschalten"
+    },
+    {
+      "nameId": "012E",
+      "string": "Fenster/Tür"
+    },
+    {
+      "nameId": "012F",
+      "string": "Benachrichtigung"
+    },
+    {
+      "nameId": "012C",
+      "string": "…bei Dunkelheit"
+    },
+    {
+      "nameId": "012D",
+      "string": "2CSYE1703"
+    },
+    {
+      "nameId": "0122",
+      "string": "Bewegungsmelder"
+    },
+    {
+      "nameId": "0123",
+      "string": "Bewegungsmelder"
+    },
+    {
+      "nameId": "0120",
+      "string": "Info aktueller Dimmwert"
+    },
+    {
+      "nameId": "0121",
+      "string": "Drucktaster"
+    },
+    {
+      "nameId": "0126",
+      "string": "Runter"
+    },
+    {
+      "nameId": "0127",
+      "string": "Heller"
+    },
+    {
+      "nameId": "0124",
+      "string": "Ⓛ"
+    },
+    {
+      "nameId": "0125",
+      "string": "Hoch"
+    },
+    {
+      "nameId": "015A",
+      "string": "Fan Coil"
+    },
+    {
+      "nameId": "015B",
+      "string": "Zweipunktregler"
+    },
+    {
+      "nameId": "0158",
+      "string": "Heizungsaktor"
+    },
+    {
+      "nameId": "0159",
+      "string": "Fußbodenheizung"
+    },
+    {
+      "nameId": "015E",
+      "string": "Windalarm"
+    },
+    {
+      "nameId": "015F",
+      "string": "Frostalarm"
+    },
+    {
+      "nameId": "015C",
+      "string": "Flurlichtsensor"
+    },
+    {
+      "nameId": "015D",
+      "string": "Jalousieaktor"
+    },
+    {
+      "nameId": "0152",
+      "string": "Szene 1"
+    },
+    {
+      "nameId": "0153",
+      "string": "Szene 2"
+    },
+    {
+      "nameId": "0150",
+      "string": "Regelung 1"
+    },
+    {
+      "nameId": "0151",
+      "string": "Regelung 2"
+    },
+    {
+      "nameId": "0156",
+      "string": "Thermozone 2"
+    },
+    {
+      "nameId": "0157",
+      "string": "Thermozone 3"
+    },
+    {
+      "nameId": "0154",
+      "string": "Zeitregelung"
+    },
+    {
+      "nameId": "0155",
+      "string": "Thermozone 1"
+    },
+    {
+      "nameId": "014A",
+      "string": "Domuslink-Szene"
+    },
+    {
+      "nameId": "014B",
+      "string": "Kompletter Bereich"
+    },
+    {
+      "nameId": "0148",
+      "string": "D"
+    },
+    {
+      "nameId": "0149",
+      "string": "Domuslink-Sensor"
+    },
+    {
+      "nameId": "014E",
+      "string": "Einbruchalarm"
+    },
+    {
+      "nameId": "014F",
+      "string": "Sicherheitsalarm"
+    },
+    {
+      "nameId": "014C",
+      "string": "Teilbereich A"
+    },
+    {
+      "nameId": "014D",
+      "string": "Teilbereich B"
+    },
+    {
+      "nameId": "0142",
+      "string": "BC"
+    },
+    {
+      "nameId": "0143",
+      "string": "BD"
+    },
+    {
+      "nameId": "0140",
+      "string": "AC"
+    },
+    {
+      "nameId": "0141",
+      "string": "AD"
+    },
+    {
+      "nameId": "0146",
+      "string": "B"
+    },
+    {
+      "nameId": "0147",
+      "string": "C"
+    },
+    {
+      "nameId": "0144",
+      "string": "CD"
+    },
+    {
+      "nameId": "0145",
+      "string": "A"
+    },
+    {
+      "nameId": "017A",
+      "string": "Dachgeschoss"
+    },
+    {
+      "nameId": "017B",
+      "string": "1. Etage"
+    },
+    {
+      "nameId": "0178",
+      "string": "Keller"
+    },
+    {
+      "nameId": "0179",
+      "string": "Erdgeschoss"
+    },
+    {
+      "nameId": "017E",
+      "string": "Flurlicht"
+    },
+    {
+      "nameId": "017F",
+      "string": "Etagenruf"
+    },
+    {
+      "nameId": "017C",
+      "string": "2. Etage"
+    },
+    {
+      "nameId": "017D",
+      "string": "Info Wert Heizen"
+    },
+    {
+      "nameId": "0172",
+      "string": "Wohnzimmer"
+    },
+    {
+      "nameId": "0173",
+      "string": "Bad"
+    },
+    {
+      "nameId": "0170",
+      "string": "Displayschaltersensor"
+    },
+    {
+      "nameId": "0171",
+      "string": "Küche"
+    },
+    {
+      "nameId": "0176",
+      "string": "Kinderzimmer"
+    },
+    {
+      "nameId": "0177",
+      "string": "Flur"
+    },
+    {
+      "nameId": "0174",
+      "string": "Gästetoilette"
+    },
+    {
+      "nameId": "0175",
+      "string": "Schlafzimmer"
+    },
+    {
+      "nameId": "016A",
+      "string": "Panel"
+    },
+    {
+      "nameId": "016B",
+      "string": "1-fach Wippe, 2-fach Drucktaster"
+    },
+    {
+      "nameId": "0168",
+      "string": "Szene"
+    },
+    {
+      "nameId": "0169",
+      "string": "Panikszene"
+    },
+    {
+      "nameId": "016E",
+      "string": "Reset-Fehler"
+    },
+    {
+      "nameId": "016F",
+      "string": "Fan Coil-Sensor"
+    },
+    {
+      "nameId": "016C",
+      "string": "4-fach Drucktastersensor"
+    },
+    {
+      "nameId": "016D",
+      "string": "Nachlaufzeit"
+    },
+    {
+      "nameId": "0162",
+      "string": "Benachrichtigung"
+    },
+    {
+      "nameId": "0163",
+      "string": "Bewegungsmelder-Sensor"
+    },
+    {
+      "nameId": "0160",
+      "string": "Regenalarm"
+    },
+    {
+      "nameId": "0161",
+      "string": "Fensterkontakt"
+    },
+    {
+      "nameId": "0166",
+      "string": "Lichtgruppe"
+    },
+    {
+      "nameId": "0167",
+      "string": "Jalousiegruppe"
+    },
+    {
+      "nameId": "0164",
+      "string": "Drucktastersensor"
+    },
+    {
+      "nameId": "0165",
+      "string": "Türöffnersensor"
+    },
+    {
+      "nameId": "019A",
+      "string": "15 Sek."
+    },
+    {
+      "nameId": "019B",
+      "string": "20 Sek."
+    },
+    {
+      "nameId": "0198",
+      "string": "5 Sek."
+    },
+    {
+      "nameId": "0199",
+      "string": "10 Sek."
+    },
+    {
+      "nameId": "019E",
+      "string": "1 Min."
+    },
+    {
+      "nameId": "019F",
+      "string": "1 Min. 15 Sek."
+    },
+    {
+      "nameId": "019C",
+      "string": "30 Sek."
+    },
+    {
+      "nameId": "019D",
+      "string": "45 Sek."
+    },
+    {
+      "nameId": "0192",
+      "string": "Heizungsaktor"
+    },
+    {
+      "nameId": "0193",
+      "string": "Sensor"
+    },
+    {
+      "nameId": "0190",
+      "string": "Türruf 3"
+    },
+    {
+      "nameId": "0191",
+      "string": "Türruf 4"
+    },
+    {
+      "nameId": "0196",
+      "string": "2 Sek."
+    },
+    {
+      "nameId": "0197",
+      "string": "3 Sek."
+    },
+    {
+      "nameId": "0194",
+      "string": "Deaktiviert"
+    },
+    {
+      "nameId": "0195",
+      "string": "1 Sek."
+    },
+    {
+      "nameId": "018A",
+      "string": "Dimmbare LED/KLL"
+    },
+    {
+      "nameId": "018B",
+      "string": "Minimale Helligkeit"
+    },
+    {
+      "nameId": "0188",
+      "string": "Lichtsensor"
+    },
+    {
+      "nameId": "0189",
+      "string": "Lichtaktor"
+    },
+    {
+      "nameId": "018E",
+      "string": "Türruf 1"
+    },
+    {
+      "nameId": "018F",
+      "string": "Türruf 2"
+    },
+    {
+      "nameId": "018C",
+      "string": "Maximale Helligkeit"
+    },
+    {
+      "nameId": "018D",
+      "string": "Dimmergruppe"
+    },
+    {
+      "nameId": "0182",
+      "string": "Auto-Türöffner"
+    },
+    {
+      "nameId": "0183",
+      "string": "Benachrichtigungsstart"
+    },
+    {
+      "nameId": "0180",
+      "string": "Etagenruftaster"
+    },
+    {
+      "nameId": "0181",
+      "string": "Türruf"
+    },
+    {
+      "nameId": "0186",
+      "string": "Zwangsstellung Aus"
+    },
+    {
+      "nameId": "0187",
+      "string": "Steckdose"
+    },
+    {
+      "nameId": "0184",
+      "string": "Benachrichtigungsende"
+    },
+    {
+      "nameId": "0185",
+      "string": "Zwangsstellung An"
+    },
+    {
+      "nameId": "01BA",
+      "string": "Raumtemperaturregler"
+    },
+    {
+      "nameId": "01BB",
+      "string": "RTR hat Fan Coil zugeschaltet"
+    },
+    {
+      "nameId": "01B8",
+      "string": "Alle Jalousien auf"
+    },
+    {
+      "nameId": "01B9",
+      "string": "Alle Jalousien zu"
+    },
+    {
+      "nameId": "01BE",
+      "string": "Ist-Temperatur Sende-Intervall"
+    },
+    {
+      "nameId": "01BF",
+      "string": "Tag/Nacht-Umschaltung"
+    },
+    {
+      "nameId": "01BC",
+      "string": "Kühlaktor"
+    },
+    {
+      "nameId": "01BD",
+      "string": "Temperaturkorrektur"
+    },
+    {
+      "nameId": "01B2",
+      "string": "REG-Jalousieaktor"
+    },
+    {
+      "nameId": "01B3",
+      "string": "REG-Schaltaktor"
+    },
+    {
+      "nameId": "01B0",
+      "string": "REG-Binärausgang"
+    },
+    {
+      "nameId": "01B1",
+      "string": "REG-Binäreingang"
+    },
+    {
+      "nameId": "01B6",
+      "string": "stromlos geschlossen"
+    },
+    {
+      "nameId": "01B7",
+      "string": "Alles aus"
+    },
+    {
+      "nameId": "01B4",
+      "string": "REG-Dimmaktor"
+    },
+    {
+      "nameId": "01B5",
+      "string": "stromlos geöffnet"
+    },
+    {
+      "nameId": "01AA",
+      "string": "2 Std."
+    },
+    {
+      "nameId": "01AB",
+      "string": "3 Std."
+    },
+    {
+      "nameId": "01A8",
+      "string": "30 Min."
+    },
+    {
+      "nameId": "01A9",
+      "string": "1 Std."
+    },
+    {
+      "nameId": "01AE",
+      "string": "REG-Gerät"
+    },
+    {
+      "nameId": "01AF",
+      "string": "REG-Heizungsaktor"
+    },
+    {
+      "nameId": "01AC",
+      "string": "5 Std."
+    },
+    {
+      "nameId": "01AD",
+      "string": "UP-Gerät"
+    },
+    {
+      "nameId": "01A2",
+      "string": "2 Min. 30 Sek."
+    },
+    {
+      "nameId": "01A3",
+      "string": "3 Min."
+    },
+    {
+      "nameId": "01A0",
+      "string": "1 Min. 30 Sek."
+    },
+    {
+      "nameId": "01A1",
+      "string": "2 Min."
+    },
+    {
+      "nameId": "01A6",
+      "string": "15 Min."
+    },
+    {
+      "nameId": "01A7",
+      "string": "20 Min."
+    },
+    {
+      "nameId": "01A4",
+      "string": "5 Min."
+    },
+    {
+      "nameId": "01A5",
+      "string": "10 Min."
+    },
+    {
+      "nameId": "01DA",
+      "string": "Wert Zwangsführung"
+    },
+    {
+      "nameId": "01DB",
+      "string": "Zwangs-EIN"
+    },
+    {
+      "nameId": "01D8",
+      "string": "Automatische Lasterkennung"
+    },
+    {
+      "nameId": "01D9",
+      "string": "Bewegung"
+    },
+    {
+      "nameId": "01DE",
+      "string": "Binäreingang 2-fach, UP"
+    },
+    {
+      "nameId": "01DF",
+      "string": "Binäreingang 4-fach, UP"
+    },
+    {
+      "nameId": "01DC",
+      "string": "Zwangs-AUS"
+    },
+    {
+      "nameId": "01DD",
+      "string": "Szenennummer"
+    },
+    {
+      "nameId": "01D2",
+      "string": "Regen Ende"
+    },
+    {
+      "nameId": "01D3",
+      "string": "Tür Start"
+    },
+    {
+      "nameId": "01D0",
+      "string": "Frost Ende"
+    },
+    {
+      "nameId": "01D1",
+      "string": "Regen Start"
+    },
+    {
+      "nameId": "01D6",
+      "string": "Bewegung Ende"
+    },
+    {
+      "nameId": "01D7",
+      "string": "Umschaltung Heizen/Kühlen"
+    },
+    {
+      "nameId": "01D4",
+      "string": "Tür Ende"
+    },
+    {
+      "nameId": "01D5",
+      "string": "Bewegung Start"
+    },
+    {
+      "nameId": "01CA",
+      "string": "Auto. Heiz-/Kühlbetrieb"
+    },
+    {
+      "nameId": "01CB",
+      "string": "Aktor für Heizen oder Kühlen"
+    },
+    {
+      "nameId": "01C8",
+      "string": "Heizbetrieb"
+    },
+    {
+      "nameId": "01C9",
+      "string": "Kühlbetrieb"
+    },
+    {
+      "nameId": "01CE",
+      "string": "Wind Ende"
+    },
+    {
+      "nameId": "01CF",
+      "string": "Frost Start"
+    },
+    {
+      "nameId": "01CC",
+      "string": "Heizen bei Primärspannung am Ausgang"
+    },
+    {
+      "nameId": "01CD",
+      "string": "Wind Start"
+    },
+    {
+      "nameId": "01C2",
+      "string": "Datum"
+    },
+    {
+      "nameId": "01C3",
+      "string": "Uhrzeit"
+    },
+    {
+      "nameId": "01C0",
+      "string": "SysAP Kommunikationsinterface"
+    },
+    {
+      "nameId": "01C1",
+      "string": "Zeit und Datum"
+    },
+    {
+      "nameId": "01C6",
+      "string": "Jalousie Sperren"
+    },
+    {
+      "nameId": "01C7",
+      "string": "Info Wert Kühlen"
+    },
+    {
+      "nameId": "01C4",
+      "string": "Zwangsstellung oben"
+    },
+    {
+      "nameId": "01C5",
+      "string": "Zwangsstellung unten"
+    },
+    {
+      "nameId": "01FA",
+      "string": "Durch zyklische Überwachung des Datenpunktes Sollwert (Kontrollwert) erkannter Controller-Fehler."
+    },
+    {
+      "nameId": "01FB",
+      "string": "Bitte kalibrieren Sie die Jalousie durch das einmalige, vollständige Fahren nach oben."
+    },
+    {
+      "nameId": "01F8",
+      "string": "Ausgang ausgeschaltet und verriegelt aufgrund eines Kurzschlusses"
+    },
+    {
+      "nameId": "01F9",
+      "string": "Ausgang ausgeschaltet und verriegelt aufgrund einer erkannten Überlast"
+    },
+    {
+      "nameId": "01FE",
+      "string": "Ausgang ausgeschaltet und vorübergehend verriegelt aufgrund einer transienten Überspannung"
+    },
+    {
+      "nameId": "01FF",
+      "string": "Ausgang ausgeschaltet und verriegelt aufgrund kritischer Übertemperatur"
+    },
+    {
+      "nameId": "01FC",
+      "string": "Gerät gesperrt durch aktive Sicherheitsfunktion"
+    },
+    {
+      "nameId": "01FD",
+      "string": "Allgemeine Funktionsstörung"
+    },
+    {
+      "nameId": "01F2",
+      "string": "Lüftungsaktor"
+    },
+    {
+      "nameId": "01F3",
+      "string": "Licht"
+    },
+    {
+      "nameId": "01F0",
+      "string": "Info Lüfterstufe Heizen"
+    },
+    {
+      "nameId": "01F1",
+      "string": "Info Lüfter Heizen manuell An/Aus"
+    },
+    {
+      "nameId": "01F6",
+      "string": "Präsenz"
+    },
+    {
+      "nameId": "01F7",
+      "string": "Ventilspülung aktiv"
+    },
+    {
+      "nameId": "01F4",
+      "string": "Max. Einschalthelligkeit Tag"
+    },
+    {
+      "nameId": "01F5",
+      "string": "Max. Einschalthelligkeit Nacht"
+    },
+    {
+      "nameId": "01EA",
+      "string": "Kino"
+    },
+    {
+      "nameId": "01EB",
+      "string": "Abendessen"
+    },
+    {
+      "nameId": "01E8",
+      "string": "Schlafen"
+    },
+    {
+      "nameId": "01E9",
+      "string": "Party"
+    },
+    {
+      "nameId": "01EE",
+      "string": "Lüfterstufe Sollwert"
+    },
+    {
+      "nameId": "01EF",
+      "string": "Manueller Modus Sollwert"
+    },
+    {
+      "nameId": "01EC",
+      "string": "Haus verlassen"
+    },
+    {
+      "nameId": "01ED",
+      "string": "Geräteeinstellungen"
+    },
+    {
+      "nameId": "01E2",
+      "string": "Ⓒ+Ⓓ"
+    },
+    {
+      "nameId": "01E3",
+      "string": "Ⓔ+Ⓕ"
+    },
+    {
+      "nameId": "01E0",
+      "string": "Ⓐ, Ⓑ"
+    },
+    {
+      "nameId": "01E1",
+      "string": "Ⓐ+Ⓑ"
+    },
+    {
+      "nameId": "01E6",
+      "string": "Tag"
+    },
+    {
+      "nameId": "01E7",
+      "string": "Nacht"
+    },
+    {
+      "nameId": "01E4",
+      "string": "Ⓖ+Ⓗ"
+    },
+    {
+      "nameId": "01E5",
+      "string": "Info Lüfterstufe"
+    },
+    {
+      "nameId": "021A",
+      "string": "ⓐ+ⓑ, ⓒ+ⓓ"
+    },
+    {
+      "nameId": "021B",
+      "string": "ⓐ, ⓑ"
+    },
+    {
+      "nameId": "0218",
+      "string": "ⓐ, ⓑ, ⓒ, ⓓ"
+    },
+    {
+      "nameId": "0219",
+      "string": "ⓐ+ⓑ, ⓒ, ⓓ"
+    },
+    {
+      "nameId": "021E",
+      "string": "ⓒ"
+    },
+    {
+      "nameId": "021F",
+      "string": "ⓓ"
+    },
+    {
+      "nameId": "021C",
+      "string": "ⓐ"
+    },
+    {
+      "nameId": "021D",
+      "string": "ⓑ"
+    },
+    {
+      "nameId": "0212",
+      "string": "Szene überschreiben"
+    },
+    {
+      "nameId": "0213",
+      "string": "Szene beibehalten"
+    },
+    {
+      "nameId": "0210",
+      "string": "Schalter"
+    },
+    {
+      "nameId": "0211",
+      "string": "Langer Tastendruck"
+    },
+    {
+      "nameId": "0216",
+      "string": "ⓐ+ⓑ, ⓒ+ⓓ, ⓔ, ⓕ, ⓖ, ⓗ"
+    },
+    {
+      "nameId": "0217",
+      "string": "ⓐ+ⓑ, ⓒ+ⓓ, ⓔ+ⓕ, ⓖ+ⓗ"
+    },
+    {
+      "nameId": "0214",
+      "string": "Kanalauswahl (Eingänge)"
+    },
+    {
+      "nameId": "0215",
+      "string": "ⓐ, ⓑ, ⓒ, ⓓ, ⓔ, ⓕ, ⓖ, ⓗ"
+    },
+    {
+      "nameId": "020A",
+      "string": "30s"
+    },
+    {
+      "nameId": "020B",
+      "string": "60s"
+    },
+    {
+      "nameId": "0208",
+      "string": "Min. Temperaturverminderung"
+    },
+    {
+      "nameId": "0209",
+      "string": "Display Ruhezustand"
+    },
+    {
+      "nameId": "020E",
+      "string": "Sensortyp"
+    },
+    {
+      "nameId": "020F",
+      "string": "Taster"
+    },
+    {
+      "nameId": "020C",
+      "string": "5min"
+    },
+    {
+      "nameId": "020D",
+      "string": "Hue Aktor"
+    },
+    {
+      "nameId": "0202",
+      "string": "Verhalten bei Einbruch der Dunkelheit"
+    },
+    {
+      "nameId": "0203",
+      "string": "Verhalten am Morgen"
+    },
+    {
+      "nameId": "0200",
+      "string": "Ausgang verriegelt durch Zwangsstellung-Datenpunkt"
+    },
+    {
+      "nameId": "0201",
+      "string": "Lastfunktionsstörung / Kabelbruch"
+    },
+    {
+      "nameId": "0206",
+      "string": "Ventilstellung bei Störungen"
+    },
+    {
+      "nameId": "0207",
+      "string": "Max. Temperaturerhöhung"
+    },
+    {
+      "nameId": "0204",
+      "string": "Info Zwangsstellung"
+    },
+    {
+      "nameId": "0205",
+      "string": "Absolute Solltemperatur"
+    },
+    {
+      "nameId": "023B",
+      "string": "Warmweiß-/Kaltweiß-Lampe"
+    },
+    {
+      "nameId": "0238",
+      "string": "HUE Dimmer"
+    },
+    {
+      "nameId": "0239",
+      "string": "Letzte Helligkeit"
+    },
+    {
+      "nameId": "023E",
+      "string": "Intern"
+    },
+    {
+      "nameId": "023F",
+      "string": "Extern"
+    },
+    {
+      "nameId": "023C",
+      "string": "Rolllade"
+    },
+    {
+      "nameId": "023D",
+      "string": "Temperaturerfassung"
+    },
+    {
+      "nameId": "0232",
+      "string": "Weiß mit letzter Helligkeit"
+    },
+    {
+      "nameId": "0233",
+      "string": "RGB + Warmweiß/Kaltweiß Sensor"
+    },
+    {
+      "nameId": "0230",
+      "string": "Weiß"
+    },
+    {
+      "nameId": "0231",
+      "string": "Letzte Farbe"
+    },
+    {
+      "nameId": "0236",
+      "string": "RGB oder W Gruppe"
+    },
+    {
+      "nameId": "0237",
+      "string": "HUE Licht"
+    },
+    {
+      "nameId": "0234",
+      "string": "RGB-Sensor"
+    },
+    {
+      "nameId": "0235",
+      "string": "Warmweiß/Kaltweiß Sensor"
+    },
+    {
+      "nameId": "022A",
+      "string": "ⓞ"
+    },
+    {
+      "nameId": "022B",
+      "string": "ⓐ+ⓑ"
+    },
+    {
+      "nameId": "0228",
+      "string": "ⓜ"
+    },
+    {
+      "nameId": "0229",
+      "string": "ⓝ"
+    },
+    {
+      "nameId": "022E",
+      "string": "ⓖ+ⓗ"
+    },
+    {
+      "nameId": "022F",
+      "string": "Einschaltmodus"
+    },
+    {
+      "nameId": "022C",
+      "string": "ⓒ+ⓓ"
+    },
+    {
+      "nameId": "022D",
+      "string": "ⓔ+ⓕ"
+    },
+    {
+      "nameId": "0222",
+      "string": "ⓖ"
+    },
+    {
+      "nameId": "0223",
+      "string": "ⓗ"
+    },
+    {
+      "nameId": "0220",
+      "string": "ⓔ"
+    },
+    {
+      "nameId": "0221",
+      "string": "ⓕ"
+    },
+    {
+      "nameId": "0226",
+      "string": "ⓚ"
+    },
+    {
+      "nameId": "0227",
+      "string": "ⓛ"
+    },
+    {
+      "nameId": "0224",
+      "string": "ⓘ"
+    },
+    {
+      "nameId": "0225",
+      "string": "ⓙ"
+    },
+    {
+      "nameId": "025A",
+      "string": "Wetterstation"
+    },
+    {
+      "nameId": "025B",
+      "string": "Info Wert Zusatzheizung"
+    },
+    {
+      "nameId": "0258",
+      "string": "Windstärke 11 (ab 28,5 m/s)"
+    },
+    {
+      "nameId": "0259",
+      "string": "Windstärke 12 (ab 32,7 m/s)"
+    },
+    {
+      "nameId": "025E",
+      "string": "Stellgröße Zusatzkühlung"
+    },
+    {
+      "nameId": "025F",
+      "string": "Heizbetrieb Zusatzstufe"
+    },
+    {
+      "nameId": "025C",
+      "string": "Info Wert Zusatzkühlung"
+    },
+    {
+      "nameId": "025D",
+      "string": "Stellgröße Zusatzheizung"
+    },
+    {
+      "nameId": "0252",
+      "string": "Windstärke 5 (ab 8,0 m/s)"
+    },
+    {
+      "nameId": "0253",
+      "string": "Windstärke 6 (ab 10,8 m/s)"
+    },
+    {
+      "nameId": "0250",
+      "string": "Windstärke 3 (ab 3,4 m/s)"
+    },
+    {
+      "nameId": "0251",
+      "string": "Windstärke 4 (ab 5,5 m/s)"
+    },
+    {
+      "nameId": "0256",
+      "string": "Windstärke 9 (ab 20,8 m/s)"
+    },
+    {
+      "nameId": "0257",
+      "string": "Windstärke 10 (ab 24,5 m/s)"
+    },
+    {
+      "nameId": "0254",
+      "string": "Windstärke 7 (ab 13,9 m/s)"
+    },
+    {
+      "nameId": "0255",
+      "string": "Windstärke 8 (ab 17,2 m/s)"
+    },
+    {
+      "nameId": "024A",
+      "string": "Windsensor"
+    },
+    {
+      "nameId": "024B",
+      "string": "Windstärke"
+    },
+    {
+      "nameId": "0248",
+      "string": "Frostschutztemperatur"
+    },
+    {
+      "nameId": "0249",
+      "string": "Regensensor"
+    },
+    {
+      "nameId": "024E",
+      "string": "Windstärke 1 (ab 0,3 m/s)"
+    },
+    {
+      "nameId": "024F",
+      "string": "Windstärke 2 (ab 1,6 m/s)"
+    },
+    {
+      "nameId": "024C",
+      "string": "Windalarmgrenzwert"
+    },
+    {
+      "nameId": "024D",
+      "string": "Windstärke 0 (ab 0 m/s)"
+    },
+    {
+      "nameId": "0242",
+      "string": "Luxwert"
+    },
+    {
+      "nameId": "0243",
+      "string": "Helligkeitsalarm"
+    },
+    {
+      "nameId": "0240",
+      "string": "Gemittelt"
+    },
+    {
+      "nameId": "0241",
+      "string": "Helligkeitssensor"
+    },
+    {
+      "nameId": "0246",
+      "string": "Temperatursensor"
+    },
+    {
+      "nameId": "0247",
+      "string": "Außentemperatur"
+    },
+    {
+      "nameId": "0244",
+      "string": "Helligkeitsschwellwert"
+    },
+    {
+      "nameId": "0245",
+      "string": "Hysterese"
+    },
+    {
+      "nameId": "027A",
+      "string": "Regenbeginn"
+    },
+    {
+      "nameId": "027B",
+      "string": "Regenende"
+    },
+    {
+      "nameId": "0278",
+      "string": "Überschreiten der Helligkeit"
+    },
+    {
+      "nameId": "0279",
+      "string": "Unterschreiten der Helligkeit"
+    },
+    {
+      "nameId": "027E",
+      "string": "Bei Windalarm"
+    },
+    {
+      "nameId": "027F",
+      "string": "Nach Windalarm"
+    },
+    {
+      "nameId": "027C",
+      "string": "Unterschreiten der Frostschutztemperatur"
+    },
+    {
+      "nameId": "027D",
+      "string": "Überschreiten der Frostschutztemperatur"
+    },
+    {
+      "nameId": "0272",
+      "string": "Temperatur"
+    },
+    {
+      "nameId": "0273",
+      "string": "LED Hinterleuchtung Nachtbetrieb"
+    },
+    {
+      "nameId": "0270",
+      "string": "Mehr als"
+    },
+    {
+      "nameId": "0271",
+      "string": "Weniger als"
+    },
+    {
+      "nameId": "0276",
+      "string": "Unterste Szene"
+    },
+    {
+      "nameId": "0277",
+      "string": "Szene"
+    },
+    {
+      "nameId": "0274",
+      "string": "LED Hinterleuchtung Tagbetrieb"
+    },
+    {
+      "nameId": "0275",
+      "string": "Oberste Szene"
+    },
+    {
+      "nameId": "026A",
+      "string": "Start"
+    },
+    {
+      "nameId": "026B",
+      "string": "Ende"
+    },
+    {
+      "nameId": "0268",
+      "string": "Am Tag"
+    },
+    {
+      "nameId": "0269",
+      "string": "Bei Nacht"
+    },
+    {
+      "nameId": "026E",
+      "string": "Kalender"
+    },
+    {
+      "nameId": "026F",
+      "string": "Raumtemperaturregler"
+    },
+    {
+      "nameId": "026C",
+      "string": "Wiederhole an diesen Tagen"
+    },
+    {
+      "nameId": "026D",
+      "string": "Uhrzeit"
+    },
+    {
+      "nameId": "0262",
+      "string": "PWM Periode"
+    },
+    {
+      "nameId": "0263",
+      "string": "Taster"
+    },
+    {
+      "nameId": "0260",
+      "string": "Stellgröße Zusatzheizung"
+    },
+    {
+      "nameId": "0261",
+      "string": "Info Wert Zusatzheizung"
+    },
+    {
+      "nameId": "0266",
+      "string": "Es hört auf zu regnen"
+    },
+    {
+      "nameId": "0267",
+      "string": "Regenerkennung"
+    },
+    {
+      "nameId": "0264",
+      "string": "Triggerdauer"
+    },
+    {
+      "nameId": "0265",
+      "string": "Es beginnt zu regnen"
+    },
+    {
+      "nameId": "029A",
+      "string": "Motorisch, 3-Punkt"
+    },
+    {
+      "nameId": "029B",
+      "string": "Ventilansteuerung"
+    },
+    {
+      "nameId": "0298",
+      "string": "Ventilöffnungszeit"
+    },
+    {
+      "nameId": "0299",
+      "string": "PWM Modus"
+    },
+    {
+      "nameId": "029E",
+      "string": "Thermisch, stromlos geöffnet"
+    },
+    {
+      "nameId": "029F",
+      "string": "Taster"
+    },
+    {
+      "nameId": "029C",
+      "string": "Ventil PWM-Profil"
+    },
+    {
+      "nameId": "029D",
+      "string": "Thermisch, stromlos geschlossen"
+    },
+    {
+      "nameId": "0292",
+      "string": "Stufenschalter"
+    },
+    {
+      "nameId": "0293",
+      "string": "Lüfteranlaufzeit mit voller Leistung"
+    },
+    {
+      "nameId": "0290",
+      "string": "Sehr leise"
+    },
+    {
+      "nameId": "0291",
+      "string": "Wechselschalter"
+    },
+    {
+      "nameId": "0296",
+      "string": "Taupunktsensor"
+    },
+    {
+      "nameId": "0297",
+      "string": "3-Punkt Fan-Coil Aktor"
+    },
+    {
+      "nameId": "0294",
+      "string": "Lüfter-Umschaltpause"
+    },
+    {
+      "nameId": "0295",
+      "string": "Füllstandssensor"
+    },
+    {
+      "nameId": "028A",
+      "string": "Leise"
+    },
+    {
+      "nameId": "028B",
+      "string": "Standard"
+    },
+    {
+      "nameId": "0288",
+      "string": "Info Lüfterstufe manuell wählen"
+    },
+    {
+      "nameId": "0289",
+      "string": "Lüftermodus"
+    },
+    {
+      "nameId": "028E",
+      "string": "Kein"
+    },
+    {
+      "nameId": "028F",
+      "string": "Leise"
+    },
+    {
+      "nameId": "028C",
+      "string": "Maximale Leistung"
+    },
+    {
+      "nameId": "028D",
+      "string": "Nachtmodus"
+    },
+    {
+      "nameId": "0282",
+      "string": "Motortotzeit"
+    },
+    {
+      "nameId": "0283",
+      "string": "Gesamtfahrzeit aufwärts"
+    },
+    {
+      "nameId": "0280",
+      "string": "Gesamtfahrzeit abwärts"
+    },
+    {
+      "nameId": "0281",
+      "string": "Kalibrierte Gesamtfahrzeit abwärts"
+    },
+    {
+      "nameId": "0286",
+      "string": "Lüfterstufe Stellgröße"
+    },
+    {
+      "nameId": "0287",
+      "string": "Info Lüfterstufe Stellgröße"
+    },
+    {
+      "nameId": "0284",
+      "string": "PWM Fan-Coil Aktor"
+    },
+    {
+      "nameId": "0285",
+      "string": "Zwei Ventile für Heizen und Kühlen"
+    },
+    {
+      "nameId": "02BA",
+      "string": "Taste gedrückt"
+    },
+    {
+      "nameId": "02BB",
+      "string": "Taste losgelassen"
+    },
+    {
+      "nameId": "02B8",
+      "string": "Drucktaster links"
+    },
+    {
+      "nameId": "02B9",
+      "string": "Drucktaster rechts"
+    },
+    {
+      "nameId": "02BE",
+      "string": "SysAP"
+    },
+    {
+      "nameId": "02BF",
+      "string": "Grundprofil"
+    },
+    {
+      "nameId": "02BC",
+      "string": "Impulstaster"
+    },
+    {
+      "nameId": "02BD",
+      "string": "Bewegung unter Berücksichtigung der Helligkeit"
+    },
+    {
+      "nameId": "02B2",
+      "string": "Vorbedingung Zeitperiode"
+    },
+    {
+      "nameId": "02B3",
+      "string": "Vorbedingung Datumsperiode"
+    },
+    {
+      "nameId": "02B0",
+      "string": "Vorbedingung Tag"
+    },
+    {
+      "nameId": "02B1",
+      "string": "Vorbedingung Nacht"
+    },
+    {
+      "nameId": "02B6",
+      "string": "Fenster wird geschlossen"
+    },
+    {
+      "nameId": "02B7",
+      "string": "Sendeintervall"
+    },
+    {
+      "nameId": "02B4",
+      "string": "Unbekanntes Gerät"
+    },
+    {
+      "nameId": "02B5",
+      "string": "Fenster wird geöffnet"
+    },
+    {
+      "nameId": "02AA",
+      "string": "Welcome"
+    },
+    {
+      "nameId": "02AB",
+      "string": "Zeitprogrammaktor"
+    },
+    {
+      "nameId": "02A8",
+      "string": "Temperaturregelung"
+    },
+    {
+      "nameId": "02A9",
+      "string": "Binäreingänge"
+    },
+    {
+      "nameId": "02AE",
+      "string": "Einschalten"
+    },
+    {
+      "nameId": "02AF",
+      "string": "Ausschalten"
+    },
+    {
+      "nameId": "02AC",
+      "string": "Benachrichtigungsaktor"
+    },
+    {
+      "nameId": "02AD",
+      "string": "Gerät"
+    },
+    {
+      "nameId": "02A2",
+      "string": "Gerätekanalauswahl"
+    },
+    {
+      "nameId": "02A3",
+      "string": "Fancoil-Funktion"
+    },
+    {
+      "nameId": "02A0",
+      "string": "Schalter (umschalten)"
+    },
+    {
+      "nameId": "02A1",
+      "string": "Schalter (direkt)"
+    },
+    {
+      "nameId": "02A6",
+      "string": "Aktoren"
+    },
+    {
+      "nameId": "02A7",
+      "string": "Licht"
+    },
+    {
+      "nameId": "02A4",
+      "string": "Windgeschwindigkeit"
+    },
+    {
+      "nameId": "02A5",
+      "string": "Sensoren"
+    },
+    {
+      "nameId": "02DA",
+      "string": "Außenhelligkeit"
+    },
+    {
+      "nameId": "02DB",
+      "string": "Außenhelligkeitskanal"
+    },
+    {
+      "nameId": "02D8",
+      "string": "Außentemperatur"
+    },
+    {
+      "nameId": "02D9",
+      "string": "Außentemperaturkanal"
+    },
+    {
+      "nameId": "02DE",
+      "string": "Geöffnet"
+    },
+    {
+      "nameId": "02DF",
+      "string": "Geschlossen"
+    },
+    {
+      "nameId": "02DC",
+      "string": "Gedrückt"
+    },
+    {
+      "nameId": "02DD",
+      "string": "Nicht gedrückt"
+    },
+    {
+      "nameId": "02D2",
+      "string": "Tastsensor"
+    },
+    {
+      "nameId": "02D3",
+      "string": "Windalarmkanal"
+    },
+    {
+      "nameId": "02D0",
+      "string": "Tastsensorkanal"
+    },
+    {
+      "nameId": "02D1",
+      "string": "Regenalarmkanal"
+    },
+    {
+      "nameId": "02D6",
+      "string": "Impulsalarmsensor"
+    },
+    {
+      "nameId": "02D7",
+      "string": "Windgeschwindigkeitskanal"
+    },
+    {
+      "nameId": "02D4",
+      "string": "Frostalarmsensor"
+    },
+    {
+      "nameId": "02D5",
+      "string": "Helligkeitsalarmsensor"
+    },
+    {
+      "nameId": "02CA",
+      "string": "Firmware update Datei %s ist defekt"
+    },
+    {
+      "nameId": "02CB",
+      "string": "Innentemperatur"
+    },
+    {
+      "nameId": "02C8",
+      "string": "Gerät neu geladen (%s)"
+    },
+    {
+      "nameId": "02C9",
+      "string": "Dateityp von Datei %s unbekannt"
+    },
+    {
+      "nameId": "02CE",
+      "string": "Innentemperaturkanal"
+    },
+    {
+      "nameId": "02CF",
+      "string": "Jalousieaktorkanal"
+    },
+    {
+      "nameId": "02CC",
+      "string": "Schaltaktoren"
+    },
+    {
+      "nameId": "02CD",
+      "string": "Schaltaktorkanal"
+    },
+    {
+      "nameId": "02C2",
+      "string": "Nicht konfiguriert"
+    },
+    {
+      "nameId": "02C3",
+      "string": "Verstellung Lüfterstufe Kühlen"
+    },
+    {
+      "nameId": "02C0",
+      "string": "Automatisch generierter Raum"
+    },
+    {
+      "nameId": "02C1",
+      "string": "Automatisch generierte Etage"
+    },
+    {
+      "nameId": "02C6",
+      "string": "Info Lüfter Kühlen manuell An/Aus"
+    },
+    {
+      "nameId": "02C7",
+      "string": "Alle Geräte enthalten schon die aktuelle Firmwareversion"
+    },
+    {
+      "nameId": "02C4",
+      "string": "Verstellung Lüfter Kühlen manuell An/Aus"
+    },
+    {
+      "nameId": "02C5",
+      "string": "Info Lüfterstufe Kühlen"
+    },
+    {
+      "nameId": "02FA",
+      "string": "1x24 Stunden"
+    },
+    {
+      "nameId": "02FB",
+      "string": "Benutzersprache"
+    },
+    {
+      "nameId": "02F8",
+      "string": "Stundenzählung"
+    },
+    {
+      "nameId": "02F9",
+      "string": "2x12 Stunden"
+    },
+    {
+      "nameId": "02FE",
+      "string": "Französisch"
+    },
+    {
+      "nameId": "02FF",
+      "string": "Italienisch"
+    },
+    {
+      "nameId": "02FC",
+      "string": "Englisch"
+    },
+    {
+      "nameId": "02FD",
+      "string": "Spanisch"
+    },
+    {
+      "nameId": "02F2",
+      "string": "Alarm Ausschaltverzögerung"
+    },
+    {
+      "nameId": "02F3",
+      "string": "Empfindlichkeit"
+    },
+    {
+      "nameId": "02F0",
+      "string": "Primärfunktion"
+    },
+    {
+      "nameId": "02F1",
+      "string": "Alarm Einschaltverzögerung"
+    },
+    {
+      "nameId": "02F6",
+      "string": "Niedrig"
+    },
+    {
+      "nameId": "02F7",
+      "string": "Regensensor Frequenz"
+    },
+    {
+      "nameId": "02F4",
+      "string": "Hoch"
+    },
+    {
+      "nameId": "02F5",
+      "string": "Mittel"
+    },
+    {
+      "nameId": "02EA",
+      "string": "Ist eingeschaltet"
+    },
+    {
+      "nameId": "02EB",
+      "string": "Ist ausgeschaltet"
+    },
+    {
+      "nameId": "02E8",
+      "string": "Es regnet"
+    },
+    {
+      "nameId": "02E9",
+      "string": "Es regnet nicht"
+    },
+    {
+      "nameId": "02EE",
+      "string": "Keine Bewegung"
+    },
+    {
+      "nameId": "02EF",
+      "string": "Fensterkontaktkanal"
+    },
+    {
+      "nameId": "02EC",
+      "string": "Dimmerkanal"
+    },
+    {
+      "nameId": "02ED",
+      "string": "Bei Bewegung"
+    },
+    {
+      "nameId": "02E2",
+      "string": "Während des Frostalarms"
+    },
+    {
+      "nameId": "02E3",
+      "string": "Kein Frostalarm"
+    },
+    {
+      "nameId": "02E0",
+      "string": "Während des Helligkeitsalarms"
+    },
+    {
+      "nameId": "02E1",
+      "string": "Kein Helligkeitsalarm"
+    },
+    {
+      "nameId": "02E6",
+      "string": "Taste gedrückt"
+    },
+    {
+      "nameId": "02E7",
+      "string": "Taste nicht gedrückt"
+    },
+    {
+      "nameId": "02E4",
+      "string": "Während des Windalarms"
+    },
+    {
+      "nameId": "02E5",
+      "string": "Kein Wind alarm"
+    },
+    {
+      "nameId": "031A",
+      "string": "Solarenergie (heute)"
+    },
+    {
+      "nameId": "031B",
+      "string": "Injizierte Energie (heute)"
+    },
+    {
+      "nameId": "0318",
+      "string": "Solarstromproduktion"
+    },
+    {
+      "nameId": "0319",
+      "string": "Wechselrichter-Ausgangsleistung"
+    },
+    {
+      "nameId": "031E",
+      "string": "Selbstverbrauch"
+    },
+    {
+      "nameId": "031F",
+      "string": "Selbstversorgung"
+    },
+    {
+      "nameId": "031C",
+      "string": "Zugekaufte Energie (heute)"
+    },
+    {
+      "nameId": "031D",
+      "string": "Wechselrichter-Alarm"
+    },
+    {
+      "nameId": "0312",
+      "string": "Temperaturkorrektur externer Sensor"
+    },
+    {
+      "nameId": "0313",
+      "string": "Temperaturobergrenze"
+    },
+    {
+      "nameId": "0310",
+      "string": "int. und ext. zur Regelung"
+    },
+    {
+      "nameId": "0311",
+      "string": "int. zur Regelung, ext. zu Begrenzung"
+    },
+    {
+      "nameId": "0316",
+      "string": "Zähler"
+    },
+    {
+      "nameId": "0317",
+      "string": "Batterie"
+    },
+    {
+      "nameId": "0314",
+      "string": "Solarstrom-Gerät"
+    },
+    {
+      "nameId": "0315",
+      "string": "Wechselrichter"
+    },
+    {
+      "nameId": "030A",
+      "string": "Griechisch"
+    },
+    {
+      "nameId": "030B",
+      "string": "Automatisch auswählen"
+    },
+    {
+      "nameId": "0308",
+      "string": "Russisch"
+    },
+    {
+      "nameId": "0309",
+      "string": "Schwedisch"
+    },
+    {
+      "nameId": "030E",
+      "string": "intern zur Regelung"
+    },
+    {
+      "nameId": "030F",
+      "string": "extern zur Regelung"
+    },
+    {
+      "nameId": "030C",
+      "string": "Gewählte Benutzersprache"
+    },
+    {
+      "nameId": "030D",
+      "string": "Verwendung interner / externer Temperaturerfassung"
+    },
+    {
+      "nameId": "0302",
+      "string": "Chinesisch"
+    },
+    {
+      "nameId": "0303",
+      "string": "Dänisch"
+    },
+    {
+      "nameId": "0300",
+      "string": "Niederländisch"
+    },
+    {
+      "nameId": "0301",
+      "string": "Deutsch"
+    },
+    {
+      "nameId": "0306",
+      "string": "Polnisch"
+    },
+    {
+      "nameId": "0307",
+      "string": "Portugiesisch"
+    },
+    {
+      "nameId": "0304",
+      "string": "Finnisch"
+    },
+    {
+      "nameId": "0305",
+      "string": "Norwegisch"
+    },
+    {
+      "nameId": "033A",
+      "string": "Fan Coil Heizen oder Kühlen"
+    },
+    {
+      "nameId": "033B",
+      "string": "Türkisch"
+    },
+    {
+      "nameId": "0338",
+      "string": "Fan Coil Heizen"
+    },
+    {
+      "nameId": "0339",
+      "string": "Fan Coil Kühlen"
+    },
+    {
+      "nameId": "033E",
+      "string": "Gemessene Temperatur 2"
+    },
+    {
+      "nameId": "033F",
+      "string": "Gemessene Temperatur 3"
+    },
+    {
+      "nameId": "033C",
+      "string": "Tschechisch"
+    },
+    {
+      "nameId": "033D",
+      "string": "Gemessene Temperatur 1"
+    },
+    {
+      "nameId": "0332",
+      "string": "Verstellung Lüfter Heizen manuell An/Aus"
+    },
+    {
+      "nameId": "0333",
+      "string": "Fenster/Türposition"
+    },
+    {
+      "nameId": "0330",
+      "string": "Akustische Rückmeldung"
+    },
+    {
+      "nameId": "0331",
+      "string": "Verstellung Lüfterstufe Heizen"
+    },
+    {
+      "nameId": "0336",
+      "string": "Kühlen aktiv"
+    },
+    {
+      "nameId": "0337",
+      "string": "Fan Coil Heizen und Kühlen"
+    },
+    {
+      "nameId": "0334",
+      "string": "Universalmelder"
+    },
+    {
+      "nameId": "0335",
+      "string": "Heizen aktiv"
+    },
+    {
+      "nameId": "032A",
+      "string": "Bei Zähleralarm"
+    },
+    {
+      "nameId": "032B",
+      "string": "Kein Zähleralarm"
+    },
+    {
+      "nameId": "0328",
+      "string": "Bei Wechselrichter-Alarm"
+    },
+    {
+      "nameId": "0329",
+      "string": "Kein Wechselrichter-Alarm"
+    },
+    {
+      "nameId": "032E",
+      "string": "Start Zähleralarm"
+    },
+    {
+      "nameId": "032F",
+      "string": "Ende Zähleralarm"
+    },
+    {
+      "nameId": "032C",
+      "string": "Start Wechselrichter-Alarm"
+    },
+    {
+      "nameId": "032D",
+      "string": "Ende Wechselrichter-Alarm"
+    },
+    {
+      "nameId": "0322",
+      "string": "Verbrauchte Energie (heute)"
+    },
+    {
+      "nameId": "0323",
+      "string": "Zeitprogramm -Schaltsensor"
+    },
+    {
+      "nameId": "0320",
+      "string": "Privater Stromverbrauch"
+    },
+    {
+      "nameId": "0321",
+      "string": "Energieversorgungsnetz"
+    },
+    {
+      "nameId": "0326",
+      "string": "Batteriestatus"
+    },
+    {
+      "nameId": "0327",
+      "string": "Batterieleistung"
+    },
+    {
+      "nameId": "0324",
+      "string": "Alarmschaltsensor"
+    },
+    {
+      "nameId": "0325",
+      "string": "Zähler-Alarm"
+    },
+    {
+      "nameId": "035A",
+      "string": "secure@home Fensterkontakt"
+    },
+    {
+      "nameId": "035B",
+      "string": "Sicherheitskanal 1"
+    },
+    {
+      "nameId": "0358",
+      "string": "secure@home free@home"
+    },
+    {
+      "nameId": "0359",
+      "string": "secure@home Sicherheitssensor"
+    },
+    {
+      "nameId": "035E",
+      "string": "Sicherheitskanal 4"
+    },
+    {
+      "nameId": "035F",
+      "string": "Sicherheitskanal 5"
+    },
+    {
+      "nameId": "035C",
+      "string": "Sicherheitskanal 2"
+    },
+    {
+      "nameId": "035D",
+      "string": "Sicherheitskanal 3"
+    },
+    {
+      "nameId": "0352",
+      "string": "Fensterkontakt Kanal 16"
+    },
+    {
+      "nameId": "0353",
+      "string": "Fensterkontakt Kanal 17"
+    },
+    {
+      "nameId": "0350",
+      "string": "Fensterkontakt Kanal 14"
+    },
+    {
+      "nameId": "0351",
+      "string": "Fensterkontakt Kanal 15"
+    },
+    {
+      "nameId": "0356",
+      "string": "Fensterkontakt Kanal 20"
+    },
+    {
+      "nameId": "0357",
+      "string": "secure@home Zentraleinheit"
+    },
+    {
+      "nameId": "0354",
+      "string": "Fensterkontakt Kanal 18"
+    },
+    {
+      "nameId": "0355",
+      "string": "Fensterkontakt Kanal 19"
+    },
+    {
+      "nameId": "034A",
+      "string": "Fensterkontakt Kanal 8"
+    },
+    {
+      "nameId": "034B",
+      "string": "Fensterkontakt Kanal 9"
+    },
+    {
+      "nameId": "0348",
+      "string": "Fensterkontakt Kanal 6"
+    },
+    {
+      "nameId": "0349",
+      "string": "Fensterkontakt Kanal 7"
+    },
+    {
+      "nameId": "034E",
+      "string": "Fensterkontakt Kanal 12"
+    },
+    {
+      "nameId": "034F",
+      "string": "Fensterkontakt Kanal 13"
+    },
+    {
+      "nameId": "034C",
+      "string": "Fensterkontakt Kanal 10"
+    },
+    {
+      "nameId": "034D",
+      "string": "Fensterkontakt Kanal 11"
+    },
+    {
+      "nameId": "0342",
+      "string": "Kondensatbehälter Fehler"
+    },
+    {
+      "nameId": "0343",
+      "string": "Fensterkontakt Kanal 1"
+    },
+    {
+      "nameId": "0340",
+      "string": "Gemessene Temperatur 4"
+    },
+    {
+      "nameId": "0341",
+      "string": "Taupunktalarm"
+    },
+    {
+      "nameId": "0346",
+      "string": "Fensterkontakt Kanal 4"
+    },
+    {
+      "nameId": "0347",
+      "string": "Fensterkontakt Kanal 5"
+    },
+    {
+      "nameId": "0344",
+      "string": "Fensterkontakt Kanal 2"
+    },
+    {
+      "nameId": "0345",
+      "string": "Fensterkontakt Kanal 3"
+    },
+    {
+      "nameId": "037A",
+      "string": "Intern schalten"
+    },
+    {
+      "nameId": "037B",
+      "string": "Voralarm schalten"
+    },
+    {
+      "nameId": "0378",
+      "string": "Unscharf schalten"
+    },
+    {
+      "nameId": "0379",
+      "string": "Extern schalten"
+    },
+    {
+      "nameId": "037E",
+      "string": "Kanalauswahl Nebenstelle Schalter"
+    },
+    {
+      "nameId": "037F",
+      "string": "Standardwippe"
+    },
+    {
+      "nameId": "037C",
+      "string": "Kanalauswahl Sensor"
+    },
+    {
+      "nameId": "037D",
+      "string": "Kanalauswahl Nebenstelle Jalousie"
+    },
+    {
+      "nameId": "0372",
+      "string": "Intern geschaltet"
+    },
+    {
+      "nameId": "0373",
+      "string": "Voralarm geschaltet"
+    },
+    {
+      "nameId": "0370",
+      "string": "Unscharf"
+    },
+    {
+      "nameId": "0371",
+      "string": "Extern geschaltet"
+    },
+    {
+      "nameId": "0376",
+      "string": "Aktivieren"
+    },
+    {
+      "nameId": "0377",
+      "string": "Deaktivieren"
+    },
+    {
+      "nameId": "0374",
+      "string": "Aktiv"
+    },
+    {
+      "nameId": "0375",
+      "string": "Inaktiv"
+    },
+    {
+      "nameId": "036A",
+      "string": "Deaktivierungszähler"
+    },
+    {
+      "nameId": "036B",
+      "string": "Zone"
+    },
+    {
+      "nameId": "0368",
+      "string": "Einbruchsalarm"
+    },
+    {
+      "nameId": "0369",
+      "string": "Sicherheitsalarm"
+    },
+    {
+      "nameId": "036E",
+      "string": "Zone C"
+    },
+    {
+      "nameId": "036F",
+      "string": "Zone D"
+    },
+    {
+      "nameId": "036C",
+      "string": "Zone A"
+    },
+    {
+      "nameId": "036D",
+      "string": "Zone B"
+    },
+    {
+      "nameId": "0362",
+      "string": "Sicherheitskanal 8"
+    },
+    {
+      "nameId": "0363",
+      "string": "Sicherheitskanal 9"
+    },
+    {
+      "nameId": "0360",
+      "string": "Sicherheitskanal 6"
+    },
+    {
+      "nameId": "0361",
+      "string": "Sicherheitskanal 7"
+    },
+    {
+      "nameId": "0366",
+      "string": "Alarm SMS Event"
+    },
+    {
+      "nameId": "0367",
+      "string": "secure@home Alarm"
+    },
+    {
+      "nameId": "0364",
+      "string": "Sicherheitskanal 10"
+    },
+    {
+      "nameId": "0365",
+      "string": "Systemstatus secure@home"
+    },
+    {
+      "nameId": "039A",
+      "string": "Liefert Temperatur"
+    },
+    {
+      "nameId": "039B",
+      "string": "Heizbedarf"
+    },
+    {
+      "nameId": "0398",
+      "string": "Sicherheitszustand"
+    },
+    {
+      "nameId": "0399",
+      "string": "Scharf geschaltet"
+    },
+    {
+      "nameId": "039E",
+      "string": "Rückmeldung Heizbedarf"
+    },
+    {
+      "nameId": "039F",
+      "string": "Rückmeldung Kühlbedarf"
+    },
+    {
+      "nameId": "039C",
+      "string": "Kühlbedarf"
+    },
+    {
+      "nameId": "039D",
+      "string": "Schwellwert"
+    },
+    {
+      "nameId": "0392",
+      "string": "Proxy switch"
+    },
+    {
+      "nameId": "0393",
+      "string": "Proxy 1Byte"
+    },
+    {
+      "nameId": "0390",
+      "string": "Benachrichtigung-Flags"
+    },
+    {
+      "nameId": "0391",
+      "string": "Wach bleiben!"
+    },
+    {
+      "nameId": "0397",
+      "string": "Vor jeder absoluten Positionierung Referenzfahrt durchführen"
+    },
+    {
+      "nameId": "0394",
+      "string": "Proxy 2Byte"
+    },
+    {
+      "nameId": "0395",
+      "string": "Proxy 4Byte"
+    },
+    {
+      "nameId": "038A",
+      "string": "Nebenstelle 1 , 2"
+    },
+    {
+      "nameId": "038B",
+      "string": "Housekeeping"
+    },
+    {
+      "nameId": "0388",
+      "string": "Link"
+    },
+    {
+      "nameId": "0389",
+      "string": "Nebenstelle 1 + 2"
+    },
+    {
+      "nameId": "038E",
+      "string": "Batteriestatus"
+    },
+    {
+      "nameId": "038F",
+      "string": "Temperaturerfassung nicht kalibriert, bitte mindestens 3 Stunden einschalten"
+    },
+    {
+      "nameId": "038C",
+      "string": "Nachbarschaftsbenachrichtigung"
+    },
+    {
+      "nameId": "038D",
+      "string": "Consistency Tag"
+    },
+    {
+      "nameId": "0382",
+      "string": "Nebenstelle 1"
+    },
+    {
+      "nameId": "0383",
+      "string": "Nebenstelle 2"
+    },
+    {
+      "nameId": "0380",
+      "string": "Oberer Standardtaster"
+    },
+    {
+      "nameId": "0381",
+      "string": "Unterer Standardtaster"
+    },
+    {
+      "nameId": "0386",
+      "string": "Proxy"
+    },
+    {
+      "nameId": "0387",
+      "string": "Kanal"
+    },
+    {
+      "nameId": "0384",
+      "string": "Zentraler Heizaktor"
+    },
+    {
+      "nameId": "0385",
+      "string": "Zentraler Kühlaktor"
+    },
+    {
+      "nameId": "03BA",
+      "string": "Er3: Ventilhub zu kurz"
+    },
+    {
+      "nameId": "03BB",
+      "string": "Zeitabhängige Beschattung"
+    },
+    {
+      "nameId": "03B8",
+      "string": "Er1: Ventil nicht angeschlossen"
+    },
+    {
+      "nameId": "03B9",
+      "string": "Er2: Mechanischer Fehler"
+    },
+    {
+      "nameId": "03BE",
+      "string": "Anwesenheit"
+    },
+    {
+      "nameId": "03BF",
+      "string": "Betreten"
+    },
+    {
+      "nameId": "03BC",
+      "string": "Beschatten bei mehr als"
+    },
+    {
+      "nameId": "03BD",
+      "string": "Beschattung aufheben bei weniger als"
+    },
+    {
+      "nameId": "03B2",
+      "string": "Absolute Lautstärkeregelung"
+    },
+    {
+      "nameId": "03B3",
+      "string": "Wiedergabestatus"
+    },
+    {
+      "nameId": "03B0",
+      "string": "Stumm"
+    },
+    {
+      "nameId": "03B1",
+      "string": "Relative Lautstärkeregelung"
+    },
+    {
+      "nameId": "03B6",
+      "string": "Rückmeldung Lautstärke"
+    },
+    {
+      "nameId": "03B7",
+      "string": "Zulässige Wiedergabeaktionen"
+    },
+    {
+      "nameId": "03B4",
+      "string": "Rückmeldung Metadaten der aktuellen Wiedergabe"
+    },
+    {
+      "nameId": "03B5",
+      "string": "Rückmeldung Stumm"
+    },
+    {
+      "nameId": "03AA",
+      "string": "Media Player"
+    },
+    {
+      "nameId": "03AB",
+      "string": "Abspielen"
+    },
+    {
+      "nameId": "03A8",
+      "string": "Tiefschlaf"
+    },
+    {
+      "nameId": "03A9",
+      "string": "Schlafzyklus"
+    },
+    {
+      "nameId": "03AE",
+      "string": "Vorheriger"
+    },
+    {
+      "nameId": "03AF",
+      "string": "Wiedergabemodus"
+    },
+    {
+      "nameId": "03AC",
+      "string": "Pause"
+    },
+    {
+      "nameId": "03AD",
+      "string": "Weiter"
+    },
+    {
+      "nameId": "03A2",
+      "string": "Einbruchsalarm ausgelöst"
+    },
+    {
+      "nameId": "03A3",
+      "string": "Sicherheitsalarm ausgelöst"
+    },
+    {
+      "nameId": "03A0",
+      "string": "Heizkörperthermostat"
+    },
+    {
+      "nameId": "03A1",
+      "string": "InfoConfigurationStatus"
+    },
+    {
+      "nameId": "03A6",
+      "string": "Aktivbetrieb"
+    },
+    {
+      "nameId": "03A7",
+      "string": "Adaptiver Energiesparmodus"
+    },
+    {
+      "nameId": "03A4",
+      "string": "Energiesparmodus"
+    },
+    {
+      "nameId": "03A5",
+      "string": "Netzbetrieb"
+    },
+    {
+      "nameId": "03DA",
+      "string": "Rückmeldung Gruppenzugehörigkeit"
+    },
+    {
+      "nameId": "03DB",
+      "string": "Spiele Favoriten"
+    },
+    {
+      "nameId": "03D8",
+      "string": "Deaktiviere auf weniger als"
+    },
+    {
+      "nameId": "03D9",
+      "string": "Gruppenzugehörigkeit"
+    },
+    {
+      "nameId": "03DE",
+      "string": "Dachfensteraktor"
+    },
+    {
+      "nameId": "03DF",
+      "string": "Markisenaktor"
+    },
+    {
+      "nameId": "03DC",
+      "string": "Rückmeldung aktuell spielender Favorit"
+    },
+    {
+      "nameId": "03DD",
+      "string": "Jalousieaktor"
+    },
+    {
+      "nameId": "03D2",
+      "string": "Unterstütze Funktionen"
+    },
+    {
+      "nameId": "03D3",
+      "string": "Erweiterte Statusanzeige"
+    },
+    {
+      "nameId": "03D0",
+      "string": "Er4: Batteriestand sehr niedrig"
+    },
+    {
+      "nameId": "03D1",
+      "string": "Swing H/V"
+    },
+    {
+      "nameId": "03D6",
+      "string": "Silent Modus im Nachtbetrieb freigeben"
+    },
+    {
+      "nameId": "03D7",
+      "string": "Aktiviere auf mehr als"
+    },
+    {
+      "nameId": "03D4",
+      "string": "Maximum Solltemperatur"
+    },
+    {
+      "nameId": "03D5",
+      "string": "Minimum Solltemperatur"
+    },
+    {
+      "nameId": "03CA",
+      "string": "Türöffnersensor 1"
+    },
+    {
+      "nameId": "03CB",
+      "string": "Türöffnersensor 2"
+    },
+    {
+      "nameId": "03C8",
+      "string": "Stummschaltung"
+    },
+    {
+      "nameId": "03C9",
+      "string": "Türöffnersensor"
+    },
+    {
+      "nameId": "03CE",
+      "string": "Tochterplatine antwortet nicht"
+    },
+    {
+      "nameId": "03CF",
+      "string": "Sonos"
+    },
+    {
+      "nameId": "03CC",
+      "string": "Türöffnersensor 3"
+    },
+    {
+      "nameId": "03CD",
+      "string": "Türöffnersensor 4"
+    },
+    {
+      "nameId": "03C2",
+      "string": "Nutzer"
+    },
+    {
+      "nameId": "03C3",
+      "string": "Panel-Raumtemperaturregler als Nebenstelle für Batteriegerät"
+    },
+    {
+      "nameId": "03C0",
+      "string": "Verlassen"
+    },
+    {
+      "nameId": "03C1",
+      "string": "GeoLocation"
+    },
+    {
+      "nameId": "03C6",
+      "string": "Sommerzeit ignorieren"
+    },
+    {
+      "nameId": "03C7",
+      "string": "Stummschaltender Sensor"
+    },
+    {
+      "nameId": "03C4",
+      "string": "Batteriestand niedrig"
+    },
+    {
+      "nameId": "03C5",
+      "string": "Heizkörperthermostat Basic"
+    },
+    {
+      "nameId": "03FA",
+      "string": "Info Status"
+    },
+    {
+      "nameId": "03FB",
+      "string": "Info Fernstart aktiviert"
+    },
+    {
+      "nameId": "03F8",
+      "string": "Pause / Fortsetzen"
+    },
+    {
+      "nameId": "03F9",
+      "string": "Programm wählen"
+    },
+    {
+      "nameId": "03FE",
+      "string": "Info verzögerter Start"
+    },
+    {
+      "nameId": "03FF",
+      "string": "Info Tür"
+    },
+    {
+      "nameId": "03FC",
+      "string": "Info Programm"
+    },
+    {
+      "nameId": "03FD",
+      "string": "Info Endzeit"
+    },
+    {
+      "nameId": "03F2",
+      "string": "Auf Position stehen bleiben und sperren"
+    },
+    {
+      "nameId": "03F3",
+      "string": "Verhalten bei Kurzbedienung"
+    },
+    {
+      "nameId": "03F0",
+      "string": "Auf Position verbleiben"
+    },
+    {
+      "nameId": "03F1",
+      "string": "Verhalten beim Aufheben von Alarmen"
+    },
+    {
+      "nameId": "03F6",
+      "string": "Spülmaschine"
+    },
+    {
+      "nameId": "03F7",
+      "string": "Start / Stopp"
+    },
+    {
+      "nameId": "03F4",
+      "string": "Lautstärkeregelung"
+    },
+    {
+      "nameId": "03F5",
+      "string": "Wiedergabesteuerung"
+    },
+    {
+      "nameId": "03EA",
+      "string": "Sonos Play+Pause/Favoriten"
+    },
+    {
+      "nameId": "03EB",
+      "string": "Sonos Lauter/Leiser"
+    },
+    {
+      "nameId": "03E8",
+      "string": "Info absolute Gruppen-Lautstärke"
+    },
+    {
+      "nameId": "03E9",
+      "string": "Spiele nächsten Favoriten"
+    },
+    {
+      "nameId": "03EE",
+      "string": "Rollladenaktor"
+    },
+    {
+      "nameId": "03EF",
+      "string": "Zurück auf Position"
+    },
+    {
+      "nameId": "03EC",
+      "string": "Heizkörperthermostat Comfort"
+    },
+    {
+      "nameId": "03ED",
+      "string": "Kommunikationsfehler"
+    },
+    {
+      "nameId": "03E2",
+      "string": "Verhalten bei Frostalarm"
+    },
+    {
+      "nameId": "03E3",
+      "string": "Verhalten bei Fensteralarm"
+    },
+    {
+      "nameId": "03E0",
+      "string": "Verhalten bei Windalarm"
+    },
+    {
+      "nameId": "03E1",
+      "string": "Verhalten bei Regenalarm"
+    },
+    {
+      "nameId": "03E6",
+      "string": "Luftfeuchtigkeit"
+    },
+    {
+      "nameId": "03E7",
+      "string": "Absolute Gruppen-Lautstärkeregelung"
+    },
+    {
+      "nameId": "03E4",
+      "string": "Weiterfahren mit anschließender Zwangsstellung"
+    },
+    {
+      "nameId": "03E5",
+      "string": "Weiterfahren ohne Zwangsstellung"
+    },
+    {
+      "nameId": "041A",
+      "string": "Pop"
+    },
+    {
+      "nameId": "041B",
+      "string": "Romantisch"
+    },
+    {
+      "nameId": "0418",
+      "string": "Klassik"
+    },
+    {
+      "nameId": "0419",
+      "string": "Techno"
+    },
+    {
+      "nameId": "041E",
+      "string": "Systembenachrichtigung"
+    },
+    {
+      "nameId": "041F",
+      "string": "Gerät %1 meldet eine schwache Batterie"
+    },
+    {
+      "nameId": "041C",
+      "string": "Party"
+    },
+    {
+      "nameId": "041D",
+      "string": "Metal"
+    },
+    {
+      "nameId": "0412",
+      "string": "Abfrage Heizen Ein/Aus"
+    },
+    {
+      "nameId": "0413",
+      "string": "Abfrage Kühlen Ein/Aus"
+    },
+    {
+      "nameId": "0410",
+      "string": "Abfrage Aux Ein/Aus"
+    },
+    {
+      "nameId": "0411",
+      "string": "Antwort Aux Ein/Aus"
+    },
+    {
+      "nameId": "0416",
+      "string": "Latin"
+    },
+    {
+      "nameId": "0417",
+      "string": "Jazz"
+    },
+    {
+      "nameId": "0414",
+      "string": "HipHop RNB"
+    },
+    {
+      "nameId": "0415",
+      "string": "Alternative rock"
+    },
+    {
+      "nameId": "040A",
+      "string": "Dunstabzugshaube"
+    },
+    {
+      "nameId": "040B",
+      "string": "Kaffeemaschine"
+    },
+    {
+      "nameId": "0408",
+      "string": "Info Super Cool einschalten"
+    },
+    {
+      "nameId": "0409",
+      "string": "Info Super Freeze einschalten"
+    },
+    {
+      "nameId": "040E",
+      "string": "Lautstärkebegrenzung"
+    },
+    {
+      "nameId": "040F",
+      "string": "Downgrade nicht möglich"
+    },
+    {
+      "nameId": "040C",
+      "string": "Haushaltsgerät"
+    },
+    {
+      "nameId": "040D",
+      "string": "Kühl-/Eisschrank"
+    },
+    {
+      "nameId": "0402",
+      "string": "Trockner"
+    },
+    {
+      "nameId": "0403",
+      "string": "Backofen"
+    },
+    {
+      "nameId": "0400",
+      "string": "Info Türalarm"
+    },
+    {
+      "nameId": "0401",
+      "string": "Waschmaschine"
+    },
+    {
+      "nameId": "0406",
+      "string": "Super Cool einschalten"
+    },
+    {
+      "nameId": "0407",
+      "string": "Super Freeze einschalten"
+    },
+    {
+      "nameId": "0404",
+      "string": "Kühlschrank"
+    },
+    {
+      "nameId": "0405",
+      "string": "Eisschrank"
+    },
+    {
+      "nameId": "043A",
+      "string": "Minimale Lüfter Geschwindigkeit"
+    },
+    {
+      "nameId": "043B",
+      "string": "Maximale Lüfter Geschwindigkeit"
+    },
+    {
+      "nameId": "0438",
+      "string": "Oben Taster, unten Taster"
+    },
+    {
+      "nameId": "0439",
+      "string": "Letzte Lüfter Geschwindigkeit"
+    },
+    {
+      "nameId": "043E",
+      "string": "Absolute Lüftergeschwindigkeitssteuerung"
+    },
+    {
+      "nameId": "043F",
+      "string": "Info Absolute Lüftergeschwindigkeit"
+    },
+    {
+      "nameId": "043C",
+      "string": "Deckenlüfter"
+    },
+    {
+      "nameId": "043D",
+      "string": "Relative Lüftergeschwindigkeitssteuerung"
+    },
+    {
+      "nameId": "0432",
+      "string": "Beendet"
+    },
+    {
+      "nameId": "0433",
+      "string": "Fehlgeschlagen"
+    },
+    {
+      "nameId": "0430",
+      "string": "Pausiert"
+    },
+    {
+      "nameId": "0431",
+      "string": "Wird angehalten"
+    },
+    {
+      "nameId": "0436",
+      "string": "Oben Wippe, unten Taster"
+    },
+    {
+      "nameId": "0437",
+      "string": "Oben Taster, unten Wippe"
+    },
+    {
+      "nameId": "0434",
+      "string": "Angehalten"
+    },
+    {
+      "nameId": "0435",
+      "string": "Oben Wippe, unten Wippe"
+    },
+    {
+      "nameId": "042A",
+      "string": "Standby"
+    },
+    {
+      "nameId": "042B",
+      "string": "Idle"
+    },
+    {
+      "nameId": "0428",
+      "string": "Medienquelle"
+    },
+    {
+      "nameId": "0429",
+      "string": "Unbekannt"
+    },
+    {
+      "nameId": "042E",
+      "string": "Gestartet"
+    },
+    {
+      "nameId": "042F",
+      "string": "Eingriff erforderlich"
+    },
+    {
+      "nameId": "042C",
+      "string": "Bereit"
+    },
+    {
+      "nameId": "042D",
+      "string": "Verzögerter Start"
+    },
+    {
+      "nameId": "0422",
+      "string": "Komforttemperatur"
+    },
+    {
+      "nameId": "0423",
+      "string": "LED als Schlafindikator"
+    },
+    {
+      "nameId": "0420",
+      "string": "Neue SysAP Firmware (Version %1) verfügbar"
+    },
+    {
+      "nameId": "0421",
+      "string": "Gerät %1 antwortet nicht"
+    },
+    {
+      "nameId": "0426",
+      "string": "Kochfeld"
+    },
+    {
+      "nameId": "0427",
+      "string": "Dampfgarer"
+    },
+    {
+      "nameId": "0424",
+      "string": "Verbundenes IP Gerät antwortet nicht"
+    },
+    {
+      "nameId": "0425",
+      "string": "Fensterkontakt mit Positionsmelder"
+    },
+    {
+      "nameId": "045A",
+      "string": "manuell (aktiv geschlossen)"
+    },
+    {
+      "nameId": "045B",
+      "string": "Firmware update für %1 Gerät(e) verfügbar"
+    },
+    {
+      "nameId": "0458",
+      "string": "Luftentfeuchter (aktiv geöffnet)"
+    },
+    {
+      "nameId": "0459",
+      "string": "manuell (aktiv geöffnet)"
+    },
+    {
+      "nameId": "045E",
+      "string": "Temperatur Kälteextraktion"
+    },
+    {
+      "nameId": "045F",
+      "string": "Ventile im aktiven Modus"
+    },
+    {
+      "nameId": "045C",
+      "string": "Kompressorverzögerung"
+    },
+    {
+      "nameId": "045D",
+      "string": "Temperatur Wärmeextraktion"
+    },
+    {
+      "nameId": "0452",
+      "string": "Bei Heizen"
+    },
+    {
+      "nameId": "0453",
+      "string": "Bei Kühlen"
+    },
+    {
+      "nameId": "0450",
+      "string": "Klimaanlage"
+    },
+    {
+      "nameId": "0451",
+      "string": "Umschaltventil wird betätigt... (O/B)"
+    },
+    {
+      "nameId": "0456",
+      "string": "Luftbefeuchter (Verdampfung)"
+    },
+    {
+      "nameId": "0457",
+      "string": "Luftentfeuchter (aktiv geschlossen)"
+    },
+    {
+      "nameId": "0454",
+      "string": "Typ des generischen Zusatzsystems (AUX)"
+    },
+    {
+      "nameId": "0455",
+      "string": "Luftbefeuchter (Verdunstung)"
+    },
+    {
+      "nameId": "044A",
+      "string": "Öl"
+    },
+    {
+      "nameId": "044B",
+      "string": "Elektrisch"
+    },
+    {
+      "nameId": "0448",
+      "string": "Wärmepumpe"
+    },
+    {
+      "nameId": "0449",
+      "string": "Propangas"
+    },
+    {
+      "nameId": "044E",
+      "string": "Erste Kühlstufe (Y1)"
+    },
+    {
+      "nameId": "044F",
+      "string": "Zweite Kühlstufe (Y2)"
+    },
+    {
+      "nameId": "044C",
+      "string": "Wasserbetriebene Fußbodenheizung"
+    },
+    {
+      "nameId": "044D",
+      "string": "Zweite Heizstufe (W2)"
+    },
+    {
+      "nameId": "0442",
+      "string": "Untere Wippe"
+    },
+    {
+      "nameId": "0443",
+      "string": "Oberer mitterer Taster"
+    },
+    {
+      "nameId": "0440",
+      "string": "Türkontakt"
+    },
+    {
+      "nameId": "0441",
+      "string": "Obere Wippe"
+    },
+    {
+      "nameId": "0446",
+      "string": "Erste Heizstufe (W1)"
+    },
+    {
+      "nameId": "0447",
+      "string": "Erdgas"
+    },
+    {
+      "nameId": "0444",
+      "string": "Unterer mittlerer Taster"
+    },
+    {
+      "nameId": "0445",
+      "string": "Türalarm"
+    },
+    {
+      "nameId": "047A",
+      "string": "Raumtemperaturregler kühlt"
+    },
+    {
+      "nameId": "047B",
+      "string": "Raumtemperaturregler heizen/kühlen"
+    },
+    {
+      "nameId": "0478",
+      "string": "Schutzmodus untere Temperaturgrenze"
+    },
+    {
+      "nameId": "0479",
+      "string": "Raumtemperaturregler heizt"
+    },
+    {
+      "nameId": "047E",
+      "string": "Raumtemperaturreglermodus"
+    },
+    {
+      "nameId": "047F",
+      "string": "Raumtemperaturregler beginnt zu heizen"
+    },
+    {
+      "nameId": "047C",
+      "string": "Raumtemperaturregler heizt nicht"
+    },
+    {
+      "nameId": "047D",
+      "string": "Raumtemperaturregler kühlt nicht"
+    },
+    {
+      "nameId": "0472",
+      "string": "Unbegrenzt"
+    },
+    {
+      "nameId": "0473",
+      "string": "10 min"
+    },
+    {
+      "nameId": "0470",
+      "string": "Verzögerung beim Verlassen des aktiven Modus"
+    },
+    {
+      "nameId": "0471",
+      "string": "Manuelle Lüfterlaufzeit"
+    },
+    {
+      "nameId": "0476",
+      "string": "60 min"
+    },
+    {
+      "nameId": "0477",
+      "string": "Schutzmodus obere Temperaturgrenze"
+    },
+    {
+      "nameId": "0474",
+      "string": "20 min"
+    },
+    {
+      "nameId": "0475",
+      "string": "30 min"
+    },
+    {
+      "nameId": "046A",
+      "string": "Verknüpfung für Lüftersymbol"
+    },
+    {
+      "nameId": "046B",
+      "string": "Verknüpfung für Heizung aktivieren"
+    },
+    {
+      "nameId": "0468",
+      "string": "Celsius"
+    },
+    {
+      "nameId": "0469",
+      "string": "Fahrenheit"
+    },
+    {
+      "nameId": "046E",
+      "string": "Verknüpfung für ECO"
+    },
+    {
+      "nameId": "046F",
+      "string": "Verknüpfung für AUS"
+    },
+    {
+      "nameId": "046C",
+      "string": "Verknüpfung für Kühlung aktivieren"
+    },
+    {
+      "nameId": "046D",
+      "string": "Verknüpfung für AUX"
+    },
+    {
+      "nameId": "0462",
+      "string": "Nur Ist-Temperatur"
+    },
+    {
+      "nameId": "0463",
+      "string": "Hauptsollwert, aktuelle Temperatur gering"
+    },
+    {
+      "nameId": "0460",
+      "string": "Haupt-Ist-Wert, Solltemperatur gering"
+    },
+    {
+      "nameId": "0461",
+      "string": "Nur Solltemperatur"
+    },
+    {
+      "nameId": "0466",
+      "string": "Temperatur anzeigen, wenn ausgeschaltet"
+    },
+    {
+      "nameId": "0467",
+      "string": "Temperatureinheit"
+    },
+    {
+      "nameId": "0464",
+      "string": "Hauptsollwert, Außentemperatur gering"
+    },
+    {
+      "nameId": "0465",
+      "string": "Haupt-Ist-Wert, Außentemperatur gering"
+    },
+    {
+      "nameId": "049A",
+      "string": "Hohe Heizsperrentemperatur"
+    },
+    {
+      "nameId": "049B",
+      "string": "Kühlhysterese"
+    },
+    {
+      "nameId": "0498",
+      "string": "Wärmepumpzeit zwischen den Gerätestufen"
+    },
+    {
+      "nameId": "0499",
+      "string": "Hohe Kühlsperrentemperatur"
+    },
+    {
+      "nameId": "049E",
+      "string": "Heizstufensteuerung"
+    },
+    {
+      "nameId": "049F",
+      "string": "AUS (HLK-Stufe)"
+    },
+    {
+      "nameId": "049C",
+      "string": "Heizhysterese"
+    },
+    {
+      "nameId": "049D",
+      "string": "Schaltverzögerung zwischen Heizen und Kühlen"
+    },
+    {
+      "nameId": "0492",
+      "string": "Heizzyklusrate der ersten Stufe: maximale Zyklen pro Stunde"
+    },
+    {
+      "nameId": "0493",
+      "string": "Heizzyklusrate der zweiten Stufe: maximale Zyklen pro Stunde"
+    },
+    {
+      "nameId": "0490",
+      "string": "Kompressorzyklusrate der ersten Stufe: maximale Zyklen pro Stunde"
+    },
+    {
+      "nameId": "0491",
+      "string": "Kompressorzyklusrate der zweiten Stufe: max. Zyklen pro Stunde"
+    },
+    {
+      "nameId": "0496",
+      "string": "Gerätegesteuert"
+    },
+    {
+      "nameId": "0497",
+      "string": "Thermostatgesteuert"
+    },
+    {
+      "nameId": "0494",
+      "string": "Notfall-Heizzyklusrate: max. Zyklen pro Stunde"
+    },
+    {
+      "nameId": "0495",
+      "string": "Lüftersteuerung"
+    },
+    {
+      "nameId": "048A",
+      "string": "Zeitverzögerung Lüfter AN"
+    },
+    {
+      "nameId": "048B",
+      "string": "Zeitverzögerung Lüfter AUS"
+    },
+    {
+      "nameId": "0488",
+      "string": "Rücksetzen der Wärmepumpe"
+    },
+    {
+      "nameId": "0489",
+      "string": "Mindestzeit für Gasöfen"
+    },
+    {
+      "nameId": "048E",
+      "string": "Kompressorsperre"
+    },
+    {
+      "nameId": "048F",
+      "string": "Aux Heizsperre Wärmepumpe"
+    },
+    {
+      "nameId": "048C",
+      "string": "Ausschaltzeitpunkt für Stufenschaltuhr, wenn die Bedarfsdifferenz fünf Grad überschreitet"
+    },
+    {
+      "nameId": "048D",
+      "string": "Wasserheizkörper"
+    },
+    {
+      "nameId": "0482",
+      "string": "Raumtemperaturregler hört auf zu kühlen"
+    },
+    {
+      "nameId": "0483",
+      "string": "Sonos"
+    },
+    {
+      "nameId": "0480",
+      "string": "Raumtemperaturregler beginnt zu kühlen"
+    },
+    {
+      "nameId": "0481",
+      "string": "Raumtemperaturregler hört auf zu heizen"
+    },
+    {
+      "nameId": "0487",
+      "string": "Notheizung"
+    },
+    {
+      "nameId": "0484",
+      "string": "Busspannung verloren"
+    },
+    {
+      "nameId": "04BA",
+      "string": "Überflutungserkennung"
+    },
+    {
+      "nameId": "04BB",
+      "string": "Zonentyp"
+    },
+    {
+      "nameId": "04B8",
+      "string": "Methanmelder"
+    },
+    {
+      "nameId": "04B9",
+      "string": "Gassensor LPG"
+    },
+    {
+      "nameId": "04BE",
+      "string": "Draußen"
+    },
+    {
+      "nameId": "04BF",
+      "string": "Kundenspezifisch"
+    },
+    {
+      "nameId": "04BC",
+      "string": "Perimetrisch"
+    },
+    {
+      "nameId": "04BD",
+      "string": "Innen"
+    },
+    {
+      "nameId": "04B2",
+      "string": "Externer IR-Sensor VXI"
+    },
+    {
+      "nameId": "04B3",
+      "string": "Externer IR Sensor-Mini"
+    },
+    {
+      "nameId": "04B0",
+      "string": "Mylos Jalousiegruppe"
+    },
+    {
+      "nameId": "04B1",
+      "string": "Externer IR-Sensor BX80"
+    },
+    {
+      "nameId": "04B6",
+      "string": "Rauchmelder"
+    },
+    {
+      "nameId": "04B7",
+      "string": "Kohlenmonoxid-Melder"
+    },
+    {
+      "nameId": "04B4",
+      "string": "Externer IR-Sensor hohe Höhe"
+    },
+    {
+      "nameId": "04B5",
+      "string": "Externer IR-Sensor Vorhang"
+    },
+    {
+      "nameId": "04AA",
+      "string": "Ext. Scharfsch."
+    },
+    {
+      "nameId": "04AB",
+      "string": "Int. Scharfsch."
+    },
+    {
+      "nameId": "04A8",
+      "string": "Zonenstatus"
+    },
+    {
+      "nameId": "04A9",
+      "string": "Scharfschaltungsoption"
+    },
+    {
+      "nameId": "04AE",
+      "string": "Endzeit"
+    },
+    {
+      "nameId": "04AF",
+      "string": "Scharfschaltungsverzögerung in Sekunden"
+    },
+    {
+      "nameId": "04AC",
+      "string": "Wochentag"
+    },
+    {
+      "nameId": "04AD",
+      "string": "Startzeit"
+    },
+    {
+      "nameId": "04A2",
+      "string": "Konfiguration aktivieren"
+    },
+    {
+      "nameId": "04A3",
+      "string": "Benachrichtigung Nachrichtenzentrale"
+    },
+    {
+      "nameId": "04A0",
+      "string": "AN (Thermostat-Stufe)"
+    },
+    {
+      "nameId": "04A1",
+      "string": "Ventilatorbedienung"
+    },
+    {
+      "nameId": "04A6",
+      "string": "Sicherheit"
+    },
+    {
+      "nameId": "04A7",
+      "string": "AES-Schlüssel"
+    },
+    {
+      "nameId": "04A4",
+      "string": "Netzspannung fehlt"
+    },
+    {
+      "nameId": "04A5",
+      "string": "Zone"
+    },
+    {
+      "nameId": "04DA",
+      "string": "Fertigungsnummer"
+    },
+    {
+      "nameId": "04DB",
+      "string": "Warnung liegt vor"
+    },
+    {
+      "nameId": "04D8",
+      "string": "Zweipunktregler Kühlen"
+    },
+    {
+      "nameId": "04D9",
+      "string": "Hersteller"
+    },
+    {
+      "nameId": "04DE",
+      "string": "Hinterleuchtung aus im Nachtbetrieb"
+    },
+    {
+      "nameId": "04DF",
+      "string": "Anwendermodus"
+    },
+    {
+      "nameId": "04DC",
+      "string": "Hinweis Modus"
+    },
+    {
+      "nameId": "04DD",
+      "string": "LED Hinterleuchtung"
+    },
+    {
+      "nameId": "04D2",
+      "string": "Eingehender Ruf"
+    },
+    {
+      "nameId": "04D3",
+      "string": "10% / 90%"
+    },
+    {
+      "nameId": "04D0",
+      "string": "Solltemperaturbereich begrenzen"
+    },
+    {
+      "nameId": "04D1",
+      "string": "Infrarotbefehle immer senden"
+    },
+    {
+      "nameId": "04D6",
+      "string": "40% / 60%"
+    },
+    {
+      "nameId": "04D7",
+      "string": "Zweipunktregler Heizen"
+    },
+    {
+      "nameId": "04D4",
+      "string": "20% / 80%"
+    },
+    {
+      "nameId": "04D5",
+      "string": "30% / 70%"
+    },
+    {
+      "nameId": "04CA",
+      "string": "Thermostat"
+    },
+    {
+      "nameId": "04CB",
+      "string": "Thermostat Nebenstelle"
+    },
+    {
+      "nameId": "04C8",
+      "string": "Untere Taste zweimal drücken"
+    },
+    {
+      "nameId": "04C9",
+      "string": "Cloud Dienste"
+    },
+    {
+      "nameId": "04CE",
+      "string": "secure@home Sicherheitsintegrations-Logik"
+    },
+    {
+      "nameId": "04CF",
+      "string": "Kühlbetrieb Zusatzstufe"
+    },
+    {
+      "nameId": "04CC",
+      "string": "Binäreingang 1"
+    },
+    {
+      "nameId": "04CD",
+      "string": "Binäreingang 2"
+    },
+    {
+      "nameId": "04C2",
+      "string": "Auf"
+    },
+    {
+      "nameId": "04C3",
+      "string": "Ab"
+    },
+    {
+      "nameId": "04C0",
+      "string": "Zentralfunktion"
+    },
+    {
+      "nameId": "04C1",
+      "string": "Jalousie/Rollladen fährt"
+    },
+    {
+      "nameId": "04C6",
+      "string": "Obere, mittlere Taste zweimal drücken"
+    },
+    {
+      "nameId": "04C7",
+      "string": "Untere, mittlere Taste zweimal drücken"
+    },
+    {
+      "nameId": "04C4",
+      "string": "secure@home Zonen Sensor"
+    },
+    {
+      "nameId": "04C5",
+      "string": "Obere Taste zweimal drücken"
+    },
+    {
+      "nameId": "04FA",
+      "string": "Installationsassistent beendet"
+    },
+    {
+      "nameId": "04FB",
+      "string": "Fehler bei der Netzsynchronisierung"
+    },
+    {
+      "nameId": "04F8",
+      "string": "Power RH"
+    },
+    {
+      "nameId": "04F9",
+      "string": "Näherungszustand"
+    },
+    {
+      "nameId": "04FE",
+      "string": "Schwellwert"
+    },
+    {
+      "nameId": "04FF",
+      "string": "Sicherheitszone"
+    },
+    {
+      "nameId": "04FC",
+      "string": "Globalzone"
+    },
+    {
+      "nameId": "04FD",
+      "string": "Gemessene Helligkeit"
+    },
+    {
+      "nameId": "04F2",
+      "string": "Zone F"
+    },
+    {
+      "nameId": "04F3",
+      "string": "Zone G"
+    },
+    {
+      "nameId": "04F0",
+      "string": "Notfall Anfrage Heizung Ein Aus"
+    },
+    {
+      "nameId": "04F1",
+      "string": "Zone E"
+    },
+    {
+      "nameId": "04F6",
+      "string": "Letzte Berührung"
+    },
+    {
+      "nameId": "04F7",
+      "string": "Power RC"
+    },
+    {
+      "nameId": "04F4",
+      "string": "Zone H"
+    },
+    {
+      "nameId": "04F5",
+      "string": "Anzeigemuster"
+    },
+    {
+      "nameId": "04EA",
+      "string": "AC Szene"
+    },
+    {
+      "nameId": "04EB",
+      "string": "AC Ablauf"
+    },
+    {
+      "nameId": "04E8",
+      "string": "AC Türschloss"
+    },
+    {
+      "nameId": "04E9",
+      "string": "AC Ereignis"
+    },
+    {
+      "nameId": "04EE",
+      "string": "Standby-Statistiken"
+    },
+    {
+      "nameId": "04EF",
+      "string": "Abfrage Aux Heizung Ein Aus"
+    },
+    {
+      "nameId": "04EC",
+      "string": "ID"
+    },
+    {
+      "nameId": "04ED",
+      "string": "Stamm-ID"
+    },
+    {
+      "nameId": "04E2",
+      "string": "Türschlosssensor"
+    },
+    {
+      "nameId": "04E3",
+      "string": "Türschlossaktor"
+    },
+    {
+      "nameId": "04E0",
+      "string": "Standardnutzer"
+    },
+    {
+      "nameId": "04E1",
+      "string": "Experte"
+    },
+    {
+      "nameId": "04E6",
+      "string": "Tür"
+    },
+    {
+      "nameId": "04E7",
+      "string": "Sabotagealarm"
+    },
+    {
+      "nameId": "04E4",
+      "string": "Info Aufschließen"
+    },
+    {
+      "nameId": "04E5",
+      "string": "Aufschließen"
+    },
+    {
+      "nameId": "051A",
+      "string": "Glasbruch Sensor"
+    },
+    {
+      "nameId": "051B",
+      "string": "Wärmesensor"
+    },
+    {
+      "nameId": "0518",
+      "string": "Sicherheitswarnung ausgelöst"
+    },
+    {
+      "nameId": "0519",
+      "string": "Schrittweite Lüfterstufe"
+    },
+    {
+      "nameId": "051E",
+      "string": "Schaltertestalarm"
+    },
+    {
+      "nameId": "051F",
+      "string": "Testalarm aktiv"
+    },
+    {
+      "nameId": "051C",
+      "string": "Magnetsensor"
+    },
+    {
+      "nameId": "051D",
+      "string": "Locator-Ton"
+    },
+    {
+      "nameId": "0512",
+      "string": "Metrisch"
+    },
+    {
+      "nameId": "0513",
+      "string": "Imperial"
+    },
+    {
+      "nameId": "0510",
+      "string": "Längeneinheit"
+    },
+    {
+      "nameId": "0511",
+      "string": "Gewählte Längeneinheit"
+    },
+    {
+      "nameId": "0516",
+      "string": "kn"
+    },
+    {
+      "nameId": "0517",
+      "string": "km/h"
+    },
+    {
+      "nameId": "0514",
+      "string": "m/s"
+    },
+    {
+      "nameId": "0515",
+      "string": "mph"
+    },
+    {
+      "nameId": "050A",
+      "string": "Play/Pause"
+    },
+    {
+      "nameId": "050B",
+      "string": "Nächster Favorit"
+    },
+    {
+      "nameId": "0508",
+      "string": "Lautstärke höher"
+    },
+    {
+      "nameId": "0509",
+      "string": "Lautstärke niedriger"
+    },
+    {
+      "nameId": "050E",
+      "string": "Windgeschwindigkeitseinheit"
+    },
+    {
+      "nameId": "050F",
+      "string": "Gewählte Windgeschwindigkeitseinheit"
+    },
+    {
+      "nameId": "050C",
+      "string": "Nächstes Lied"
+    },
+    {
+      "nameId": "050D",
+      "string": "Vorheriges Lied"
+    },
+    {
+      "nameId": "0502",
+      "string": "Zentraleinheit"
+    },
+    {
+      "nameId": "0503",
+      "string": "Anschlussbelegung"
+    },
+    {
+      "nameId": "0501",
+      "string": "secure@home"
+    },
+    {
+      "nameId": "0506",
+      "string": "Debug-Modus"
+    },
+    {
+      "nameId": "0507",
+      "string": "Verzögerte Startzeit"
+    },
+    {
+      "nameId": "0504",
+      "string": "Feuchte Sollwert"
+    },
+    {
+      "nameId": "0505",
+      "string": "Schwellwert"
+    },
+    {
+      "nameId": "053A",
+      "string": "Kanal wird nicht mit Spannung versorgt"
+    },
+    {
+      "nameId": "053B",
+      "string": "Ungültiger oder nicht zugelassener Wireless Kanal in der Schlüsseldatei"
+    },
+    {
+      "nameId": "0538",
+      "string": "Detektor-Paarmodus"
+    },
+    {
+      "nameId": "0539",
+      "string": "LED Phasenabschnitt"
+    },
+    {
+      "nameId": "053E",
+      "string": "Haushaltsgerätesensor"
+    },
+    {
+      "nameId": "053F",
+      "string": "Restzeitinfo"
+    },
+    {
+      "nameId": "053C",
+      "string": "Änderungsvorgang"
+    },
+    {
+      "nameId": "053D",
+      "string": "Ausführliche Statusinfo"
+    },
+    {
+      "nameId": "0532",
+      "string": "Heartbeat-Verzögerung"
+    },
+    {
+      "nameId": "0533",
+      "string": "Info Heartbeat-Verzögerung"
+    },
+    {
+      "nameId": "0530",
+      "string": "Ⓐ+Ⓑ+Ⓒ, Ⓓ+Ⓔ+Ⓕ"
+    },
+    {
+      "nameId": "0531",
+      "string": "Ⓐ+Ⓑ+Ⓒ+Ⓓ+Ⓔ+Ⓕ"
+    },
+    {
+      "nameId": "0536",
+      "string": "Alarme stumm schalten"
+    },
+    {
+      "nameId": "0537",
+      "string": "Detektor-Paarmodus aktiv"
+    },
+    {
+      "nameId": "0534",
+      "string": "Dieser Melder"
+    },
+    {
+      "nameId": "0535",
+      "string": "Alle Melder"
+    },
+    {
+      "nameId": "052A",
+      "string": "Rauchalarm"
+    },
+    {
+      "nameId": "052B",
+      "string": "CO-Alarm"
+    },
+    {
+      "nameId": "0528",
+      "string": "Rauch/Hitze-Melder"
+    },
+    {
+      "nameId": "0529",
+      "string": "CO-Alarm-Melder"
+    },
+    {
+      "nameId": "052E",
+      "string": "Ⓐ+Ⓑ, Ⓒ+Ⓓ, Ⓔ+Ⓕ"
+    },
+    {
+      "nameId": "052F",
+      "string": "Ⓐ+Ⓑ+Ⓒ, Ⓓ, Ⓔ, Ⓕ"
+    },
+    {
+      "nameId": "052C",
+      "string": "Ⓐ, Ⓑ, Ⓒ, Ⓓ, Ⓔ, Ⓕ"
+    },
+    {
+      "nameId": "052D",
+      "string": "Ⓐ+Ⓑ, Ⓒ, Ⓓ, Ⓔ, Ⓕ"
+    },
+    {
+      "nameId": "0522",
+      "string": "Alarm-Melder"
+    },
+    {
+      "nameId": "0523",
+      "string": "Sicherheitsfunktionen"
+    },
+    {
+      "nameId": "0520",
+      "string": "Feueralarm aktiv"
+    },
+    {
+      "nameId": "0521",
+      "string": "CO-Alarm aktiv"
+    },
+    {
+      "nameId": "0526",
+      "string": "CO-Alarm startet"
+    },
+    {
+      "nameId": "0527",
+      "string": "CO-Alarm endet"
+    },
+    {
+      "nameId": "0524",
+      "string": "Feueralarm startet"
+    },
+    {
+      "nameId": "0525",
+      "string": "Feueralarm endet"
+    },
+    {
+      "nameId": "055A",
+      "string": "Verzögerung"
+    },
+    {
+      "nameId": "055B",
+      "string": "15"
+    },
+    {
+      "nameId": "0558",
+      "string": "Ausschließen"
+    },
+    {
+      "nameId": "0559",
+      "string": "Überwachung"
+    },
+    {
+      "nameId": "055E",
+      "string": "90"
+    },
+    {
+      "nameId": "055F",
+      "string": "0"
+    },
+    {
+      "nameId": "055C",
+      "string": "30"
+    },
+    {
+      "nameId": "055D",
+      "string": "60"
+    },
+    {
+      "nameId": "0552",
+      "string": "Unscharfschalten des Systems durch Szenen erlauben"
+    },
+    {
+      "nameId": "0553",
+      "string": "Ja (unsicher)"
+    },
+    {
+      "nameId": "0550",
+      "string": "Moduswechsel"
+    },
+    {
+      "nameId": "0551",
+      "string": "Erreichen Solltemperatur"
+    },
+    {
+      "nameId": "0556",
+      "string": "Nur wenn scharfgeschaltet"
+    },
+    {
+      "nameId": "0557",
+      "string": "Einbruchalarm"
+    },
+    {
+      "nameId": "0554",
+      "string": "Ausschließen der internen Sirene bei Alarm"
+    },
+    {
+      "nameId": "0555",
+      "string": "Außensirene"
+    },
+    {
+      "nameId": "054A",
+      "string": "Zonenumschaltung"
+    },
+    {
+      "nameId": "054B",
+      "string": "Vorprogrammierte Fernbedienung"
+    },
+    {
+      "nameId": "0548",
+      "string": "Tastenfunktion"
+    },
+    {
+      "nameId": "0549",
+      "string": "Erweiterte Konfiguration"
+    },
+    {
+      "nameId": "054E",
+      "string": "Lüfter bei Erreichen der Solltemperatur"
+    },
+    {
+      "nameId": "054F",
+      "string": "Nie"
+    },
+    {
+      "nameId": "054C",
+      "string": "Scharfschaltungsmodus"
+    },
+    {
+      "nameId": "054D",
+      "string": "Zyklische Scharfschaltung"
+    },
+    {
+      "nameId": "0542",
+      "string": "Einbruch (stumme Rückmeldung)"
+    },
+    {
+      "nameId": "0543",
+      "string": "Hilfe"
+    },
+    {
+      "nameId": "0540",
+      "string": "Statusabfrage"
+    },
+    {
+      "nameId": "0541",
+      "string": "Panik (laute Rückmeldung)"
+    },
+    {
+      "nameId": "0546",
+      "string": "Auslösen"
+    },
+    {
+      "nameId": "0547",
+      "string": "Panikmode"
+    },
+    {
+      "nameId": "0544",
+      "string": "Panik"
+    },
+    {
+      "nameId": "0545",
+      "string": "Stumm"
+    },
+    {
+      "nameId": "057A",
+      "string": "Bitonal"
+    },
+    {
+      "nameId": "057B",
+      "string": "Sicherheitsalarm-Klingelton"
+    },
+    {
+      "nameId": "0578",
+      "string": "Dauer Einbruchsalarm"
+    },
+    {
+      "nameId": "0579",
+      "string": "Sweep"
+    },
+    {
+      "nameId": "057E",
+      "string": "Dauer Sicherheitsalarm"
+    },
+    {
+      "nameId": "057F",
+      "string": "30 Sek."
+    },
+    {
+      "nameId": "057C",
+      "string": "Sicherheitssalarm-Meldeintervall"
+    },
+    {
+      "nameId": "057D",
+      "string": "Sicherheitssalarm LED"
+    },
+    {
+      "nameId": "0572",
+      "string": "Scharf schalten LED"
+    },
+    {
+      "nameId": "0573",
+      "string": "Unscharf schalten Signalton"
+    },
+    {
+      "nameId": "0570",
+      "string": "Dreimal"
+    },
+    {
+      "nameId": "0571",
+      "string": "Unscharf schalten LED"
+    },
+    {
+      "nameId": "0576",
+      "string": "Einbruchsalarm-Meldeintervall"
+    },
+    {
+      "nameId": "0577",
+      "string": "Einbruchsalarm LED"
+    },
+    {
+      "nameId": "0574",
+      "string": "Scharf schalten Signalton"
+    },
+    {
+      "nameId": "0575",
+      "string": "Einbruchsalarm-Klingelton"
+    },
+    {
+      "nameId": "056A",
+      "string": "aktiviert (instabil)"
+    },
+    {
+      "nameId": "056B",
+      "string": "2 Min. Wartezeit"
+    },
+    {
+      "nameId": "0568",
+      "string": "Batterieschonung"
+    },
+    {
+      "nameId": "0569",
+      "string": "Sekundäreingabe"
+    },
+    {
+      "nameId": "056E",
+      "string": "Störungserkennung"
+    },
+    {
+      "nameId": "056F",
+      "string": "Einmal"
+    },
+    {
+      "nameId": "056C",
+      "string": "5 Min. Wartezeit"
+    },
+    {
+      "nameId": "056D",
+      "string": "45"
+    },
+    {
+      "nameId": "0562",
+      "string": "Bistabil"
+    },
+    {
+      "nameId": "0563",
+      "string": "Impuls"
+    },
+    {
+      "nameId": "0560",
+      "string": "Priorität"
+    },
+    {
+      "nameId": "0561",
+      "string": "Primäreingabe"
+    },
+    {
+      "nameId": "0566",
+      "string": "Ausbauschutz"
+    },
+    {
+      "nameId": "0567",
+      "string": "Signal-LED"
+    },
+    {
+      "nameId": "0564",
+      "string": "Sensitivität"
+    },
+    {
+      "nameId": "0565",
+      "string": "Tarnschutz"
+    },
+    {
+      "nameId": "059A",
+      "string": "Temperatur des Masters für Regelung verwenden"
+    },
+    {
+      "nameId": "059B",
+      "string": "Szene"
+    },
+    {
+      "nameId": "0598",
+      "string": "Gemessene Temperatur des Masters verwenden"
+    },
+    {
+      "nameId": "0599",
+      "string": "Eigene gemessene Temperature verwenden"
+    },
+    {
+      "nameId": "059E",
+      "string": "Essen"
+    },
+    {
+      "nameId": "059F",
+      "string": "Coming Home"
+    },
+    {
+      "nameId": "059C",
+      "string": "Urlaub"
+    },
+    {
+      "nameId": "059D",
+      "string": "Baby"
+    },
+    {
+      "nameId": "0592",
+      "string": "LED 1 blinkt + Signalton"
+    },
+    {
+      "nameId": "0593",
+      "string": "Scharfschaltungsanzeige"
+    },
+    {
+      "nameId": "0590",
+      "string": "LED 3 blinkt + Signalton"
+    },
+    {
+      "nameId": "0591",
+      "string": "LED 1 blinkt"
+    },
+    {
+      "nameId": "0596",
+      "string": "Steuerung Remoteszene"
+    },
+    {
+      "nameId": "0597",
+      "string": "Manipulation festgestellt"
+    },
+    {
+      "nameId": "0594",
+      "string": "Unscharfschaltungsanzeige"
+    },
+    {
+      "nameId": "0595",
+      "string": "Sicherheitsalarm"
+    },
+    {
+      "nameId": "058A",
+      "string": "secure@home Systemzentrale GSM"
+    },
+    {
+      "nameId": "058B",
+      "string": "secure@home Systemzentrale Basic"
+    },
+    {
+      "nameId": "0588",
+      "string": "9 Min."
+    },
+    {
+      "nameId": "0589",
+      "string": "Signalstärke"
+    },
+    {
+      "nameId": "058E",
+      "string": "Verstaerker"
+    },
+    {
+      "nameId": "058F",
+      "string": "LED 3 blinkt"
+    },
+    {
+      "nameId": "058C",
+      "string": "Interner Kontakt"
+    },
+    {
+      "nameId": "058D",
+      "string": "Zusätzliche Eingabe"
+    },
+    {
+      "nameId": "0582",
+      "string": "3 Min."
+    },
+    {
+      "nameId": "0583",
+      "string": "4 Min."
+    },
+    {
+      "nameId": "0580",
+      "string": "1 Min."
+    },
+    {
+      "nameId": "0581",
+      "string": "2 Min."
+    },
+    {
+      "nameId": "0586",
+      "string": "7 Min."
+    },
+    {
+      "nameId": "0587",
+      "string": "8 Min."
+    },
+    {
+      "nameId": "0584",
+      "string": "5 Min."
+    },
+    {
+      "nameId": "0585",
+      "string": "6 Min."
+    },
+    {
+      "nameId": "05BB",
+      "string": "Helligkeit bei EVG Spannungswiederkehr (Power-On Level)"
+    },
+    {
+      "nameId": "05B8",
+      "string": "Außenkontakt"
+    },
+    {
+      "nameId": "05B9",
+      "string": "Ungültige Shlüsseldatei"
+    },
+    {
+      "nameId": "05BE",
+      "string": "Bei Feueralarm"
+    },
+    {
+      "nameId": "05BF",
+      "string": "Bei Überflutungsalarm"
+    },
+    {
+      "nameId": "05BC",
+      "string": "Helligkeit bei Busspannungsausfall (System Failure Level)"
+    },
+    {
+      "nameId": "05B2",
+      "string": "IR-Sensor"
+    },
+    {
+      "nameId": "05B3",
+      "string": "Vor-Ort-Bedienung sperren"
+    },
+    {
+      "nameId": "05B0",
+      "string": "Reed-Kontakt"
+    },
+    {
+      "nameId": "05B1",
+      "string": "Manipulation"
+    },
+    {
+      "nameId": "05B6",
+      "string": "Sensor für Klimagerät"
+    },
+    {
+      "nameId": "05B7",
+      "string": "Ungültiges Backup"
+    },
+    {
+      "nameId": "05B4",
+      "string": "Überflutungsalarm startet"
+    },
+    {
+      "nameId": "05B5",
+      "string": "Überflutungsalarm endet"
+    },
+    {
+      "nameId": "05AA",
+      "string": "Film"
+    },
+    {
+      "nameId": "05AB",
+      "string": "Dinner"
+    },
+    {
+      "nameId": "05A8",
+      "string": "Schlafen"
+    },
+    {
+      "nameId": "05A9",
+      "string": "Cocktail"
+    },
+    {
+      "nameId": "05AE",
+      "string": "Rauch/Wärme-Melder"
+    },
+    {
+      "nameId": "05AF",
+      "string": "Ungültiger Herstellercode"
+    },
+    {
+      "nameId": "05AC",
+      "string": "Haus verlassen"
+    },
+    {
+      "nameId": "05AD",
+      "string": "Gerätekanal reagiert nicht"
+    },
+    {
+      "nameId": "05A2",
+      "string": "Putzen"
+    },
+    {
+      "nameId": "05A3",
+      "string": "Alles aus"
+    },
+    {
+      "nameId": "05A0",
+      "string": "Lesen"
+    },
+    {
+      "nameId": "05A1",
+      "string": "TV"
+    },
+    {
+      "nameId": "05A6",
+      "string": "Tag"
+    },
+    {
+      "nameId": "05A7",
+      "string": "Nacht"
+    },
+    {
+      "nameId": "05A4",
+      "string": "Kochen"
+    },
+    {
+      "nameId": "05A5",
+      "string": "Konzentration"
+    },
+    {
+      "nameId": "05DA",
+      "string": "Info Ladedauer"
+    },
+    {
+      "nameId": "05DB",
+      "string": "Info Stromgrenze"
+    },
+    {
+      "nameId": "05D8",
+      "string": "Info übertragene Energie"
+    },
+    {
+      "nameId": "05D9",
+      "string": "Info Reichweite"
+    },
+    {
+      "nameId": "05DE",
+      "string": "Vorbedingung nicht mehr erfüllt"
+    },
+    {
+      "nameId": "05DF",
+      "string": "Aktion deaktiviert"
+    },
+    {
+      "nameId": "05DC",
+      "string": "Info Stromgrenze für Gruppe"
+    },
+    {
+      "nameId": "05DD",
+      "string": "Tag"
+    },
+    {
+      "nameId": "05D2",
+      "string": "Ladeanfrage aktivieren"
+    },
+    {
+      "nameId": "05D3",
+      "string": "Info Schnellladen"
+    },
+    {
+      "nameId": "05D0",
+      "string": "Schnellladen"
+    },
+    {
+      "nameId": "05D1",
+      "string": "Ladeanfrage beenden"
+    },
+    {
+      "nameId": "05D6",
+      "string": "Info Laden aktiviert"
+    },
+    {
+      "nameId": "05D7",
+      "string": "Info installierte Leistung"
+    },
+    {
+      "nameId": "05D4",
+      "string": "Info Status Wallbox"
+    },
+    {
+      "nameId": "05D5",
+      "string": "Info Laden"
+    },
+    {
+      "nameId": "05CA",
+      "string": "Nur bei Änderung"
+    },
+    {
+      "nameId": "05CB",
+      "string": "Zeitpunkt der letzten Statusänderung (Start, Ende usw.)"
+    },
+    {
+      "nameId": "05C8",
+      "string": "DALI Aktor"
+    },
+    {
+      "nameId": "05C9",
+      "string": "Immer"
+    },
+    {
+      "nameId": "05CE",
+      "string": "Zentrale Linie: Verbindung wiederhergestellt"
+    },
+    {
+      "nameId": "05CF",
+      "string": "Wallbox"
+    },
+    {
+      "nameId": "05CC",
+      "string": "Zentrale Linie: Busspannung verloren"
+    },
+    {
+      "nameId": "05CD",
+      "string": "Zentrale Linie: USB-Kabel abgezogen"
+    },
+    {
+      "nameId": "05C2",
+      "string": "Kontakt zum Alarm-Stick verloren"
+    },
+    {
+      "nameId": "05C3",
+      "string": "Kontakt zum Alarm-Stick wieder hergestellt"
+    },
+    {
+      "nameId": "05C0",
+      "string": "Kein Feueralarm"
+    },
+    {
+      "nameId": "05C1",
+      "string": "Kein Überflutungsalarm"
+    },
+    {
+      "nameId": "05C6",
+      "string": "Zweipunktregler Heizen/Kühlen"
+    },
+    {
+      "nameId": "05C7",
+      "string": "Es wurde ein CO-Alarm in folgendem Raum ausgelöst: %s"
+    },
+    {
+      "nameId": "05C4",
+      "string": "Es wurde ein Feueralarm in folgendem Raum ausgelöst: %s"
+    },
+    {
+      "nameId": "05C5",
+      "string": "Ⓛ"
+    },
+    {
+      "nameId": "05FA",
+      "string": "Der Parameter erlaubt die Fahrzeit des Behangs (z.B. Jalousie oder Rollade) in die obere Endlage genau einzustellen."
+    },
+    {
+      "nameId": "05FB",
+      "string": "Der Parameter erlaubt die Fahrzeit des Behangs (z.B. Jalousie oder Rollade) in die untere Endlage genau einzustellen."
+    },
+    {
+      "nameId": "05F8",
+      "string": "Der Parameter erlaubt die Einschalthelligkeit des am Aktor angebundenen Leuchtmittels je nach Zeit (Tag oder Nacht) unterschiedlich hell einzustellen. So kann z.B. bei Nacht das Leuchtmittel mit reduzierter Helligkeit eingeschaltet werden."
+    },
+    {
+      "nameId": "05F9",
+      "string": "Dieser Parameter definiert das Einschaltverhalten der Lampe. Neben der maximalen Helligkeit gibt es auch die Möglichkeit, die Lampe in dem Zustand vor dem Ausschalten wieder einzuschalten."
+    },
+    {
+      "nameId": "05FE",
+      "string": "Gesamtfahrzeit des Behangs (z.B. Jalousie oder Rollade) von der Endlage ganz oben zur Endlage nach ganz unten"
+    },
+    {
+      "nameId": "05FF",
+      "string": "Die Lanmellenfahrzeit ist kalibriert."
+    },
+    {
+      "nameId": "05FC",
+      "string": "Gesamtzeit, in der sich die Lamelle vollständig dreht"
+    },
+    {
+      "nameId": "05FD",
+      "string": "Gesamtfahrzeit der Jalousie nach unten."
+    },
+    {
+      "nameId": "05F2",
+      "string": "Nachlaufzeit"
+    },
+    {
+      "nameId": "05F3",
+      "string": "Der Parameter beschreibt ab welchem Grenzwert ein Schaltbefehl ausgelöst wird."
+    },
+    {
+      "nameId": "05F0",
+      "string": "Hier kann die Länge einer PWM Periode des Heizungsaktors gewählt werden."
+    },
+    {
+      "nameId": "05F1",
+      "string": "Hiermit kann die Dauer des Trigger-Impulses festgelegt werden."
+    },
+    {
+      "nameId": "05F6",
+      "string": "Dieser Parameter definiert die minimale Helligkeit, auf die das Leuchtmittel gedimmt werden kann."
+    },
+    {
+      "nameId": "05F7",
+      "string": "Der Parameter erlaubt die Einschalthelligkeit des am Aktor angebundenen Leuchtmittels je nach Zeit (Tag oder Nacht) unterschiedlich hell einzustellen. So kann z.B. am Tag das Leuchtmittel mit höherer Helligkeit eingeschaltet werden als bei Nacht."
+    },
+    {
+      "nameId": "05F4",
+      "string": "Hiermit kann der Umschaltzeitüpunkt zwischen Heizen und Kühlen gewählt werden."
+    },
+    {
+      "nameId": "05F5",
+      "string": "Unter dem Paramter Lastart kann ausgewählt welche Schaltlast am Aktor angeschlossen ist. Durch die Auswahl der korrekten Lastart kann die Last optimal geschaltet werden."
+    },
+    {
+      "nameId": "05EA",
+      "string": "Durch die Länge des Tastendrucks (langer Tastendruck) können unterschiedliche Schaltbefehle ausgeführt werden."
+    },
+    {
+      "nameId": "05EB",
+      "string": "Hiermit kann die Jalousie in der oberen oder unteren Position geperrt werden."
+    },
+    {
+      "nameId": "05E8",
+      "string": "Der Parameter beschreibt ob die LED am Sensor dauerhaft an oder aus geschaltet bleibt oder ob die LED nur dann leuchtet wenn die Last eingeschaltet ist."
+    },
+    {
+      "nameId": "05E9",
+      "string": "Hiermit kann die Lampe in einen dauerhaft eingeschalteten oder dauerhaft ausgeschalteten Modus geschaltet werden."
+    },
+    {
+      "nameId": "05EE",
+      "string": "Der Paramter beschreibt das Verhalten des angebunden Aktors im Falle einer Störung"
+    },
+    {
+      "nameId": "05EF",
+      "string": "Hier kann gewählt werden, ob das Gerät als Öffner oder Schließer arbeitet."
+    },
+    {
+      "nameId": "05EC",
+      "string": "Der Parameter beschreibt das Verhalten des Aktors wenn der Sensor nur kurz betätigt wird."
+    },
+    {
+      "nameId": "05ED",
+      "string": "Der Parameter definiert nach welcher Zeit der Aktor wieder ausschaltet, wenn dieser über einen Bewegungsmelder oder über die Funktion Treppenhauslicht eingeschaltet worden ist."
+    },
+    {
+      "nameId": "05E2",
+      "string": "Info Verriegelt/Entriegelt"
+    },
+    {
+      "nameId": "05E3",
+      "string": "Ⓐ, Ⓑ, Ⓒ"
+    },
+    {
+      "nameId": "05E0",
+      "string": "VRF Inneneinheit"
+    },
+    {
+      "nameId": "05E1",
+      "string": "Befehl Tür verriegelt/entriegelt"
+    },
+    {
+      "nameId": "05E6",
+      "string": "Der Parameter erlaubt die Helligkeit der LED am Sensor für den Nachtbetrieb einzustellen."
+    },
+    {
+      "nameId": "05E7",
+      "string": "Der Parameter erlaubt die Helligkeit der LED am Sensor für den Tagbetrieb einzustellen."
+    },
+    {
+      "nameId": "05E4",
+      "string": "Ⓐ+Ⓑ, Ⓒ"
+    },
+    {
+      "nameId": "05E5",
+      "string": "Betriebszustand"
+    },
+    {
+      "nameId": "061A",
+      "string": "Ein verknüpfter Schaltaktor kann EIN- oder AUS- geschaltet werden."
+    },
+    {
+      "nameId": "061B",
+      "string": "Ein verknüpfter Dimmer kann EIN- oder AUS- geschaltet werden (kurzer Tastendruck), bzw. heller oder dunkler gedimmt werden (langer Tastendruck)."
+    },
+    {
+      "nameId": "0618",
+      "string": "Durch die Verwendung der Sperrfunktion nimmt der Behang eine definierte Endposition ein (oben oder unten) die nicht durch andere Fahrbefehle übersteuert werden kann."
+    },
+    {
+      "nameId": "0619",
+      "string": "Automatische Wiederverriegelung"
+    },
+    {
+      "nameId": "061E",
+      "string": "Eine verknüpfte Szene wird bei Bedienung ausgelöst. Über einen langen Tastendruck können die gespeicherten Werte mit den aktuellen Werten überschrieben werden."
+    },
+    {
+      "nameId": "061F",
+      "string": "Nebenstelle für einen Raumtemperaturregler"
+    },
+    {
+      "nameId": "061C",
+      "string": "Eine verknüpfte Jalousie kann hoch oder runter gefahren werden."
+    },
+    {
+      "nameId": "061D",
+      "string": "Durch die Verwendung der Sperrfunktion nimmt der Aktor einen definierten Schaltzustand ein (ein oder aus), der nicht durch andere Schaltbefehle übersteuert werden kann."
+    },
+    {
+      "nameId": "0612",
+      "string": "URL des Plattencovers"
+    },
+    {
+      "nameId": "0613",
+      "string": "Durch die Verwendung als Dachfensteraktor lässt sich das Gerät bei Zentralbefehlen von anderen Behängen unterscheiden."
+    },
+    {
+      "nameId": "0610",
+      "string": "Lautstärkemodus Laut"
+    },
+    {
+      "nameId": "0611",
+      "string": "Statusanzeige mit Orientierungslicht"
+    },
+    {
+      "nameId": "0616",
+      "string": "Durch die Verwendung als Rolladenaktor führt bereits ein kurzer Tastendruck zum fahren der Rollade."
+    },
+    {
+      "nameId": "0617",
+      "string": "Der verknüpfte Aktor schaltet nach der individuell definierten Nachlaufzeit automatisch ab."
+    },
+    {
+      "nameId": "0614",
+      "string": "Durch die Verwendung als Jalousieaktor wird mit einem kurzen Tastendruck die Lamellenverstellung realisiert."
+    },
+    {
+      "nameId": "0615",
+      "string": "Durch die Verwendung als Markisenaktor lässt sich das Gerät bei Zentralbefehlen von anderen Behängen unterscheiden."
+    },
+    {
+      "nameId": "060A",
+      "string": "Türschlosssteuerung"
+    },
+    {
+      "nameId": "060B",
+      "string": "Türschlosseinstellungen"
+    },
+    {
+      "nameId": "0608",
+      "string": "Kanalauswahl basierend auf dem verbauten Aktortyp"
+    },
+    {
+      "nameId": "0609",
+      "string": "Bewegunsmeldung, wenn die gemessene Helligkeit kleiner oder gleich zu diesem Wert ist."
+    },
+    {
+      "nameId": "060E",
+      "string": "Lautstärkemodus Leise"
+    },
+    {
+      "nameId": "060F",
+      "string": "Lautstärkemodus Medium"
+    },
+    {
+      "nameId": "060C",
+      "string": "Lautstärkeanpassung"
+    },
+    {
+      "nameId": "060D",
+      "string": "Automatische Wiederverriegelungszeit"
+    },
+    {
+      "nameId": "0602",
+      "string": "Beschreibt das Verhalten der mit dem Alarmgeber vernetzten Aktoren für den Fall das die Alarmmeldung nicht mehr länger vorliegt."
+    },
+    {
+      "nameId": "0603",
+      "string": "Beschreibt das Verhalten der mit dem Alarmgeber vernetzten Aktoren für den Fall das die Alarmmeldung \"Wind\" empfangen wird."
+    },
+    {
+      "nameId": "0600",
+      "string": "Zeit, in der sich der Motor nach Bestromung noch nicht bewegt."
+    },
+    {
+      "nameId": "0601",
+      "string": "Fährt die Jalousie immer erst in die oberste Position, bevor eine Positionsfahrt durchgeführt wird."
+    },
+    {
+      "nameId": "0606",
+      "string": "Verhalten bei einem offenen Fenster."
+    },
+    {
+      "nameId": "0607",
+      "string": "Auswahl der Kanäle (z. B. Umschaltung Wippe/Pushbutton oder Kanalbündelung beim Multichannel Dimmer)"
+    },
+    {
+      "nameId": "0604",
+      "string": "Beschreibt das Verhalten der mit dem Alarmgeber vernetzten Aktoren für den Fall das die Alarmmeldung \"Regen\" empfangen wird."
+    },
+    {
+      "nameId": "0605",
+      "string": "Beschreibt das Verhalten der mit dem Alarmgeber vernetzten Aktoren für den Fall das die Alarmmeldung \"Frost\" empfangen wird."
+    },
+    {
+      "nameId": "0638",
+      "string": "Hilfe"
+    },
+    {
+      "nameId": "0639",
+      "string": "Panikbutton"
+    },
+    {
+      "nameId": "0632",
+      "string": "Klima Splitgerät"
+    },
+    {
+      "nameId": "0633",
+      "string": "Parametrierbarer Button"
+    },
+    {
+      "nameId": "0630",
+      "string": "Betrieb"
+    },
+    {
+      "nameId": "0631",
+      "string": "Z-Wave USB-Stick"
+    },
+    {
+      "nameId": "0636",
+      "string": "Einbruch (stille Rückmeldung)"
+    },
+    {
+      "nameId": "0637",
+      "string": "Hilfe"
+    },
+    {
+      "nameId": "0634",
+      "string": "Status abfragen"
+    },
+    {
+      "nameId": "0635",
+      "string": "Panik (hörbare Rückmeldung)"
+    },
+    {
+      "nameId": "0628",
+      "string": "Einschaltung"
+    },
+    {
+      "nameId": "0629",
+      "string": "Ausschaltung"
+    },
+    {
+      "nameId": "0622",
+      "string": "l'actionneur de chauffage central se met en MARCHE dès qu'un des thermostats d'ambiance raccordés signale un besoin de chaleur et À L'ARRÊT automatiquement en l'absence de besoin de chaleur."
+    },
+    {
+      "nameId": "0623",
+      "string": "l'actionneur de refroidissement central se met en MARCHE dès qu'un des thermostats d'ambiance raccordés signale un besoin de refroidissement et À L'ARRÊT automatiquement en l'absence de besoin de refroidissement."
+    },
+    {
+      "nameId": "0620",
+      "string": "les éléments de chauffage raccordés sont mis en circuit, lorsque la température mesurée est inférieure de 2° kelvins à la température de consigne réglée."
+    },
+    {
+      "nameId": "0621",
+      "string": "Ein verknüpfter Schaltaktor wird für eine definierbare Zeit eingeschaltet und schaltet danach automatisch wieder aus."
+    },
+    {
+      "nameId": "0626",
+      "string": "les éléments de refroidissement raccordés sont mis en circuit, lorsque la température mesurée est supérieure de 2° kelvins à la température de consigne réglée."
+    },
+    {
+      "nameId": "0627",
+      "string": "Türschloss"
+    },
+    {
+      "nameId": "0624",
+      "string": "en bas : plus faible)"
+    },
+    {
+      "nameId": "0625",
+      "string": "en bas : favoris Sonos)"
+    },
+    {
+      "nameId": "065A",
+      "string": "O3-Wert"
+    },
+    {
+      "nameId": "065B",
+      "string": "PM10 Sensor"
+    },
+    {
+      "nameId": "0658",
+      "string": "NO2-Wert"
+    },
+    {
+      "nameId": "0659",
+      "string": "O3 Sensor"
+    },
+    {
+      "nameId": "065E",
+      "string": "PM2.5-Wert"
+    },
+    {
+      "nameId": "065F",
+      "string": "Feuchte-Sensor"
+    },
+    {
+      "nameId": "065C",
+      "string": "PM10-Wert"
+    },
+    {
+      "nameId": "065D",
+      "string": "PM2.5 Sensor"
+    },
+    {
+      "nameId": "0652",
+      "string": "Inaktiv"
+    },
+    {
+      "nameId": "0653",
+      "string": "Luftdrucksensor"
+    },
+    {
+      "nameId": "0650",
+      "string": "Zeitgesteuerte Bewegung anfordern"
+    },
+    {
+      "nameId": "0651",
+      "string": "Sperrsensor"
+    },
+    {
+      "nameId": "0656",
+      "string": "CO-Wert"
+    },
+    {
+      "nameId": "0657",
+      "string": "NO2 Sensor"
+    },
+    {
+      "nameId": "0654",
+      "string": "Luftdruck"
+    },
+    {
+      "nameId": "0655",
+      "string": "CO Sensor"
+    },
+    {
+      "nameId": "064A",
+      "string": "Kompletter Bereich"
+    },
+    {
+      "nameId": "064B",
+      "string": "Nur links"
+    },
+    {
+      "nameId": "0648",
+      "string": "Umsetzer und Batterie"
+    },
+    {
+      "nameId": "0649",
+      "string": "Erfassungsbereich"
+    },
+    {
+      "nameId": "064E",
+      "string": "Anzeige über Last"
+    },
+    {
+      "nameId": "064F",
+      "string": "Anzeige über LED"
+    },
+    {
+      "nameId": "064C",
+      "string": "Nur rechts"
+    },
+    {
+      "nameId": "064D",
+      "string": "Testmodus"
+    },
+    {
+      "nameId": "0642",
+      "string": "RGB + Weiß Sensor"
+    },
+    {
+      "nameId": "0643",
+      "string": "Verbrauchte Energie"
+    },
+    {
+      "nameId": "0640",
+      "string": "Zoneneinstellung"
+    },
+    {
+      "nameId": "0641",
+      "string": "Scharfschaltstufe beibehalten"
+    },
+    {
+      "nameId": "0646",
+      "string": "Umsetzer und Zähler"
+    },
+    {
+      "nameId": "0647",
+      "string": "Zähler und Batterie"
+    },
+    {
+      "nameId": "0644",
+      "string": "Eingespeiste Energie"
+    },
+    {
+      "nameId": "0645",
+      "string": "Umsetzer, Zähler und Batterie"
+    },
+    {
+      "nameId": "067A",
+      "string": "Zykluszeit"
+    },
+    {
+      "nameId": "067B",
+      "string": "Video- / Kamera-Link"
+    },
+    {
+      "nameId": "0678",
+      "string": "e-Kontakt Schaltaktor"
+    },
+    {
+      "nameId": "0679",
+      "string": "Bedienelement mit Sperrfunktion"
+    },
+    {
+      "nameId": "067C",
+      "string": "Lautstärke akustisches Feedback"
+    },
+    {
+      "nameId": "067D",
+      "string": "Fingerabdruck-Sensor"
+    },
+    {
+      "nameId": "0672",
+      "string": "Windgeschwindigkeit kleiner als (Hysterese)"
+    },
+    {
+      "nameId": "0673",
+      "string": "Helligkeit mit Hysterese"
+    },
+    {
+      "nameId": "0670",
+      "string": "Helligkeit kleiner als (Hysterese)"
+    },
+    {
+      "nameId": "0671",
+      "string": "Windgeschwindigkeit größer als (Hysterese)"
+    },
+    {
+      "nameId": "0676",
+      "string": "Sicherheitsalarm ausgelöst in Zone %1"
+    },
+    {
+      "nameId": "0677",
+      "string": "Kaiterra Kombigerät"
+    },
+    {
+      "nameId": "0674",
+      "string": "Windgeschwindigkeit mit Hysterese"
+    },
+    {
+      "nameId": "0675",
+      "string": "Einbruchsalarm ausgelöst in Zone %1"
+    },
+    {
+      "nameId": "066A",
+      "string": "Luftdruck Alarm"
+    },
+    {
+      "nameId": "066B",
+      "string": "VOC Sensor"
+    },
+    {
+      "nameId": "0668",
+      "string": "NO2 Alarm"
+    },
+    {
+      "nameId": "0669",
+      "string": "Luftfeuchtigkeits Alarm"
+    },
+    {
+      "nameId": "066E",
+      "string": "Szenen/Gruppen"
+    },
+    {
+      "nameId": "066F",
+      "string": "Helligkeit größer als (Hysterese)"
+    },
+    {
+      "nameId": "066C",
+      "string": "VOC-Wert"
+    },
+    {
+      "nameId": "066D",
+      "string": "VOC Alarm"
+    },
+    {
+      "nameId": "0662",
+      "string": "PM10 Alarm"
+    },
+    {
+      "nameId": "0663",
+      "string": "Timersteuerung"
+    },
+    {
+      "nameId": "0660",
+      "string": "CO2 Sensor"
+    },
+    {
+      "nameId": "0661",
+      "string": "PM2.5 Alarm"
+    },
+    {
+      "nameId": "0666",
+      "string": "CO Alarm"
+    },
+    {
+      "nameId": "0667",
+      "string": "CO2 Alarm"
+    },
+    {
+      "nameId": "0664",
+      "string": "O3 Alarm"
+    },
+    {
+      "nameId": "0665",
+      "string": "Temperatur Alarm"
+    },
+    {
+      "nameId": "069A",
+      "string": "Fingerabdruck-Sensor 26"
+    },
+    {
+      "nameId": "069B",
+      "string": "Fingerabdruck-Sensor 27"
+    },
+    {
+      "nameId": "0698",
+      "string": "Fingerabdruck-Sensor 24"
+    },
+    {
+      "nameId": "FEDE",
+      "string": "Präsenzmelder"
+    },
+    {
+      "nameId": "0699",
+      "string": "Fingerabdruck-Sensor 25"
+    },
+    {
+      "nameId": "FEDF",
+      "string": "Präsenzmelder/Schaltaktor"
+    },
+    {
+      "nameId": "069E",
+      "string": "Fingerabdruck-Sensor 30"
+    },
+    {
+      "nameId": "069F",
+      "string": "Fingerabdruck-Sensor 31"
+    },
+    {
+      "nameId": "069C",
+      "string": "Fingerabdruck-Sensor 28"
+    },
+    {
+      "nameId": "069D",
+      "string": "Fingerabdruck-Sensor 29"
+    },
+    {
+      "nameId": "0692",
+      "string": "Fingerabdruck-Sensor 18"
+    },
+    {
+      "nameId": "0693",
+      "string": "Fingerabdruck-Sensor 19"
+    },
+    {
+      "nameId": "0690",
+      "string": "Fingerabdruck-Sensor 16"
+    },
+    {
+      "nameId": "0691",
+      "string": "Fingerabdruck-Sensor 17"
+    },
+    {
+      "nameId": "0696",
+      "string": "Fingerabdruck-Sensor 22"
+    },
+    {
+      "nameId": "0697",
+      "string": "Fingerabdruck-Sensor 23"
+    },
+    {
+      "nameId": "0694",
+      "string": "Fingerabdruck-Sensor 20"
+    },
+    {
+      "nameId": "0695",
+      "string": "Fingerabdruck-Sensor 21"
+    },
+    {
+      "nameId": "068A",
+      "string": "Fingerabdruck-Sensor 10"
+    },
+    {
+      "nameId": "068B",
+      "string": "Fingerabdruck-Sensor 11"
+    },
+    {
+      "nameId": "0688",
+      "string": "Fingerabdruck-Sensor 8"
+    },
+    {
+      "nameId": "0689",
+      "string": "Fingerabdruck-Sensor 9"
+    },
+    {
+      "nameId": "068E",
+      "string": "Fingerabdruck-Sensor 14"
+    },
+    {
+      "nameId": "068F",
+      "string": "Fingerabdruck-Sensor 15"
+    },
+    {
+      "nameId": "068C",
+      "string": "Fingerabdruck-Sensor 12"
+    },
+    {
+      "nameId": "068D",
+      "string": "Fingerabdruck-Sensor 13"
+    },
+    {
+      "nameId": "0682",
+      "string": "Fingerabdruck-Sensor 2"
+    },
+    {
+      "nameId": "0683",
+      "string": "Fingerabdruck-Sensor 3"
+    },
+    {
+      "nameId": "0681",
+      "string": "Fingerabdruck-Sensor 1"
+    },
+    {
+      "nameId": "0686",
+      "string": "Fingerabdruck-Sensor 6"
+    },
+    {
+      "nameId": "0687",
+      "string": "Fingerabdruck-Sensor 7"
+    },
+    {
+      "nameId": "0684",
+      "string": "Fingerabdruck-Sensor 4"
+    },
+    {
+      "nameId": "0685",
+      "string": "Fingerabdruck-Sensor 5"
+    },
+    {
+      "nameId": "FEFB",
+      "string": "Jalousieaktor 4-fach, REG"
+    },
+    {
+      "nameId": "06BA",
+      "string": "Slideshow"
+    },
+    {
+      "nameId": "06BB",
+      "string": "Automatische Rückkehr zur Startseite aktvieren"
+    },
+    {
+      "nameId": "FEF9",
+      "string": "Binäreingang 4-fach, REG"
+    },
+    {
+      "nameId": "06B8",
+      "string": "Bildschirmschonermodus"
+    },
+    {
+      "nameId": "FEFE",
+      "string": "Heizungsaktor 12-fach"
+    },
+    {
+      "nameId": "06B9",
+      "string": "Uhr"
+    },
+    {
+      "nameId": "FEFF",
+      "string": "Heizungsaktor 12-fach, REG"
+    },
+    {
+      "nameId": "06BE",
+      "string": "plusWire Ausgang"
+    },
+    {
+      "nameId": "FEFC",
+      "string": "Heizungsaktor 6-fach"
+    },
+    {
+      "nameId": "06BF",
+      "string": "plusWire Eingang"
+    },
+    {
+      "nameId": "FEFD",
+      "string": "Heizungsaktor 6-fach, REG"
+    },
+    {
+      "nameId": "06BC",
+      "string": "Wetterdaten"
+    },
+    {
+      "nameId": "06BD",
+      "string": "Bewegungsmelder Nebenstelle"
+    },
+    {
+      "nameId": "FEF3",
+      "string": "Schaltaktor 4-fach, 16A, REG"
+    },
+    {
+      "nameId": "06B2",
+      "string": "Haptisches Feedback"
+    },
+    {
+      "nameId": "06B3",
+      "string": "Weich"
+    },
+    {
+      "nameId": "FEF1",
+      "string": "Sensor/ Schaltaktor 8/8fach, REG"
+    },
+    {
+      "nameId": "06B0",
+      "string": "Über den Näherungssensor das Display umschalten"
+    },
+    {
+      "nameId": "06B1",
+      "string": "Empfindlichkeit Näherungssensor"
+    },
+    {
+      "nameId": "FEF7",
+      "string": "Binäreingang 2-fach, UP"
+    },
+    {
+      "nameId": "06B6",
+      "string": "Bildschirmschoner"
+    },
+    {
+      "nameId": "06B7",
+      "string": "120 min"
+    },
+    {
+      "nameId": "FEF5",
+      "string": "Binäreingang 4-fach, UP"
+    },
+    {
+      "nameId": "06B4",
+      "string": "Mittel"
+    },
+    {
+      "nameId": "FEEA",
+      "string": "Sensor/ e-Kontakt-Schaltaktor 2/1-fach"
+    },
+    {
+      "nameId": "06B5",
+      "string": "Hart"
+    },
+    {
+      "nameId": "FEEB",
+      "string": "VRF Gateway"
+    },
+    {
+      "nameId": "06AA",
+      "string": "5"
+    },
+    {
+      "nameId": "FEE8",
+      "string": "Nebenstelle, 2-fach"
+    },
+    {
+      "nameId": "06AB",
+      "string": "Automatische Rückkehr zur Startseite"
+    },
+    {
+      "nameId": "FEE9",
+      "string": "Sensor/ e-Kontakt-Schaltaktor 1/1-fach"
+    },
+    {
+      "nameId": "06A8",
+      "string": "3"
+    },
+    {
+      "nameId": "06A9",
+      "string": "4"
+    },
+    {
+      "nameId": "FEEF",
+      "string": "Fancoil-Aktor, PWM, REG"
+    },
+    {
+      "nameId": "06AE",
+      "string": "Helligkeitsstufe für die Interpretation als dunkel"
+    },
+    {
+      "nameId": "FEEC",
+      "string": "IP Touch 10"
+    },
+    {
+      "nameId": "06AF",
+      "string": "Ausschalten nach [min] dunkel"
+    },
+    {
+      "nameId": "FEED",
+      "string": "(WS-M-4.0.1) Wetterstation"
+    },
+    {
+      "nameId": "06AC",
+      "string": "Helligkeit wird an das Umgebungslicht angepasst"
+    },
+    {
+      "nameId": "FEE2",
+      "string": "Präsenzmelder/Jalousieaktor"
+    },
+    {
+      "nameId": "06AD",
+      "string": "Display ausschalten wenn der Raum dunkel ist"
+    },
+    {
+      "nameId": "FEE3",
+      "string": "plusWire Präsenzmelder"
+    },
+    {
+      "nameId": "06A2",
+      "string": "dunkel"
+    },
+    {
+      "nameId": "FEE0",
+      "string": "Präsenzmelder/2-Fach Schaltaktor"
+    },
+    {
+      "nameId": "06A3",
+      "string": "hell"
+    },
+    {
+      "nameId": "FEE1",
+      "string": "Präsenzmelder/Dimmaktor"
+    },
+    {
+      "nameId": "06A0",
+      "string": "Fingerabdruck-Sensor 32"
+    },
+    {
+      "nameId": "FEE6",
+      "string": "plusWire Bewegungsmelder"
+    },
+    {
+      "nameId": "06A1",
+      "string": "Thema Farbe"
+    },
+    {
+      "nameId": "FEE7",
+      "string": "Nebenstelle, 1-fach"
+    },
+    {
+      "nameId": "06A6",
+      "string": "1"
+    },
+    {
+      "nameId": "FEE4",
+      "string": "Präsenzmelder/e-Kontakt-Schaltaktor"
+    },
+    {
+      "nameId": "06A7",
+      "string": "2"
+    },
+    {
+      "nameId": "FEE5",
+      "string": "Bewegungsmelder/e-Kontakt-Schaltaktor"
+    },
+    {
+      "nameId": "06A4",
+      "string": "autom."
+    },
+    {
+      "nameId": "06A5",
+      "string": "Helligkeit für Umschalten in Dunkelmodus"
+    },
+    {
+      "nameId": "06DA",
+      "string": "Kanalauswahl 1"
+    },
+    {
+      "nameId": "06DB",
+      "string": "Kanalauswahl 2"
+    },
+    {
+      "nameId": "06D8",
+      "string": "Away"
+    },
+    {
+      "nameId": "06D9",
+      "string": "Sensorzonen"
+    },
+    {
+      "nameId": "06DE",
+      "string": "Kanalauswahl 5"
+    },
+    {
+      "nameId": "06DF",
+      "string": "Kanalauswahl 6"
+    },
+    {
+      "nameId": "06DC",
+      "string": "Kanalauswahl 3"
+    },
+    {
+      "nameId": "06DD",
+      "string": "Kanalauswahl 4"
+    },
+    {
+      "nameId": "06D2",
+      "string": "RGBW Gruppe"
+    },
+    {
+      "nameId": "EF1A",
+      "string": "Zu migrierende Dateien werden gesammelt"
+    },
+    {
+      "nameId": "06D3",
+      "string": "Bewegungsmelder linke Seite"
+    },
+    {
+      "nameId": "EF1B",
+      "string": "Datei wird heruntergeladen"
+    },
+    {
+      "nameId": "06D0",
+      "string": "Angeschlossene Ventile"
+    },
+    {
+      "nameId": "EF18",
+      "string": "Migrations-Backup für Quell-System Access Point wird erstellt"
+    },
+    {
+      "nameId": "06D1",
+      "string": "RGB Gruppe"
+    },
+    {
+      "nameId": "EF19",
+      "string": "Backup wird heruntergeladen"
+    },
+    {
+      "nameId": "06D6",
+      "string": "Warmwasser-Pumpe"
+    },
+    {
+      "nameId": "EF1E",
+      "string": "Erlaube unsichere Sensoren beim Scharfschalten"
+    },
+    {
+      "nameId": "06D7",
+      "string": "Lüftung"
+    },
+    {
+      "nameId": "06D4",
+      "string": "Bewegungsmelder rechte Seite"
+    },
+    {
+      "nameId": "EF1C",
+      "string": "System Access Point wird neu gestartet"
+    },
+    {
+      "nameId": "06D5",
+      "string": "HVAC"
+    },
+    {
+      "nameId": "EF1D",
+      "string": "Alle Sensoren müssen beim Scharfschalten sicher sein."
+    },
+    {
+      "nameId": "06CA",
+      "string": "Art der Lüfteransteuerung"
+    },
+    {
+      "nameId": "EF12",
+      "string": "Migration abgebrochen: Remoteanruf fehlgeschlagen"
+    },
+    {
+      "nameId": "06CB",
+      "string": "PLUSWire Lichtfernsteuerung"
+    },
+    {
+      "nameId": "EF13",
+      "string": "Migration abgebrochen: Zeitüberschreitung Remoteanruf"
+    },
+    {
+      "nameId": "06C8",
+      "string": "plusWire Bewegungsmelder"
+    },
+    {
+      "nameId": "EF10",
+      "string": "Migration abgebrochen: System Access Point konnte nicht auf den letzten Migrationsschritt vorbereitet werden"
+    },
+    {
+      "nameId": "06C9",
+      "string": "plusWire Nebenstelle"
+    },
+    {
+      "nameId": "EF11",
+      "string": "Migration abgebrochen: eine Datei konnte nicht geschrieben werden"
+    },
+    {
+      "nameId": "06CE",
+      "string": "Bewegungsmelder links/rechts"
+    },
+    {
+      "nameId": "EF16",
+      "string": "Suche nach migrierbaren System Access Points"
+    },
+    {
+      "nameId": "06CF",
+      "string": "Rolladengruppe"
+    },
+    {
+      "nameId": "EF17",
+      "string": "Migration gestartet"
+    },
+    {
+      "nameId": "06CC",
+      "string": "PLUSWire Jalousiefernsteuerung"
+    },
+    {
+      "nameId": "EF14",
+      "string": "Migration inaktiv"
+    },
+    {
+      "nameId": "06CD",
+      "string": "PLUSWire Presetfernsteuerung"
+    },
+    {
+      "nameId": "EF15",
+      "string": "Migrations-Rollback verfügbar"
+    },
+    {
+      "nameId": "06C2",
+      "string": "plusWire Bewegungsmelderhauptstelle"
+    },
+    {
+      "nameId": "EF0A",
+      "string": "Migration abgebrochen: fehlendes Migrations-Backup"
+    },
+    {
+      "nameId": "06C3",
+      "string": "plusWire Bewegunsmeldernebenstelle"
+    },
+    {
+      "nameId": "EF0B",
+      "string": "Migration abgebrochen: migrierte Dateien konnten nicht an ihren Zielort verschoben werden"
+    },
+    {
+      "nameId": "06C0",
+      "string": "plusWire Lichtsteuerung"
+    },
+    {
+      "nameId": "EF08",
+      "string": "Migration abgebrochen: Backup-Liste konnte nicht abgerufen werden"
+    },
+    {
+      "nameId": "06C1",
+      "string": "plusWire Jalousiesteuerung"
+    },
+    {
+      "nameId": "EF09",
+      "string": "Migration abgebrochen: Datei-Liste konnte nicht abgerufen werden"
+    },
+    {
+      "nameId": "06C6",
+      "string": "linke plusWire Wippe"
+    },
+    {
+      "nameId": "EF0E",
+      "string": "Migration abgebrochen: Firmware des Quell-System Access Point ist zu alt"
+    },
+    {
+      "nameId": "06C7",
+      "string": "rechte plusWire Wippe"
+    },
+    {
+      "nameId": "EF0F",
+      "string": "Migration abgebrochen: Migration konnte auf Quell-System Access Point nicht gestartet werden"
+    },
+    {
+      "nameId": "06C4",
+      "string": "plusWire Szenensteuerung"
+    },
+    {
+      "nameId": "EF0C",
+      "string": "Migration abgebrochen: Einstellungen konnten nicht gelesen werden"
+    },
+    {
+      "nameId": "06C5",
+      "string": "plusWire Wippe"
+    },
+    {
+      "nameId": "EF0D",
+      "string": "Migration abgebrochen: eine alte Datei konnte nicht gelöscht werden"
+    },
+    {
+      "nameId": "06FA",
+      "string": "Fahren bei Kurzdruck"
+    },
+    {
+      "nameId": "EF02",
+      "string": "Migration abgebrochen: Verbindung zu Quell-System Access Point konnte nicht hergestellt werden"
+    },
+    {
+      "nameId": "06FB",
+      "string": "Fahren/Stopp bei Langdruck"
+    },
+    {
+      "nameId": "EF03",
+      "string": "Migration abgebrochen: Rollbackdaten konnten nicht erstellt werden"
+    },
+    {
+      "nameId": "06F8",
+      "string": "Dieser Parameter definiert die maximale Helligkeit, auf die das Leuchtmittel gedimmt werden kann."
+    },
+    {
+      "nameId": "EF00",
+      "string": "Migration abgebrochen: Benutzername oder Passwort ungültig"
+    },
+    {
+      "nameId": "06F9",
+      "string": "Fahren bei Langdruck"
+    },
+    {
+      "nameId": "EF01",
+      "string": "Migration abgebrochen: Backup für Quell-System Access Point konnte nicht erstellt werden"
+    },
+    {
+      "nameId": "06FE",
+      "string": "Flamme"
+    },
+    {
+      "nameId": "EF06",
+      "string": "Migration abgebrochen: ein Backup konnte nicht heruntergeladen werden"
+    },
+    {
+      "nameId": "06FF",
+      "string": "Bei Nichtbenutzung"
+    },
+    {
+      "nameId": "EF07",
+      "string": "Migration abgebrochen: eine Datei konnte nicht heruntergeladen werden"
+    },
+    {
+      "nameId": "06FC",
+      "string": "Bedienmodus"
+    },
+    {
+      "nameId": "EF04",
+      "string": "Migration abgebrochen: Verbindung zu Quell-System Access Point unterbrochen"
+    },
+    {
+      "nameId": "06FD",
+      "string": "Weihnachtsbaum"
+    },
+    {
+      "nameId": "EF05",
+      "string": "Migration abgebrochen: Firmware des Quell-System Access Point ist neuer als Ziel-Firmware"
+    },
+    {
+      "nameId": "06F2",
+      "string": "Luftgütesensor"
+    },
+    {
+      "nameId": "06F3",
+      "string": "Staubsauger"
+    },
+    {
+      "nameId": "06F0",
+      "string": "Ausschalten"
+    },
+    {
+      "nameId": "06F1",
+      "string": "Manuelle Stufe beibehalten"
+    },
+    {
+      "nameId": "06F6",
+      "string": "Funktion von Eingang ⓑ"
+    },
+    {
+      "nameId": "06F7",
+      "string": "Kontaktart Eingang ⓑ"
+    },
+    {
+      "nameId": "06F4",
+      "string": "Funktion von Eingang ⓐ"
+    },
+    {
+      "nameId": "06F5",
+      "string": "Kontaktart Eingang ⓐ"
+    },
+    {
+      "nameId": "06EA",
+      "string": "Fünter Taster links"
+    },
+    {
+      "nameId": "06EB",
+      "string": "Fünfter Taster rechts"
+    },
+    {
+      "nameId": "06E8",
+      "string": "Vierter Taster rechts"
+    },
+    {
+      "nameId": "06E9",
+      "string": "Fünfte Wippe"
+    },
+    {
+      "nameId": "06EE",
+      "string": "Rolladenmotor"
+    },
+    {
+      "nameId": "06EF",
+      "string": "Rolladenmotor"
+    },
+    {
+      "nameId": "06EC",
+      "string": "Heizen/Kühlen-Modus Anforderung"
+    },
+    {
+      "nameId": "06ED",
+      "string": "Info Heizen/Kühlen-Modus"
+    },
+    {
+      "nameId": "06E2",
+      "string": "Zweiter Taster rechts"
+    },
+    {
+      "nameId": "06E3",
+      "string": "Dritte Wippe"
+    },
+    {
+      "nameId": "06E0",
+      "string": "Zweite Wippe"
+    },
+    {
+      "nameId": "06E1",
+      "string": "Zweiter Taster links"
+    },
+    {
+      "nameId": "06E6",
+      "string": "Vierte Wippe"
+    },
+    {
+      "nameId": "06E7",
+      "string": "Vierter Taster links"
+    },
+    {
+      "nameId": "06E4",
+      "string": "Dritter Taster links"
+    },
+    {
+      "nameId": "06E5",
+      "string": "Dritter Taster rechts"
+    },
+    {
+      "nameId": "071A",
+      "string": "Videokamera 23"
+    },
+    {
+      "nameId": "071B",
+      "string": "Videokamera 24"
+    },
+    {
+      "nameId": "0718",
+      "string": "Videokamera 21"
+    },
+    {
+      "nameId": "0719",
+      "string": "Videokamera 22"
+    },
+    {
+      "nameId": "071E",
+      "string": "Videokamera 27"
+    },
+    {
+      "nameId": "071F",
+      "string": "Videokamera 28"
+    },
+    {
+      "nameId": "071C",
+      "string": "Videokamera 25"
+    },
+    {
+      "nameId": "071D",
+      "string": "Videokamera 26"
+    },
+    {
+      "nameId": "0712",
+      "string": "Videokamera 15"
+    },
+    {
+      "nameId": "0713",
+      "string": "Videokamera 16"
+    },
+    {
+      "nameId": "0710",
+      "string": "Videokamera 13"
+    },
+    {
+      "nameId": "0711",
+      "string": "Videokamera 14"
+    },
+    {
+      "nameId": "0716",
+      "string": "Videokamera 19"
+    },
+    {
+      "nameId": "0717",
+      "string": "Videokamera 20"
+    },
+    {
+      "nameId": "0714",
+      "string": "Videokamera 17"
+    },
+    {
+      "nameId": "0715",
+      "string": "Videokamera 18"
+    },
+    {
+      "nameId": "070A",
+      "string": "Videokamera 7"
+    },
+    {
+      "nameId": "070B",
+      "string": "Videokamera 8"
+    },
+    {
+      "nameId": "0708",
+      "string": "Videokamera 5"
+    },
+    {
+      "nameId": "0709",
+      "string": "Videokamera 6"
+    },
+    {
+      "nameId": "070E",
+      "string": "Videokamera 11"
+    },
+    {
+      "nameId": "070F",
+      "string": "Videokamera 12"
+    },
+    {
+      "nameId": "070C",
+      "string": "Videokamera 9"
+    },
+    {
+      "nameId": "070D",
+      "string": "Videokamera 10"
+    },
+    {
+      "nameId": "0702",
+      "string": "Ignoriere lokale Temperatur"
+    },
+    {
+      "nameId": "0703",
+      "string": "Videokamera"
+    },
+    {
+      "nameId": "0700",
+      "string": "Anzeige ausschalten"
+    },
+    {
+      "nameId": "0701",
+      "string": "Keine Änderung"
+    },
+    {
+      "nameId": "0706",
+      "string": "Videokamera 3"
+    },
+    {
+      "nameId": "0707",
+      "string": "Videokamera 4"
+    },
+    {
+      "nameId": "0704",
+      "string": "Videokamera 1"
+    },
+    {
+      "nameId": "0705",
+      "string": "Videokamera 2"
+    },
+    {
+      "nameId": "073A",
+      "string": "Raumtemperatur-Regelung mit Radiator"
+    },
+    {
+      "nameId": "073B",
+      "string": "Raumtemperatur-Regelung mit Fußbodenheizung"
+    },
+    {
+      "nameId": "0738",
+      "string": "Basissollwert Kühlen Ecobetrieb"
+    },
+    {
+      "nameId": "0739",
+      "string": "Heizart / Anwendung"
+    },
+    {
+      "nameId": "073E",
+      "string": "Ventile mindestens einmal in 24 Stunden bewegen"
+    },
+    {
+      "nameId": "073F",
+      "string": "Frostschutz"
+    },
+    {
+      "nameId": "073C",
+      "string": "Raumtemperatur-Regelung mit Fußbodentemperatur-Begrenzung"
+    },
+    {
+      "nameId": "073D",
+      "string": "Fußboden-Regelung"
+    },
+    {
+      "nameId": "0732",
+      "string": "Maximale Heizleistung für die eingestelle Zeit"
+    },
+    {
+      "nameId": "0733",
+      "string": "Externer Temperatursensor"
+    },
+    {
+      "nameId": "0730",
+      "string": "Booster"
+    },
+    {
+      "nameId": "0731",
+      "string": "Boostzeit"
+    },
+    {
+      "nameId": "0736",
+      "string": "Basissollwert Heizen Ecobetrieb"
+    },
+    {
+      "nameId": "0737",
+      "string": "Basissollwert Kühlen Komfort"
+    },
+    {
+      "nameId": "0734",
+      "string": "nur bei Bedienung Ein"
+    },
+    {
+      "nameId": "0735",
+      "string": "Basissollwert Heizen Komfort"
+    },
+    {
+      "nameId": "072A",
+      "string": "33 kOhm NTC Sensor"
+    },
+    {
+      "nameId": "072B",
+      "string": "47 kOhm NTC Sensor"
+    },
+    {
+      "nameId": "0728",
+      "string": "12 kOhm NTC Sensor"
+    },
+    {
+      "nameId": "0729",
+      "string": "15 kOhm NTC Sensor"
+    },
+    {
+      "nameId": "072E",
+      "string": "Minimale Fussbodentemperatur"
+    },
+    {
+      "nameId": "072F",
+      "string": "Ventilschutz"
+    },
+    {
+      "nameId": "072C",
+      "string": "Schaltlast"
+    },
+    {
+      "nameId": "072D",
+      "string": "Maximale Fussbodentemperatur"
+    },
+    {
+      "nameId": "0722",
+      "string": "Videokamera 31"
+    },
+    {
+      "nameId": "0723",
+      "string": "Videokamera 32"
+    },
+    {
+      "nameId": "0720",
+      "string": "Videokamera 29"
+    },
+    {
+      "nameId": "0721",
+      "string": "Videokamera 30"
+    },
+    {
+      "nameId": "0726",
+      "string": "2 kOhm PTC Sensor"
+    },
+    {
+      "nameId": "0727",
+      "string": "10 kOhm NTC Sensor"
+    },
+    {
+      "nameId": "0724",
+      "string": "Kamerakonfiguration anzeigen"
+    },
+    {
+      "nameId": "0725",
+      "string": "Original NTC Sensor"
+    },
+    {
+      "nameId": "075A",
+      "string": "Parameterwert"
+    },
+    {
+      "nameId": "075B",
+      "string": "Letzter Wert"
+    },
+    {
+      "nameId": "0758",
+      "string": "Halbautomatik"
+    },
+    {
+      "nameId": "0759",
+      "string": "Dämmerungsschalter"
+    },
+    {
+      "nameId": "075E",
+      "string": "25 %"
+    },
+    {
+      "nameId": "075F",
+      "string": "Präsenzmelder Zusatzfunktion"
+    },
+    {
+      "nameId": "075C",
+      "string": "100 %"
+    },
+    {
+      "nameId": "075D",
+      "string": "50 %"
+    },
+    {
+      "nameId": "0752",
+      "string": "Eco"
+    },
+    {
+      "nameId": "0753",
+      "string": "2 kOhm NTC Sensor"
+    },
+    {
+      "nameId": "0750",
+      "string": "Die Schaltleistung wird benötigt um eine optimale Regelung zu ermöglichen"
+    },
+    {
+      "nameId": "0751",
+      "string": "Komfort"
+    },
+    {
+      "nameId": "0756",
+      "string": "Einschaltmodus"
+    },
+    {
+      "nameId": "0757",
+      "string": "Einschaltbedingung"
+    },
+    {
+      "nameId": "0754",
+      "string": "Gruppen"
+    },
+    {
+      "nameId": "0755",
+      "string": "Kamera ID"
+    },
+    {
+      "nameId": "074A",
+      "string": "Zeitprogramme"
+    },
+    {
+      "nameId": "074B",
+      "string": "Aktionen"
+    },
+    {
+      "nameId": "0748",
+      "string": "Ledvance Aktor"
+    },
+    {
+      "nameId": "0749",
+      "string": "Ledvance Dimmer"
+    },
+    {
+      "nameId": "074E",
+      "string": "Umschaltdatum Heizbetrieb"
+    },
+    {
+      "nameId": "074F",
+      "string": "Umschaltdatum Kühlenbetrieb"
+    },
+    {
+      "nameId": "074C",
+      "string": "Lichtschalter"
+    },
+    {
+      "nameId": "074D",
+      "string": "Info Kamera Konfig Menu zeigen"
+    },
+    {
+      "nameId": "0742",
+      "string": "Komfort Sollwert soll erst zur Schaltzeit aktiv werden"
+    },
+    {
+      "nameId": "0743",
+      "string": "Reglertype"
+    },
+    {
+      "nameId": "0740",
+      "string": "Adaptive-Regelung"
+    },
+    {
+      "nameId": "0741",
+      "string": "Komfort Sollwert soll zur Schaltzeit erreicht sein"
+    },
+    {
+      "nameId": "0746",
+      "string": "Externe Eingangsfunktion"
+    },
+    {
+      "nameId": "0747",
+      "string": "Ledvance Licht"
+    },
+    {
+      "nameId": "0744",
+      "string": "PWM-Regler"
+    },
+    {
+      "nameId": "FFBA",
+      "string": "Ceilingfan actuator rocker 1gang"
+    },
+    {
+      "nameId": "0745",
+      "string": "2-Punkt-Regler"
+    },
+    {
+      "nameId": "FFBB",
+      "string": "Ceilingfan actuator keypad 1gang"
+    },
+    {
+      "nameId": "077A",
+      "string": "Fensterkontakt mit Kippstellung"
+    },
+    {
+      "nameId": "FFB8",
+      "string": "Blind actuator rocker 1gang"
+    },
+    {
+      "nameId": "077B",
+      "string": "Gekippt"
+    },
+    {
+      "nameId": "FFB9",
+      "string": "Blind actuator keypad 1gang"
+    },
+    {
+      "nameId": "0778",
+      "string": "Programmierbarer Taster 5"
+    },
+    {
+      "nameId": "FFBE",
+      "string": "IP Touch 7"
+    },
+    {
+      "nameId": "0779",
+      "string": "Fenster wird gekippt"
+    },
+    {
+      "nameId": "FFBF",
+      "string": "free@home RF Sniffer"
+    },
+    {
+      "nameId": "077E",
+      "string": "Anzeigen bei Nichtbenutzung"
+    },
+    {
+      "nameId": "FFBC",
+      "string": "Keypad"
+    },
+    {
+      "nameId": "077F",
+      "string": "Solltemperatur"
+    },
+    {
+      "nameId": "FFBD",
+      "string": "Split Unit Gateway"
+    },
+    {
+      "nameId": "077C",
+      "string": "Display Ruhezustand nach"
+    },
+    {
+      "nameId": "FFB2",
+      "string": "Dimming actuator rocker 2gang"
+    },
+    {
+      "nameId": "077D",
+      "string": "5s"
+    },
+    {
+      "nameId": "FFB3",
+      "string": "Dimming actuator keypad 2gang"
+    },
+    {
+      "nameId": "0772",
+      "string": "Einschaltbedingung"
+    },
+    {
+      "nameId": "FFB0",
+      "string": "Switch actuator rocker 2gang"
+    },
+    {
+      "nameId": "0773",
+      "string": "FTS Kommunikationsionsinterface"
+    },
+    {
+      "nameId": "FFB1",
+      "string": "Switch actuator keypad 2gang"
+    },
+    {
+      "nameId": "0770",
+      "string": "Einschaltmodus"
+    },
+    {
+      "nameId": "FFB6",
+      "string": "Dimming actuator rocker 1gang"
+    },
+    {
+      "nameId": "0771",
+      "string": "Helligkeitswert"
+    },
+    {
+      "nameId": "FFB7",
+      "string": "Dimming actuator keypad 1gang"
+    },
+    {
+      "nameId": "0776",
+      "string": "Programmierbarer Taster 3"
+    },
+    {
+      "nameId": "FFB4",
+      "string": "Switch actuator rocker 1gang"
+    },
+    {
+      "nameId": "0777",
+      "string": "Programmierbarer Taster 4"
+    },
+    {
+      "nameId": "FFB5",
+      "string": "Switch actuator keypad 1gang"
+    },
+    {
+      "nameId": "0774",
+      "string": "Programmierbarer Taster 1"
+    },
+    {
+      "nameId": "FFAA",
+      "string": "SmartTouch 10"
+    },
+    {
+      "nameId": "0775",
+      "string": "Programmierbarer Taster 2"
+    },
+    {
+      "nameId": "FFAB",
+      "string": "DALI Gateway"
+    },
+    {
+      "nameId": "076A",
+      "string": "Blinken"
+    },
+    {
+      "nameId": "FFA8",
+      "string": "Sensoreinheit 8-fach"
+    },
+    {
+      "nameId": "076B",
+      "string": "Präsenzmelder"
+    },
+    {
+      "nameId": "FFA9",
+      "string": "Sensoreinheit 12-fach"
+    },
+    {
+      "nameId": "0768",
+      "string": "Gas Boiler"
+    },
+    {
+      "nameId": "FFAE",
+      "string": "Dimmaktor 6-fach"
+    },
+    {
+      "nameId": "0769",
+      "string": "Gas"
+    },
+    {
+      "nameId": "FFAF",
+      "string": "Rocker"
+    },
+    {
+      "nameId": "076E",
+      "string": "VOC Alarmschwelle"
+    },
+    {
+      "nameId": "FFAC",
+      "string": "Dimmaktor 4/6-fach"
+    },
+    {
+      "nameId": "076F",
+      "string": "2 Way Switch Rocker"
+    },
+    {
+      "nameId": "FFAD",
+      "string": "Dimmaktor 4-fach"
+    },
+    {
+      "nameId": "076C",
+      "string": "Wippenzuordnung Raumtemperaturregler"
+    },
+    {
+      "nameId": "076D",
+      "string": "CO2 Alarmschwelle"
+    },
+    {
+      "nameId": "0762",
+      "string": "Lichter"
+    },
+    {
+      "nameId": "0763",
+      "string": "Techn. Alarm"
+    },
+    {
+      "nameId": "0760",
+      "string": "Belüftungssteuerung"
+    },
+    {
+      "nameId": "0761",
+      "string": "Szenen"
+    },
+    {
+      "nameId": "0766",
+      "string": "Bei techn. Alarm"
+    },
+    {
+      "nameId": "0767",
+      "string": "Kein techn. Alarm"
+    },
+    {
+      "nameId": "0764",
+      "string": "Techn. Alarm startet"
+    },
+    {
+      "nameId": "FFDA",
+      "string": "Sensor/ Jalousieaktor 2/1-fach"
+    },
+    {
+      "nameId": "0765",
+      "string": "Techn. Alarm endet"
+    },
+    {
+      "nameId": "FFDB",
+      "string": "Sensor/ Jalousieaktor 4/1-fach"
+    },
+    {
+      "nameId": "079A",
+      "string": "Erster Taster links"
+    },
+    {
+      "nameId": "FFD8",
+      "string": "Unterputz Binäreingang 2-fach"
+    },
+    {
+      "nameId": "079B",
+      "string": "Erster Taster rechts"
+    },
+    {
+      "nameId": "FFD9",
+      "string": "Sensor/ Jalousieaktor 2/1-fach"
+    },
+    {
+      "nameId": "0798",
+      "string": "Verbrauch unterschreitet"
+    },
+    {
+      "nameId": "FFDE",
+      "string": "Sensor/ Jalousieaktor 1/1-fach"
+    },
+    {
+      "nameId": "0799",
+      "string": "Erste Wippe"
+    },
+    {
+      "nameId": "FFDF",
+      "string": "Sensor/ Jalousieaktor 1/1-fach"
+    },
+    {
+      "nameId": "079E",
+      "string": "Sechster Taster rechts"
+    },
+    {
+      "nameId": "FFDC",
+      "string": "Sensor/ Jalousieaktor 4/1-fach"
+    },
+    {
+      "nameId": "079F",
+      "string": "Zwischenstecker"
+    },
+    {
+      "nameId": "FFDD",
+      "string": "Sensor/Dimmaktor 4/1-fach"
+    },
+    {
+      "nameId": "079C",
+      "string": "Sechste Wippe"
+    },
+    {
+      "nameId": "FFD2",
+      "string": "Raumtemp.regler"
+    },
+    {
+      "nameId": "079D",
+      "string": "Sechster Taster links"
+    },
+    {
+      "nameId": "FFD3",
+      "string": "Unterputz Lüftungsaktor 1-fach"
+    },
+    {
+      "nameId": "0792",
+      "string": "Überschussleistung unterschreitet (hysterese)"
+    },
+    {
+      "nameId": "FFD0",
+      "string": "ABB-free@homeTouch 4.3\""
+    },
+    {
+      "nameId": "0793",
+      "string": "Überschussleistung überschreitet"
+    },
+    {
+      "nameId": "FFD1",
+      "string": "Raumtemp.regler"
+    },
+    {
+      "nameId": "0790",
+      "string": "Überschussleistung (hysterese)"
+    },
+    {
+      "nameId": "FFD6",
+      "string": "Unterputz Binäreingang 2-fach"
+    },
+    {
+      "nameId": "0791",
+      "string": "Überschussleistung überschreitet (hysterese)"
+    },
+    {
+      "nameId": "FFD7",
+      "string": "Unterputz Heizungsaktor 1-fach"
+    },
+    {
+      "nameId": "0796",
+      "string": "Genutzte Leistung (Hysterese)"
+    },
+    {
+      "nameId": "FFD4",
+      "string": "Unterputz Lüftungsaktor 1-fach"
+    },
+    {
+      "nameId": "0797",
+      "string": "Verbrauch überschreitet"
+    },
+    {
+      "nameId": "FFD5",
+      "string": "Unterputz Heizungsaktor 1-fach"
+    },
+    {
+      "nameId": "0794",
+      "string": "Überschussleistung unterschreitet"
+    },
+    {
+      "nameId": "FFCA",
+      "string": "Sensoreinheit 1-fach"
+    },
+    {
+      "nameId": "0795",
+      "string": "Genutzte Leistung"
+    },
+    {
+      "nameId": "FFCB",
+      "string": "Sensor/Dimmaktor 2/1-fach"
+    },
+    {
+      "nameId": "078A",
+      "string": "Tagesverbrauch Gas"
+    },
+    {
+      "nameId": "FFC8",
+      "string": "Sensor/ Schaltaktor 2/1-fach"
+    },
+    {
+      "nameId": "078B",
+      "string": "Wasserzähler"
+    },
+    {
+      "nameId": "FFC9",
+      "string": "Sensoreinheit 2-fach"
+    },
+    {
+      "nameId": "0788",
+      "string": "Gesamtverbrauch Gas"
+    },
+    {
+      "nameId": "FFCE",
+      "string": "Sensor/ Schaltaktor 1/1-fach"
+    },
+    {
+      "nameId": "0789",
+      "string": "Tagesverbrauch Wasser"
+    },
+    {
+      "nameId": "FFCF",
+      "string": "Busch-free@homePanel 4.3\""
+    },
+    {
+      "nameId": "078E",
+      "string": "Feature selector"
+    },
+    {
+      "nameId": "FFCC",
+      "string": "Sensor/Dimmaktor 1/1-fach"
+    },
+    {
+      "nameId": "078F",
+      "string": "Energiemanagement"
+    },
+    {
+      "nameId": "FFCD",
+      "string": "Sensor/ Schaltaktor 1/1-fach"
+    },
+    {
+      "nameId": "078C",
+      "string": "Gaszähler"
+    },
+    {
+      "nameId": "FFC2",
+      "string": "Bewegungsmelder/Dimmaktor 1-fach"
+    },
+    {
+      "nameId": "078D",
+      "string": "Stromzähler"
+    },
+    {
+      "nameId": "FFC3",
+      "string": "Bewegungsmelder/Schaltaktor 2-fach"
+    },
+    {
+      "nameId": "0782",
+      "string": "Aktiviere Co2-Alarm"
+    },
+    {
+      "nameId": "FFC0",
+      "string": "Raumtemp.regler/Schaltaktor 1-fach"
+    },
+    {
+      "nameId": "0783",
+      "string": "Aktiviere VOC-Alarm"
+    },
+    {
+      "nameId": "FFC1",
+      "string": "Bewegungsmelder/Jalousieaktor 1-fach"
+    },
+    {
+      "nameId": "0780",
+      "string": "Luftfeuchtealarm untere Grenze"
+    },
+    {
+      "nameId": "FFC6",
+      "string": "Sensor/ Jalousieaktor 2/1-fach"
+    },
+    {
+      "nameId": "0781",
+      "string": "Luftfeuchtealarm obere Grenze"
+    },
+    {
+      "nameId": "FFC7",
+      "string": "Sensor/ Schaltaktor 2/2-fach"
+    },
+    {
+      "nameId": "0786",
+      "string": "Überschussleistung"
+    },
+    {
+      "nameId": "FFC4",
+      "string": "Sensor/ Schaltaktor 1/2-fach"
+    },
+    {
+      "nameId": "0787",
+      "string": "Gesamtverbrauch Wasser"
+    },
+    {
+      "nameId": "FFC5",
+      "string": "Sensor/ Jalousieaktor 1/1-fach"
+    },
+    {
+      "nameId": "0784",
+      "string": "Aktiviere Luftfeuchtealarm"
+    },
+    {
+      "nameId": "FFFA",
+      "string": "Raumtemperaturregler"
+    },
+    {
+      "nameId": "0785",
+      "string": "Stromgrenze"
+    },
+    {
+      "nameId": "FFFB",
+      "string": "Sensoreinheit 4-fach"
+    },
+    {
+      "nameId": "07BA",
+      "string": "Ⓨ"
+    },
+    {
+      "nameId": "FFF8",
+      "string": "Bewegungsmelder"
+    },
+    {
+      "nameId": "07BB",
+      "string": "Ⓩ"
+    },
+    {
+      "nameId": "FFF9",
+      "string": "Raumtemperaturregler"
+    },
+    {
+      "nameId": "07B8",
+      "string": "Ⓦ"
+    },
+    {
+      "nameId": "FFFE",
+      "string": "Sensoreinheit 1-fach"
+    },
+    {
+      "nameId": "07B9",
+      "string": "Ⓧ"
+    },
+    {
+      "nameId": "FFFF",
+      "string": "Sensoreinheit 1-fach"
+    },
+    {
+      "nameId": "07BE",
+      "string": "Schaltaktor 16-fach, REG"
+    },
+    {
+      "nameId": "FFFC",
+      "string": "Sensoreinheit 2-fach"
+    },
+    {
+      "nameId": "07BF",
+      "string": "Schaltaktor 24-fach, REG"
+    },
+    {
+      "nameId": "FFFD",
+      "string": "Sensoreinheit 2-fach"
+    },
+    {
+      "nameId": "07BC",
+      "string": "Schaltaktor 4-fach, REG"
+    },
+    {
+      "nameId": "FFF2",
+      "string": "System Access Point"
+    },
+    {
+      "nameId": "07BD",
+      "string": "Schaltaktor 12-fach, REG"
+    },
+    {
+      "nameId": "FFF3",
+      "string": "Sensor/ Schaltaktor 1/1-fach"
+    },
+    {
+      "nameId": "07B2",
+      "string": "Color Mode"
+    },
+    {
+      "nameId": "FFF0",
+      "string": "Busch-free@homePanel 7\""
+    },
+    {
+      "nameId": "07B3",
+      "string": "Ⓡ"
+    },
+    {
+      "nameId": "FFF1",
+      "string": "free@homeTouch 7\""
+    },
+    {
+      "nameId": "07B0",
+      "string": "Temperaturverstellung"
+    },
+    {
+      "nameId": "FFF6",
+      "string": "Bewegungsmelder/Schaltaktor 1-fach"
+    },
+    {
+      "nameId": "07B1",
+      "string": "Betriebsmodus"
+    },
+    {
+      "nameId": "FFF7",
+      "string": "Bewegungsmelder"
+    },
+    {
+      "nameId": "07B6",
+      "string": "Ⓤ"
+    },
+    {
+      "nameId": "FFF4",
+      "string": "Sensor/ Schaltaktor 1/1-fach"
+    },
+    {
+      "nameId": "07B7",
+      "string": "Ⓥ"
+    },
+    {
+      "nameId": "FFF5",
+      "string": "Bewegungsmelder/Schaltaktor 1-fach"
+    },
+    {
+      "nameId": "07B4",
+      "string": "Ⓢ"
+    },
+    {
+      "nameId": "FFEA",
+      "string": "Sensor/Dimmaktor 2/1-fach"
+    },
+    {
+      "nameId": "07B5",
+      "string": "Ⓣ"
+    },
+    {
+      "nameId": "FFEB",
+      "string": "Sensor/Dimmaktor 2/1-fach"
+    },
+    {
+      "nameId": "07AA",
+      "string": "Audio-Eingang"
+    },
+    {
+      "nameId": "FFE8",
+      "string": "Sensor/ Schaltaktor 2/1-fach"
+    },
+    {
+      "nameId": "07AB",
+      "string": "Profil wählen"
+    },
+    {
+      "nameId": "FFE9",
+      "string": "Sensor/ Schaltaktor 2/1-fach"
+    },
+    {
+      "nameId": "07A8",
+      "string": "In Massivwand eingebaut"
+    },
+    {
+      "nameId": "FFEE",
+      "string": "Dimmaktor 4-fach"
+    },
+    {
+      "nameId": "07A9",
+      "string": "playlist"
+    },
+    {
+      "nameId": "FFEF",
+      "string": "Dimmaktor 4-fach"
+    },
+    {
+      "nameId": "07AE",
+      "string": "Sensor sperren"
+    },
+    {
+      "nameId": "FFEC",
+      "string": "Sensor/Dimmaktor 1/1-fach"
+    },
+    {
+      "nameId": "07AF",
+      "string": "Fahren bei Kurz- und Langbedienung"
+    },
+    {
+      "nameId": "FFED",
+      "string": "Sensor/Dimmaktor 1/1-fach"
+    },
+    {
+      "nameId": "07AC",
+      "string": "Sensor-Sperren Gruppe"
+    },
+    {
+      "nameId": "FFE2",
+      "string": "Sensor/ Schaltaktor 4/2-fach"
+    },
+    {
+      "nameId": "07AD",
+      "string": "SysAP info Verriegelt/Entriegelt"
+    },
+    {
+      "nameId": "FFE3",
+      "string": "Sensor/ Schaltaktor 4/2-fach"
+    },
+    {
+      "nameId": "07A2",
+      "string": "Außenbewegungsmelder 220°"
+    },
+    {
+      "nameId": "FFE0",
+      "string": "ABB-free@homeTouch 4.3\""
+    },
+    {
+      "nameId": "07A3",
+      "string": "Außenbewegungsmelder 280°"
+    },
+    {
+      "nameId": "FFE1",
+      "string": "Busch-free@homeTouch 4.3\""
+    },
+    {
+      "nameId": "07A0",
+      "string": "Mehrfachsteckdose"
+    },
+    {
+      "nameId": "F01A",
+      "string": "A"
+    },
+    {
+      "nameId": "FFE6",
+      "string": "Sensor/ Schaltaktor 2/2-fach"
+    },
+    {
+      "nameId": "07A1",
+      "string": "Außenbewegungsmelder 90°"
+    },
+    {
+      "nameId": "F01B",
+      "string": "B"
+    },
+    {
+      "nameId": "FFE7",
+      "string": "Sensor/ Schaltaktor 2/2-fach"
+    },
+    {
+      "nameId": "07A6",
+      "string": "Gemessener Strom"
+    },
+    {
+      "nameId": "F018",
+      "string": "BD"
+    },
+    {
+      "nameId": "FFE4",
+      "string": "Sensor/ Schaltaktor 4/1-fach"
+    },
+    {
+      "nameId": "07A7",
+      "string": "Einfache Ansicht"
+    },
+    {
+      "nameId": "F019",
+      "string": "CD"
+    },
+    {
+      "nameId": "FFE5",
+      "string": "Sensor/ Schaltaktor 4/1-fach"
+    },
+    {
+      "nameId": "07A4",
+      "string": "Fenster/Türen"
+    },
+    {
+      "nameId": "F01E",
+      "string": "2,1,1"
+    },
+    {
+      "nameId": "07A5",
+      "string": "Gemessene Spannung"
+    },
+    {
+      "nameId": "F01F",
+      "string": "2,1,2"
+    },
+    {
+      "nameId": "07DA",
+      "string": "Ausrichtung der Wippe"
+    },
+    {
+      "nameId": "F01C",
+      "string": "C"
+    },
+    {
+      "nameId": "07DB",
+      "string": "Horizontal"
+    },
+    {
+      "nameId": "F01D",
+      "string": "D"
+    },
+    {
+      "nameId": "07D8",
+      "string": "[Info eco charging on/off]"
+    },
+    {
+      "nameId": "F012",
+      "string": "ACD"
+    },
+    {
+      "nameId": "07D9",
+      "string": "[New firmware version %1 available for device %2]"
+    },
+    {
+      "nameId": "F013",
+      "string": "BCD"
+    },
+    {
+      "nameId": "07DE",
+      "string": "Feature: RGB-Unterstützung"
+    },
+    {
+      "nameId": "F010",
+      "string": "ABC"
+    },
+    {
+      "nameId": "07DF",
+      "string": "Feature: Switch rocker buttons"
+    },
+    {
+      "nameId": "F011",
+      "string": "ABD"
+    },
+    {
+      "nameId": "07DC",
+      "string": "Vertikal"
+    },
+    {
+      "nameId": "F016",
+      "string": "AD"
+    },
+    {
+      "nameId": "07DD",
+      "string": "Feature: Ausrichtung"
+    },
+    {
+      "nameId": "F017",
+      "string": "BC"
+    },
+    {
+      "nameId": "07D2",
+      "string": "[Measured current power consumed]"
+    },
+    {
+      "nameId": "F014",
+      "string": "AB"
+    },
+    {
+      "nameId": "07D3",
+      "string": "[Measured imported energy today]"
+    },
+    {
+      "nameId": "F015",
+      "string": "AC"
+    },
+    {
+      "nameId": "07D0",
+      "string": "weiß"
+    },
+    {
+      "nameId": "F00A",
+      "string": "1,3,3"
+    },
+    {
+      "nameId": "07D1",
+      "string": "Taster der Wippe vertauschen"
+    },
+    {
+      "nameId": "F00B",
+      "string": "1,3,4"
+    },
+    {
+      "nameId": "07D6",
+      "string": "[Measured total energy exported]"
+    },
+    {
+      "nameId": "F008",
+      "string": "1,3,1"
+    },
+    {
+      "nameId": "07D7",
+      "string": "[Switch eco charging on/off]"
+    },
+    {
+      "nameId": "F009",
+      "string": "1,3,2"
+    },
+    {
+      "nameId": "07D4",
+      "string": "[Measured exported energy today]"
+    },
+    {
+      "nameId": "F00E",
+      "string": "1,4,3"
+    },
+    {
+      "nameId": "07D5",
+      "string": "[Measured total energy imported]"
+    },
+    {
+      "nameId": "F00F",
+      "string": "1,4,4"
+    },
+    {
+      "nameId": "07CA",
+      "string": "rot"
+    },
+    {
+      "nameId": "F00C",
+      "string": "1,4,1"
+    },
+    {
+      "nameId": "07CB",
+      "string": "grün"
+    },
+    {
+      "nameId": "F00D",
+      "string": "1,4,2"
+    },
+    {
+      "nameId": "07C8",
+      "string": "Rechte Szene"
+    },
+    {
+      "nameId": "F002",
+      "string": "1,1,3"
+    },
+    {
+      "nameId": "07C9",
+      "string": "LED Farbe"
+    },
+    {
+      "nameId": "F003",
+      "string": "1,1,4"
+    },
+    {
+      "nameId": "07CE",
+      "string": "violett"
+    },
+    {
+      "nameId": "F000",
+      "string": "1,1,1"
+    },
+    {
+      "nameId": "07CF",
+      "string": "orange"
+    },
+    {
+      "nameId": "F001",
+      "string": "1,1,2"
+    },
+    {
+      "nameId": "07CC",
+      "string": "blau"
+    },
+    {
+      "nameId": "F006",
+      "string": "1,2,3"
+    },
+    {
+      "nameId": "07CD",
+      "string": "gelb"
+    },
+    {
+      "nameId": "F007",
+      "string": "1,2,4"
+    },
+    {
+      "nameId": "07C2",
+      "string": "Jalousieaktor 12-fach, REG"
+    },
+    {
+      "nameId": "F004",
+      "string": "1,2,1"
+    },
+    {
+      "nameId": "07C3",
+      "string": "OneTouch 7"
+    },
+    {
+      "nameId": "F005",
+      "string": "1,2,2"
+    },
+    {
+      "nameId": "07C0",
+      "string": "Jalousieaktor 4-fach, REG"
+    },
+    {
+      "nameId": "F03A",
+      "string": "2,1,3"
+    },
+    {
+      "nameId": "07C1",
+      "string": "Jalousieaktor 8-fach, REG"
+    },
+    {
+      "nameId": "F03B",
+      "string": "2,1,4"
+    },
+    {
+      "nameId": "07C6",
+      "string": "Scenenhintergrundbild"
+    },
+    {
+      "nameId": "F038",
+      "string": "1,5,4"
+    },
+    {
+      "nameId": "07C7",
+      "string": "Linke Szene"
+    },
+    {
+      "nameId": "F039",
+      "string": "1,5,5"
+    },
+    {
+      "nameId": "07C4",
+      "string": "RGBW"
+    },
+    {
+      "nameId": "F03E",
+      "string": "2,2,4"
+    },
+    {
+      "nameId": "07C5",
+      "string": "Dimmaktor"
+    },
+    {
+      "nameId": "F03F",
+      "string": "2,2,5"
+    },
+    {
+      "nameId": "07FA",
+      "string": "[Info supported swing mode]"
+    },
+    {
+      "nameId": "F03C",
+      "string": "2,1,5"
+    },
+    {
+      "nameId": "07FB",
+      "string": "[Minimum charging current in eco mode]"
+    },
+    {
+      "nameId": "F03D",
+      "string": "2,2,3"
+    },
+    {
+      "nameId": "07F8",
+      "string": "[Info supported operation mode]"
+    },
+    {
+      "nameId": "F032",
+      "string": "1,2,5"
+    },
+    {
+      "nameId": "07F9",
+      "string": "[Info swing mode]"
+    },
+    {
+      "nameId": "F033",
+      "string": "1,3,5"
+    },
+    {
+      "nameId": "07FE",
+      "string": "[Info number of phases used for charging]"
+    },
+    {
+      "nameId": "F030",
+      "string": "Fair mode"
+    },
+    {
+      "nameId": "07FF",
+      "string": "[Allow free vending]"
+    },
+    {
+      "nameId": "F031",
+      "string": "1,1,5"
+    },
+    {
+      "nameId": "07FC",
+      "string": "[Info minimum charging current in eco mode]"
+    },
+    {
+      "nameId": "F036",
+      "string": "1,5,2"
+    },
+    {
+      "nameId": "07FD",
+      "string": "[Number of phases used for charging]"
+    },
+    {
+      "nameId": "F037",
+      "string": "1,5,3"
+    },
+    {
+      "nameId": "07F2",
+      "string": "Fernstart"
+    },
+    {
+      "nameId": "F034",
+      "string": "1,4,5"
+    },
+    {
+      "nameId": "07F3",
+      "string": "Wippe"
+    },
+    {
+      "nameId": "F035",
+      "string": "1,5,1"
+    },
+    {
+      "nameId": "07F0",
+      "string": "Zeitbegrenzt"
+    },
+    {
+      "nameId": "07F1",
+      "string": "In Betrieb"
+    },
+    {
+      "nameId": "07F6",
+      "string": "Proxy Client Wartung"
+    },
+    {
+      "nameId": "F028",
+      "string": "4,2,1"
+    },
+    {
+      "nameId": "07F7",
+      "string": "[Info operation mode]"
+    },
+    {
+      "nameId": "F029",
+      "string": "4,2,2"
+    },
+    {
+      "nameId": "07F4",
+      "string": "Doppelwippe"
+    },
+    {
+      "nameId": "07F5",
+      "string": "Addresse des Niedrigenergiegeräts"
+    },
+    {
+      "nameId": "07EA",
+      "string": "Betriebsart"
+    },
+    {
+      "nameId": "07EB",
+      "string": "Normalbetrieb"
+    },
+    {
+      "nameId": "07E8",
+      "string": "[Eco mode On/Off Request extension]"
+    },
+    {
+      "nameId": "F022",
+      "string": "3,1,1"
+    },
+    {
+      "nameId": "07E9",
+      "string": "[Relative Set Point Request extention]"
+    },
+    {
+      "nameId": "F023",
+      "string": "3,1,2"
+    },
+    {
+      "nameId": "07EE",
+      "string": "Nachlaufzeit Permanentmodus"
+    },
+    {
+      "nameId": "F020",
+      "string": "2,2,1"
+    },
+    {
+      "nameId": "07EF",
+      "string": "Dauerhaft"
+    },
+    {
+      "nameId": "F021",
+      "string": "2,2,2"
+    },
+    {
+      "nameId": "07EC",
+      "string": "Kurzzeitimpuls"
+    },
+    {
+      "nameId": "F026",
+      "string": "4,1,1"
+    },
+    {
+      "nameId": "07ED",
+      "string": "Betriebsart Permanentmodus"
+    },
+    {
+      "nameId": "F027",
+      "string": "4,1,2"
+    },
+    {
+      "nameId": "07E2",
+      "string": "[The Display of the device will turn red if the threshhold has been exceeded.]"
+    },
+    {
+      "nameId": "F024",
+      "string": "3,2,1"
+    },
+    {
+      "nameId": "07E3",
+      "string": "[The Display of the device will turn red if the threshhold has been exceeded.]"
+    },
+    {
+      "nameId": "F025",
+      "string": "3,2,2"
+    },
+    {
+      "nameId": "07E0",
+      "string": "Benutzerdefiniert"
+    },
+    {
+      "nameId": "F05A",
+      "string": "3,3,2"
+    },
+    {
+      "nameId": "07E1",
+      "string": "Benutzerdefinierte Farbe"
+    },
+    {
+      "nameId": "F05B",
+      "string": "3,3,3"
+    },
+    {
+      "nameId": "07E6",
+      "string": "Display 2.4\""
+    },
+    {
+      "nameId": "F058",
+      "string": "3,2,5"
+    },
+    {
+      "nameId": "07E7",
+      "string": "[Controller On/Off Request extension]"
+    },
+    {
+      "nameId": "F059",
+      "string": "3,3,1"
+    },
+    {
+      "nameId": "07E4",
+      "string": "[The Display of the device will turn red if the threshhold has been exceeded. The displayed value is an index value without unit.]"
+    },
+    {
+      "nameId": "F05E",
+      "string": "3,4,1"
+    },
+    {
+      "nameId": "07E5",
+      "string": "RoomTouch 4\""
+    },
+    {
+      "nameId": "F05F",
+      "string": "3,4,2"
+    },
+    {
+      "nameId": "001A",
+      "string": "Windalarm"
+    },
+    {
+      "nameId": "F05C",
+      "string": "3,3,4"
+    },
+    {
+      "nameId": "001B",
+      "string": "Frostalarm"
+    },
+    {
+      "nameId": "F05D",
+      "string": "3,3,5"
+    },
+    {
+      "nameId": "0018",
+      "string": "Absolute Jalousieposition setzen"
+    },
+    {
+      "nameId": "F052",
+      "string": "3,1,4"
+    },
+    {
+      "nameId": "0019",
+      "string": "Absolute Lamellenposition setzen"
+    },
+    {
+      "nameId": "F053",
+      "string": "3,1,5"
+    },
+    {
+      "nameId": "001E",
+      "string": "Aktuelle absolute Jalousieposition in %"
+    }
+  ]
+}
