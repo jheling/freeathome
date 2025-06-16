@@ -111,10 +111,9 @@ def get_names(xmlroot):
 
     return result
 
-async def get_json_names():
+async def get_json_names(c_path):
     
-    current_working_directory = os.getcwd()   
-    async with aiofiles.open(current_working_directory + '/custom_components/freeathome/names.json', mode='r') as f:
+    async with aiofiles.open(c_path + '/freeathome/names.json', mode='r') as f:
         contents = await f.read()
     data = json.loads(contents)
 
@@ -235,7 +234,7 @@ class Client(slixmpp.ClientXMPP):
 
     _update_handlers = []
 
-    def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True):
+    def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True, component_path=''):
         """ x   """
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
 
@@ -244,6 +243,7 @@ class Client(slixmpp.ClientXMPP):
         self._host = host
         self._port = port
         self.reconnect = reconnect
+        self.component_path = component_path
 
         LOG.info(' version: %s', self.fahversion)
 
@@ -689,7 +689,7 @@ class Client(slixmpp.ClientXMPP):
             roomnames = get_room_names(root)
             names = get_names(root)
             if names == {}: 
-                names = await get_json_names()
+                names = await get_json_names(self.component_path)
 
             # Now look for the devices
             devices = root.find('devices')
@@ -881,6 +881,7 @@ class FreeAtHomeSysApp(object):
         self._use_room_names = False
         self._switch_as_x = False
         self.reconnect = True
+        self._component_path = ''
 
     @property
     def host(self):
@@ -907,6 +908,16 @@ class FreeAtHomeSysApp(object):
         """ setter switch_as_x   """
         self._switch_as_x = value
 
+    @property
+    def component_path(self):
+        """ getter component_path   """
+        return self._component_path
+
+    @component_path.setter
+    def component_path(self, value):
+        """ setter component_path   """
+        self._component_path = value
+
     async def connect(self):
         """ connect to the Free@Home sysap   """
         settings = SettingsFah(self._host)
@@ -925,7 +936,7 @@ class FreeAtHomeSysApp(object):
             if version.parse(fahversion) >= version.parse("2.3.0"):
                 iterations, salt = settings.get_scram_settings(self._user, 'SCRAM-SHA-256')
             # create xmpp client
-            self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt, self.reconnect)
+            self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt, self.reconnect, self._component_path)
             # connect
             self.xmpp.sysap_connect()
 
