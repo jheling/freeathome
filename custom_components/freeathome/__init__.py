@@ -76,6 +76,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     except KeyError:
         _LOGGER.warning("No switch_as_x option found in saved config, consider adding it")
         sysap.switch_as_x = BACKWARD_COMPATIBILE_SWITCH_AS_X
+        
+    sysap.component_path = hass.config.path("custom_components")    
 
     hass.data[DOMAIN][entry.entry_id] = sysap
 
