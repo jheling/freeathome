@@ -14,15 +14,29 @@ import slixmpp
 import zlib
 import sys
 import os
+import random
+import ssl
+import hmac
 
 from packaging import version
 from slixmpp import Message
 from slixmpp.xmlstream import ElementBase, ET, register_stanza_plugin
 from slixmpp.plugins.xep_0009.binding import py2xml, xml2py
-from slixmpp.plugins.xep_0009.stanza.RPC import RPCQuery, MethodCall, MethodResponse
+from slixmpp.plugins.xep_0009 import RPCQuery, MethodCall, MethodResponse
 from slixmpp.plugins.xep_0060.stanza.pubsub_event import Event, EventItems, EventItem
 from slixmpp.exceptions import IqError
 from slixmpp import Iq
+from slixmpp.util.sasl.mechanisms import SCRAM, sasl_mech
+
+from base64 import b64encode, b64decode
+from typing import List, Dict, Optional
+
+bytes_ = bytes
+
+from slixmpp.util import bytes, hash, XOR, quote, num_to_bytes
+from slixmpp.util.sasl.client import sasl_mech, Mech, \
+                                       SASLCancelled, SASLFailed, \
+                                       SASLMutualAuthFailed
 
 from .devices.fah_device import FahDevice
 from .devices.fah_switch import FahSwitch
@@ -47,6 +61,28 @@ from .saslhandler import SaslHandler
 
 LOG = logging.getLogger(__name__)
 
+@sasl_mech(1000)
+class SCRAMTweak(SCRAM):
+    def process_1(self, challenge: bytes_) -> bytes_:
+        self.step = 1
+
+        self.cnonce = bytes(('%s' % random.random())[2:])
+
+        gs2_cbind_flag = b'n'
+        authzid = b''
+        if self.credentials['authzid']:
+            authzid = b'a=' + self.saslname(self.credentials['authzid'])
+
+        self.gs2_header = gs2_cbind_flag + b',' + authzid + b','
+
+        nonce = b'r=' + self.cnonce
+        username = b'n=' + self.saslname(self.credentials['username'])
+
+        self.client_first_message_bare = username + b',' + nonce
+        self.client_first_message = self.gs2_header + \
+                                    self.client_first_message_bare
+
+        return self.client_first_message
 
 class ItemUpdate(ElementBase):
     """ part of the xml message  """
@@ -233,6 +269,15 @@ class Client(slixmpp.ClientXMPP):
     monitored_parameters = {}
 
     _update_handlers = []
+    
+    def _create_lg_ssl_context() -> ssl.SSLContext:
+        """Create a SSL context for Free@Home."""
+        context = ssl.create_default_context()
+        context.check_hostname = True
+        context.verify_mode = ssl.CERT_REQUIRED
+        return context
+
+    _SSL_CONTEXT = _create_lg_ssl_context()    
 
     def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True, component_path=''):
         """ x   """
@@ -256,7 +301,7 @@ class Client(slixmpp.ClientXMPP):
 
         import os
         import binascii
-        self.requested_jid.resource = binascii.b2a_hex(os.urandom(4))
+        self.requested_jid.resource = binascii.b2a_hex(os.urandom(4)).decode('ascii')
 
         # handle session_start and message events
         self.add_event_handler("session_start", self.start)
@@ -270,6 +315,7 @@ class Client(slixmpp.ClientXMPP):
         self.register_plugin('xep_0060')  # PubSub
         self.register_plugin('xep_0199', {'keepalive': True, 'frequency': 60})  # ping
 
+        self['feature_mechanisms'].unencrypted_scram = True
 
         register_stanza_plugin(Iq, RPCQuery)
         register_stanza_plugin(RPCQuery, MethodCall)
@@ -300,7 +346,8 @@ class Client(slixmpp.ClientXMPP):
         return self.connect_in_error
 
     def sysap_connect(self):
-        super(Client, self).connect((self._host, self._port))
+        LOG.info('Connect: %s %s', self._host, self._port )
+        super(Client, self).connect(self._host, self._port)
 
 
     def connect_ready(self):
@@ -378,7 +425,7 @@ class Client(slixmpp.ClientXMPP):
         except IqError as error:
             raise error
 
-    def send_rpc_iq(self, command, *argv, timeout=None, callback=None, timeout_callback=None):
+    def send_rpc_iq(self, command, *argv, timeout=None, callback=None):
         """ Compose a specific message  """
 
         my_iq = self.make_iq_set()
@@ -388,7 +435,7 @@ class Client(slixmpp.ClientXMPP):
         my_iq['rpc_query']['method_call']['method_name'] = command
         my_iq['rpc_query']['method_call']['params'] = py2xml(*argv)
 
-        return my_iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
+        return my_iq.send(timeout=timeout, callback=callback)
 
     def filter_devices(self, device_class):
         """Returns list of devices, filtered by a specific device class."""
@@ -450,7 +497,7 @@ class Client(slixmpp.ClientXMPP):
         items = msg.xml.find(".//*[@node='http://abb.com/protocol/update_encrypted']")
         if items is not None:
             # This message is encrypted
-            if msg['pubsub_event']['items']['item']['update']['data'] is not None:
+            if msg["pubsub_event"]["items"]["item"]["update"]["data"] is not None:
 
                 args = message2py(msg['pubsub_event']['items']['item']['update'])
 

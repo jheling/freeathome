@@ -146,7 +146,7 @@ class SaslHandler:
                                             log.info("Wrong response: %s", msgId)
 
     # First call
-    def send_cryptExchangeLocalKeys2(self, jid, key, timeout=None, callback=None, timeout_callback=None):
+    def send_cryptExchangeLocalKeys2(self, jid, key, timeout=None, callback=None):
 
         rpckey = rpcbase64(key)
 
@@ -158,10 +158,10 @@ class SaslHandler:
         iq['rpc_query']['method_call']['method_name'] = 'RemoteInterface.cryptExchangeLocalKeys2'
         iq['rpc_query']['method_call']['params'] = py2xml(jid, rpckey, 'SCRAM-SHA-256', 0)
 
-        return iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
+        return iq.send(timeout=timeout, callback=callback)
 
     # rest of the calls
-    def send_cryptMessage(self, message, timeout=None, callback=None, timeout_callback=None):
+    def send_cryptMessage(self, message, timeout=None, callback=None):
         rpcmessage = rpcbase64(message)
         iq = self.client.make_iq_set()
         iq['to'] = 'mrha@busch-jaeger.de/rpc'
@@ -170,7 +170,7 @@ class SaslHandler:
         iq['rpc_query']['method_call']['method_name'] = 'RemoteInterface.cryptMessage'
         iq['rpc_query']['method_call']['params'] = py2xml(rpcmessage)
 
-        return iq.send(timeout=timeout, callback=callback, timeout_callback=timeout_callback)
+        return iq.send(timeout=timeout, callback=callback)
 
     def StartNewSessionPayload(self, sessionIdentifier):
         mes = MessageWriter()
