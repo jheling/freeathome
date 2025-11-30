@@ -280,8 +280,8 @@ class Client(slixmpp.ClientXMPP):
     _SSL_CONTEXT = _create_lg_ssl_context()    
 
     def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True, component_path=''):
-        """ x   """
-        slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech='SCRAM-SHA-1')
+        """x"""
+        slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech="SCRAM-SHA-1", ssl_context=self._SSL_CONTEXT)
 
         self.fahversion = fahversion
         self.x_jid = jid
@@ -497,9 +497,8 @@ class Client(slixmpp.ClientXMPP):
         items = msg.xml.find(".//*[@node='http://abb.com/protocol/update_encrypted']")
         if items is not None:
             # This message is encrypted
-            if msg["pubsub_event"]["items"]["item"]["update"]["data"] is not None:
-
-                args = message2py(msg['pubsub_event']['items']['item']['update'])
+            if msg["pubsub_event"]["items"]["item"]["update"] is not None:
+                args = message2py(msg["pubsub_event"]["items"]["item"]["update"])
 
                 if args:
 
@@ -522,8 +521,8 @@ class Client(slixmpp.ClientXMPP):
                                     length))
                         args[0] = unzipped.decode('utf-8')
         else:
-            if msg['pubsub_event']['items']['item']['update']['data'] is not None:
-                args = data2py(msg['pubsub_event']['items']['item']['update'])
+            if msg["pubsub_event"]["items"]["item"]["update"] is not None:
+                args = data2py(msg["pubsub_event"]["items"]["item"]["update"])
 
         # arg contains the devices that changed
         if args:
@@ -999,7 +998,7 @@ class FreeAtHomeSysApp(object):
 
     async def shutdown(self, event=None):
         LOG.info("Detecting shutdown home assistant")
-        await self.disconnect();
+        await self.disconnect()
 
     async def wait_for_connection(self):
         """ Wait til connection is made, if failed at first attempt retry until success """
@@ -1023,6 +1022,7 @@ class FreeAtHomeSysApp(object):
             return xml
         except IqError as error:
             raise error
+
     def get_raw_config(self, pretty=False):
         """Return raw config"""
         return self.xmpp.get_config(pretty=pretty)
