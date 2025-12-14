@@ -24,6 +24,7 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
     binary_device = None
     _state = None
     _hass = None
+    _icon = None
 
     def __init__(self, device, hass):
         self.binary_device = device
@@ -31,6 +32,10 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
         self._state = (self.binary_device.state == '1')
         self._hass = hass
 
+        icon = self.binary_device.get_icon()
+        if icon is not None:    
+            self._icon = icon
+        
     @property
     def name(self):
         """Return the display name of this light."""
@@ -50,6 +55,10 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
     def should_poll(self):
         """Return that polling is not necessary."""
         return False
+    
+    @property
+    def icon(self):
+        return self._icon
 
     @property
     def is_on(self):
