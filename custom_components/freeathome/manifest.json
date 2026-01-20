@@ -1,7 +1,7 @@
 {
   "domain": "freeathome",
   "name": "Busch Jaeger/ABB Free@Home",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "documentation": "https://github.com/jheling/freeathome",
   "config_flow": true,
   "dependencies": [],
