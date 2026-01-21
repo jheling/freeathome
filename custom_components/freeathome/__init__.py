@@ -10,7 +10,8 @@ from homeassistant.helpers.discovery import load_platform
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT, EVENT_HOMEASSISTANT_STOP
 import homeassistant.helpers.config_validation as cv
 
-from datetime import datetime
+
+from datetime import datetime, timedelta
 
 from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X, BACKWARD_COMPATIBILE_SWITCH_AS_X
 
@@ -123,6 +124,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
             @callback
             def collect_msg(msg):
                 try:
+                    time = datetime.now()
+                    f.write(f"""{time.strftime('%Y-%m-%d %H:%M:%S.%f')}\n""")
                     f.write(msg)
                     f.write("\n")
                     f.flush()
