@@ -749,7 +749,7 @@ class Client(slixmpp.ClientXMPP):
                 device_display_name = get_attribute(device, 'displayName')
                 device_floor_id = get_attribute(device, 'floor')
                 device_room_id = get_attribute(device, 'room')
-                device_model = names[device_name_id]
+                device_model = names.get(device_name_id, 'Unknown device ' + device_name_id)
 
                 device_name = device_display_name if device_display_name != '' else device_model
                 device_name = device_name + " (" + device_serialnumber + ")"
