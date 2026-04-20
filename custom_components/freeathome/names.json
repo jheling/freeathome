@@ -9907,6 +9907,10 @@
     {
       "nameId": "001E",
       "string": "Aktuelle absolute Jalousieposition in %"
+    },
+    {
+      "nameId": "08A7",
+      "string": "Schaltaktor 2-fach wireless"
     }
   ]
 }
