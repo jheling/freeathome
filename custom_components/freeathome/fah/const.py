@@ -59,6 +59,10 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x007E, # FID_CARBON_MONOXIDE_SENSOR
         ]
 
+FUNCTION_IDS_DOORBELL_SENSOR = [
+        0x010E, # FID_DOOR_RINGING_SENSOR        
+        ]
+
 FUNCTION_IDS_SWITCHING_ACTUATOR = [
         0x0007, # Switch actuator
         0x0045, # Trigger
