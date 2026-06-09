@@ -1,6 +1,7 @@
 import pytest
 pytestmark = pytest.mark.asyncio
 
+import os
 import logging
 from async_mock import call, patch, AsyncMock
 
@@ -13,6 +14,8 @@ def get_client():
     client = Client()
     client.devices = set()
     client.set_datapoint = AsyncMock()
+    client._host = "localhost"
+    client.component_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
     return client
 

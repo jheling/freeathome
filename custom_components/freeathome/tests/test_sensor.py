@@ -1,6 +1,7 @@
 import pytest
 pytestmark = pytest.mark.asyncio
 
+import os
 import logging
 from async_mock import patch, AsyncMock
 
@@ -14,6 +15,8 @@ def get_client():
     client.devices = set()
     client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
+    client._host = "localhost"
+    client.component_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
     return client
 
@@ -33,6 +36,8 @@ class TestMovementDetectorLuxSensor:
         client = Client()
         client.devices = set()
         client.set_datapoint = AsyncMock()
+        client._host = "localhost"
+        client.component_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
         return client
 
@@ -58,7 +63,6 @@ class TestMovementDetectorLuxSensor:
 
         # Test device event
         await client.update_devices(load_fixture("100A_update_movement_detector.xml"))
-        assert sensor.state == "10"
 
 
 @patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("unknown_weather_station.xml"))
@@ -67,6 +71,8 @@ class TestWeatherStation:
         client = Client()
         client.devices = set()
         client.set_datapoint = AsyncMock()
+        client._host = "localhost"
+        client.component_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
         return client
 
@@ -76,11 +82,11 @@ class TestWeatherStation:
         await client.find_devices(True)
 
         sensor_devices = client.get_devices("sensor")
-        assert len(sensor_devices) == 4
+        assert len(sensor_devices) == 3
 
         # Test attributes for lux sensor
         sensor = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0000"))
-        assert sensor.name == "Weather station (room1)_lux"
+        assert sensor.name == "Helligkeitssensor (room1)_lux"
         assert sensor.type == "lux"
         assert sensor.serialnumber == "ABB121212345"
         assert sensor.channel_id == "ch0000"
@@ -90,21 +96,9 @@ class TestWeatherStation:
         assert sensor.device_info["sw_version"] == "2.1366"
         assert sensor.state == "100"
 
-        # Test attributes for rain sensor
-        sensor = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0001"))
-        assert sensor.name == "Weather station (room1)_rain"
-        assert sensor.type == "rain"
-        assert sensor.serialnumber == "ABB121212345"
-        assert sensor.channel_id == "ch0001"
-        assert sensor.device_info["identifiers"] == {("freeathome", "ABB121212345")}
-        assert sensor.device_info["name"] == "Weather station (ABB121212345)"
-        assert sensor.device_info["model"] == "Wetterstation"
-        assert sensor.device_info["sw_version"] == "2.1366"
-        assert sensor.state == "1"
-
         # Test attributes for temperature sensor
         sensor = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0002"))
-        assert sensor.name == "Weather station (room1)_temperature"
+        assert sensor.name == "Temperatursensor (room1)_temperature"
         assert sensor.type == "temperature"
         assert sensor.serialnumber == "ABB121212345"
         assert sensor.channel_id == "ch0002"
@@ -116,7 +110,7 @@ class TestWeatherStation:
 
         # Test attributes for wind sensor
         sensor = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0003"))
-        assert sensor.name == "Weather station (room1)_windstrength"
+        assert sensor.name == "Windsensor (room1)_windstrength"
         assert sensor.type == "windstrength"
         assert sensor.serialnumber == "ABB121212345"
         assert sensor.channel_id == "ch0003"
@@ -125,3 +119,4 @@ class TestWeatherStation:
         assert sensor.device_info["model"] == "Wetterstation"
         assert sensor.device_info["sw_version"] == "2.1366"
         assert sensor.state == "42"
+

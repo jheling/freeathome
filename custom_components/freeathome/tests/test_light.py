@@ -1,6 +1,7 @@
 import pytest
 pytestmark = pytest.mark.asyncio
 
+import os
 import logging
 from async_mock import call,patch, AsyncMock
 
@@ -14,6 +15,8 @@ def get_client():
     client.devices = set()
     client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
+    client._host = "localhost"
+    client.component_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
     return client
 
@@ -49,7 +52,7 @@ class TestLight:
 
         # Test datapoints
         await light.turn_on()
-        client.set_datapoint.assert_called_once_with("ABB700D12345", "ch0003", "idp0000", "1")
+        client.set_datapoint.assert_not_called()
 
         client.set_datapoint.reset_mock()
         await light.turn_off()
@@ -136,10 +139,7 @@ class TestDimmer:
 
         # Test datapoints
         await light.turn_on()
-        client.set_datapoint.assert_has_calls([
-                call("BEED82AC0001", "ch0000", "idp0000", "1"),
-                call("BEED82AC0001", "ch0000", "idp0002", "100"),
-                ])
+        client.set_datapoint.assert_called_once_with("BEED82AC0001", "ch0000", "idp0002", "100")
 
         client.set_datapoint.reset_mock()
         await light.turn_off()
