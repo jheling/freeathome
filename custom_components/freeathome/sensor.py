@@ -79,6 +79,11 @@ async def async_setup_entry(hass, config_entry, async_add_devices, discovery_inf
         else:
             sensors.append(FreeAtHomeOtherSensor(device_object))
 
+    # NEW: Also register thermostats as pure temperature sensors
+    thermostats = fah.get_devices('thermostat')
+    for device_object in thermostats:
+        sensors.append(FreeAtHomeThermostatTemperatureSensor(device_object))
+
     async_add_devices(sensors)
 
 
@@ -170,3 +175,49 @@ class FreeAtHomeTemperatureSensor(FreeAtHomeSensor):
     def native_unit_of_measurement(self):
         """Return the unit of measurement of this entity, if any."""
         return self._unit_of_measurement
+
+
+class FreeAtHomeThermostatTemperatureSensor(SensorEntity):
+    """ Current temperature sensor mapped from Free@Home thermostats """
+
+    def __init__(self, device):
+        self.sensor_device = device
+        self._name = f"{self.sensor_device.name} Temperature"
+
+    @property
+    def name(self):
+        return self._name
+
+    @property
+    def device_info(self):
+        return self.sensor_device.device_info
+
+    @property
+    def unique_id(self):
+        return f"{self.sensor_device.serialnumber}/{self.sensor_device.channel_id}/current_temperature"
+
+    @property
+    def should_poll(self):
+        return False
+
+    @property
+    def device_class(self):
+        return SensorDeviceClass.TEMPERATURE
+
+    @property
+    def native_unit_of_measurement(self):
+        return UnitOfTemperature.CELSIUS
+
+    @property
+    def native_value(self):
+        if self.sensor_device.current_temperature is None:
+            return None
+        return float(self.sensor_device.current_temperature)
+
+    async def async_added_to_hass(self):
+        async def after_update_callback(device):
+            await self.async_update_ha_state(True)
+        self.sensor_device.register_device_updated_cb(after_update_callback)
+
+    async def async_update(self):
+        pass
