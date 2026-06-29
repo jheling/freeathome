@@ -57,6 +57,8 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x00A0, # FID_DOMUS_SMOKE_DETECTOR
         0x00C0, # FID_SMOKE_DETECTOR_TYPE1
         0x007E, # FID_CARBON_MONOXIDE_SENSOR
+        0x0114, # FID_SENSOR_DOOR_WINDOW_BASIC: Matter-over-Thread door/window contact sensor
+        0x0115, # FID_SENSOR_MOVEMENT_BASIC: Matter-over-Thread motion/presence sensor
         ]
 
 FUNCTION_IDS_SWITCHING_ACTUATOR = [
