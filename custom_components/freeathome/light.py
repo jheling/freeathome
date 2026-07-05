@@ -1,21 +1,13 @@
 """ Support for Free@Home lights dimmers """
 import logging
 
-try:
-    from homeassistant.components.light import (
-        ATTR_BRIGHTNESS,
-        ATTR_RGB_COLOR,
-        ColorMode,
-        LightEntity,
-    )
-except ImportError:  # pragma: no cover
-    from homeassistant.const import ATTR_BRIGHTNESS
-    from homeassistant.components.light import ATTR_RGB_COLOR, ColorMode, LightEntity
-
-try:
-    from homeassistant.components.light import ATTR_COLOR_TEMP_KELVIN
-except ImportError:  # pragma: no cover
-    from homeassistant.const import ATTR_COLOR_TEMP as ATTR_COLOR_TEMP_KELVIN
+from homeassistant.components.light import (
+    ATTR_BRIGHTNESS,
+    ATTR_COLOR_TEMP_KELVIN,
+    ATTR_RGB_COLOR,
+    ColorMode,
+    LightEntity,
+)
 
 from .const import DOMAIN
 

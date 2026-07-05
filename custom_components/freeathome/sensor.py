@@ -149,15 +149,15 @@ class FreeAtHomeOtherSensor(FreeAtHomeSensor):
         FreeAtHomeSensor.__init__(self, device)
 
     @property
-    def state(self):
+    def native_value(self):
         """Return the state of the device."""
         if self._unit_of_measurement == UnitOfSpeed.KILOMETERS_PER_HOUR:
             return ("%.2f" % (float(self._state) * 3.6))
-        else:    
+        else:
             return self._state
 
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit of measurement of this entity, if any."""
         return self._unit_of_measurement
 
