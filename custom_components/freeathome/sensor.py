@@ -28,6 +28,12 @@ SENSOR_TYPES = {
         "mdi:weather-windy",
         None,
     ],
+    "windforce": [
+        "Wind Force",
+        None,
+        "mdi:weather-windy-variant",
+        None,
+    ],
     "rain": [
         "Rain",
         None,

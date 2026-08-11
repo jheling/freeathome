@@ -82,7 +82,7 @@ class TestWeatherStation:
         await client.find_devices(True)
 
         sensor_devices = client.get_devices("sensor")
-        assert len(sensor_devices) == 3
+        assert len(sensor_devices) == 4
 
         # Test attributes for lux sensor
         sensor = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0000"))
@@ -119,4 +119,28 @@ class TestWeatherStation:
         assert sensor.device_info["model"] == "Wetterstation"
         assert sensor.device_info["sw_version"] == "2.1366"
         assert sensor.state == "42"
+
+        # Test attributes for wind force sensor, which shares the channel with the wind speed
+        # sensor and therefore has the datapoint in its lookup key
+        sensor = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0003/odp0001"))
+        assert sensor.name == "Windsensor (room1)_windforce"
+        assert sensor.type == "windforce"
+        assert sensor.serialnumber == "ABB121212345"
+        assert sensor.channel_id == "ch0003"
+        assert sensor.state == "2"
+
+
+    async def test_wind_speed_and_wind_force_do_not_overwrite_each_other(self, _):
+        """Both values arrive on the same channel and must end up in separate sensors."""
+        client = await self.get_client()
+        await client.find_devices(True)
+
+        sensor_devices = client.get_devices("sensor")
+        speed = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0003"))
+        force = next((el for el in sensor_devices if el.lookup_key == "ABB121212345/ch0003/odp0001"))
+
+        await client.update_devices(load_fixture("101D_update_wind.xml"))
+
+        assert speed.state == "5.6"
+        assert force.state == "4"
 

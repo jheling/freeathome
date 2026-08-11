@@ -11,6 +11,7 @@ from ..const import (
         FUNCTION_IDS_HEATING_COOLING_ACTOR,
         PID_MEASURED_BRIGHTNESS,
         PID_OUTDOOR_TEMPERATURE,
+        PID_WIND_FORCE,
         PID_WIND_SPEED,
         PID_RAIN_ALARM,
         PID_MEASURED_HUMIDITY,
@@ -35,6 +36,8 @@ def sensor_type_from_pairing_ids(datapoints):
             return "temperature"
         elif pairing_id == PID_WIND_SPEED:
             return "windstrength"
+        elif pairing_id == PID_WIND_FORCE:
+            return "windforce"
         elif pairing_id == PID_MEASURED_HUMIDITY:
             return "humidity"
         elif pairing_id == PID_INFO_VALUE_HEATING:
@@ -48,6 +51,11 @@ def sensor_type_from_pairing_ids(datapoints):
 
 
 AIR_QUALITY_PIDS = {PID_MEASURED_HUMIDITY, PID_MEASURED_VOC, PID_MEASURED_CO2}
+
+# Pairing IDs that share a channel with another sensor and therefore need a lookup key
+# of their own. PID_WIND_SPEED keeps the plain channel lookup key, so that existing
+# wind sensor entities keep their unique ID.
+EXTRA_LOOKUP_KEY_PIDS = AIR_QUALITY_PIDS | {PID_WIND_FORCE}
 
 
 # # TODO: Use FahSensor for weather station sensors
@@ -71,6 +79,7 @@ class FahSensor(FahDevice):
                         PID_OUTDOOR_TEMPERATURE,
                         PID_MEASURED_BRIGHTNESS,
                         PID_WIND_SPEED,
+                        PID_WIND_FORCE,
                         PID_RAIN_ALARM,
                         ]
                     }
@@ -126,6 +135,7 @@ class FahSensor(FahDevice):
                 self._datapoints.get(PID_INFO_VALUE_HEATING) == dp or \
                 self._datapoints.get(PID_INFO_VALUE_COOLING) == dp or \
                 self._datapoints.get(PID_WIND_SPEED) == dp or \
+                self._datapoints.get(PID_WIND_FORCE) == dp or \
                 self._datapoints.get(PID_MEASURED_HUMIDITY) == dp or \
                 self._datapoints.get(PID_MEASURED_VOC) == dp or \
                 self._datapoints.get(PID_MEASURED_CO2) == dp:
@@ -144,8 +154,9 @@ class FahSensor(FahDevice):
         lookup_key = super().lookup_key
 
         # make unique lookup_key because PID_MEASURED_HUMIDITY, PID_MEASURED_VOC, PID_MEASURED_CO2 are all on the
-        # save device & channel, but are separate sensors.
-        if len(self._datapoints) == 1 and list(self._datapoints.keys())[0] in AIR_QUALITY_PIDS:
+        # save device & channel, but are separate sensors. The same is true for PID_WIND_FORCE,
+        # which shares the wind channel with PID_WIND_SPEED.
+        if len(self._datapoints) == 1 and list(self._datapoints.keys())[0] in EXTRA_LOOKUP_KEY_PIDS:
             lookup_key += "/" + list(self._datapoints.values())[0]
 
         return lookup_key

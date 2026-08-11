@@ -898,7 +898,9 @@ class Client(slixmpp.ClientXMPP):
                                         channel_name = names[channel_name_id_hex]
                                     else:
                                         channel_name = display_name + position_suffix
-                                    self.add_device(fah_class, channel, channel_id, channel_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
+                                    # One device per datapoint, because the wind channel carries both
+                                    # wind speed and wind force.
+                                    self.add_devices_for_all_datapoints(fah_class, channel, channel_id, channel_name + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
                                         
                                 else:
                                     self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
