@@ -3,6 +3,7 @@ import logging
 
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
+    LIGHT_LUX,
     PERCENTAGE,
     UnitOfDensity,
     UnitOfRatio,
@@ -35,7 +36,7 @@ SENSOR_TYPES = {
         None],
     "lux": [
         "Illumination",
-        "lux",
+        LIGHT_LUX,
         None,
         SensorDeviceClass.ILLUMINANCE],
     "valve_volume_flow": [
