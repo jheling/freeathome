@@ -3,12 +3,12 @@ import logging
 
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
+    PERCENTAGE,
+    UnitOfDensity,
+    UnitOfRatio,
     UnitOfSpeed,
     UnitOfTemperature,
-    PERCENTAGE,
-    CONCENTRATION_PARTS_PER_MILLION,
-    CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
-    )
+)
 
 from homeassistant.components.sensor import SensorEntity
 
@@ -50,12 +50,12 @@ SENSOR_TYPES = {
         SensorDeviceClass.HUMIDITY],
     "co2": [
         "CO2",
-        CONCENTRATION_PARTS_PER_MILLION,
+        UnitOfRatio.PARTS_PER_MILLION,
         None,
         SensorDeviceClass.CO2],
     "voc": [
         "VOC",
-        CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        UnitOfDensity.MICROGRAMS_PER_CUBIC_METER,
         None,
         SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS],
 }
