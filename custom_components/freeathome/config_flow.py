@@ -164,6 +164,61 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Link a config entry from discovery."""
         return await self.async_step_user(user_input)
 
+    async def async_step_reconfigure(self, user_input=None):
+        """Reconfigure an existing entry, e.g. after a password change."""
+        entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
+        errors = {}
+
+        if user_input is not None:
+            host = user_input[CONF_HOST]
+            username = user_input[CONF_USERNAME]
+
+            if check_ip_adress(host):
+                ip_adress = host
+            else:
+                # maybe it is a hostname
+                ip_adress = get_host_name_ip(host)
+                if ip_adress is None:
+                    errors[CONF_HOST] = "unknown_host"
+
+            if not errors:
+                settings = SettingsFah(ip_adress)
+                found = await settings.load_json()
+
+                if found:
+                    jid = settings.get_jid(username)
+                    if jid is None:
+                        errors[CONF_USERNAME] = "unknown_user"
+
+                    serial_number = settings.get_flag("serialNumber")
+                    new_unique_id = serial_number if serial_number else ip_adress
+                    if entry.unique_id and new_unique_id != entry.unique_id:
+                        errors[CONF_HOST] = "other_sysap"
+                else:
+                    errors[CONF_HOST] = "no_sysap"
+                    _LOGGER.info("not a sysap")
+
+            if not errors:
+                try:
+                    await validate_input(self.hass, user_input)
+                except CannotConnect:
+                    errors["base"] = "cannot_connect"
+                except Exception:  # pylint: disable=broad-except
+                    _LOGGER.exception("Unexpected exception")
+                    errors["base"] = "unknown"
+                else:
+                    return self.async_update_reload_and_abort(
+                        entry,
+                        data={**entry.data, **user_input},
+                        reason="reconfigure_successful",
+                    )
+
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=_reconfigure_schema_with_defaults(user_input or entry.data),
+            errors=errors,
+        )
+
     async def _show_setup_form(self, user_input=None, errors=None):
         """Show the setup form to the user."""
         if not user_input:
@@ -200,6 +255,26 @@ def _user_schema_with_defaults(user_input):
     user_schema.update(_ordered_shared_schema(user_input))
 
     return vol.Schema(user_schema)
+
+
+def _reconfigure_schema_with_defaults(schema_input):
+    # No default for the password: it must be entered anew, so a stale
+    # stored value can never be written back unnoticed.
+    return vol.Schema(
+        {
+            vol.Required(CONF_HOST, default=schema_input.get(CONF_HOST, "")): str,
+            vol.Required(CONF_USERNAME, default=schema_input.get(CONF_USERNAME, "")): str,
+            vol.Required(CONF_PASSWORD): str,
+            vol.Optional(
+                CONF_USE_ROOM_NAMES,
+                default=schema_input.get(CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES),
+            ): bool,
+            vol.Optional(
+                CONF_SWITCH_AS_X,
+                default=schema_input.get(CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X),
+            ): bool,
+        }
+    )
 
 
 def _ordered_shared_schema(schema_input):

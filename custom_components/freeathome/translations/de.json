@@ -19,6 +19,17 @@
           "password": "Password",
 	  "use_room_names": "Use room names"
         }
+      },
+      "reconfigure": {
+        "title": "Free@Home",
+        "description": "Aktualisiere die Verbindungsdaten deines free@home SysAP, zum Beispiel nach einer Passwort-Änderung. Die Eingaben werden vor dem Speichern gegen den SysAP geprüft.",
+        "data": {
+          "host": "Host",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "use_room_names": "Raumnamen verwenden",
+          "switch_as_x": "Funktion switch_as_x verwenden (schaltende Geräte in HA als Schalter anlegen)"
+        }
       }
     },
     "error": {
@@ -26,11 +37,13 @@
       "unknown": "Unexpected error",
       "unknown_host": "Connection error: please check your host",
       "no_sysap": "Connection error: this host is not a sysap", 
-      "unknown_user": "Login error: please check your username"
+      "unknown_user": "Login error: please check your username",
+      "other_sysap": "Unter diesem Host antwortet ein anderer SysAP als der, der in diesem Eintrag eingerichtet ist"
     },
     "abort": {
       "already_configured": "Already configured. Only a single configuration possible.",
-      "cannot_connect": "Failed to connect"
+      "cannot_connect": "Failed to connect",
+      "reconfigure_successful": "Die Neukonfiguration war erfolgreich"
     }
   }  
 }

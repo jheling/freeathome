@@ -17,6 +17,17 @@
           "username": "Gebruiker",
           "password": "Wachtwoord"
         }
+      },
+      "reconfigure": {
+        "title": "Free@Home",
+        "description": "Werk de verbindingsgegevens van de free@home SysAP bij, bijvoorbeeld na een wachtwoordwijziging. De invoer wordt eerst gecontroleerd bij de SysAP en daarna opgeslagen.",
+        "data": {
+          "host": "Host",
+          "username": "Gebruiker",
+          "password": "Wachtwoord",
+          "use_room_names": "Kamernamen gebruiken",
+          "switch_as_x": "Functie switch_as_x gebruiken (schakelende apparaten in HA als schakelaar aanmaken)"
+        }
       }
     },
     "error": {
@@ -24,11 +35,13 @@
       "unknown": "Onverwachte fout",
       "unknown_host": "Verbindingsfout: controleer de host",
       "no_sysap": "Verbindingsfout: Deze host is is geen sysap", 
-      "unknown_user": "Inlogfout: controleer de gebruikersnaam"
+      "unknown_user": "Inlogfout: controleer de gebruikersnaam",
+      "other_sysap": "Deze host is een andere SysAP dan die van deze configuratie"
     },
     "abort": {
       "already_configured": "Host is al geconfigureerd",
-      "cannot_connect": "Kan geen verbinding maken"
+      "cannot_connect": "Kan geen verbinding maken",
+      "reconfigure_successful": "Herconfiguratie geslaagd"
     }
   }
 }
