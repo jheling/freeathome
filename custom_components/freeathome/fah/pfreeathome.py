@@ -399,6 +399,9 @@ class Client(slixmpp.ClientXMPP):
     def failed_auth(self, event):
         """ If the password in the config is wrong  """
         LOG.error('Free@Home : authentication failed, probably wrong password')
+        # Mark the connection as failed before the disconnected event arrives,
+        # so wait_for_connection() cannot report success in between.
+        self.connect_in_error = True
         self.connect_finished = True
 
     async def set_datapoint(self, serialnumber, channel_id, datapoint, command):

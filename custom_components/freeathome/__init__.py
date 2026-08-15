@@ -5,6 +5,7 @@ import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
 from homeassistant.core import HomeAssistant, callback
+from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers import event
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT, EVENT_HOMEASSISTANT_STOP
 import homeassistant.helpers.config_validation as cv
@@ -78,10 +79,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         
     sysap.component_path = hass.config.path("custom_components")    
 
-    hass.data[DOMAIN][entry.entry_id] = sysap
-
     await sysap.connect()
-    await sysap.wait_for_connection()
+    if not await sysap.wait_for_connection():
+        # Stop the client, otherwise it keeps a reconnect loop running
+        # in the background for every failed setup attempt.
+        await sysap.disconnect()
+        raise ConfigEntryNotReady(f"Cannot connect to free@home SysAP at {entry.data[CONF_HOST]}")
+
+    hass.data[DOMAIN][entry.entry_id] = sysap
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, sysap.shutdown)
 
