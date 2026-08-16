@@ -6,6 +6,12 @@ import logging
 from async_mock import patch, AsyncMock
 
 from fah.pfreeathome import Client
+from fah.devices.fah_binary_sensor import FahBinarySensor, CYCLIC_PERIOD
+from fah.const import (
+        PID_PRESENCE,
+        PID_FIRE_ALARM_ACTIVE,
+        PID_WINDOW_DOOR_POSITION,
+        )
 from common import load_fixture
 
 LOG = logging.getLogger(__name__)
@@ -268,3 +274,99 @@ class TestBinarySensorsCover:
         assert sensor_cover.device_info["model"] == "Sensor/ Jalousieaktor 1/1-fach"
         assert sensor_cover.device_info["sw_version"] == "2.1366"
         assert sensor_cover.state == "1"
+
+
+class TestCyclicRepeatFilter:
+    """Cyclic keep-alive repetitions must not be reported as new events."""
+
+    def make_sensor(self, datapoints):
+        return FahBinarySensor(
+                None, {}, "ABB700D12345", "ch0000", "0001", "Sensor", datapoints)
+
+    async def test_cyclic_repeat_is_ignored(self):
+        sensor = self.make_sensor({PID_PRESENCE: "odp0001"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0001", "1")
+        assert sensor.state == "1"
+
+        # Home Assistant resets the sensor after the movement has ended
+        sensor.state = "0"
+
+        # Exactly one cycle later, the same value arrives again
+        with patch("fah.devices.fah_binary_sensor.time.monotonic",
+                   return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0001", "1")
+        assert sensor.state == "0"
+
+    async def test_changed_value_is_never_filtered(self):
+        sensor = self.make_sensor({PID_PRESENCE: "odp0001"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0001", "0")
+        assert sensor.state == "0"
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic",
+                   return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0001", "1")
+        assert sensor.state == "1"
+
+    async def test_real_event_off_the_grid_is_kept(self):
+        sensor = self.make_sensor({PID_PRESENCE: "odp0001"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0001", "1")
+        sensor.state = "0"
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1300.0):
+            sensor.update_datapoint("odp0001", "1")
+        assert sensor.state == "1"
+
+    async def test_fire_alarm_is_never_filtered(self):
+        sensor = self.make_sensor({PID_FIRE_ALARM_ACTIVE: "odp0000"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0000", "1")
+        sensor.state = "0"
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic",
+                   return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0000", "1")
+        assert sensor.state == "1"
+
+    async def test_datapoints_are_tracked_separately(self):
+        sensor = self.make_sensor({PID_PRESENCE: "odp0001"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0001", "1")
+        sensor.state = "0"
+
+        # Different datapoint, so this is not a repetition of the one above
+        with patch("fah.devices.fah_binary_sensor.time.monotonic",
+                   return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0002", "1")
+        assert sensor.state == "1"
+
+    async def test_sensors_do_not_share_state(self):
+        first = self.make_sensor({PID_PRESENCE: "odp0001"})
+        second = self.make_sensor({PID_PRESENCE: "odp0001"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            first.update_datapoint("odp0001", "1")
+        second.state = "0"
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic",
+                   return_value=1000.0 + CYCLIC_PERIOD):
+            second.update_datapoint("odp0001", "1")
+        assert second.state == "1"
+
+    async def test_window_position_is_unaffected(self):
+        sensor = self.make_sensor({PID_WINDOW_DOOR_POSITION: "odp0001"})
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0001", "50")
+        with patch("fah.devices.fah_binary_sensor.time.monotonic",
+                   return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0001", "50")
+        assert sensor.window_position == "50"
+        assert sensor.state is None
