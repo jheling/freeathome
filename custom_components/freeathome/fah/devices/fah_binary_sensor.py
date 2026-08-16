@@ -6,6 +6,7 @@ from .fah_device import FahDevice
 from ..const import (
         FUNCTION_IDS_BINARY_SENSOR,
         FUNCTION_IDS_WEATHER_STATION,
+        FUNCTION_IDS_DOORBELL_SENSOR,
         PID_SWITCH_ON_OFF,
         PID_TIMED_START_STOP,
         PID_FORCE_POSITION,
@@ -89,6 +90,13 @@ class FahBinarySensor(FahDevice):
                         ]
 
                     }
+        elif function_id in FUNCTION_IDS_DOORBELL_SENSOR:
+            return {
+                    "inputs": [],
+                    "outputs": [
+                        PID_TIMED_START_STOP,                        
+                        ]
+            }
 
 
     def _is_cyclic_repeat(self, dp, value):
@@ -128,12 +136,18 @@ class FahBinarySensor(FahDevice):
         self.state = '0' if value == '0' else '1'
         LOG.info("binary sensor %s (%s) dp %s state %s", self.name, self.lookup_key, dp, value)
 
+    def get_icon(self):
+        if self._function_id in FUNCTION_IDS_DOORBELL_SENSOR: 
+            return "mdi:doorbell"
+        else:
+            return None
+
     def is_fire_sensor(self):
-        """Return true if device is a dimmer"""
+        """Return true if device is a fire sensor"""
         return PID_FIRE_ALARM_ACTIVE in self._datapoints
 
     def is_co_sensor(self):
-        """Return true if device is a dimmer"""
+        """Return true if device is a co sensor"""
         return PID_CO_ALARM_ACTIVE in self._datapoints
 
     def update_parameter(self, param, value):
