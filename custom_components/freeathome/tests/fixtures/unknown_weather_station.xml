@@ -4,6 +4,9 @@ Unlike the other test files, this file has NOT been extracted from a real
 system, but was crafted manually based on available information about the
 device. If you read this and own a weather station, please report it to the
 maintainers here: https://github.com/jheling/freeathome/issues/new
+
+The wind channel ch0003 was extended with pairing ID 0401 (wind force), which was
+observed on two real 6228 weather stations, see issue #293.
 -->
 <project time="20201011223216576" localTime="20201012003216576" timeStamp="733006" sessionId="1297e53a" type="debug" mrhaVersion="2.4.0" mrhaBuild="7586">
  <strings>
@@ -56,6 +59,9 @@ maintainers here: https://github.com/jheling/freeathome/issues/new
      <attribute name="functionId">44</attribute>
      <inputs/>
      <outputs>
+      <dataPoint pairingId="0401" i="odp0001">
+       <value>2</value>
+      </dataPoint>
       <dataPoint pairingId="0404" i="odp0003">
        <value>42</value>
       </dataPoint>
