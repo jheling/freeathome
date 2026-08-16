@@ -3,14 +3,27 @@ import logging
 
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.const import (
+    LIGHT_LUX,
+    PERCENTAGE,
     UnitOfSpeed,
     UnitOfTemperature,
-    PERCENTAGE,
-    CONCENTRATION_PARTS_PER_MILLION,
-    CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
-    )
+)
 
 from homeassistant.components.sensor import SensorEntity
+
+try:
+    from homeassistant.const import UnitOfDensity, UnitOfRatio
+except ImportError:
+    from homeassistant.const import (
+        CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        CONCENTRATION_PARTS_PER_MILLION,
+    )
+
+    CO2_CONCENTRATION_UNIT = CONCENTRATION_PARTS_PER_MILLION
+    VOC_CONCENTRATION_UNIT = CONCENTRATION_MICROGRAMS_PER_CUBIC_METER
+else:
+    CO2_CONCENTRATION_UNIT = UnitOfRatio.PARTS_PER_MILLION
+    VOC_CONCENTRATION_UNIT = UnitOfDensity.MICROGRAMS_PER_CUBIC_METER
 
 from .fah.devices.fah_device import FahDevice
 from .const import DOMAIN
@@ -41,7 +54,7 @@ SENSOR_TYPES = {
         None],
     "lux": [
         "Illumination",
-        "lux",
+        LIGHT_LUX,
         None,
         SensorDeviceClass.ILLUMINANCE],
     "valve_volume_flow": [
@@ -56,12 +69,12 @@ SENSOR_TYPES = {
         SensorDeviceClass.HUMIDITY],
     "co2": [
         "CO2",
-        CONCENTRATION_PARTS_PER_MILLION,
+        CO2_CONCENTRATION_UNIT,
         None,
         SensorDeviceClass.CO2],
     "voc": [
         "VOC",
-        CONCENTRATION_MICROGRAMS_PER_CUBIC_METER,
+        VOC_CONCENTRATION_UNIT,
         None,
         SensorDeviceClass.VOLATILE_ORGANIC_COMPOUNDS],
 }
