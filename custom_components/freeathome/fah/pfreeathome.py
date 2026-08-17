@@ -262,6 +262,8 @@ class Client(slixmpp.ClientXMPP):
     use_room_names = False
     switch_as_x = False
     connect_in_error = False
+    auth_in_error = False
+    auth_failed_callback = None
 
     # The specific devices
     devices = set()
@@ -345,6 +347,10 @@ class Client(slixmpp.ClientXMPP):
         """For checking if connection is in error or not"""
         return self.connect_in_error
 
+    def authentication_in_error(self):
+        """For checking if the connection failed on authentication"""
+        return self.auth_in_error
+
     def sysap_connect(self):
         LOG.info('Connect: %s %s', self._host, self._port )
         super(Client, self).connect(self._host, self._port)
@@ -403,6 +409,12 @@ class Client(slixmpp.ClientXMPP):
         # so wait_for_connection() cannot report success in between.
         self.connect_in_error = True
         self.connect_finished = True
+        # Kept apart from connect_in_error, so the caller can tell a rejected
+        # login from an unreachable SysAP.
+        self.auth_in_error = True
+
+        if self.auth_failed_callback is not None:
+            self.auth_failed_callback()
 
     async def set_datapoint(self, serialnumber, channel_id, datapoint, command):
         """ Send a command to the sysap   """
@@ -931,6 +943,9 @@ class FreeAtHomeSysApp(object):
         self._switch_as_x = False
         self.reconnect = True
         self._component_path = ''
+        # Optional plain callable, invoked when the SysAP rejects the login.
+        # Keeps this module free of any Home Assistant import.
+        self.auth_failed_callback = None
 
     @property
     def host(self):
@@ -986,6 +1001,7 @@ class FreeAtHomeSysApp(object):
                 iterations, salt = settings.get_scram_settings(self._user, 'SCRAM-SHA-256')
             # create xmpp client
             self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt, self.reconnect, self._component_path)
+            self.xmpp.auth_failed_callback = self.auth_failed_callback
             # connect
             self.xmpp.sysap_connect()
 
@@ -1002,6 +1018,18 @@ class FreeAtHomeSysApp(object):
     async def shutdown(self, event=None):
         LOG.info("Detecting shutdown home assistant")
         await self.disconnect()
+
+    def set_auth_failed_callback(self, callback):
+        """ Register a callable that is invoked when the sysap rejects the login """
+        self.auth_failed_callback = callback
+        # Also reaches a client that is already connected, so the caller can
+        # register the callback after a successful setup.
+        if self.xmpp is not None:
+            self.xmpp.auth_failed_callback = callback
+
+    def authentication_in_error(self):
+        """ True if the last attempt failed on authentication, not on the connection """
+        return self.xmpp is not None and self.xmpp.authentication_in_error()
 
     async def wait_for_connection(self):
         """ Wait til connection is made, if failed at first attempt retry until success """

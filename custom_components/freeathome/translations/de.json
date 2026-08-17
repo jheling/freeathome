@@ -20,20 +20,27 @@
 	  "use_room_names": "Use room names"
         }
       },
+      "reauth_confirm": {
+        "title": "Free@Home",
+        "description": "Der free@home SysAP unter {host} hat die gespeicherten Anmeldedaten abgelehnt. Gib sie erneut ein. Die Eingaben werden vor dem Speichern gegen den SysAP geprüft.",
+        "data": {
+          "username": "Benutzername",
+          "password": "Passwort"
+        }
+      },
       "reconfigure": {
         "title": "Free@Home",
-        "description": "Aktualisiere die Verbindungsdaten deines free@home SysAP, zum Beispiel nach einer Passwort-Änderung. Die Eingaben werden vor dem Speichern gegen den SysAP geprüft.",
+        "description": "Aktualisiere die Verbindungsdaten deines free@home SysAP, zum Beispiel nach einem Wechsel der Adresse. Die Eingaben werden vor dem Speichern gegen den SysAP geprüft. Benutzername und Passwort änderst du über die erneute Anmeldung.",
         "data": {
           "host": "Host",
-          "username": "Benutzername",
-          "password": "Passwort",
           "use_room_names": "Raumnamen verwenden",
           "switch_as_x": "Funktion switch_as_x verwenden (schaltende Geräte in HA als Schalter anlegen)"
         }
       }
     },
     "error": {
-      "cannot_connect": "Failed to connect (probably wrong password)",
+      "cannot_connect": "Failed to connect",
+      "invalid_auth": "Anmeldung fehlgeschlagen: Der SysAP hat Benutzername oder Passwort abgelehnt",
       "unknown": "Unexpected error",
       "unknown_host": "Connection error: please check your host",
       "no_sysap": "Connection error: this host is not a sysap", 
@@ -43,6 +50,7 @@
     "abort": {
       "already_configured": "Already configured. Only a single configuration possible.",
       "cannot_connect": "Failed to connect",
+      "reauth_successful": "Die erneute Anmeldung war erfolgreich",
       "reconfigure_successful": "Die Neukonfiguration war erfolgreich"
     }
   }  

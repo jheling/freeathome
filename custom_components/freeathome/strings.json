@@ -11,12 +11,18 @@
           "switch_as_x": "[%key:common::config_flow::data::switch_as_x%]"
         }
       },
+      "reauth_confirm": {
+        "title": "[%key:common::config_flow::title::reauth%]",
+        "description": "The free@home SysAP at {host} rejected the stored credentials. Enter them again; they are checked against the SysAP before they are saved.",
+        "data": {
+          "username": "[%key:common::config_flow::data::username%]",
+          "password": "[%key:common::config_flow::data::password%]"
+        }
+      },
       "reconfigure": {
-        "description": "Update the connection settings of your free@home SysAP, for example after a password change. The settings are checked against the SysAP before they are saved.",
+        "description": "Update the connection settings of your free@home SysAP, for example after it moved to a different address. The settings are checked against the SysAP before they are saved. Use the re-authentication dialog to change username or password.",
         "data": {
           "host": "[%key:common::config_flow::data::host%]",
-          "username": "[%key:common::config_flow::data::username%]",
-          "password": "[%key:common::config_flow::data::password%]",
           "use_room_names": "Use room names",
           "switch_as_x": "[%key:common::config_flow::data::switch_as_x%]"
         }
@@ -24,12 +30,14 @@
     },
     "error": {
       "cannot_connect": "[%key:common::config_flow::error::cannot_connect%]",
+      "invalid_auth": "[%key:common::config_flow::error::invalid_auth%]",
       "unknown": "[%key:common::config_flow::error::unknown%]",
       "other_sysap": "This host is a different SysAP than the one this entry was set up for"
     },
     "abort": {
       "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
       "cannot_connect": "Cannot connect to discovered free@home SysAP",
+      "reauth_successful": "[%key:common::config_flow::abort::reauth_successful%]",
       "reconfigure_successful": "[%key:common::config_flow::abort::reconfigure_successful%]"
     }
   }

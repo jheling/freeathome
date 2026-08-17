@@ -18,20 +18,27 @@
           "password": "Wachtwoord"
         }
       },
+      "reauth_confirm": {
+        "title": "Free@Home",
+        "description": "De free@home SysAP op {host} heeft de opgeslagen inloggegevens geweigerd. Voer ze opnieuw in. De invoer wordt eerst gecontroleerd bij de SysAP en daarna opgeslagen.",
+        "data": {
+          "username": "Gebruiker",
+          "password": "Wachtwoord"
+        }
+      },
       "reconfigure": {
         "title": "Free@Home",
-        "description": "Werk de verbindingsgegevens van de free@home SysAP bij, bijvoorbeeld na een wachtwoordwijziging. De invoer wordt eerst gecontroleerd bij de SysAP en daarna opgeslagen.",
+        "description": "Werk de verbindingsgegevens van de free@home SysAP bij, bijvoorbeeld na een adreswijziging. De invoer wordt eerst gecontroleerd bij de SysAP en daarna opgeslagen. Gebruiker en wachtwoord wijzig je via het opnieuw aanmelden.",
         "data": {
           "host": "Host",
-          "username": "Gebruiker",
-          "password": "Wachtwoord",
           "use_room_names": "Kamernamen gebruiken",
           "switch_as_x": "Functie switch_as_x gebruiken (schakelende apparaten in HA als schakelaar aanmaken)"
         }
       }
     },
     "error": {
-      "cannot_connect": "Kan geen verbinding maken (waarschijnlijk een fout wachtwoord)",
+      "cannot_connect": "Kan geen verbinding maken",
+      "invalid_auth": "Aanmelden mislukt: de SysAP heeft de gebruiker of het wachtwoord geweigerd",
       "unknown": "Onverwachte fout",
       "unknown_host": "Verbindingsfout: controleer de host",
       "no_sysap": "Verbindingsfout: Deze host is is geen sysap", 
@@ -41,6 +48,7 @@
     "abort": {
       "already_configured": "Host is al geconfigureerd",
       "cannot_connect": "Kan geen verbinding maken",
+      "reauth_successful": "Opnieuw aanmelden geslaagd",
       "reconfigure_successful": "Herconfiguratie geslaagd"
     }
   }

@@ -5,7 +5,7 @@ import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.exceptions import ConfigEntryNotReady
+from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import event
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT, EVENT_HOMEASSISTANT_STOP
 import homeassistant.helpers.config_validation as cv
@@ -81,10 +81,36 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await sysap.connect()
     if not await sysap.wait_for_connection():
+        # Read the reason before disconnecting.
+        auth_failed = sysap.authentication_in_error()
         # Stop the client, otherwise it keeps a reconnect loop running
         # in the background for every failed setup attempt.
         await sysap.disconnect()
+        if auth_failed:
+            raise ConfigEntryAuthFailed(f"Login rejected by free@home SysAP at {entry.data[CONF_HOST]}")
         raise ConfigEntryNotReady(f"Cannot connect to free@home SysAP at {entry.data[CONF_HOST]}")
+
+    # Only from here on the entry exists, so a rejected login is reported
+    # through the reauth flow instead of the exception above. A login that is
+    # rejected later, for example after the password was changed in free@home,
+    # would otherwise stay invisible until the next restart.
+    reauth_started = False
+
+    def _handle_rejected_login():
+        # The client retries a rejected login every few seconds, so run once.
+        # Unloading drops this callback, a new setup registers a fresh one.
+        nonlocal reauth_started
+        if reauth_started:
+            return
+        reauth_started = True
+        entry.async_start_reauth(hass)
+        # Reload so the setup runs again and raises ConfigEntryAuthFailed.
+        # That puts the entry visibly into an error state; without it the
+        # entry would stay green while every login is being rejected. It
+        # also stops the retry loop of the client.
+        hass.async_create_task(hass.config_entries.async_reload(entry.entry_id))
+
+    sysap.set_auth_failed_callback(_handle_rejected_login)
 
     hass.data[DOMAIN][entry.entry_id] = sysap
 
@@ -161,6 +187,9 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     unload_ok = await hass.config_entries.async_unload_platforms(entry, PLATFORMS)
 
     sysap = hass.data[DOMAIN][entry.entry_id]
+    # Drop the callback first, so an entry that is being removed cannot open
+    # a reauth dialog on the way out.
+    sysap.set_auth_failed_callback(None)
     await sysap.disconnect()
 
     if unload_ok:

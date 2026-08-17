@@ -41,10 +41,15 @@ async def validate_input(hass: core.HomeAssistant, data: dict):
     await sysap.connect()
 
     result = await sysap.wait_for_connection()
-    if not result:
-        raise CannotConnect
+    # Read the reason before disconnecting.
+    auth_failed = sysap.authentication_in_error()
 
     await sysap.disconnect()
+
+    if not result:
+        if auth_failed:
+            raise InvalidAuth
+        raise CannotConnect
 
     return {"title": data[CONF_HOST]}
 
@@ -141,6 +146,8 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 self._abort_if_unique_id_configured()
 
                 return self.async_create_entry(title=info["title"], data=user_input)
+            except InvalidAuth:
+                errors["base"] = "invalid_auth"
             except CannotConnect:
                 errors["base"] = "cannot_connect"
             except Exception:  # pylint: disable=broad-except
@@ -164,60 +171,105 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         """Link a config entry from discovery."""
         return await self.async_step_user(user_input)
 
-    async def async_step_reconfigure(self, user_input=None):
-        """Reconfigure an existing entry, e.g. after a password change."""
+    async def async_step_reauth(self, entry_data):
+        """Start reauth after the SysAP rejected the stored credentials."""
+        return await self.async_step_reauth_confirm()
+
+    async def async_step_reauth_confirm(self, user_input=None):
+        """Ask for the credentials again and check them against the SysAP."""
         entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
         errors = {}
 
         if user_input is not None:
-            host = user_input[CONF_HOST]
-            username = user_input[CONF_USERNAME]
-
-            if check_ip_adress(host):
-                ip_adress = host
-            else:
-                # maybe it is a hostname
-                ip_adress = get_host_name_ip(host)
-                if ip_adress is None:
-                    errors[CONF_HOST] = "unknown_host"
+            # The host is deliberately not part of this form. A changed host is
+            # not an authentication problem and belongs in the reconfigure step.
+            data = {**entry.data, **user_input}
+            errors = await self._validate_against_sysap(data, entry)
 
             if not errors:
-                settings = SettingsFah(ip_adress)
-                found = await settings.load_json()
+                return self.async_update_reload_and_abort(
+                    entry,
+                    data=data,
+                    reason="reauth_successful",
+                )
 
-                if found:
-                    jid = settings.get_jid(username)
-                    if jid is None:
-                        errors[CONF_USERNAME] = "unknown_user"
+        return self.async_show_form(
+            step_id="reauth_confirm",
+            data_schema=_reauth_schema_with_defaults(entry.data),
+            errors=errors,
+            description_placeholders={CONF_HOST: entry.data[CONF_HOST]},
+        )
 
-                    serial_number = settings.get_flag("serialNumber")
-                    new_unique_id = serial_number if serial_number else ip_adress
-                    if entry.unique_id and new_unique_id != entry.unique_id:
-                        errors[CONF_HOST] = "other_sysap"
-                else:
-                    errors[CONF_HOST] = "no_sysap"
-                    _LOGGER.info("not a sysap")
+    async def async_step_reconfigure(self, user_input=None):
+        """Reconfigure an existing entry, e.g. after the SysAP changed address."""
+        entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
+        errors = {}
+
+        if user_input is not None:
+            # Username and password are not part of this form; they belong in
+            # reauth. The stored credentials are what prove that the host given
+            # here is reachable and is still the same SysAP.
+            data = {**entry.data, **user_input}
+            errors = await self._validate_against_sysap(data, entry)
 
             if not errors:
-                try:
-                    await validate_input(self.hass, user_input)
-                except CannotConnect:
-                    errors["base"] = "cannot_connect"
-                except Exception:  # pylint: disable=broad-except
-                    _LOGGER.exception("Unexpected exception")
-                    errors["base"] = "unknown"
-                else:
-                    return self.async_update_reload_and_abort(
-                        entry,
-                        data={**entry.data, **user_input},
-                        reason="reconfigure_successful",
-                    )
+                return self.async_update_reload_and_abort(
+                    entry,
+                    data=data,
+                    reason="reconfigure_successful",
+                )
 
         return self.async_show_form(
             step_id="reconfigure",
             data_schema=_reconfigure_schema_with_defaults(user_input or entry.data),
             errors=errors,
         )
+
+    async def _validate_against_sysap(self, data, entry):
+        """Run the checks of the initial setup against a complete data set.
+
+        Returns the errors for the form, empty if everything checks out.
+        """
+        errors = {}
+
+        host = data[CONF_HOST]
+        if check_ip_adress(host):
+            ip_adress = host
+        else:
+            # maybe it is a hostname
+            ip_adress = get_host_name_ip(host)
+            if ip_adress is None:
+                return {CONF_HOST: "unknown_host"}
+
+        settings = SettingsFah(ip_adress)
+        found = await settings.load_json()
+        if not found:
+            _LOGGER.info("not a sysap")
+            return {CONF_HOST: "no_sysap"}
+
+        jid = settings.get_jid(data[CONF_USERNAME])
+        if jid is None:
+            errors[CONF_USERNAME] = "unknown_user"
+
+        serial_number = settings.get_flag("serialNumber")
+        new_unique_id = serial_number if serial_number else ip_adress
+        if entry.unique_id and new_unique_id != entry.unique_id:
+            errors[CONF_HOST] = "other_sysap"
+
+        if errors:
+            return errors
+
+        try:
+            await validate_input(self.hass, data)
+        except InvalidAuth:
+            errors["base"] = "invalid_auth"
+        except CannotConnect:
+            errors["base"] = "cannot_connect"
+        except Exception:  # pylint: disable=broad-except
+            _LOGGER.exception("Unexpected exception")
+            errors["base"] = "unknown"
+
+        return errors
 
     async def _show_setup_form(self, user_input=None, errors=None):
         """Show the setup form to the user."""
@@ -244,6 +296,10 @@ class CannotConnect(exceptions.HomeAssistantError):
     """Error to indicate we cannot connect."""
 
 
+class InvalidAuth(exceptions.HomeAssistantError):
+    """Error to indicate the SysAP rejected the credentials."""
+
+
 def _discovery_schema_with_defaults(discovery_info):
     return vol.Schema(_ordered_shared_schema(discovery_info))
 
@@ -257,14 +313,21 @@ def _user_schema_with_defaults(user_input):
     return vol.Schema(user_schema)
 
 
-def _reconfigure_schema_with_defaults(schema_input):
+def _reauth_schema_with_defaults(schema_input):
     # No default for the password: it must be entered anew, so a stale
     # stored value can never be written back unnoticed.
     return vol.Schema(
         {
-            vol.Required(CONF_HOST, default=schema_input.get(CONF_HOST, "")): str,
             vol.Required(CONF_USERNAME, default=schema_input.get(CONF_USERNAME, "")): str,
             vol.Required(CONF_PASSWORD): str,
+        }
+    )
+
+
+def _reconfigure_schema_with_defaults(schema_input):
+    return vol.Schema(
+        {
+            vol.Required(CONF_HOST, default=schema_input.get(CONF_HOST, "")): str,
             vol.Optional(
                 CONF_USE_ROOM_NAMES,
                 default=schema_input.get(CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES),
