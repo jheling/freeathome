@@ -265,12 +265,6 @@ class Client(slixmpp.ClientXMPP):
     auth_in_error = False
     auth_failed_callback = None
 
-    # The specific devices
-    devices = set()
-    monitored_datapoints = {}
-    monitored_parameters = {}
-
-    _update_handlers = []
     
     def _create_lg_ssl_context() -> ssl.SSLContext:
         """Create a SSL context for Free@Home."""
@@ -284,6 +278,15 @@ class Client(slixmpp.ClientXMPP):
     def __init__(self, jid, password, host, port, fahversion, iterations=None, salt=None, reconnect=True, component_path=''):
         """x"""
         slixmpp.ClientXMPP.__init__(self, jid, password, sasl_mech="SCRAM-SHA-1", ssl_context=self._SSL_CONTEXT)
+
+        # Per instance, never on the class. With more than one SysAP every
+        # client would otherwise fill the same containers, so each config
+        # entry sees the devices of all SysAPs and Home Assistant rejects
+        # the duplicates with "does not generate unique IDs".
+        self.devices = set()
+        self.monitored_datapoints = {}
+        self.monitored_parameters = {}
+        self._update_handlers = []
 
         self.fahversion = fahversion
         self.x_jid = jid

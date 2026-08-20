@@ -6,14 +6,12 @@ import logging
 from async_mock import call,patch, AsyncMock
 
 from fah.pfreeathome import Client
-from common import load_fixture
+from common import load_fixture, init_client_state
 
 LOG = logging.getLogger(__name__)
 
 def get_client():
     client = Client()
-    client.devices = set()
-    client.monitored_datapoints = {}
     client.set_datapoint = AsyncMock()
     client._host = "localhost"
     client.component_path = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
@@ -22,7 +20,7 @@ def get_client():
 
 @pytest.fixture(autouse=True)
 def mock_init():
-    with patch("fah.pfreeathome.Client.__init__", return_value=None):
+    with patch("fah.pfreeathome.Client.__init__", init_client_state):
         yield
 
 @pytest.fixture(autouse=True)
