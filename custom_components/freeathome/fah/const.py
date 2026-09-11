@@ -69,6 +69,10 @@ FUNCTION_IDS_DIMMING_STATUS = [
         0x1012, # FID_DIMMING_SENSOR_ROCKER_TYPE2
         ]
 
+FUNCTION_IDS_DOORBELL_SENSOR = [
+        0x010E, # FID_DOOR_RINGING_SENSOR        
+        ]
+
 FUNCTION_IDS_SWITCHING_ACTUATOR = [
         0x0007, # Switch actuator
         0x0045, # Trigger
