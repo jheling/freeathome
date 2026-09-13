@@ -57,6 +57,7 @@
       "dimming_status": {
         "name": "Dimmerstatus {channel_id}",
         "state": {
+          "not_pressed": "Niet ingedrukt",
           "pressed_up": "Boven ingedrukt",
           "pressed_down": "Onder ingedrukt",
           "held_up": "Boven vastgehouden",

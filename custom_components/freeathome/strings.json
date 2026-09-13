@@ -46,6 +46,7 @@
       "dimming_status": {
         "name": "Dimmer status {channel_id}",
         "state": {
+          "not_pressed": "Not pressed",
           "pressed_up": "Upper rocker pressed",
           "pressed_down": "Lower rocker pressed",
           "held_up": "Upper rocker held",

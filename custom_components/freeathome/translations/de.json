@@ -59,6 +59,7 @@
       "dimming_status": {
         "name": "Dimmerstatus {channel_id}",
         "state": {
+          "not_pressed": "Nicht gedrückt",
           "pressed_up": "Oben gedrückt",
           "pressed_down": "Unten gedrückt",
           "held_up": "Oben gehalten",
