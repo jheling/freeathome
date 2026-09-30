@@ -27,7 +27,11 @@ else:
 
 from .fah.devices.fah_device import FahDevice
 from .const import DOMAIN
-from .fah_event import DIMMING_STATUS_OPTIONS, dimming_status_from_event
+from .fah_event import (
+    DIMMING_STATUS_DEFAULT,
+    DIMMING_STATUS_OPTIONS,
+    dimming_status_sequence_from_event,
+)
 
 SENSOR_TYPES = {
     "temperature": [
@@ -249,7 +253,7 @@ class FreeAtHomeThermostatTemperatureSensor(SensorEntity):
 
 
 class FreeAtHomeDimmingStatusSensor(SensorEntity):
-    """Expose the last of four dimmer rocker actions as an enum sensor."""
+    """Expose dimmer rocker actions as a resetting enum sensor."""
 
     _attr_device_class = SensorDeviceClass.ENUM
     _attr_has_entity_name = True
@@ -259,7 +263,7 @@ class FreeAtHomeDimmingStatusSensor(SensorEntity):
     def __init__(self, device):
         self.binary_device = device
         self._attr_device_info = device.device_info
-        self._attr_native_value = None
+        self._attr_native_value = DIMMING_STATUS_DEFAULT
         self._attr_translation_placeholders = {
             "channel_id": device.channel_id,
         }
@@ -275,11 +279,11 @@ class FreeAtHomeDimmingStatusSensor(SensorEntity):
         await super().async_added_to_hass()
 
         async def datapoint_updated_callback(_, event):
-            status = dimming_status_from_event(event)
-            if status is None:
-                return
-            self._attr_native_value = status
-            self.async_write_ha_state()
+            # Short presses are momentary. Held actions remain visible until
+            # the matching dim_stop event returns the sensor to its idle state.
+            for status in dimming_status_sequence_from_event(event):
+                self._attr_native_value = status
+                self.async_write_ha_state()
 
         self.binary_device.register_datapoint_updated_cb(
             datapoint_updated_callback)

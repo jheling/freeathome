@@ -1,6 +1,9 @@
 """Helpers for Free@Home Home Assistant events."""
 
+DIMMING_STATUS_DEFAULT = "not_pressed"
+
 DIMMING_STATUS_OPTIONS = [
+    DIMMING_STATUS_DEFAULT,
     "pressed_up",
     "pressed_down",
     "held_up",
@@ -40,3 +43,15 @@ def dimming_status_from_event(event):
             return "held_down"
 
     return None
+
+
+def dimming_status_sequence_from_event(event):
+    """Return the status changes produced by a datapoint event."""
+    status = dimming_status_from_event(event)
+    if event.get("command") == "pressed" and status is not None:
+        return (status, DIMMING_STATUS_DEFAULT)
+    if event.get("command") == "dim_start" and status is not None:
+        return (status,)
+    if event.get("command") == "dim_stop":
+        return (DIMMING_STATUS_DEFAULT,)
+    return ()

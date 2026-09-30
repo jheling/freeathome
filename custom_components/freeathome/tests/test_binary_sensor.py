@@ -15,9 +15,11 @@ from fah.const import (
         PID_WINDOW_DOOR_POSITION,
         )
 from fah_event import (
+        DIMMING_STATUS_DEFAULT,
         DIMMING_STATUS_OPTIONS,
         create_event_data,
         dimming_status_from_event,
+        dimming_status_sequence_from_event,
         )
 from common import load_fixture, init_client_state
 
@@ -573,10 +575,57 @@ class TestBinarySensorEvents:
     async def test_dimming_status_mapping(self, event, expected):
         assert dimming_status_from_event(event) == expected
 
-    async def test_dimming_status_has_exactly_four_options(self):
+    async def test_dimming_status_options_include_default(self):
+        assert DIMMING_STATUS_DEFAULT == "not_pressed"
         assert DIMMING_STATUS_OPTIONS == [
+                "not_pressed",
                 "pressed_up",
                 "pressed_down",
                 "held_up",
                 "held_down",
                 ]
+
+    async def test_repeated_dimming_status_returns_to_default_each_time(self):
+        event = {"command": "pressed", "state": True}
+
+        states = (
+                dimming_status_sequence_from_event(event)
+                + dimming_status_sequence_from_event(event)
+                )
+
+        assert states == (
+                "pressed_up",
+                "not_pressed",
+                "pressed_up",
+                "not_pressed",
+                )
+
+    @pytest.mark.parametrize(
+            ("start_event", "held_status"),
+            (
+                ({"command": "dim_start", "direction": "up"}, "held_up"),
+                ({"command": "dim_start", "direction": "down"}, "held_down"),
+            ))
+    async def test_held_status_remains_until_dim_stop(
+            self, start_event, held_status):
+        stop_event = {
+                "command": "dim_stop",
+                "direction": start_event["direction"],
+                }
+
+        assert dimming_status_sequence_from_event(start_event) == (
+                held_status,
+                )
+        assert dimming_status_sequence_from_event(stop_event) == (
+                "not_pressed",
+                )
+
+    async def test_unrelated_event_has_no_dimming_status_sequence(self):
+        event = {"command": "unknown"}
+
+        assert dimming_status_sequence_from_event(event) == ()
+
+    async def test_dim_stop_without_direction_returns_to_default(self):
+        event = {"command": "dim_stop"}
+
+        assert dimming_status_sequence_from_event(event) == ("not_pressed",)

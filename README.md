@@ -109,20 +109,22 @@ Listen for `command: dim_stop` with the same `unique_id` to stop a repeating bri
 ### Dimmer status sensor
 
 Each detected two-sided dimming channel also creates an enum sensor on its
-existing Free@Home device. It shows the last rocker action using exactly four
-states. Single pushbutton channels keep the bus events described above, but do
-not get this four-state sensor because they have no upper/lower rocker pair.
+existing Free@Home device. A short press is shown briefly before the sensor
+returns to `not_pressed`. This makes repeated identical presses visible as
+separate Home Assistant state changes. A held action remains visible until the
+rocker is released. Single pushbutton channels keep the bus events described
+above, but do not get this sensor because they have no upper/lower rocker pair.
 
 | State          | Meaning               |
 |----------------|-----------------------|
+| `not_pressed`  | No current action     |
 | `pressed_up`   | Upper rocker pressed  |
 | `pressed_down` | Lower rocker pressed  |
 | `held_up`      | Upper rocker held     |
 | `held_down`    | Lower rocker held     |
 
-Home Assistant translates these states for display. A release still emits the
-`dim_stop` event described above and deliberately leaves the last action visible
-on the status sensor.
+Home Assistant translates these states for display. The `dim_stop` event emitted
+on release returns a held status to `not_pressed`.
 
 
 ## Debugging
