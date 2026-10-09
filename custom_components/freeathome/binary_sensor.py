@@ -45,7 +45,7 @@ class FreeAtHomeBinarySensor(BinarySensorEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.binary_device.serialnumber + '/' + self.binary_device.channel_id
+        return self.binary_device.unique_id
 
     @property
     def should_poll(self):

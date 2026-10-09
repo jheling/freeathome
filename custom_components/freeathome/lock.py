@@ -42,7 +42,7 @@ class FreeAtHomeLock(LockEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.lock_device.serialnumber + '/' + self.lock_device.channel_id
+        return self.lock_device.unique_id
 
     @property
     def should_poll(self):

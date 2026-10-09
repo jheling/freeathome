@@ -83,7 +83,7 @@ class FreeAtHomeLight(LightEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.light_device.serialnumber + '/' + self.light_device.channel_id
+        return self.light_device.unique_id
 
     @property
     def should_poll(self):

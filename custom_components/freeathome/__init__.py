@@ -6,12 +6,13 @@ import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
 from homeassistant.core import HomeAssistant, callback
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
-from homeassistant.helpers import event
+from homeassistant.helpers import entity_registry as er, event
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT, EVENT_HOMEASSISTANT_STOP
 import homeassistant.helpers.config_validation as cv
 
 from datetime import datetime
 
+from .migration import migrate_unique_ids
 from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X, BACKWARD_COMPATIBILE_SWITCH_AS_X
 
 PLATFORMS = [
@@ -77,7 +78,12 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
         _LOGGER.warning("No switch_as_x option found in saved config, consider adding it")
         sysap.switch_as_x = BACKWARD_COMPATIBILE_SWITCH_AS_X
         
-    sysap.component_path = hass.config.path("custom_components")    
+    sysap.component_path = hass.config.path("custom_components")
+
+    # Tells the virtual devices of this SysAP apart from those of another one.
+    # Their serial number is the same on every SysAP. The unique id of the
+    # entry is the serial number of the SysAP, so it survives a new IP address.
+    sysap.sysap_id = entry.unique_id or entry.entry_id
 
     await sysap.connect()
     if not await sysap.wait_for_connection():
@@ -117,6 +123,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, sysap.shutdown)
 
     await sysap.find_devices()
+
+    migrate_unique_ids(er.async_get(hass), sysap, DOMAIN)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)           
 

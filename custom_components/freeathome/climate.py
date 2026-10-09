@@ -94,7 +94,7 @@ class FreeAtHomeThermostat(ClimateEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.thermostat_device.serialnumber + '/' + self.thermostat_device.channel_id
+        return self.thermostat_device.unique_id
 
     @property
     def should_poll(self):

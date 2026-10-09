@@ -149,7 +149,7 @@ class FreeAtHomeSensor(SensorEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.sensor_device.lookup_key
+        return self.sensor_device.unique_id
 
     @property
     def should_poll(self):
@@ -223,7 +223,7 @@ class FreeAtHomeThermostatTemperatureSensor(SensorEntity):
 
     @property
     def unique_id(self):
-        return f"{self.sensor_device.serialnumber}/{self.sensor_device.channel_id}/current_temperature"
+        return f"{self.sensor_device.unique_id}/current_temperature"
 
     @property
     def should_poll(self):

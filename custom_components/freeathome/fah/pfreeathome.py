@@ -294,6 +294,9 @@ class Client(slixmpp.ClientXMPP):
         self._port = port
         self.reconnect = reconnect
         self.component_path = component_path
+        # Identifies the SysAP in the unique id of its virtual devices. Set by
+        # the caller, since only Home Assistant knows the config entry.
+        self.sysap_id = ''
 
         LOG.info(' version: %s', self.fahversion)
 
@@ -948,6 +951,7 @@ class FreeAtHomeSysApp(object):
         self._switch_as_x = False
         self.reconnect = True
         self._component_path = ''
+        self._sysap_id = ''
         # Optional plain callable, invoked when the SysAP rejects the login.
         # Keeps this module free of any Home Assistant import.
         self.auth_failed_callback = None
@@ -987,6 +991,16 @@ class FreeAtHomeSysApp(object):
         """ setter component_path   """
         self._component_path = value
 
+    @property
+    def sysap_id(self):
+        """ getter sysap_id   """
+        return self._sysap_id
+
+    @sysap_id.setter
+    def sysap_id(self, value):
+        """ setter sysap_id   """
+        self._sysap_id = value
+
     async def connect(self):
         """ connect to the Free@Home sysap   """
         settings = SettingsFah(self._host)
@@ -1007,6 +1021,7 @@ class FreeAtHomeSysApp(object):
             # create xmpp client
             self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt, self.reconnect, self._component_path)
             self.xmpp.auth_failed_callback = self.auth_failed_callback
+            self.xmpp.sysap_id = self._sysap_id
             # connect
             self.xmpp.sysap_connect()
 

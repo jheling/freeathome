@@ -44,7 +44,7 @@ class FreeAtHomeSwitch(SwitchEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.switch_device.serialnumber + '/' + self.switch_device.channel_id
+        return self.switch_device.unique_id
 
     @property
     def should_poll(self):

@@ -78,7 +78,7 @@ class FreeAtHomeCover(CoverEntity):
     @property
     def unique_id(self):
         """Return the ID """
-        return self.cover_device.serialnumber + '/' + self.cover_device.channel_id
+        return self.cover_device.unique_id
 
     @property
     def should_poll(self):
