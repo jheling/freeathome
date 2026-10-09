@@ -71,6 +71,9 @@ FUNCTION_IDS_DIMMING_STATUS = [
 
 FUNCTION_IDS_SWITCHING_ACTUATOR = [
         0x0007, # Switch actuator
+        ]
+
+FUNCTION_IDS_TRIGGER = [
         0x0045, # Trigger
         ]
 
