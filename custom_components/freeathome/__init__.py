@@ -17,6 +17,7 @@ from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWI
 
 PLATFORMS = [
         "binary_sensor",
+        "button",
         "climate",
         "cover",
         "light",
