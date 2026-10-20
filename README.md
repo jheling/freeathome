@@ -47,6 +47,29 @@ Recently a change has been made to the way switches are exposed in Home Assistan
 
 Any new installation of this custom component will have `switch_as_x` set to `True` by default. This means that all switches will be exposed as `switch`es and you'll be able to use the HA [switch_as_x](https://www.home-assistant.io/integrations/switch_as_x/) feature. If you want to expose them as `light`s, you can set `switch_as_x` to `False` in your configuration.yaml.
 
+### Timed trigger buttons
+
+Channels configured as timed triggers (function `0x0045`) are exposed as
+`button` entities, regardless of `switch_as_x`. Pressing the button sends one
+`"1"` to the timed-start/stop datapoint (`PID_TIMED_START_STOP`, pairing ID
+`0x0002`). The actuator controls the pulse duration and termination; Home
+Assistant does not send a second command or maintain an on/off state.
+
+**Migration:** These channels previously appeared as switches, or as lights
+with `switch_as_x: false`. Update automations, scripts and dashboard controls
+to target the new button entity with `button.press`. For example:
+
+```yaml
+action: button.press
+target:
+  entity_id: button.timed_trigger
+```
+
+The button entity ID depends on the channel name; select the actual entity
+from your installation. Old switch/light registry entries may remain unavailable
+and can be removed after updating their references. Normal switching actuators
+(function `0x0007`) retain their existing behavior.
+
 ## Events
 Actuators that are exposed in Home Assistant as binary sensors (typically wall switches) fire `freeathome_event` events. Normal switch datapoints continue to emit `pressed`. Dimming sensors additionally emit `dim_start` while a rocker is held and `dim_stop` when it is released.
 

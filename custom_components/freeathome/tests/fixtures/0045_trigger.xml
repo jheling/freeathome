@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project mrhaVersion="2.6.0">
+ <strings>
+  <string nameId="FEF3">Switch actuator, 4gang, 16 A, MDRC</string>
+ </strings>
+ <devices>
+  <device softwareVersion="1.23" nameId="FEF3" deviceId="B002"
+          serialNumber="ABB000000001" commissioningState="ready">
+   <attribute name="displayName">Switch actuator</attribute>
+   <attribute name="floor">00</attribute>
+   <attribute name="room">00</attribute>
+   <channels>
+    <channel channelId="020D" mask="00000008" nameId="0052" i="ch0003">
+     <attribute name="displayName">Timed trigger</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">45</attribute>
+     <attribute name="room">00</attribute>
+     <functions>
+      <function functionId="0045" name="Trigger" sensorMatchCode="00000000" actuatorMatchCode="00020000"/>
+     </functions>
+     <inputs>
+      <dataPoint dpt="0101" pairingId="0001" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="010A" pairingId="0002" i="idp0001">
+       <value>1</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint dpt="0101" pairingId="0100" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+ </devices>
+</project>

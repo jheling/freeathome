@@ -79,7 +79,10 @@ class TestLight8Gang:
         await client.find_devices(True)
 
         devices = client.get_devices("light")
-        assert len(devices) == 6
+        assert len(devices) == 5
+        assert [device.lookup_key for device in client.get_devices("button")] == [
+            "ABB2E0612345/ch0012"
+        ]
         light = next((el for el in devices if el.lookup_key == "ABB2E0612345/ch000C"))
 
         # Test attributes
@@ -110,7 +113,10 @@ class TestLight8Gang:
         await client.find_devices(False)
 
         devices = client.get_devices("light")
-        assert len(devices) == 6
+        assert len(devices) == 5
+        assert [device.lookup_key for device in client.get_devices("button")] == [
+            "ABB2E0612345/ch0012"
+        ]
         light = next((el for el in devices if el.lookup_key == "ABB2E0612345/ch000C"))
 
         assert light.name == "Hinten rechts"
