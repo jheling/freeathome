@@ -4,7 +4,7 @@ import logging
 import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry, SOURCE_IMPORT
-from homeassistant.core import HomeAssistant, callback
+from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
 from homeassistant.helpers import entity_registry as er, event
 from homeassistant.const import CONF_HOST, CONF_USERNAME, CONF_PASSWORD, CONF_PORT, EVENT_HOMEASSISTANT_STOP
@@ -13,6 +13,7 @@ import homeassistant.helpers.config_validation as cv
 from datetime import datetime
 
 from .migration import migrate_unique_ids
+from .monitor import start_monitor
 from .const import DOMAIN, CONF_USE_ROOM_NAMES, DEFAULT_USE_ROOM_NAMES, CONF_SWITCH_AS_X, DEFAULT_SWITCH_AS_X, BACKWARD_COMPATIBILE_SWITCH_AS_X
 
 PLATFORMS = [
@@ -159,24 +160,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
             _LOGGER.info("Start monitoring for device updates at host %s", host)
 
-            @callback
-            def collect_msg(msg):
-                try:
-                    f.write(msg)
-                    f.write("\n")
-                    f.flush()
-                except IOError:
-                    _LOGGER.warning("Error while writing to file")
-
-            sysap.add_update_handler(collect_msg)
-
-            async def finish_dump(_):
-                """Stop monitoring and write dump to file"""
-                sysap.clear_update_handlers()
-                f.close()
-                _LOGGER.info("Finished monitoring for device updates at host %s, dumped to %s", host, filename)
-
-            event.async_call_later(hass, call.data["duration"], finish_dump)
+            start_monitor(
+                sysap, host, f, filename, call.data["duration"],
+                lambda delay, action: event.async_call_later(hass, delay, action),
+            )
 
     hass.services.async_register(
             DOMAIN,
