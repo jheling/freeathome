@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project timeStamp="20261002" sessionId="1234" type="update" mrhaVersion="2.6.0" mrhaBuild="1234">
+ <devices>
+  <device serialNumber="ABB600012345" commissioningState="ready">
+   <channels>
+    <channel i="ch0018">
+     <outputs>
+      <dataPoint i="odp0000">
+       <value>1</value>
+      </dataPoint>
+     </outputs>
+    </channel>
+   </channels>
+  </device>
+ </devices>
+</project>

@@ -10,9 +10,11 @@ from fah.devices.fah_binary_sensor import FahBinarySensor, CYCLIC_PERIOD
 from fah.const import (
         PID_RELATIVE_SET_VALUE,
         PID_SWITCH_ON_OFF,
+        PID_TIMED_START_STOP,
         PID_PRESENCE,
         PID_FIRE_ALARM_ACTIVE,
         PID_WINDOW_DOOR_POSITION,
+        FUNCTION_IDS_DOOR_CALL_SENSOR,
         )
 from fah_event import (
         DIMMING_STATUS_DEFAULT,
@@ -296,6 +298,150 @@ class TestBinarySensorsCover:
         assert sensor_cover.device_info["model"] == "Sensor/ Jalousieaktor 1/1-fach"
         assert sensor_cover.device_info["sw_version"] == "2.1366"
         assert sensor_cover.state == "1"
+
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("panel_door_call.xml"))
+class TestDoorCallSensors:
+    async def test_door_call_sensors(self, _):
+        client = get_client()
+        await client.find_devices(True)
+
+        sensor_devices = client.get_devices("binary_sensor")
+        assert len(sensor_devices) == 3
+
+        # Floor door call (functionId 1e)
+        sensor_level = next((el for el in sensor_devices if el.lookup_key == "ABB600012345/ch0017"))
+        assert sensor_level.name == "Apartment door (room1)"
+        assert sensor_level.serialnumber == "ABB600012345"
+        assert sensor_level.channel_id == "ch0017"
+        assert sensor_level.is_door_call_sensor()
+        assert sensor_level.state == "0"
+
+        # Door call 1 (functionId 1f)
+        sensor_door_1 = next((el for el in sensor_devices if el.lookup_key == "ABB600012345/ch0018"))
+        assert sensor_door_1.name == "Front door (room1)"
+        assert sensor_door_1.serialnumber == "ABB600012345"
+        assert sensor_door_1.channel_id == "ch0018"
+        assert sensor_door_1.is_door_call_sensor()
+        assert sensor_door_1.state == "0"
+
+        # Door call 2 (functionId 1f)
+        sensor_door_2 = next((el for el in sensor_devices if el.lookup_key == "ABB600012345/ch0019"))
+        assert sensor_door_2.name == "Door call 2 (room1)"
+        assert sensor_door_2.serialnumber == "ABB600012345"
+        assert sensor_door_2.channel_id == "ch0019"
+        assert sensor_door_2.is_door_call_sensor()
+        assert sensor_door_2.state == "0"
+
+        # Test receiving door call event via update XML
+        events = []
+
+        async def callback(device, event):
+            events.append((device, event))
+
+        sensor_door_1.register_datapoint_updated_cb(callback)
+        await client.update_devices(load_fixture("panel_update_door_call.xml"))
+        assert sensor_door_1.state == "1"
+        assert len(events) == 1
+        device, event = events[0]
+        assert device is sensor_door_1
+        assert event == {
+            "pid": PID_TIMED_START_STOP,
+            "raw_value": "1",
+            "command": "pressed",
+            "state": True,
+        }
+
+        # Verify freeathome_event payload creation
+        event_data = create_event_data(
+            sensor_door_1.name,
+            sensor_door_1.serialnumber,
+            sensor_door_1.lookup_key,
+            event,
+        )
+        assert event_data == {
+            "name": "Front door (room1)",
+            "serialnumber": "ABB600012345",
+            "unique_id": "ABB600012345/ch0018",
+            "command": "pressed",
+            "state": True,
+        }
+
+    async def test_door_call_sensor_no_room_name(self, _):
+        client = get_client()
+        await client.find_devices(False)
+
+        sensor_devices = client.get_devices("binary_sensor")
+        sensor_door_1 = next((el for el in sensor_devices if el.lookup_key == "ABB600012345/ch0018"))
+        assert sensor_door_1.name == "Front door"
+
+        sensor_door_2 = next((el for el in sensor_devices if el.lookup_key == "ABB600012345/ch0019"))
+        assert sensor_door_2.name == "Door call 2"
+
+        sensor_level = next((el for el in sensor_devices if el.lookup_key == "ABB600012345/ch0017"))
+        assert sensor_level.name == "Apartment door"
+
+
+class TestDoorCallCyclicRepeat:
+    def make_sensor(self, function_id=0x001F):
+        return FahBinarySensor(
+            None, {}, "ABB600012345", "ch0018", function_id, "Front door",
+            {PID_TIMED_START_STOP: "odp0000"}
+        )
+
+    async def test_door_call_cyclic_repeat_ignored(self):
+        sensor = self.make_sensor()
+        assert sensor.is_door_call_sensor()
+
+        events = []
+        async def callback(device, event):
+            events.append(event)
+        sensor.register_datapoint_updated_cb(callback)
+
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0000", "1")
+            await sensor.after_update()
+        assert sensor.state == "1"
+        assert len(events) == 1
+
+        # Keep-alive repetition after exactly 840s must be ignored
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0000", "1")
+            await sensor.after_update()
+        assert len(events) == 1
+
+        # Real subsequent ring (e.g. 15s later) must trigger an event
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0 + CYCLIC_PERIOD + 15.0):
+            sensor.update_datapoint("odp0000", "1")
+            await sensor.after_update()
+        assert len(events) == 2
+
+    async def test_door_call_initial_config_value_one_stays_free_and_first_ring_triggers(self):
+        sensor = self.make_sensor()
+        assert sensor.state == "0"
+
+        events = []
+        async def callback(device, event):
+            events.append(event)
+        sensor.register_datapoint_updated_cb(callback)
+
+        # Simulate initial getAll config load where SysAP persisted '1' from a previous ring
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0):
+            sensor.update_datapoint("odp0000", "1", initializing=True)
+            await sensor.after_update()
+
+        assert sensor.state == "0"
+        assert len(events) == 0
+
+        # First real ring after HA startup must transition from '0' to '1' and fire event
+        with patch("fah.devices.fah_binary_sensor.time.monotonic", return_value=1000.0 + CYCLIC_PERIOD):
+            sensor.update_datapoint("odp0000", "1")
+            await sensor.after_update()
+
+        assert sensor.state == "1"
+        assert len(events) == 1
+        assert events[0]["state"] is True
+        assert events[0]["command"] == "pressed"
 
 
 class TestCyclicRepeatFilter:

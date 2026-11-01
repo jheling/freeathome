@@ -5,3 +5,5 @@ schakelaars.txt
 entities.txt
 
 venv
+.venv/
+.pytest_cache/

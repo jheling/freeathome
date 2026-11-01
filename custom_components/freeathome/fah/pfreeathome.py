@@ -622,7 +622,10 @@ class Client(slixmpp.ClientXMPP):
                             if lookup_key in self.monitored_datapoints and value is not None:
                                 monitoring_device = self.monitored_datapoints[lookup_key]
                                 LOG.debug("%s %s: received datapoint %s = %s", monitoring_device.__class__.__name__, monitoring_device.name, lookup_key, value.text)
-                                monitoring_device.update_datapoint(datapoint_id, value.text)
+                                if isinstance(monitoring_device, FahBinarySensor):
+                                    monitoring_device.update_datapoint(datapoint_id, value.text, initializing=initializing)
+                                else:
+                                    monitoring_device.update_datapoint(datapoint_id, value.text)
                                 updated_devices.add(monitoring_device)
 
                     # Update parameters

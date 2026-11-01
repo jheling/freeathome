@@ -12,6 +12,8 @@ FUNCTION_IDS_BINARY_SENSOR = [
         0x000E, # Rain alarm
         0x000F, # Window sensor
         0x0011, # Movement detector sensor
+        0x001E, # FID_DES_DOOR_RINGING_LEVEL_SENSOR (Door Entry System Call Level Sensor)
+        0x001F, # FID_DES_DOOR_RINGING_SENSOR (Door call)
         0x0028, # Force-position blind
         0x002A, # Switchover heating/cooling
         0x0030, # FID_PANEL_SWITCH_SENSOR
@@ -166,6 +168,11 @@ FUNCTION_IDS_MOVEMENT_DETECTOR = [
 
 FUNCTION_IDS_DOOR_OPENER = [
         0x001A, # Door opener actuator
+        ]
+
+FUNCTION_IDS_DOOR_CALL_SENSOR = [
+        0x001E, # FID_DES_DOOR_RINGING_LEVEL_SENSOR (Door Entry System Call Level Sensor)
+        0x001F, # FID_DES_DOOR_RINGING_SENSOR (Door call)
         ]
 
 FUNCTION_IDS_WEATHER_STATION = [

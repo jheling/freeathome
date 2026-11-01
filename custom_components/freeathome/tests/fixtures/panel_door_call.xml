@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project timeStamp="20261002" sessionId="1234" type="full" mrhaVersion="2.6.0" mrhaBuild="1234">
+ <floorplan>
+  <floor name="Ground Floor" uid="00">
+   <room name="Hallway" uid="00"/>
+  </floor>
+ </floorplan>
+ <strings>
+  <string nameId="0180">Storey call button</string>
+  <string nameId="018E">Door call 1</string>
+  <string nameId="018F">Door call 2</string>
+  <string nameId="7000">free@homeTouch 7"</string>
+ </strings>
+ <devices>
+  <device serialNumber="ABB600012345" deviceId="FFFF" nameId="7000" softwareVersion="2.0.0" commissioningState="ready">
+   <attribute name="displayName">Control panel</attribute>
+   <attribute name="floor">00</attribute>
+   <attribute name="room">00</attribute>
+   <channels>
+    <channel mask="FFFFFFFF" nameId="0180" i="ch0017" cid="ABB60100">
+     <attribute name="displayName">Apartment door</attribute>
+     <attribute name="functionId">1e</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0002" i="odp0000" full="false">
+       <value>1</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel mask="FFFFFFFF" nameId="018E" i="ch0018" cid="ABB600E0">
+     <attribute name="displayName">Front door</attribute>
+     <attribute name="functionId">1f</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0002" i="odp0000" full="false">
+       <value>1</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel mask="FFFFFFFF" nameId="018F" i="ch0019" cid="ABB600E0">
+     <attribute name="displayName">Door call 2</attribute>
+     <attribute name="functionId">1f</attribute>
+     <inputs/>
+     <outputs>
+      <dataPoint pairingId="0002" i="odp0000" full="false">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+   </channels>
+  </device>
+ </devices>
+</project>
