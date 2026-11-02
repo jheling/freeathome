@@ -129,6 +129,37 @@ action:
 
 Listen for `command: dim_stop` with the same `unique_id` to stop a repeating brightness action when the rocker is released.
 
+### SysAP notifications
+
+The SysAP keeps its notifications (for example the room of a fire alarm) apart from the device data. Each new notification fires one `freeathome_message` event. Notifications that are already present when the integration starts are not fired. The integration remembers the notifications it has seen, also across a reconnect.
+
+| Key      | Type        | Example                                          |
+|----------|-------------|--------------------------------------------------|
+| host     | string      | 192.168.1.10                                     |
+| topic    | string      | `system.notification`, `logic.notification`      |
+| name_id  | string/null | 05C4 (system notification)                       |
+| title    | string/null | Achtung! Feueralarm ausgelöst!!! (logic notification) |
+| text     | string      | Wohnzimmer                                       |
+| severity | string/null | high                                             |
+| logic_id | string/null | 9 (logic notification)                           |
+| time     | string/null | 2026-09-27T20:16:02+00:00 (UTC, in full seconds) |
+
+Fields the SysAP does not send for a notification are `null`; `time` is also `null` if it cannot be read. `text` can be an empty string.
+
+For example, to react to the notification that names the room of a fire alarm:
+```
+trigger:
+  - platform: event
+    event_type: freeathome_message
+    event_data:
+      topic: system.notification
+      name_id: 05C4
+action:
+  - service: notify.notify
+    data:
+      message: "Fire alarm: {{ trigger.event.data.text }}"
+```
+
 ### Dimmer status sensor
 
 Each detected two-sided dimming channel also creates an enum sensor on its
