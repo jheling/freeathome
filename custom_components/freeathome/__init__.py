@@ -126,7 +126,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     await sysap.find_devices()
 
-    migrate_unique_ids(er.async_get(hass), sysap, DOMAIN)
+    migrate_unique_ids(er.async_get(hass), sysap, DOMAIN, entry.entry_id)
 
     await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)           
 
