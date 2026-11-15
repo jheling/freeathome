@@ -63,3 +63,33 @@ def migrate_unique_ids(registry, sysap, integration):
                 new_unique_id,
             )
             registry.async_update_entity(entity_id, new_unique_id=new_unique_id)
+
+
+def migrate_sysap_id(registry, old_sysap_id, new_sysap_id, integration):
+    """Rename registry entries when the SysAP id of an entry changes."""
+    if not old_sysap_id or not new_sysap_id or old_sysap_id == new_sysap_id:
+        return
+
+    prefix = old_sysap_id + "/"
+    for entry in list(registry.entities.values()):
+        if entry.platform != integration or not entry.unique_id.startswith(prefix):
+            continue
+
+        new_unique_id = new_sysap_id + "/" + entry.unique_id[len(prefix):]
+        if registry.async_get_entity_id(
+            entry.domain, integration, new_unique_id
+        ):
+            _LOGGER.info(
+                "Unique id %s is taken, %s keeps its own entity",
+                new_unique_id,
+                entry.unique_id,
+            )
+            continue
+
+        _LOGGER.info(
+            "Migrating unique id of %s from %s to %s",
+            entry.entity_id,
+            entry.unique_id,
+            new_unique_id,
+        )
+        registry.async_update_entity(entry.entity_id, new_unique_id=new_unique_id)

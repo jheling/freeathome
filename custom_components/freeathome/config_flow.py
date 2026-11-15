@@ -7,6 +7,7 @@ from ipaddress import IPv4Address
 
 import voluptuous as vol
 from homeassistant import config_entries, core, exceptions
+from homeassistant.helpers import entity_registry as er
 from homeassistant.helpers.service_info import zeroconf
 from homeassistant.const import (
     CONF_HOST,
@@ -24,6 +25,7 @@ from .const import (
 )  # pylint:disable=unused-import
 from .fah.pfreeathome import FreeAtHomeSysApp
 from .fah.settings import SettingsFah
+from .migration import migrate_sysap_id
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -90,6 +92,13 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             entry_host = entry.data.get(CONF_HOST)
             if entry_host == freeathome_host or get_host_name_ip(entry_host) == freeathome_host:
                 if entry.unique_id != serial_number:
+                    old_sysap_id = entry.unique_id or entry.entry_id
+                    migrate_sysap_id(
+                        er.async_get(self.hass),
+                        old_sysap_id,
+                        serial_number,
+                        DOMAIN,
+                    )
                     self.hass.config_entries.async_update_entry(
                         entry, unique_id=serial_number
                     )

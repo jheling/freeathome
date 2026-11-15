@@ -3,10 +3,11 @@ pytestmark = pytest.mark.asyncio
 
 import os
 import logging
+from types import SimpleNamespace
 from async_mock import patch, AsyncMock
 
 from fah.pfreeathome import Client
-from migration import migrate_unique_ids
+from migration import migrate_sysap_id, migrate_unique_ids
 from common import load_fixture, init_client_state
 
 LOG = logging.getLogger(__name__)
@@ -46,6 +47,18 @@ class FakeRegistry:
         del self.entries[key]
         self.entries[(key[0], key[1], new_unique_id)] = entity_id
         self.updates.append((entity_id, new_unique_id))
+
+    @property
+    def entities(self):
+        return {
+            entity_id: SimpleNamespace(
+                entity_id=entity_id,
+                domain=domain,
+                platform=integration,
+                unique_id=unique_id,
+            )
+            for (domain, integration, unique_id), entity_id in self.entries.items()
+        }
 
 
 @pytest.fixture(autouse=True)
@@ -141,5 +154,65 @@ class TestRealDeviceUniqueId:
         })
 
         migrate_unique_ids(registry, client, INTEGRATION)
+
+        assert registry.updates == []
+
+
+class TestMigrateSysapId:
+    async def test_renames_entry_id_prefix(self):
+        entry_id = "01ABCDEFGHJKMNPQRSTVWXYZ00"
+        key = "FFFF4800000F/ch0000"
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, entry_id + "/" + key): "scene.eigene_szene",
+        })
+
+        migrate_sysap_id(registry, entry_id, SYSAP, INTEGRATION)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + key),
+        ]
+        assert registry.async_get_entity_id(
+            "scene", INTEGRATION, SYSAP + "/" + key
+        ) == "scene.eigene_szene"
+
+    async def test_renames_ip_prefix(self):
+        old_ip = "192.168.1.10"
+        key = "FFFF4800000F/ch0000"
+        registry = FakeRegistry({
+            ("light", INTEGRATION, old_ip + "/" + key): "light.wohnzimmer",
+        })
+
+        migrate_sysap_id(registry, old_ip, SYSAP, INTEGRATION)
+
+        assert registry.updates == [
+            ("light.wohnzimmer", SYSAP + "/" + key),
+        ]
+        assert registry.async_get_entity_id(
+            "light", INTEGRATION, SYSAP + "/" + key
+        ) == "light.wohnzimmer"
+
+    async def test_leaves_taken_unique_id_alone(self):
+        old_ip = "192.168.1.10"
+        key = "FFFF4800000F/ch0000"
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, old_ip + "/" + key): "scene.eigene_szene",
+            ("scene", INTEGRATION, SYSAP + "/" + key): "scene.andere_szene",
+        })
+
+        migrate_sysap_id(registry, old_ip, SYSAP, INTEGRATION)
+
+        assert registry.updates == []
+
+    async def test_ignores_real_devices_other_sysap_and_other_integration(self):
+        old_ip = "192.168.1.10"
+        other_sysap = "ABB700D00002"
+        key = "FFFF4800000F/ch0000"
+        registry = FakeRegistry({
+            ("light", INTEGRATION, "ABB700D12345/ch0000"): "light.lampe",
+            ("scene", INTEGRATION, other_sysap + "/" + key): "scene.zweiter_ap",
+            ("scene", "other_integration", old_ip + "/" + key): "scene.fremd",
+        })
+
+        migrate_sysap_id(registry, old_ip, SYSAP, INTEGRATION)
 
         assert registry.updates == []
