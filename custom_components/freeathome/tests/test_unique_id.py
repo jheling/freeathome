@@ -3,6 +3,7 @@ pytestmark = pytest.mark.asyncio
 
 import os
 import logging
+from types import SimpleNamespace
 from async_mock import patch, AsyncMock
 
 from fah.pfreeathome import Client
@@ -13,6 +14,7 @@ LOG = logging.getLogger(__name__)
 
 INTEGRATION = "freeathome"
 SYSAP = "ABB700D00001"
+ENTRY = "01ABCDEFGHJKMNPQRSTVWXYZ00"
 
 
 def get_client(sysap_id=SYSAP):
@@ -26,14 +28,16 @@ def get_client(sysap_id=SYSAP):
 
 
 class FakeRegistry:
-    """The two calls of the entity registry that the migration uses.
+    """The part of the entity registry that the migration uses.
 
     Rejects a unique id that is already taken, just like the real registry.
     """
 
-    def __init__(self, entries=None):
+    def __init__(self, entries=None, config_entries=None):
         # {(entity domain, integration, unique id): entity id}
         self.entries = dict(entries or {})
+        # {entity id: config entry id}, ENTRY when not listed
+        self.config_entries = dict(config_entries or {})
         self.updates = []
 
     def async_get_entity_id(self, entity_domain, integration, unique_id):
@@ -46,6 +50,19 @@ class FakeRegistry:
         del self.entries[key]
         self.entries[(key[0], key[1], new_unique_id)] = entity_id
         self.updates.append((entity_id, new_unique_id))
+
+    @property
+    def entities(self):
+        return {
+            entity_id: SimpleNamespace(
+                entity_id=entity_id,
+                domain=domain,
+                platform=integration,
+                unique_id=unique_id,
+                config_entry_id=self.config_entries.get(entity_id, ENTRY),
+            )
+            for (domain, integration, unique_id), entity_id in self.entries.items()
+        }
 
 
 @pytest.fixture(autouse=True)
@@ -143,3 +160,158 @@ class TestRealDeviceUniqueId:
         migrate_unique_ids(registry, client, INTEGRATION)
 
         assert registry.updates == []
+
+
+@patch("fah.pfreeathome.Client.get_config", return_value=load_fixture("scene.xml"))
+class TestSysapIdChange:
+    """The unique id of the config entry changed, and the SysAP id with it."""
+
+    KEY = "FFFF4800000F/ch0000"
+
+    async def _migrate(self, registry, sysap_id=SYSAP, config_entry_id=ENTRY):
+        client = get_client(sysap_id=sysap_id)
+        await client.find_devices(True)
+        migrate_unique_ids(registry, client, INTEGRATION, config_entry_id)
+
+    async def test_renames_entry_id_prefix(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, ENTRY + "/" + self.KEY): "scene.eigene_szene",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + self.KEY),
+        ]
+        assert registry.async_get_entity_id(
+            "scene", INTEGRATION, SYSAP + "/" + self.KEY
+        ) == "scene.eigene_szene"
+
+    async def test_renames_ip_prefix(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, "192.168.1.10/" + self.KEY): "scene.eigene_szene",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + self.KEY),
+        ]
+
+    async def test_leaves_taken_unique_id_alone(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, "192.168.1.10/" + self.KEY): "scene.eigene_szene",
+            ("scene", INTEGRATION, SYSAP + "/" + self.KEY): "scene.andere_szene",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == []
+
+    async def test_renames_only_one_of_two_old_entries(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, ENTRY + "/" + self.KEY): "scene.eigene_szene",
+            ("scene", INTEGRATION, "192.168.1.10/" + self.KEY): "scene.eigene_szene_2",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + self.KEY),
+        ]
+
+    async def test_leaves_current_unique_id_alone(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, SYSAP + "/" + self.KEY): "scene.eigene_szene",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == []
+
+    async def test_ignores_second_sysap(self, _):
+        # Both SysAPs have this scene. Each one keeps its own entity.
+        other_sysap = "ABB700D00002"
+        registry = FakeRegistry(
+            {
+                ("scene", INTEGRATION, other_sysap + "/" + self.KEY): "scene.zweiter_ap",
+            },
+            config_entries={"scene.zweiter_ap": "other entry"},
+        )
+
+        await self._migrate(registry)
+
+        assert registry.updates == []
+
+    async def test_two_sysaps_rename_their_own_entity(self, _):
+        other_entry = "01ZYXWVTSRQPNMKJHGFEDCBA00"
+        other_sysap = "ABB700D00002"
+        registry = FakeRegistry(
+            {
+                ("scene", INTEGRATION, ENTRY + "/" + self.KEY): "scene.eigene_szene",
+                ("scene", INTEGRATION, other_entry + "/" + self.KEY): "scene.zweiter_ap",
+            },
+            config_entries={"scene.zweiter_ap": other_entry},
+        )
+
+        await self._migrate(registry)
+        await self._migrate(registry, sysap_id=other_sysap, config_entry_id=other_entry)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + self.KEY),
+            ("scene.zweiter_ap", other_sysap + "/" + self.KEY),
+        ]
+
+    async def test_ignores_unique_id_that_is_not_a_string(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, 4711): "scene.zahl",
+            ("scene", INTEGRATION, ENTRY + "/" + self.KEY): "scene.eigene_szene",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + self.KEY),
+        ]
+
+    async def test_ignores_other_integration_other_domain_and_other_key(self, _):
+        registry = FakeRegistry({
+            ("scene", "other_integration", ENTRY + "/" + self.KEY): "scene.fremd",
+            ("light", INTEGRATION, ENTRY + "/" + self.KEY): "light.kein_licht",
+            ("scene", INTEGRATION, ENTRY + "/FFFF4800FFFF/ch0000"): "scene.unbekannt",
+            ("scene", INTEGRATION, ENTRY + "/" + self.KEY + "/extra"): "scene.laenger",
+        })
+
+        await self._migrate(registry)
+
+        assert registry.updates == []
+
+    async def test_ignores_prefix_without_config_entry_id(self, _):
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, ENTRY + "/" + self.KEY): "scene.eigene_szene",
+        })
+
+        await self._migrate(registry, config_entry_id=None)
+
+        assert registry.updates == []
+
+    async def test_setup_with_old_sysap_id_then_with_new(self, _):
+        # The unique id of the config entry may change while a setup is
+        # running. That setup still has the old SysAP id and has to find its
+        # entities. The next setup has the new one and renames them.
+        registry = FakeRegistry({
+            ("scene", INTEGRATION, ENTRY + "/" + self.KEY): "scene.eigene_szene",
+        })
+
+        await self._migrate(registry, sysap_id=ENTRY)
+
+        assert registry.updates == []
+        assert registry.async_get_entity_id(
+            "scene", INTEGRATION, ENTRY + "/" + self.KEY
+        ) == "scene.eigene_szene"
+
+        await self._migrate(registry)
+
+        assert registry.updates == [
+            ("scene.eigene_szene", SYSAP + "/" + self.KEY),
+        ]

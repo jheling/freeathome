@@ -78,13 +78,23 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         found = await settings.load_json()
         if not found:
-            self.async_abort("not_sysap")
+            return self.async_abort(reason="not_sysap")
 
         serial_number = settings.get_flag("serialNumber")
         if not serial_number:
-            self.async_abort("serialNumber_not_found")
+            return self.async_abort(reason="serialNumber_not_found")
 
         await self.async_set_unique_id(serial_number)
+
+        for entry in self._async_current_entries():
+            entry_host = entry.data.get(CONF_HOST)
+            if entry_host == freeathome_host or get_host_name_ip(entry_host) == freeathome_host:
+                if entry.unique_id != serial_number:
+                    self.hass.config_entries.async_update_entry(
+                        entry, unique_id=serial_number
+                    )
+                break
+
         self._abort_if_unique_id_configured(updates={CONF_HOST: freeathome_host})
 
         self.discovered_conf = {
