@@ -56,6 +56,7 @@ from .const import (
     FUNCTION_IDS_WEATHER_STATION
     )
 
+from .app_indicator import indicate_forever
 from .messagereader import MessageReader
 from .settings import SettingsFah
 from .saslhandler import SaslHandler
@@ -288,6 +289,7 @@ class Client(slixmpp.ClientXMPP):
         self.monitored_datapoints = {}
         self.monitored_parameters = {}
         self._update_handlers = []
+        self._app_indicator = None
 
         self.fahversion = fahversion
         self.x_jid = jid
@@ -340,6 +342,7 @@ class Client(slixmpp.ClientXMPP):
         """ If connection is lost, try to reconnect """
         LOG.warn("Connection with SysAP lost")
         self.connect_in_error = True
+        self._stop_app_indicator()
         if not self.reconnect:
             return
 
@@ -408,6 +411,25 @@ class Client(slixmpp.ClientXMPP):
 
         LOG.info('get roster')
         self.get_roster()
+
+        self._start_app_indicator()
+
+    def _start_app_indicator(self):
+        """ Keep the weather stations reporting live, see app_indicator.py """
+        self._stop_app_indicator()
+        self._app_indicator = asyncio.ensure_future(indicate_forever(self._send_app_indicator))
+
+    def _stop_app_indicator(self):
+        if self._app_indicator is not None:
+            self._app_indicator.cancel()
+            self._app_indicator = None
+
+    async def _send_app_indicator(self):
+        my_iq = await self.send_rpc_iq('RemoteInterface.indicateConnectedApp', timeout=20)
+        my_iq.enable('rpc_query')
+        fault = my_iq['rpc_query']['method_response']['fault']
+        if fault is not None:
+            raise RuntimeError(fault['string'])
 
     def failed_auth(self, event):
         """ If the password in the config is wrong  """
