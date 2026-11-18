@@ -120,6 +120,13 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
     sysap.set_auth_failed_callback(_handle_rejected_login)
 
+    # Every new SysAP notification becomes an event. The fire alarm room
+    # arrives this way (topic system.notification, name_id 05C4).
+    def _fire_message_event(message):
+        hass.bus.async_fire("freeathome_message", {"host": sysap.host, **message})
+
+    sysap.set_message_callback(_fire_message_event)
+
     hass.data[DOMAIN][entry.entry_id] = sysap
 
     hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, sysap.shutdown)

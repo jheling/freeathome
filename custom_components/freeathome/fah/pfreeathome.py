@@ -55,6 +55,7 @@ from .const import (
     FUNCTION_IDS_AIR_QUALITY_SENSOR,
     FUNCTION_IDS_WEATHER_STATION
     )
+from .sysap_messages import new_messages
 
 from .app_indicator import indicate_forever
 from .messagereader import MessageReader
@@ -266,6 +267,8 @@ class Client(slixmpp.ClientXMPP):
     connect_in_error = False
     auth_in_error = False
     auth_failed_callback = None
+    # Plain callable taking one dict, invoked for every new SysAP notification.
+    message_callback = None
 
     
     def _create_lg_ssl_context() -> ssl.SSLContext:
@@ -289,6 +292,8 @@ class Client(slixmpp.ClientXMPP):
         self.monitored_datapoints = {}
         self.monitored_parameters = {}
         self._update_handlers = []
+        # FreeAtHomeSysApp replaces this with a set that survives reconnects.
+        self.seen_messages = set()
         self._app_indicator = None
 
         self.fahversion = fahversion
@@ -587,11 +592,16 @@ class Client(slixmpp.ClientXMPP):
 
         root = ET.fromstring(xml_without_names)
 
+        # Notifications (for example the room of a fire alarm) sit next to
+        # <devices>, not inside it. At start-up they are only marked as seen.
+        self.report_messages(root, initializing)
+
         updated_devices = set()
 
         # Iterate over all channels -> devices -> datapoints
         devices = root.find('devices')
-        for device in devices.findall('device'):
+        # An update may carry notifications only.
+        for device in (devices.findall('device') if devices is not None else []):
             serialnumber = device.get('serialNumber')
 
             channels = device.find('channels')
@@ -684,6 +694,19 @@ class Client(slixmpp.ClientXMPP):
             xml = re.sub(rf"{duplicate}=\"[^\"]*\" ([^>]*){duplicate}=\"[^\"]*\"", r'\1', xml)
 
         return xml
+
+    def report_messages(self, root, initializing):
+        """Pass SysAP notifications not seen before to message_callback."""
+        for message in new_messages(root, self.seen_messages):
+            if initializing:
+                continue
+            LOG.info("SysAP %s notification %s %s: %s", self._host, message["topic"], message["name_id"], message["text"])
+            if self.message_callback is not None:
+                try:
+                    self.message_callback(message)
+                except Exception:
+                    # A broken listener must not stop the device updates.
+                    LOG.exception("Handling SysAP notification failed")
 
     def add_update_handler(self, handler):
         """Add update handler"""
@@ -984,6 +1007,10 @@ class FreeAtHomeSysApp(object):
         # Optional plain callable, invoked when the SysAP rejects the login.
         # Keeps this module free of any Home Assistant import.
         self.auth_failed_callback = None
+        self.message_callback = None
+        # Lives here and not in the client, so a reconnect does not repeat
+        # notifications that were already reported.
+        self._seen_messages = set()
 
     @property
     def host(self):
@@ -1051,6 +1078,8 @@ class FreeAtHomeSysApp(object):
             self.xmpp = Client(self._jid, self._password, self._host, self._port, fahversion, iterations, salt, self.reconnect, self._component_path)
             self.xmpp.auth_failed_callback = self.auth_failed_callback
             self.xmpp.sysap_id = self._sysap_id
+            self.xmpp.message_callback = self.message_callback
+            self.xmpp.seen_messages = self._seen_messages
             # connect
             self.xmpp.sysap_connect()
 
@@ -1075,6 +1104,12 @@ class FreeAtHomeSysApp(object):
         # register the callback after a successful setup.
         if self.xmpp is not None:
             self.xmpp.auth_failed_callback = callback
+
+    def set_message_callback(self, callback):
+        """ Register a callable that receives every new sysap notification """
+        self.message_callback = callback
+        if self.xmpp is not None:
+            self.xmpp.message_callback = callback
 
     def authentication_in_error(self):
         """ True if the last attempt failed on authentication, not on the connection """

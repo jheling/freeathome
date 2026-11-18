@@ -19,3 +19,4 @@ def init_client_state(client, *args, **kwargs):
     client.monitored_parameters = {}
     client._update_handlers = []
     client.sysap_id = ""
+    client.seen_messages = set()
