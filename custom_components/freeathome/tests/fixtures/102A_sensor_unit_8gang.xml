@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project mrhaVersion="2.6.0">
+ <strings>
+  <string nameId="FFA8">Sensor unit 8gang</string>
+ </strings>
+ <devices>
+  <device softwareVersion="1.0" nameId="FFA8" deviceId="102A"
+          serialNumber="ABB000000102" commissioningState="ready">
+   <attribute name="displayName">Sensor unit</attribute>
+   <attribute name="floor">00</attribute>
+   <attribute name="room">00</attribute>
+   <channels>
+    <channel channelId="0011" mask="00000001" nameId="000A" i="ch0011">
+     <attribute name="displayName">Sensor unit button</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">101F</attribute>
+     <attribute name="room">00</attribute>
+     <functions>
+      <function functionId="101F" sensorMatchCode="00000001" actuatorMatchCode="00000000" name="Dimming sensor pushbutton type 7"/>
+     </functions>
+     <inputs>
+      <dataPoint dpt="0101" nameId="000F" pairingId="0100" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0012" pairingId="0012" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0204" pairingId="0101" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0014" pairingId="0111" i="idp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F100" pairingId="0105" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F105" pairingId="0106" i="idp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F106" pairingId="0116" i="idp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0651" pairingId="0167" i="idp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0120" pairingId="0110" i="idp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F101" pairingId="0115" i="idp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="001D" pairingId="0120" i="idp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F102" pairingId="0125" i="idp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F116" pairingId="F102" i="idp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03B3" pairingId="0460" i="idp000D">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint dpt="0101" nameId="000B" pairingId="0001" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000E" pairingId="0004" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="05E2" pairingId="0168" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000C" pairingId="0002" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0010" pairingId="0010" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0011" pairingId="0011" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000D" pairingId="0003" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="01C6" pairingId="0028" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0015" pairingId="0020" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0016" pairingId="0021" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0018" pairingId="0023" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0019" pairingId="0024" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F115" pairingId="F101" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AB" pairingId="0440" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AC" pairingId="0441" i="odp000E">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03E9" pairingId="044A" i="odp000F">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AD" pairingId="0442" i="odp0010">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AE" pairingId="0443" i="odp0011">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03B1" pairingId="0446" i="odp0012">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel channelId="0015" mask="00000001" nameId="000A" i="ch0015">
+     <attribute name="displayName">Room temperature controller</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">E5</attribute>
+     <attribute name="room">00</attribute>
+     <functions>
+      <function functionId="00E5" sensorMatchCode="00000001" actuatorMatchCode="00000000" name="Room temperature controller without fan"/>
+     </functions>
+     <inputs>
+      <dataPoint dpt="0101" nameId="000F" pairingId="0100" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0012" pairingId="0012" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint dpt="0101" nameId="000B" pairingId="0001" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000E" pairingId="0004" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+    <channel channelId="0026" mask="00000001" nameId="000A" i="ch0026">
+     <attribute name="displayName">Sensor unit rocker</attribute>
+     <attribute name="floor">00</attribute>
+     <attribute name="functionId">1047</attribute>
+     <attribute name="room">00</attribute>
+     <functions>
+      <function functionId="1047" sensorMatchCode="00000001" actuatorMatchCode="00000000" name="Blind sensor rocker type 7"/>
+     </functions>
+     <inputs>
+      <dataPoint dpt="0101" nameId="000F" pairingId="0100" i="idp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0012" pairingId="0012" i="idp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0204" pairingId="0101" i="idp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0014" pairingId="0111" i="idp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F100" pairingId="0105" i="idp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F105" pairingId="0106" i="idp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F106" pairingId="0116" i="idp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0651" pairingId="0167" i="idp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0120" pairingId="0110" i="idp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F101" pairingId="0115" i="idp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F116" pairingId="F102" i="idp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03B3" pairingId="0460" i="idp000B">
+       <value>0</value>
+      </dataPoint>
+     </inputs>
+     <outputs>
+      <dataPoint dpt="0101" nameId="000B" pairingId="0001" i="odp0000">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000E" pairingId="0004" i="odp0001">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="05E2" pairingId="0168" i="odp0002">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0010" pairingId="0010" i="odp0003">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000C" pairingId="0002" i="odp0004">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0015" pairingId="0020" i="odp0005">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0016" pairingId="0021" i="odp0006">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0018" pairingId="0023" i="odp0007">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="0019" pairingId="0024" i="odp0008">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="000D" pairingId="0003" i="odp0009">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="01C6" pairingId="0028" i="odp000A">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="F115" pairingId="F101" i="odp000B">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AB" pairingId="0440" i="odp000C">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AC" pairingId="0441" i="odp000D">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AD" pairingId="0442" i="odp000E">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03AE" pairingId="0443" i="odp000F">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03E9" pairingId="044A" i="odp0010">
+       <value>0</value>
+      </dataPoint>
+      <dataPoint dpt="0101" nameId="03B1" pairingId="0446" i="odp0011">
+       <value>0</value>
+      </dataPoint>
+     </outputs>
+     <parameters/>
+     <scenes/>
+    </channel>
+   </channels>
+   <dicts/>
+  </device>
+ </devices>
+</project>
