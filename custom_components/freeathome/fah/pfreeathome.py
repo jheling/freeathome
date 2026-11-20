@@ -934,6 +934,8 @@ class Client(slixmpp.ClientXMPP):
                     LOG.info('Encountered serialnumber %s, channel_id %s, function ID %s', device_serialnumber, channel_id, function_id)
                     LOG.debug(get_all_datapoints_as_str(channel))
 
+                    entity_created = False
+
                     # Ask all classes if the current function ID should be handled
                     for fah_class in [FahLight, FahSwitch, FahTrigger, FahCover, FahBinarySensor, FahThermostat, FahLightScene, FahLightGroup, FahSensor, FahLock]:
                         # Add position suffix to name, e.g. 'LT' for left, top
@@ -963,6 +965,7 @@ class Client(slixmpp.ClientXMPP):
                             # There is at least one matching datapoint for requested pairing IDs, so
                             # add the device
                             if not all(value is None for value in datapoints.values()):
+                                entity_created = True
                                 if function_id in FUNCTION_IDS_AIR_QUALITY_SENSOR:
                                     self.add_devices_for_all_datapoints(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
                                 elif function_id in FUNCTION_IDS_WEATHER_STATION:    
@@ -977,6 +980,9 @@ class Client(slixmpp.ClientXMPP):
                                         
                                 else:
                                     self.add_device(fah_class, channel, channel_id, display_name + position_suffix + room_suffix, device_info, device_serialnumber, datapoints=datapoints, parameters = parameters, function_id=function_id)
+
+                    if not entity_created:
+                        LOG.debug('No entity for serialnumber %s, channel_id %s, function ID %s', device_serialnumber, channel_id, function_id)
 
             # Update all devices with initial state
             await self.update_devices(config, initializing=True)
